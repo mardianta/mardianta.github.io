@@ -1466,7 +1466,7 @@ ul.tab-custon-design li.active a, ul.tab-review-design li.active a{
 }
 .hpanel .panel-body {
     background: #fff;
-    border-radius: 2px;
+    border-radius: 15px;
     padding: 15px;
     position: relative;
 	-webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
