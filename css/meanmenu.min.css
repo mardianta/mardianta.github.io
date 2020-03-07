@@ -23,7 +23,7 @@ a.meanmenu-reveal{display:none}
   border-top: 1px solid#ddd;
 }
 .mean-container .mean-nav ul li a {
-  background: #428344 none repeat scroll 0 0;
+  background: #708a88 none repeat scroll 0 0;
   color: #fff;
   display: block;
   float: left;
@@ -37,7 +37,7 @@ a.meanmenu-reveal{display:none}
   font-weight: 400;
 }
 .mobile-menu-area {
-  background: #47984a;
+  background: #708a88;
 }
 .mean-container .mean-nav ul li li a {
   border-top: 1px solid rgba(255, 255, 255, 0.25);
@@ -55,8 +55,8 @@ a.meanmenu-reveal{display:none}
 .mean-container .mean-nav ul li li li li a{width:60%;padding:1em 20%}
 .mean-container .mean-nav ul li li li li li a{width:50%;padding:1em 25%}
 .mean-container .mean-nav ul li a:hover {
-  background: #85c026 none repeat scroll 0 0;
-  color: #F47E1E;
+  background: #708a88 none repeat scroll 0 0;
+  color: #fff;
 }
 .mean-container .mean-nav ul li a.mean-expand{
 	width:26px;
@@ -70,10 +70,10 @@ a.meanmenu-reveal{display:none}
 	font-weight:700;
 	background:rgba(255,255,255,.1);
 	border:0!important;
-	background: #428344;
+	background: #708a88;
 	}
 .mean-container .mean-nav ul li a.mean-expand:hover {
-  background: #428344;
+  background: #708a88;
 }
 .mean-container .mean-push{float:left;width:100%;padding:0;margin:0;clear:both}
 .mean-nav .wrapper{width:100%;padding:0;margin:0}
