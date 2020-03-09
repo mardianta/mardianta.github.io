@@ -22,7 +22,7 @@
 .modal-close-area a{
 	    color: #fff;
     font-size: 16px;
-    background: #03a9f4;
+    background: #63ccc5;
     height: 30px;
     width: 30px;
     text-align: center;
@@ -108,7 +108,7 @@
 	display:inline-block;
 }
 .modal-area-button a.default:before, .modal-footer a:before, .modal-area-button a.fullwidth:before, .modal-area-button a.Customwidth:before, .modal-area-button a.FullColor:before, .modal-area-button a.Primary:before, .modal-area-button a.Information:before, .modal-area-button a.Warning:before, .modal-area-button a.Danger:before, .modal-area-button a.Alert:before, .modal-area-button a.bounce:before, .modal-area-button a.flash:before, .modal-area-button a.pulse:before, .modal-area-button a.rubberBand:before, .modal-area-button a.shake:before, .modal-area-button a.swing:before, .modal-area-button a.tada:before, .modal-area-button a.wobble:before, .modal-area-button a.jello:before, .modal-area-button a.bounceIn:before, .modal-area-button a.bounceInDown:before, .modal-area-button a.bounceInLeft:before, .modal-area-button a.bounceInRight:before, .modal-area-button a.bounceInUp:before, .modal-area-button a.bounceOut:before, .modal-area-button a.fadeIn:before, .modal-area-button a.fadeInDown:before, .modal-area-button a.fadeInDownBig:before, .modal-area-button a.fadeInLeft:before, .modal-area-button a.fadeInLeftBig:before, .modal-area-button a.fadeInRight:before, .modal-area-button a.fadeInUp:before, .modal-area-button a.flip:before, .modal-area-button a.flipInX:before, .modal-area-button a.flipInY:before, .modal-area-button a.lightSpeedIn:before, .modal-area-button a.rotateIn:before, .modal-area-button a.rotateInDownLeft:before, .modal-area-button a.rotateInDownRight:before, .modal-area-button a.rotateInUpLeft:before, .modal-area-button a.rotateInUpRight:before, .modal-area-button a.hinge:before, .modal-area-button a.rollIn:before, .modal-area-button a.zoomIn:before, .modal-area-button a.zoomInDown:before, .modal-area-button a.zoomInLeft:before, .modal-area-button a.zoomInRight:before, .modal-area-button a.zoomInUp:before, .modal-area-button a.slideInDown:before, .modal-area-button a.slideInLeft:before, .modal-area-button a.slideInRight:before, .modal-area-button a.slideInUp:before{
-	background: #03a9f4;
+	background: #63ccc5;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -524,7 +524,7 @@
 	color:#fff;
 }
 .header-color-modal.bg-color-1{
-	background:#03a9f4;
+	background:#63ccc5;
 }
 .header-color-modal.bg-color-2{
 	background:#8e44ad;
