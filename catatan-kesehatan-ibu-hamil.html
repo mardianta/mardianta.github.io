@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Catatan Kesehatan Ibu Hamil | </title>
+    <title>Catatan Kesehatan Ibu Hamil | Geliat Unair </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
@@ -765,11 +765,18 @@
                                     <h1>Catatan Kesehatan Ibu Hamil</h1>
                                 </div>
                                 <div>
-                                    <label>Nama Ibu Hamil : Dinda Ayu Shafira </label><br>
-                                    <label>Nama Suami : Mardianta Putra Anggara</label><br>
-                                    <label>HPHT : 2020 </label><br>
-                                    <label>TP : 2020</label>
+                                    <label>Nama Ibu Hamil : </label>
+                                    <select name="account">
+                                        <option>Dinda Ayu Shafira</option>
+                                        <option>Ayu Shafira Dinda </option>
+                                    </select>
+                                    <label>Nama Suami : </label> <input type="text" name="" value="Mardianta Putra A" disabled="">
+                                    <label>HPHT : </label> <input type="text" name="" value="16/01/2020">
+                                    <label>TP : </label> <input type="text" name="" value="16/01/2020">
                                 </div>
+                            </div>
+                            <div class="add-product">
+                                <a href="tambah-ibu-hamil.html">Tambah Data</a>
                             </div>
                             <div class="sparkline13-graph">
                                 <div class="datatable-dashv1-list custom-datatable-overright">
@@ -777,33 +784,52 @@
                                         data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                         <thead>
                                             <tr>
-                                                <th data-field="state" data-checkbox="true"></th>
-                                                <th data-field="id">TGL</th>
-                                                <th data-field="name" data-editable="true">HASIL KUNJUNGAN</th>
-                                                <th data-field="company" data-editable="true">UMUR KEHAMILAN (MINGGU)</th>
-                                                <th data-field="price" data-editable="true">NASIHAT YANG DISAMPAIKAN</th>
-                                                <th data-field="task" data-editable="true">KETERANGAN</th>
-                                                <th data-field="email" data-editable="true">KAPAN HARUS KEMBALI</th>
+                                                <th data-field="state">Setting</th>
+                                                <th data-field="tgl">TGL</th>
+                                                <th data-field="hasil" data-editable="true">HASIL KUNJUNGAN</th>
+                                                <th data-field="umur" data-editable="true">UMUR KEHAMILAN (MINGGU)</th>
+                                                <th data-field="nasihat" data-editable="true">NASIHAT YANG DISAMPAIKAN</th>
+                                                <th data-field="keterangan" data-editable="true">KETERANGAN</th>
+                                                <th data-field="waktu kembali" data-editable="true">KAPAN HARUS KEMBALI</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Hapus"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>26/01/2020</td>
+                                                <td>- Tidak ada keluhan<br>
+                                                    - Kaki tidak bengkak<br>
+                                                    - TD : 110/70 mmHg<br>
+                                                    - BB : 55 Kg<br>
+                                                    - RR : 24 x/menit<br>
+                                                    - Tinggi Fundus : 19 cm <br>
+                                                 - DJJ : 150 x/menit</td>
+                                                <td>26/27</td>
+                                                <td>- Jaga kehamilannya <br>
+                                                - istirahat yang cukup</td>
+                                                <td>Bidan Sri Herlis (Mojo)</td>
+                                                <td>1 Bulan</td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Hapus"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>26/01/2020</td>
+                                                <td>- Tidak ada keluhan<br>
+                                                    - Kaki tidak bengkak<br>
+                                                    - TD : 110/70 mmHg<br>
+                                                    - BB : 55 Kg<br>
+                                                    - RR : 24 x/menit<br>
+                                                    - Tinggi Fundus : 19 cm <br>
+                                                 - DJJ : 150 x/menit</td>
+                                                <td>26/27</td>
+                                                <td>Tidak tertulis</td>
+                                                <td>Bidan Sri Herlis (Mojo)</td>
+                                                <td>1 Bulan</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -864,11 +890,11 @@
 		============================================ -->
     <script src="js/data-table/bootstrap-table.js"></script>
     <script src="js/data-table/tableExport.js"></script>
-    <script src="js/data-table/data-table-active.js"></script>
-    <script src="js/data-table/bootstrap-table-editable.js"></script>
-    <script src="js/data-table/bootstrap-editable.js"></script>
-    <script src="js/data-table/bootstrap-table-resizable.js"></script>
-    <script src="js/data-table/colResizable-1.5.source.js"></script>
+    <!-- <script src="js/data-table/data-table-active.js"></script> -->
+    <!-- <script src="js/data-table/bootstrap-table-editable.js"></script> -->
+    <!-- <script src="js/data-table/bootstrap-editable.js"></script> -->
+    <!-- <script src="js/data-table/bootstrap-table-resizable.js"></script> -->
+    <!-- <script src="js/data-table/colResizable-1.5.source.js"></script> -->
     <script src="js/data-table/bootstrap-table-export.js"></script>
     <!--  editable JS
 		============================================ -->

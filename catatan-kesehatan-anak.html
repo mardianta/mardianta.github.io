@@ -765,10 +765,17 @@
                                     <h1>Catatan Kesehatan Anak</h1>
                                 </div>
                                 <div>
-                                    <label>Nama Ibu Hamil : Dinda Ayu Shafira </label><br>
-                                    <label>Nama Suami : Mardianta Putra Anggara</label><br>
-                                    <label>Tanggal Lahir Anak : 12 Maret 2020 </label>
+                                    <label>Nama Ibu Hamil : </label>
+                                    <select name="account">
+                                        <option>Dinda Ayu Shafira</option>
+                                        <option>Ayu Shafira Dinda </option>
+                                    </select>
+                                    <label>Nama Suami : </label> <input type="text" name="" value="Mardianta Putra A" disabled="">
+                                    <label>Tanggal Lahir Anak : </label> <input type="text" name="" value="16/01/2020">
                                 </div>
+                            </div>
+                            <div class="add-product">
+                                <a href="tambah-ibu-hamil.html">Tambah Data</a>
                             </div>
                             <div class="sparkline13-graph">
                                 <div class="datatable-dashv1-list custom-datatable-overright">
@@ -776,30 +783,44 @@
                                         data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                         <thead>
                                             <tr>
-                                                <th data-field="state" data-checkbox="true"></th>
-                                                <th data-field="id">TGL</th>
-                                                <th data-field="name" data-editable="true">USIA ANAK (MINGGU)</th>
-                                                <th data-field="company" data-editable="true">JENIS PEMERIKSAAN</th>
-                                                <th data-field="price" data-editable="true">HASIL PEMERIKSAAN</th>
-                                                <th data-field="task" data-editable="true">KETERANGAN</th>
+                                                <th data-field="state" > Setting</th>
+                                                <th data-field="tanggal">TGL</th>
+                                                <th data-field="usia" data-editable="true">USIA ANAK (MINGGU)</th>
+                                                <th data-field="jenis" data-editable="true">JENIS PEMERIKSAAN</th>
+                                                <th data-field="hasil" data-editable="true">HASIL PEMERIKSAAN</th>
+                                                <th data-field="keterangan" data-editable="true">KETERANGAN</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Hapus"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>16/01/2020</td>
+                                                <td>1 Minggu</td>
+                                                <td>Manajemen Terpadu Bayi Muda (MTBM)</td>
+                                                <td>- BB : 3200 gram <br>
+                                                    - Suhu : 36,6 C <br>
+                                                    - RR : 40 x/menit <br>
+                                                    - HR : 140 x/menit <br>
+                                                - Imunisasi : ya</td>
+                                                <td>Puskesmas Mulyorejo</td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Hapus"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>16/01/2020</td>
+                                                <td>1 Minggu</td>
+                                                <td>Manajemen Terpadu Bayi Muda (MTBM)</td>
+                                                <td>- BB : 3200 gram <br>
+                                                    - Suhu : 36,6 C <br>
+                                                    - RR : 40 x/menit <br>
+                                                    - HR : 140 x/menit <br>
+                                                - Imunisasi : ya</td>
+                                                <td>Puskesmas Mulyorejo</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -860,11 +881,11 @@
 		============================================ -->
     <script src="js/data-table/bootstrap-table.js"></script>
     <script src="js/data-table/tableExport.js"></script>
-    <script src="js/data-table/data-table-active.js"></script>
-    <script src="js/data-table/bootstrap-table-editable.js"></script>
-    <script src="js/data-table/bootstrap-editable.js"></script>
-    <script src="js/data-table/bootstrap-table-resizable.js"></script>
-    <script src="js/data-table/colResizable-1.5.source.js"></script>
+    <!-- <script src="js/data-table/data-table-active.js"></script> -->
+    <!-- <script src="js/data-table/bootstrap-table-editable.js"></script> -->
+    <!-- <script src="js/data-table/bootstrap-editable.js"></script> -->
+    <!-- <script src="js/data-table/bootstrap-table-resizable.js"></script> -->
+    <!-- <script src="js/data-table/colResizable-1.5.source.js"></script> -->
     <script src="js/data-table/bootstrap-table-export.js"></script>
     <!--  editable JS
 		============================================ -->

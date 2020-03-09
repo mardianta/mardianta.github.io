@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Catatan Kesehatan Ibu Nifas | </title>
+    <title>Catatan Kesehatan Ibu Nifas | Geliat Unair </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
@@ -765,10 +765,17 @@
                                     <h1>Catatan Kesehatan Ibu Nifas</h1>
                                 </div>
                                 <div>
-                                    <label>Nama Ibu Hamil : Dinda Ayu Shafira </label><br>
-                                    <label>Nama Suami : Mardianta Putra Anggara</label><br>
-                                    <label>Tanggal Persalinan : 2020 </label>
+                                    <label>Nama Ibu Hamil : </label>
+                                    <select name="account">
+                                        <option>Dinda Ayu Shafira</option>
+                                        <option>Ayu Shafira Dinda </option>
+                                    </select>
+                                    <label>Nama Suami : </label> <input type="text" name="" value="Mardianta Putra A" disabled="">
+                                    <label>Tanggal Persalinan : </label> <input type="text" name="" value="16/01/2020">
                                 </div>
+                            </div>
+                            <div class="add-product">
+                                <a href="tambah-ibu-hamil.html">Tambah Data</a>
                             </div>
                             <div class="sparkline13-graph">
                                 <div class="datatable-dashv1-list custom-datatable-overright">
@@ -776,30 +783,60 @@
                                         data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                         <thead>
                                             <tr>
-                                                <th data-field="state" data-checkbox="true"></th>
-                                                <th data-field="id">TGL</th>
-                                                <th data-field="name" data-editable="true">HASIL KUNJUNGAN</th>
-                                                <th data-field="company" data-editable="true">TINDAKAN PEMBERIAN</th>
-                                                <th data-field="price" data-editable="true">NASIHAT YANG DISAMPAIKAN</th>
-                                                <th data-field="task" data-editable="true">KETERANGAN</th>
+                                                <th data-field="state" >Setting</th>
+                                                <th data-field="Tanggal">TGL</th>
+                                                <th data-field="hasil" data-editable="true">HASIL KUNJUNGAN</th>
+                                                <th data-field="tindakan" data-editable="true">TINDAKAN PEMBERIAN</th>
+                                                <th data-field="nasihat" data-editable="true">NASIHAT YANG DISAMPAIKAN</th>
+                                                <th data-field="keterangan" data-editable="true">KETERANGAN</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Hapus"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>26/01/2020</td>
+                                                <td>- Kondisi secara umum baik<br>
+                                                    - TD : 139/92 mmHg<br>
+                                                    - Suhu : 37 C<br>
+                                                    - Tidak ada infeksi<br>
+                                                    - Kontraksi uteri baik<br>
+                                                    - Jalan lahir dan payudara baik <br>
+                                                    - Produksi ASI Baik <br>
+                                                 - BAB dan BAK baik</td>
+                                                <td>- Pemberian kapsul Vit.A <br>
+                                                    - jika gadar ke IGD RS DKT konsul poli umum</td>
+                                                <td>- Makan makanan yang beraneka ragam <br>
+                                                - Penuhi kebutuhan air minum pada ibu menyusui <br>
+                                                - Menjaga kebersihan diri <br>
+                                                - Istirahat yang cukup <br>
+                                                </td>
+                                                <td>Puskesmas Mulyorejo</td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                    <button data-toggle="tooltip" title="" class="pd-setting-ed" data-original-title="Hapus"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>26/01/2020</td>
+                                                <td>- Kondisi secara umum baik<br>
+                                                    - TD : 139/92 mmHg<br>
+                                                    - Suhu : 37 C<br>
+                                                    - Tidak ada infeksi<br>
+                                                    - Kontraksi uteri baik<br>
+                                                    - Jalan lahir dan payudara baik <br>
+                                                    - Produksi ASI Baik <br>
+                                                 - BAB dan BAK baik</td>
+                                                <td>- Pemberian kapsul Vit.A <br>
+                                                    - jika gadar ke IGD RS DKT konsul poli umum</td>
+                                                <td>- Makan makanan yang beraneka ragam <br>
+                                                - Penuhi kebutuhan air minum pada ibu menyusui <br>
+                                                - Menjaga kebersihan diri <br>
+                                                - Istirahat yang cukup <br>
+                                                </td>
+                                                <td>Puskesmas Mulyorejo</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -860,11 +897,11 @@
 		============================================ -->
     <script src="js/data-table/bootstrap-table.js"></script>
     <script src="js/data-table/tableExport.js"></script>
-    <script src="js/data-table/data-table-active.js"></script>
-    <script src="js/data-table/bootstrap-table-editable.js"></script>
-    <script src="js/data-table/bootstrap-editable.js"></script>
-    <script src="js/data-table/bootstrap-table-resizable.js"></script>
-    <script src="js/data-table/colResizable-1.5.source.js"></script>
+    <!-- <script src="js/data-table/data-table-active.js"></script> -->
+    <!-- <script src="js/data-table/bootstrap-table-editable.js"></script> -->
+    <!-- <script src="js/data-table/bootstrap-editable.js"></script> -->
+    <!-- <script src="js/data-table/bootstrap-table-resizable.js"></script> -->
+    <!-- <script src="js/data-table/colResizable-1.5.source.js"></script> -->
     <script src="js/data-table/bootstrap-table-export.js"></script>
     <!--  editable JS
 		============================================ -->

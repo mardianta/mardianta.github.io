@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Accordion | jeweler - Material Admin Template</title>
+    <title>List Kegiatan | Geliat Unair </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
-		============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+        ============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/logo/logo2.jpg">
     <!-- Google Fonts
 		============================================ -->
     <link href="https://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet">
@@ -50,9 +50,16 @@
 		============================================ -->
     <link rel="stylesheet" href="css/calendar/fullcalendar.min.css">
     <link rel="stylesheet" href="css/calendar/fullcalendar.print.min.css">
-    <!-- accordions CSS
-         ============================================ -->
-    <link rel="stylesheet" href="css/accordions.css">
+    <!-- x-editor CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/editor/select2.css">
+    <link rel="stylesheet" href="css/editor/datetimepicker.css">
+    <link rel="stylesheet" href="css/editor/bootstrap-editable.css">
+    <link rel="stylesheet" href="css/editor/x-editor-style.css">
+    <!-- normalize CSS
+		============================================ -->
+    <link rel="stylesheet" href="css/data-table/bootstrap-table.css">
+    <link rel="stylesheet" href="css/data-table/bootstrap-editable.css">
     <!-- style CSS
 		============================================ -->
     <link rel="stylesheet" href="style.css">
@@ -65,119 +72,40 @@
 </head>
 
 <body>
-    <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
-    <div class="left-sidebar-pro">
+        <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="index.html"><img class="main-logo" src="img/logo/logo.png" alt="" /></a>
-                <strong><img src="img/logo/logosn.png" alt="" /></strong>
+                <a href="index.html"><img class="main-logo" style="width: 60px; margin-right: 75px; margin-left: 75px; margin-top: 5px"  src="img/logo/logo2.jpg" alt="" /></a>
             </div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1">
                         <li>
-                            <a class="has-arrow" href="index.html">
-								   <i class="fa big-icon fa-home icon-wrap"></i>
-								   <span class="mini-click-non">Ecommerce</span>
-								</a>
-                            <ul class="submenu-angle" aria-expanded="true">
-                                <li><a title="Dashboard v.1" href="index.html"><i class="fa fa-bullseye sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Dashboard v.1</span></a></li>
-                                <li><a title="Dashboard v.2" href="index-1.html"><i class="fa fa-circle-o sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Dashboard v.2</span></a></li>
-                                <li><a title="Dashboard v.3" href="index-2.html"><i class="fa fa-cube sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Dashboard v.3</span></a></li>
-                                <li><a title="Product List" href="product-list.html"><i class="fa fa-female sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Product List</span></a></li>
-                                <li><a title="Product Edit" href="product-edit.html"><i class="fa fa-bolt sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Product Edit</span></a></li>
-                                <li><a title="Product Detail" href="product-detail.html"><i class="fa fa-heart-o sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Product Detail</span></a></li>
-                                <li><a title="Product Cart" href="product-cart.html"><i class="fa fa-level-down sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Product Cart</span></a></li>
-                                <li><a title="Product Payment" href="product-payment.html"><i class="fa fa-location-arrow sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Product Payment</span></a></li>
-                                <li><a title="Analytics" href="analytics.html"><i class="fa fa-line-chart sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Analytics</span></a></li>
-                                <li><a title="Widgets" href="widgets.html"><i class="fa fa-magnet sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Widgets</span></a></li>
+                            <a href="profile-pendamping.html">
+                                <i class="fa fa-female sub-icon-mg"></i>
+                                   <span class="mini-click-non">Daftar Ibu Hamil</span>
+                                </a>
+                        </li>
+                        <li>
+                            <a href="list-kegiatan-pendamping.html" aria-expanded="false"><i class="fa fa-file sub-icon-mg"></i> <span class="mini-click-non">List Kegiatan</span></a>
+                        </li>
+                        <li>
+                            <a href="logbook-pendamping.html" aria-expanded="false"><i class="fa fa-bullseye sub-icon-mg"></i> <span class="mini-click-non">Logbook</span></a>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="catatan-kesehatan-ibu-hamil.html" aria-expanded="false"><i class="fa fa-tags sub-icon-mg"></i> <span class="mini-click-non">Kesehatan Ibu</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="File Manager" href="catatan-kesehatan-ibu-hamil.html"><i class="fa fa-wheelchair sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Ibu Hamil</span></a></li>
+                                <li><a title="Blog" href="catatan-kesehatan-ibu-nifas.html"><i class="fa fa-wheelchair sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Ibu Nifas</span></a></li>
                             </ul>
                         </li>
                         <li>
-                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i> <span class="mini-click-non">Mailbox</span></a>
+                            <a class="has-arrow" href="catatan-kesehatan-anak.html" aria-expanded="false"><i class="fa fa-tags sub-icon-mg"></i> <span class="mini-click-non">Kesehatan Anak</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox" href="mailbox.html"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Inbox</span></a></li>
-                                <li><a title="View Mail" href="mailbox-view.html"><i class="fa fa-television sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">View Mail</span></a></li>
-                                <li><a title="Compose Mail" href="mailbox-compose.html"><i class="fa fa-paper-plane sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Compose Mail</span></a></li>
+                                <li><a title="Bar Charts" href="catatan-kesehatan-anak.html"><i class="fa fa-line-chart sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Kesehatan Anak</span></a></li>
+                                <li><a title="Line Charts" href="catatan-imunisasi-dasar"><i class="fa fa-tint sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Imunisasi Dasar</span></a></li>
                             </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="fa big-icon fa-flask icon-wrap"></i> <span class="mini-click-non">Interface</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Google Map" href="google-map.html"><i class="fa fa-map-marker sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Google Map</span></a></li>
-                                <li><a title="Data Maps" href="data-maps.html"><i class="fa fa-map-o sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Data Maps</span></a></li>
-                                <li><a title="Pdf Viewer" href="pdf-viewer.html"><i class="fa fa-file-pdf-o sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Pdf Viewer</span></a></li>
-                                <li><a title="X-Editable" href="x-editable.html"><i class="fa fa-fighter-jet sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">X-Editable</span></a></li>
-                                <li><a title="Code Editor" href="code-editor.html"><i class="fa fa-code sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Code Editor</span></a></li>
-                                <li><a title="Tree View" href="tree-view.html"><i class="fa fa-frown-o sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Tree View</span></a></li>
-                                <li><a title="Preloader" href="preloader.html"><i class="fa fa-circle sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Preloader</span></a></li>
-                                <li><a title="Images Cropper" href="images-cropper.html"><i class="fa fa-file-image-o sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Images Cropper</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="fa big-icon fa-pie-chart icon-wrap"></i> <span class="mini-click-non">Miscellaneous</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="File Manager" href="file-manager.html"><i class="fa fa-folder sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">File Manager</span></a></li>
-                                <li><a title="Blog" href="blog.html"><i class="fa fa-square sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Blog</span></a></li>
-                                <li><a title="Blog Details" href="blog-details.html"><i class="fa fa-tags sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Blog Details</span></a></li>
-                                <li><a title="404 Page" href="404.html"><i class="fa fa-tint sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">404 Page</span></a></li>
-                                <li><a title="500 Page" href="500.html"><i class="fa fa-tree sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">500 Page</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="fa big-icon fa-bar-chart-o icon-wrap"></i> <span class="mini-click-non">Charts</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Bar Charts" href="bar-charts.html"><i class="fa fa-line-chart sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Bar Charts</span></a></li>
-                                <li><a title="Line Charts" href="line-charts.html"><i class="fa fa-area-chart sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Line Charts</span></a></li>
-                                <li><a title="Area Charts" href="area-charts.html"><i class="fa fa-pie-chart sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Area Charts</span></a></li>
-                                <li><a title="Rounded Charts" href="rounded-chart.html"><i class="fa fa-signal sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Rounded Charts</span></a></li>
-                                <li><a title="C3 Charts" href="c3.html"><i class="fa fa-barcode sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">C3 Charts</span></a></li>
-                                <li><a title="Sparkline Charts" href="sparkline.html"><i class="fa fa-sort-amount-desc sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Sparkline Charts</span></a></li>
-                                <li><a title="Peity Charts" href="peity.html"><i class="fa fa-object-ungroup sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Peity Charts</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="fa big-icon fa-table icon-wrap"></i> <span class="mini-click-non">Data Tables</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Peity Charts" href="static-table.html"><i class="fa fa-table sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Static Table</span></a></li>
-                                <li><a title="Data Table" href="data-table.html"><i class="fa fa-th sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Data Table</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="fa big-icon fa-table icon-wrap"></i> <span class="mini-click-non">Forms Elements</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Basic Form Elements" href="basic-form-element.html"><i class="fa fa-pencil sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Bc Form Elements</span></a></li>
-                                <li><a title="Advance Form Elements" href="advance-form-element.html"><i class="fa fa-lightbulb-o sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Ad Form Elements</span></a></li>
-                                <li><a title="Password Meter" href="password-meter.html"><i class="fa fa-hourglass sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Password Meter</span></a></li>
-                                <li><a title="Multi Upload" href="multi-upload.html"><i class="fa fa-hdd-o sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Multi Upload</span></a></li>
-                                <li><a title="Text Editor" href="tinymc.html"><i class="fa fa-globe sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Text Editor</span></a></li>
-                                <li><a title="Dual List Box" href="dual-list-box.html"><i class="fa fa-hand-paper-o sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Dual List Box</span></a></li>
-                            </ul>
-                        </li>
-                        <li class="active">
-                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="fa big-icon fa-desktop icon-wrap"></i> <span class="mini-click-non">App views</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Notifications" href="notifications.html"><i class="fa fa-external-link-square sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Notifications</span></a></li>
-                                <li><a title="Alerts" href="alerts.html"><i class="fa fa-crop sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Alerts</span></a></li>
-                                <li><a title="Modals" href="modals.html"><i class="fa fa-building sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Modals</span></a></li>
-                                <li><a title="Buttons" href="buttons.html"><i class="fa fa-adjust sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Buttons</span></a></li>
-                                <li><a title="Tabs" href="tabs.html"><i class="fa fa-eye sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Tabs</span></a></li>
-                                <li><a title="Accordion" href="accordion.html"><i class="fa fa-life-ring sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Accordion</span></a></li>
-                            </ul>
-                        </li>
-                        <li id="removable">
-                            <a class="has-arrow" href="#" aria-expanded="false"><i class="fa big-icon fa-files-o icon-wrap"></i> <span class="mini-click-non">Pages</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Login" href="login.html"><i class="fa fa-hand-rock-o sub-icon-mg" aria-hidden="true"></i><span class="mini-sub-pro">Login</span></a></li>
-                                <li><a title="Register" href="register.html"><i class="fa fa-plane sub-icon-mg" aria-hidden="true"></i><span class="mini-sub-pro">Register</span></a></li>
-                                <li><a title="Lock" href="lock.html"><i class="fa fa-file sub-icon-mg" aria-hidden="true"></i><span class="mini-sub-pro">Lock</span></a></li>
-                                <li><a title="Password Recovery" href="password-recovery.html"><i class="fa fa-wheelchair sub-icon-mg" aria-hidden="true"></i><span class="mini-sub-pro">Password Recovery</span></a></li>
-                            </ul>
-                        </li>
-                        <li><a title="Landing Page" href="#" aria-expanded="false"><i class="fa fa-bookmark icon-wrap sub-icon-mg" aria-hidden="true"></i> <span class="mini-click-non">Landing Page</span></a></li>
+                        <li><a title="Landing Page" href="#" aria-expanded="false"><i class="fa fa-bookmark icon-wrap sub-icon-mg" aria-hidden="true"></i> <span class="mini-click-non">Evaluasi</span></a></li>
                     </ul>
                 </nav>
             </div>
@@ -189,7 +117,8 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="logo-pro">
-                        <a href="index.html"><img class="main-logo" src="img/logo/logo.png" alt="" /></a>
+                        <a href="index.html"><img class="main-logo" style="width: 50px; margin-top: 5px; margin-bottom: 5px"  src="img/logo/logo2.jpg" alt="" /></a>
+
                     </div>
                 </div>
             </div>
@@ -204,8 +133,8 @@
                                     <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
                                         <div class="menu-switcher-pro">
                                             <button type="button" id="sidebarCollapse" class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
-													<i class="fa fa-bars"></i>
-												</button>
+                                                    <i class="fa fa-bars"></i>
+                                                </button>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
@@ -213,11 +142,11 @@
                                             <ul class="nav navbar-nav mai-top-nav">
                                                 <li class="nav-item"><a href="#" class="nav-link">Home</a>
                                                 </li>
-                                                <li class="nav-item"><a href="#" class="nav-link">About</a>
+                                                <li class="nav-item"><a href="#" class="nav-link">Kontak</a>
                                                 </li>
-                                                <li class="nav-item"><a href="#" class="nav-link">Services</a>
+                                                <li class="nav-item"><a href="#" class="nav-link">Tentang</a>
                                                 </li>
-                                                <li class="nav-item"><a href="#" class="nav-link">Support</a>
+                                                <li class="nav-item"><a href="#" class="nav-link">Bantuan</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -348,18 +277,14 @@
                                                 </li>
                                                 <li class="nav-item">
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-															<i class="fa fa-user adminpro-user-rounded header-riht-inf" aria-hidden="true"></i>
-															<span class="admin-name">Advanda Cro</span>
-															<i class="fa fa-angle-down adminpro-icon adminpro-down-arrow"></i>
-														</a>
+                                                            <i class="fa fa-user adminpro-user-rounded header-riht-inf" aria-hidden="true"></i>
+                                                            <span class="admin-name">Mardianta Putra Anggara</span>
+                                                            <i class="fa fa-angle-down adminpro-icon adminpro-down-arrow"></i>
+                                                        </a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                        <li><a href="register.html"><span class="fa fa-home author-log-ic"></span>Register</a>
+                                                        <li><a href="profile-pendamping.html"><span class="fa fa-user author-log-ic"></span>My Profile</a>
                                                         </li>
-                                                        <li><a href="#"><span class="fa fa-user author-log-ic"></span>My Profile</a>
-                                                        </li>
-                                                        <li><a href="lock.html"><span class="fa fa-diamond author-log-ic"></span> Lock</a>
-                                                        </li>
-                                                        <li><a href="#"><span class="fa fa-cog author-log-ic"></span>Settings</a>
+                                                        <li><a href="#"><span class="fa fa-cog author-log-ic"></span>Ubah Password</a>
                                                         </li>
                                                         <li><a href="login.html"><span class="fa fa-lock author-log-ic"></span>Log Out</a>
                                                         </li>
@@ -635,9 +560,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example">
                                                                                             <label class="onoffswitch-label" for="example">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                    <span class="onoffswitch-inner"></span>
+                                                                                                    <span class="onoffswitch-switch"></span>
+                                                                                                </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -651,9 +576,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example3">
                                                                                             <label class="onoffswitch-label" for="example3">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                    <span class="onoffswitch-inner"></span>
+                                                                                                    <span class="onoffswitch-switch"></span>
+                                                                                                </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -667,9 +592,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example4">
                                                                                             <label class="onoffswitch-label" for="example4">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                    <span class="onoffswitch-inner"></span>
+                                                                                                    <span class="onoffswitch-switch"></span>
+                                                                                                </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -683,9 +608,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example7">
                                                                                             <label class="onoffswitch-label" for="example7">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                    <span class="onoffswitch-inner"></span>
+                                                                                                    <span class="onoffswitch-switch"></span>
+                                                                                                </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -699,9 +624,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" checked="" class="onoffswitch-checkbox" id="example2">
                                                                                             <label class="onoffswitch-label" for="example2">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                    <span class="onoffswitch-inner"></span>
+                                                                                                    <span class="onoffswitch-switch"></span>
+                                                                                                </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -715,9 +640,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" checked="" class="onoffswitch-checkbox" id="example6">
                                                                                             <label class="onoffswitch-label" for="example6">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                    <span class="onoffswitch-inner"></span>
+                                                                                                    <span class="onoffswitch-switch"></span>
+                                                                                                </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -731,9 +656,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" checked="" class="onoffswitch-checkbox" id="example5">
                                                                                             <label class="onoffswitch-label" for="example5">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                    <span class="onoffswitch-inner"></span>
+                                                                                                    <span class="onoffswitch-switch"></span>
+                                                                                                </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -765,127 +690,30 @@
                                     <ul class="mobile-menu-nav">
                                         <li><a data-toggle="collapse" data-target="#Charts" href="#">Home <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
                                             <ul class="collapse dropdown-header-top">
-                                                <li><a href="index.html">Dashboard v.1</a></li>
-                                                <li><a href="index-1.html">Dashboard v.2</a></li>
-                                                <li><a href="index-3.html">Dashboard v.3</a></li>
-                                                <li><a href="product-list.html">Product List</a></li>
-                                                <li><a href="product-edit.html">Product Edit</a></li>
-                                                <li><a href="product-detail.html">Product Detail</a></li>
-                                                <li><a href="product-cart.html">Product Cart</a></li>
-                                                <li><a href="product-payment.html">Product Payment</a></li>
-                                                <li><a href="analytics.html">Analytics</a></li>
-                                                <li><a href="widgets.html">Widgets</a></li>
+                                                <li><a href="index.html">Kontak</a></li>
+                                                <li><a href="index-1.html">Tentang</a></li>
+                                                <li><a href="index-3.html">Bantuan</a></li>
                                             </ul>
                                         </li>
-                                        <li><a data-toggle="collapse" data-target="#demo" href="#">Mailbox <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
-                                            <ul id="demo" class="collapse dropdown-header-top">
-                                                <li><a href="mailbox.html">Inbox</a>
-                                                </li>
-                                                <li><a href="mailbox-view.html">View Mail</a>
-                                                </li>
-                                                <li><a href="mailbox-compose.html">Compose Mail</a>
-                                                </li>
-                                            </ul>
+                                        <li><a data-toggle="collapse" data-target="#demo" href="#">Daftar Ibu Hamil <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
                                         </li>
-                                        <li><a data-toggle="collapse" data-target="#others" href="#">Miscellaneous <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
-                                            <ul id="others" class="collapse dropdown-header-top">
-                                                <li><a href="file-manager.html">File Manager</a></li>
-                                                <li><a href="contacts.html">Contacts Client</a></li>
-                                                <li><a href="projects.html">Project</a></li>
-                                                <li><a href="project-details.html">Project Details</a></li>
-                                                <li><a href="blog.html">Blog</a></li>
-                                                <li><a href="blog-details.html">Blog Details</a></li>
-                                                <li><a href="404.html">404 Page</a></li>
-                                                <li><a href="500.html">500 Page</a></li>
-                                            </ul>
+                                        <li><a data-toggle="collapse" data-target="#others" href="#">List Kegiatan <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
                                         </li>
-                                        <li><a data-toggle="collapse" data-target="#Miscellaneousmob" href="#">Interface <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
-                                            <ul id="Miscellaneousmob" class="collapse dropdown-header-top">
-                                                <li><a href="google-map.html">Google Map</a>
-                                                </li>
-                                                <li><a href="data-maps.html">Data Maps</a>
-                                                </li>
-                                                <li><a href="pdf-viewer.html">Pdf Viewer</a>
-                                                </li>
-                                                <li><a href="x-editable.html">X-Editable</a>
-                                                </li>
-                                                <li><a href="code-editor.html">Code Editor</a>
-                                                </li>
-                                                <li><a href="tree-view.html">Tree View</a>
-                                                </li>
-                                                <li><a href="preloader.html">Preloader</a>
-                                                </li>
-                                                <li><a href="images-cropper.html">Images Cropper</a>
-                                                </li>
-                                            </ul>
+                                        <li><a data-toggle="collapse" data-target="#Miscellaneousmob" href="#">Logbook<span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
                                         </li>
-                                        <li><a data-toggle="collapse" data-target="#Chartsmob" href="#">Charts <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
+                                        <li><a data-toggle="collapse" data-target="#Chartsmob" href="#">Kesehatan Ibu<span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
                                             <ul id="Chartsmob" class="collapse dropdown-header-top">
-                                                <li><a href="bar-charts.html">Bar Charts</a>
+                                                <li><a href="bar-charts.html">Ibu Hamil</a>
                                                 </li>
-                                                <li><a href="line-charts.html">Line Charts</a>
-                                                </li>
-                                                <li><a href="area-charts.html">Area Charts</a>
-                                                </li>
-                                                <li><a href="rounded-chart.html">Rounded Charts</a>
-                                                </li>
-                                                <li><a href="c3.html">C3 Charts</a>
-                                                </li>
-                                                <li><a href="sparkline.html">Sparkline Charts</a>
-                                                </li>
-                                                <li><a href="peity.html">Peity Charts</a>
+                                                <li><a href="line-charts.html">Ibu Nifas</a>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li><a data-toggle="collapse" data-target="#Tablesmob" href="#">Tables <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
+                                        <li><a data-toggle="collapse" data-target="#Tablesmob" href="#">Kesehatan Anak <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
                                             <ul id="Tablesmob" class="collapse dropdown-header-top">
-                                                <li><a href="static-table.html">Static Table</a>
+                                                <li><a href="static-table.html">Kesehatan Anak</a>
                                                 </li>
-                                                <li><a href="data-table.html">Data Table</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#formsmob" href="#">Forms <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
-                                            <ul id="formsmob" class="collapse dropdown-header-top">
-                                                <li><a href="basic-form-element.html">Basic Form Elements</a>
-                                                </li>
-                                                <li><a href="advance-form-element.html">Advanced Form Elements</a>
-                                                </li>
-                                                <li><a href="password-meter.html">Password Meter</a>
-                                                </li>
-                                                <li><a href="multi-upload.html">Multi Upload</a>
-                                                </li>
-                                                <li><a href="tinymc.html">Text Editor</a>
-                                                </li>
-                                                <li><a href="dual-list-box.html">Dual List Box</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#Appviewsmob" href="#">App views <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
-                                            <ul id="Appviewsmob" class="collapse dropdown-header-top">
-                                                <li><a href="basic-form-element.html">Basic Form Elements</a>
-                                                </li>
-                                                <li><a href="advance-form-element.html">Advanced Form Elements</a>
-                                                </li>
-                                                <li><a href="password-meter.html">Password Meter</a>
-                                                </li>
-                                                <li><a href="multi-upload.html">Multi Upload</a>
-                                                </li>
-                                                <li><a href="tinymc.html">Text Editor</a>
-                                                </li>
-                                                <li><a href="dual-list-box.html">Dual List Box</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a data-toggle="collapse" data-target="#Pagemob" href="#">Pages <span class="admin-project-icon adminpro-icon adminpro-down-arrow"></span></a>
-                                            <ul id="Pagemob" class="collapse dropdown-header-top">
-                                                <li><a href="login.html">Login</a>
-                                                </li>
-                                                <li><a href="register.html">Register</a>
-                                                </li>
-                                                <li><a href="lock.html">Lock</a>
-                                                </li>
-                                                <li><a href="password-recovery.html">Password Recovery</a>
+                                                <li><a href="data-table.html">Imunisasi Dasar</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -915,7 +743,7 @@
                                         <ul class="breadcome-menu">
                                             <li><a href="#">Home</a> <span class="bread-slash">/</span>
                                             </li>
-                                            <li><span class="bread-blod">Accordion</span>
+                                            <li><span class="bread-blod">Basic Element</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -926,126 +754,226 @@
                 </div>
             </div>
         </div>
-        <!-- accordion start-->
-        <div class="adminpro-accordion-area mg-tb-15">
+                <!-- Static Table Start -->
+        <div class="data-table-area mg-tb-15">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="tab-content-details mg-b-30">
-                            <h2>Custom Animate accordion Bootstrap</h2>
-                            <p>These are the Custom Animate accordion Bootstrap. Using animate bounce, flash, pulse, rubberBand, shake, swing, tada, wobble, jello, bounceIn, bounceInDown, bounceInLeft, bounceInRight, bounceInUp, fadeIn, fadeInDown, fadeInDownBig,
-                                fadeInLeft, fadeInLeftBig, fadeInRight, fadeInRightBig, fadeInUp, fadeInUpBig, flipInX, flipInY, lightSpeedIn, rotateIn, rotateInDownLeft, rotateInDownRight, rotateInUpLeft, rotateInUpRight, rollIn, zoomIn, zoomInDown,
-                                zoomInLeft, zoomInRight, zoomInUp etc.</p>
-                        </div>
-                    </div>
-                </div>
+                        <div class="sparkline13-list">
+                            <div class="sparkline13-hd">
+                                <div class="main-sparkline13-hd">
+                                    <h1>List <span class="table-project-n">Kegiatan</span> Pendampingan</h1>
+                                </div>
+                                <div>
+                                    <label>Nama Ibu Hamil : </label>
+                                                                    <select name="account">
+                                                                            <option>Dinda Ayu Shafira</option>
+                                                                            <option>Ayu Shafira Dinda </option>
+                                                                        </select>
+                                </div>
+                            </div>
+                            <div class="sparkline13-graph">
+        <!-- tabs start-->
+        <div class="admintab-area mg-tb-15">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="admin-pro-accordion-wrap responsive-mg-b-30">
-                            <div class="alert-title">
-                                <h2>Animate bounce Accordion</h2>
-                                <p>These are the Custom bootstrap Animate bounce Accordion style 1</p>
-                            </div>
-                            <div class="panel-group adminpro-custon-design" id="accordion">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading accordion-head">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-									 Collapsible Group 1</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse1" class="panel-collapse panel-ic collapse in">
-                                        <div class="panel-body admin-panel-content animated bounce">
-                                            <p>It was popularised in the 1960s with the release of Letraset sheets of the containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions.</p>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua of Lorem Ipsum.</p>
-                                            <p> Ut enim adminim veniam, quis nostrud exercitation ullamco laboris nisis ut aliquip ex ea commodo consequat consectetur adipisicing elit.</p>
-                                        </div>
-                                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                        <div class="admintab-wrap mg-t-30">
+                            <ul class="nav nav-tabs custom-menu-wrap custon-tab-menu-style1">
+                                <li class="active"><a data-toggle="tab" href="#TabProject"><span class="adminpro-icon adminpro-analytics tab-custon-ic"></span>PENDAMPINGAN IBU HAMIL</a>
+                                </li>
+                                <li><a data-toggle="tab" href="#TabDetails"><span class="adminpro-icon adminpro-analytics-arrow tab-custon-ic"></span>PENDAMPINGAN IBU BERSALIN DAN BAYI BARU LAHIR</a>
+                                </li>
+                                <li><a data-toggle="tab" href="#TabPlan"><span class="adminpro-icon adminpro-analytics-bridge tab-custon-ic"></span>PENDAMPINGAN IBU NIFAS</a>
+                                </li>
+                                <li><a data-toggle="tab" href="#TabPlan2"><span class="adminpro-icon adminpro-analytics-bridge tab-custon-ic"></span>PENDAMPINGAN BAYI</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="TabProject" class="tab-pane in active animated custon-tab-style1">
+                                    <div class="datatable-dashv1-list custom-datatable-overright">
+                                    <table id="table" data-toggle="table" >
+                                        <thead>
+                                            <tr>
+                                                <th data-field="id">NO</th>
+                                                <th data-field="name" >URAIAN KEGIATAN</th>
+                                                <th data-field="company" >KET (YA/TIDAK)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Memastikan Ibu Hamil memiliki kartu KIA</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Memastikan Ibu Hamil membaca kartu KIA</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Memastikan Ibu Hamil memahami kartu KIA</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading accordion-head">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-									 Collapsible Group 1</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse2" class="panel-collapse panel-ic collapse">
-                                        <div class="panel-body admin-panel-content animated bounce">
-                                            <p>It was popularised in the 1960s with the release of Letraset sheets of the containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions.</p>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua of Lorem Ipsum.</p>
-                                            <p> Ut enim adminim veniam, quis nostrud exercitation ullamco laboris nisis ut aliquip ex ea commodo consequat consectetur adipisicing elit.</p>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading accordion-head">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-									 Collapsible Group 1</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse3" class="panel-collapse panel-ic collapse">
-                                        <div class="panel-body admin-panel-content animated bounce">
-                                            <p>It was popularised in the 1960s with the release of Letraset sheets of the containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions.</p>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua of Lorem Ipsum.</p>
-                                            <p> Ut enim adminim veniam, quis nostrud exercitation ullamco laboris nisis ut aliquip ex ea commodo consequat consectetur adipisicing elit.</p>
-                                        </div>
-                                    </div>
+                                <div id="TabDetails" class="tab-pane animated custon-tab-style1">
+                                    <div class="datatable-dashv1-list custom-datatable-overright">
+                                    <table id="table" data-toggle="table" >
+                                        <thead>
+                                            <tr>
+                                                <th data-field="id">NO</th>
+                                                <th data-field="name" >URAIAN KEGIATAN</th>
+                                                <th data-field="company" >KET (YA/TIDAK)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Memastikan Ibu Bersalin di tenaga kesehatan</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Menginformasikan kondisi Ibu Bersalin dan bayinya ke Puskesmas</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td colspan="2"> 
+                                                    <p>Data pasca Persalinan</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="admin-pro-accordion-wrap">
-                            <div class="alert-title">
-                                <h2>Animate flash Accordion</h2>
-                                <p>These are the Custom bootstrap Animate flash Accordion style 2</p>
-                            </div>
-                            <div class="panel-group adminpro-custon-design" id="accordion2">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading accordion-head">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion2" href="#collapse4">
-									 Collapsible Group 2</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse4" class="panel-collapse panel-ic collapse in">
-                                        <div class="panel-body admin-panel-content animated flash">
-                                            <p>It was popularised in the 1960s with the release of Letraset sheets of the containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions.</p>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua of Lorem Ipsum.</p>
-                                            <p> Ut enim adminim veniam, quis nostrud exercitation ullamco laboris nisis ut aliquip ex ea commodo consequat consectetur adipisicing elit.</p>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading accordion-head">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion2" href="#collapse5">
-									 Collapsible Group 2</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse5" class="panel-collapse panel-ic collapse">
-                                        <div class="panel-body admin-panel-content animated flash">
-                                            <p>It was popularised in the 1960s with the release of Letraset sheets of the containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions.</p>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua of Lorem Ipsum.</p>
-                                            <p> Ut enim adminim veniam, quis nostrud exercitation ullamco laboris nisis ut aliquip ex ea commodo consequat consectetur adipisicing elit.</p>
-                                        </div>
-                                    </div>
+                                <div id="TabPlan" class="tab-pane animated custon-tab-style1">
+                                    <div class="datatable-dashv1-list custom-datatable-overright">
+                                    <table id="table" data-toggle="table" >
+                                        <thead>
+                                            <tr>
+                                                <th data-field="id">NO</th>
+                                                <th data-field="name" >URAIAN KEGIATAN</th>
+                                                <th data-field="company" >KET (YA/TIDAK)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Memastikan Ibu Nifas mendapatkan Vitamin A sebanyak 2 kali</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Memastikan Ibu Nifas periksa ke Petugas Kesehatan tepat waktu</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Memastikan Ibu Nifas telah menggunakan KB</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading accordion-head">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion2" href="#collapse6">
-									 Collapsible Group 2</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse6" class="panel-collapse panel-ic collapse">
-                                        <div class="panel-body admin-panel-content animated flash">
-                                            <p>It was popularised in the 1960s with the release of Letraset sheets of the containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions.</p>
-                                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua of Lorem Ipsum.</p>
-                                            <p> Ut enim adminim veniam, quis nostrud exercitation ullamco laboris nisis ut aliquip ex ea commodo consequat consectetur adipisicing elit.</p>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div id="TabPlan2" class="tab-pane animated custon-tab-style1">
+                                    <div class="datatable-dashv1-list custom-datatable-overright">
+                                    <table id="table" data-toggle="table" >
+                                        <thead>
+                                            <tr>
+                                                <th data-field="id">NO</th>
+                                                <th data-field="name" >URAIAN KEGIATAN</th>
+                                                <th data-field="company" >KET (YA/TIDAK)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Memastikan Bayi periksa sesuai jadwal</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Menginformasikan tanda bahaya yang ditemukan pada bayi ke Bidan Puskesmas</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Memastikan bayi telah mendapatkan ASI</td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+
+                                                </td>
+                                            </tr>                                       
+                                        </tbody>
+                                    </table>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -1053,7 +981,55 @@
                 </div>
             </div>
         </div>
-        <!-- accordion End-->
+        <!-- tabs End-->
+        <hr>
+
+                                <div class="datatable-dashv1-list custom-datatable-overright">
+                                    <table id="table" data-toggle="table" >
+                                        <thead>
+                                            <tr>
+                                                <th data-field="id">NO</th>
+                                                <th data-field="name" >URAIAN KEGIATAN</th>
+                                                <th data-field="company" >KET (YA/TIDAK)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="3" data-field="id">KEGIATAN CAPACITY BUILDING*</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" data-field="id">KEGIATAN RUJUKAN*</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Ya</label>
+                                                    <input type="radio" value="option"id="S1" name="gender" value="S1">
+                                                    <label for="S1">Tidak</label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Static Table End -->
         <div class="footer-copyright-area">
             <div class="container-fluid">
                 <div class="row">
@@ -1099,6 +1075,29 @@
 		============================================ -->
     <script src="js/metisMenu/metisMenu.min.js"></script>
     <script src="js/metisMenu/metisMenu-active.js"></script>
+    <!-- data table JS
+		============================================ -->
+    <script src="js/data-table/bootstrap-table.js"></script>
+    <script src="js/data-table/tableExport.js"></script>
+    <script src="js/data-table/data-table-active.js"></script>
+    <script src="js/data-table/bootstrap-table-editable.js"></script>
+    <script src="js/data-table/bootstrap-editable.js"></script>
+    <script src="js/data-table/bootstrap-table-resizable.js"></script>
+    <script src="js/data-table/colResizable-1.5.source.js"></script>
+    <script src="js/data-table/bootstrap-table-export.js"></script>
+    <!--  editable JS
+		============================================ -->
+    <script src="js/editable/jquery.mockjax.js"></script>
+    <script src="js/editable/mock-active.js"></script>
+    <script src="js/editable/select2.js"></script>
+    <script src="js/editable/moment.min.js"></script>
+    <script src="js/editable/bootstrap-datetimepicker.js"></script>
+    <script src="js/editable/bootstrap-editable.js"></script>
+    <script src="js/editable/xediable-active.js"></script>
+    <!-- Chart JS
+		============================================ -->
+    <script src="js/chart/jquery.peity.min.js"></script>
+    <script src="js/peity/peity-active.js"></script>
     <!-- tab JS
 		============================================ -->
     <script src="js/tab.js"></script>
