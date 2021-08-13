@@ -330,6 +330,10 @@ a:hover {
     text-decoration:none;
 }
 
+.fa{
+  margin: 10px;
+}
+
 .navBottomBar{
   height:56px;
   /* border-top:1px solid grey; */
