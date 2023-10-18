@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+body {
+  background: #cccccc;
+  padding: 2em;
+}
+
+article {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 650px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.blur {
+  color: transparent !important;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+.blur img {
+  -webkit-filter: blur(10px);
+}
+.blur .button {
+  color: transparent !important;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.title--main {
+  font-size: 30px;
+  text-align: center;
+}
+
+.title--sub {
+  font-size: 25px;
+}
+
+.content__image {
+  max-width: 30%;
+  padding-bottom: 20px;
+}
+
+.image--right {
+  float: right;
+  padding-left: 20px;
+}
+
+.image--left {
+  float: left;
+  padding-right: 20px;
+}
+
+.content__footer {
+  display: block;
+  margin: 40px 0;
+}
+
+svg {
+  width: 300px;
+}
+
+.imgRow figure {
+  width: 45%;
+  margin: 2%;
+  display: inline-block;
+  text-align: center;
+}
+.imgRow figure img {
+  width: 100%;
+}
+
+.splashFigure {
+  display: block;
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+}
+.splashFigure img {
+  width: 100%;
+}
+
+/* Accessibility Panel */
+.accessible-font {
+  font-family: "Helvetica", Arial, sans-serif;
+}
+
+.fontsize-1 {
+  font-size: 18px;
+}
+
+.fontsize-2 {
+  font-size: 24px;
+}
+
+.fontsize-3 {
+  font-size: 30px;
+}
+
+.fontsize-4 {
+  font-size: 36px;
+}
+
+a,
+a:hover,
+a:focus,
+a:visited {
+  color: inherit;
+}
+a.highlight,
+a:hover.highlight,
+a:focus.highlight,
+a:visited.highlight {
+  background: #ffff00;
+  padding: 0.5em;
+  line-height: 1.5;
+}
+
+.accessibility-panel {
+  width: 400px;
+  height: 100%;
+  background: #f9f9f9;
+  border-color: #ddd;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+  font-size: 24px;
+  color: #555555;
+  position: fixed;
+  font-family: "Helvetica", Arial, sans-serif;
+  top: 0;
+  right: -400px;
+  transition: all 0.3s ease;
+}
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  66% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  66% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.accessibility-panel.visible {
+  right: 0;
+  overflow-y: scroll;
+}
+.accessibility-panel #toggleAccessPanel {
+  position: absolute;
+  right: 410px;
+  top: 8px;
+  width: 48px;
+  max-height: 48px;
+  padding: 0;
+  background: #090091;
+  color: #fff;
+  font-size: 13px;
+  line-height: 0.75;
+  text-align: left;
+  overflow: hidden;
+  border: none;
+  border-radius: 3em;
+  padding: 12px 5px 6px;
+  -webkit-box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+  -webkit-transition: width 0.75s ease-in-out, box-shadow 0.75s ease-in-out;
+  /* Safari */
+  transition: width 0.75s ease-in-out, box-shadow 0.75s ease-in-out;
+}
+.accessibility-panel #toggleAccessPanel .ada-icon {
+  padding: 2px 6px;
+  line-height: 1;
+  float: left;
+  position: static;
+  display: block;
+}
+.accessibility-panel #toggleAccessPanel .ada-icon svg {
+  width: 26px;
+}
+.accessibility-panel #toggleAccessPanel .ada-icon path {
+  fill: #ffffff;
+}
+.accessibility-panel #toggleAccessPanel:focus, .accessibility-panel #toggleAccessPanel:hover {
+  width: 250px !important;
+  -webkit-box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.25) !important;
+}
+.accessibility-panel #toggleAccessPanel:focus .toggleAccessPanelLabelInstruct, .accessibility-panel #toggleAccessPanel:hover .toggleAccessPanelLabelInstruct {
+  height: auto;
+  width: auto;
+  position: static;
+  margin: auto;
+  -webkit-animation: 1.25s ease 0s normal forwards 1 fadein;
+  animation: 1.25s ease 0s normal forwards 1 fadein;
+}
+.accessibility-panel #toggleAccessPanel .toggleAccessPanelLabelInstruct {
+  position: absolute;
+  left: -999px;
+  width: 1px;
+  height: 1px;
+  top: auto;
+  opacity: 0;
+  pointer-events: none;
+}
+.accessibility-panel #toggleAccessPanel .toggleAccessPanelLabelInstruct .toggleAccessPanelLabel {
+  font-weight: 800;
+}
+.accessibility-panel #toggleAccessPanel .toggleAccessPanelLabelInstruct .toggleAccessPanelInstructions {
+  line-height: 2;
+}
+.accessibility-panel h6 {
+  margin: 0;
+}
+
+.button-group {
+  font-size: 16px;
+  margin-bottom: 1em;
+}
+
+.button-group button {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 1.25em;
+  border: 1px solid #555555;
+  background: #555555;
+  color: #ffffff;
+  -webkit-transition: width 0.75s ease-in-out, box-shadow 0.75s ease-in-out;
+  /* Safari */
+  transition: width 0.75s ease-in-out, box-shadow 0.75s ease-in-out;
+}
+.button-group button:focus, .button-group button:hover {
+  -webkit-box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+.rangeSliders p {
+  float: left;
+  display: inline-block;
+  width: 75px;
+  margin: 2px 0 0;
+  font-size: 16px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 15px;
+  color: #000;
+  border: 2px solid #000;
+  transition: 0.3s all ease;
+  font-weight: 700;
+  background: transparent;
+  text-decoration: none;
+}
+.button:hover {
+  color: #fff;
+  background-color: #000;
+  border-color: #fff;
+}
+.button.highlight {
+  background: #ffff00;
+  padding: 0.5em;
+  line-height: 1.5;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  display: inline;
+  font-size: 0;
+}
+
+[type=range] {
+  -webkit-appearance: none;
+  margin: 12px 0;
+  width: 80%;
+}
+[type=range]:focus::-webkit-slider-runnable-track {
+  background: white;
+}
+[type=range]:focus::-ms-fill-lower {
+  background: #f9f9f9;
+}
+[type=range]:focus::-ms-fill-upper {
+  background: white;
+}
+[type=range]::-webkit-slider-runnable-track {
+  cursor: pointer;
+  height: 8px;
+  transition: all 0.2s ease;
+  width: 80%;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), 0 0 1px rgba(13, 13, 13, 0.2);
+  background: #f9f9f9;
+  border: 2px solid #555555;
+  border-radius: 5px;
+}
+[type=range]::-webkit-slider-thumb {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2), 0 0 4px rgba(13, 13, 13, 0.2);
+  background: #555555;
+  border: 2px solid #f9f9f9;
+  border-radius: 12px;
+  cursor: pointer;
+  height: 24px;
+  width: 24px;
+  -webkit-appearance: none;
+  margin-top: -10px;
+}
+[type=range]::-moz-range-track {
+  cursor: pointer;
+  height: 8px;
+  transition: all 0.2s ease;
+  width: 80%;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), 0 0 1px rgba(13, 13, 13, 0.2);
+  background: #f9f9f9;
+  border: 2px solid #555555;
+  border-radius: 5px;
+}
+[type=range]::-moz-range-thumb {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2), 0 0 4px rgba(13, 13, 13, 0.2);
+  background: #555555;
+  border: 2px solid #f9f9f9;
+  border-radius: 12px;
+  cursor: pointer;
+  height: 24px;
+  width: 24px;
+}
+[type=range]::-ms-track {
+  cursor: pointer;
+  height: 8px;
+  transition: all 0.2s ease;
+  width: 80%;
+  background: transparent;
+  border-color: transparent;
+  border-width: 12px 0;
+  color: transparent;
+}
+[type=range]::-ms-fill-lower {
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), 0 0 1px rgba(13, 13, 13, 0.2);
+  background: #ececec;
+  border: 2px solid #555555;
+  border-radius: 10px;
+}
+[type=range]::-ms-fill-upper {
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2), 0 0 1px rgba(13, 13, 13, 0.2);
+  background: #f9f9f9;
+  border: 2px solid #555555;
+  border-radius: 10px;
+}
+[type=range]::-ms-thumb {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2), 0 0 4px rgba(13, 13, 13, 0.2);
+  background: #555555;
+  border: 2px solid #f9f9f9;
+  border-radius: 12px;
+  cursor: pointer;
+  height: 24px;
+  width: 24px;
+  margin-top: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- Accessibility Helper Panel - Start -->
+
+<div id="accessPanel" class="accessibility-panel" accesskey="q">
+      <button id="toggleAccessPanel">
+        <span class="ada-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.604 2.562l-3.346 3.137c-1.27-.428-2.686-.699-4.243-.699-7.569 0-12.015 6.551-12.015 6.551s1.928 2.951 5.146 5.138l-2.911 2.909 1.414 1.414 17.37-17.035-1.415-1.415zm-6.016 5.779c-3.288-1.453-6.681 1.908-5.265 5.206l-1.726 1.707c-1.814-1.16-3.225-2.65-4.06-3.66 1.493-1.648 4.817-4.594 9.478-4.594.927 0 1.796.119 2.61.315l-1.037 1.026zm-2.883 7.431l5.09-4.993c1.017 3.111-2.003 6.067-5.09 4.993zm13.295-4.221s-4.252 7.449-11.985 7.449c-1.379 0-2.662-.291-3.851-.737l1.614-1.583c.715.193 1.458.32 2.237.32 4.791 0 8.104-3.527 9.504-5.364-.729-.822-1.956-1.99-3.587-2.952l1.489-1.46c2.982 1.9 4.579 4.327 4.579 4.327z"/></svg>
+        </span>
+          
+        <span class="toggleAccessPanelLabelInstruct">
+        <span class="toggleAccessPanelLabel" aria-label="Visual Accessibility Options">Visual Accessibility Options</span>
+        <span class="toggleAccessPanelInstructions">(Press Q Key)</span>
+        </span>
+        </button>
+  <h6>Visual Accessibility Options</h6>
+      <div class="button-group">
+        <p>More Readable Font</p>
+        <button id="fontSwap" accesskey="a">Font Swap (A)</button>
+      </div>
+      <div class="font-resize button-group">
+        <p>Font Resize</p>
+        <button id="fontDecrease" accesskey="s">Decrease (S)</button>
+        <button id="fontIncrease" accesskey="d">Increase (D)</button>
+      </div>
+  <div class="button-group">
+        <p>Highlight Links</p>
+        <button id="highlightLinks" accesskey="h">Highlight Links (H)</button>
+      </div>
+  
+      <div class="button-group">
+        <p>Reset or Remove Styles</p>
+        <button id="reset" accesskey="f">Reset (F)</button>
+        <button id="remove" accesskey="g">Remove (G)</button>
+      </div>
+      <div class="contrastTextChange button-group">
+        <p>Text Contrast Change</p>
+        <button id="contrastTextLighten" accesskey="z">Lighten (Z)</button>
+        <button id="contrastTextDarken" accesskey="x">Darken (X)</button>
+      </div>
+      <div class="rangeSliders">
+        <p>Red:</p> <input class="rangeText" type="range" min="0" max="255" value="0">
+        <p>Green:</p> <input class="rangeText" type="range" min="0" max="255" value="0">
+        <p>Blue:</p> <input class="rangeText" type="range" min="0" max="255" value="0">
+      </div>
+      <div class="contrastBgChange button-group">
+        <p>Background Contrast Change</p>
+        <button id="contrastBgLighten" accesskey="c">Lighten (C)</button>
+        <button id="contrastBgDarken" accesskey="v">Darken (V)</button>
+      </div>
+      <div class="rangeSliders">
+        <p>Red:</p> <input class="rangeBg" type="range" min="0" max="255" value="255">
+        <p>Green:</p> <input class="rangeBg" type="range" min="0" max="255" value="255">
+        <p>Blue:</p> <input class="rangeBg" type="range" min="0" max="255" value="255">
+      </div>
+      <div class="button-group">
+        <p></p>
+        <button id="closeAccessPanel">Close Options (esc)</button>
+      </div>
+    </div>
+<!-- Accessibility Helper Panel - End -->
+
+<!-- HTML Body -->
+<body>
+    <article class="content">
+      <h1 class="title title--main">Accessibility</h1>
+
+      <h3>Content:</h3>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#legal">Legal precedents</a></li>
+        <li><a href="#acc_keys">Access keys</a></li>
+        <li><a href="#contrast">Color contrast</a></li>
+        <li><a href="#screenreaders">Screen readers</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+      
+      <h3 id="overview">Overview</h3>
+      
+      <p>Globally over 15% of people have some form of disability, and about 200 million people have severe disability of some kind. A website that is inaccessible, or poorly accessible to people with disabilities esentially has 15% less users than its competition.</p>
+      
+      <h3 id="legal">Legal precedents</h3>
+      <ul>
+        <li>University of Berkley had to pull 20 thousand videos off their free access website, because they didnt have a caption and thus were inaccessible to some users. A lawsuit was filed, Berkley lost the case, and all the videos had to be removed. (those videos are now mirrored on lbry.io for free, and perfectly legal too - yay "loopholes"?).</li>
+        <li>Netflix was fined $795,000 and ordered to add captions to its output within 18 months. Cases are ongoing against The Home Depot, the NBA and Toys R Us</li>
+        <li>There are equality laws from 2010-11 that state that if your business has a website - it has to be accessible. It mentiones the obvious things that we already do, like alt text on images, basic readibility and color contrast etc.</li>
+      </ul>
+      
+      <img class="content__image image--left" src="http://www.hutterites.org/wp-content/uploads/2012/03/placeholder.jpg" alt="holywood style text on the hill that says placeholder" title="placeholder" />
+
+      <h2 class="title title--sub">Practical overview</h2>
+
+      <p>Disabilities range from physical inability to use a mouse, to sensory limitations such as hearing or loss of eyesight, to partial disabilities like color-blindness. There are a few standard features that can be implemented to make website more accessible:</p>
+      
+      <h3 id="acc_keys">Access keys</h3>
+      
+      <p>Access keys address a physical disabilities that limit a user to keyboard input - its much easier to hit a button that move a cursor and accurately click the target. Access keys are the solution to this problem, providing assistance in navigation and shortcuts that make browsing much quicker and easier.</p>
+      
+      <p>Access keys are essentially keyboard shortcuts or key combinations that some site functionality is bound to. For example pressing "Q" will open up a side menu, and pressing "A" will swap the font to a more readable one.</p>
+      
+      <p>Generally speaking its not difficult to add access keys to the site, but its tricky to make them work logically - you have to wade around a large number of factors - already existing system keybinds, browser shortcuts, and potentially users custom key setup, additionally the default settings for screen readers vary wildly...</p>
+      
+      <a class="button" href="https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts" target="_blank">Keyboard shortcuts</a>
+      
+      <h3 id="contrast">Color contrast</h3>
+      
+      <p>A surprising number of people suffer from some kind of visual disability, one in 12 men and 1 in 200 women have some form of color blindness, which adds up to rougly 10% of population. To put these statistics in context, an all-boys school in the Home Counties of England with 1000 pupils would have approximately 100 colour deficient students. 12-13 would be deuteranopes, 12-13 would be protanopes, 12-13 would have a form of protanomaly and 62 would have a form of deuteranomaly.</p>
+      
+      <p>To add to this - at least 2.6% of people world wide are considered medically blind, and at least 70% of all people use some form of vision correction - glasses or lenses, or had vision correction surgery.</p>
+      
+      <p>To compensate for visual impairments, web dev can offer tools to change the size and color of font and background on the page to better accomodate the viewer</p>
+      
+      <p>Here's a quick example of how this would look to a near-blind person:</p>
+      
+      <button id="toggleBlur" class="button">Toggle Blur</button>
+      
+      <p>On the side panel (q), playing with sliders and increasing/decresing text and background saturation gives users full control of contrast the way that works best for them.</p>
+      
+      <p>Here's an example of different color blidness patterns. The first image being an example of fuly saturated bright and happy color splash. The rest are all kinds of color blidness types. All of them can come individually or a single person can have several of them at once. People with both red and green deficiencies live in a world of murky greens where blues and yellows stand out. Browns, oranges, shades of red and green are easily confused. Both types will confuse some blues with some purples and both types will struggle to identify pale shades of most colours.</p>
+      
+      <figure class="splashFigure">
+        <img src="http://www.colourblindawareness.org/wp-content/themes/outreach/images/slider/types/xpigment.jpg.pagespeed.ic.R_PL7Awtu2.webp" />
+        <figcaption>
+          Original image
+        </figcaption>
+      </figure>
+      
+      <div class="imgRow">
+        <figure>
+          <img src="http://www.colourblindawareness.org/wp-content/themes/outreach/images/slider/types/xpigment_d.jpg.pagespeed.ic.XcHfEU4oIP.webp" alt="Original image in Deuteranopia view has all green color entirely desaturated" />
+          <figcaption>
+            Deuteranopia - food for life green would looking pretty bland and monochrome
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="http://www.colourblindawareness.org/wp-content/themes/outreach/images/slider/types/xpigment_p.jpg.pagespeed.ic.NOy8b-QZxS.webp" alt="Original image in Protanopia view has all red color entirely desaturated" />
+          <figcaption>
+            Protanopia - with this even acid pink agas site would look sky blue
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="http://www.colourblindawareness.org/wp-content/themes/outreach/images/slider/types/xpigment_t.jpg.pagespeed.ic.k9ST4FgXDo.webp" alt="Original image in Tritanopia view has all blue color entirely desaturated " />
+          <figcaption>
+            Tritanopia - that moment when element78 branding looks all shades of saturated red
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="http://www.colourblindawareness.org/wp-content/themes/outreach/images/slider/types/xpigment_g.jpg.pagespeed.ic.3euc4mEsqq.webp" />
+          <figcaption>
+            Monochromacy - a pretty rare version of color blindness that happens once every 33 thousand cases
+          </figcaption>
+        </figure>
+      </div>
+      
+      <h3 id="screenreaders">Screen Readers</h3>
+      
+      <p>Screen readers rely on good markup and accessibility elements such as img alt tags to read through the content in a logical fashion. A bad site sctructure, missed closing tags, poorly ordered headers etc. can severely reduce the usability and effectiveness of a screen reader.</p>
+      
+      <p>For example:
+        
+      <p>here is some text</p>
+        <div>
+        <p><span>and here is a broken text</p></span>
+      <br /><br />
+          more text
+        </p>
+        </div>
+      </p>
+  
+      <p>Some screen readers can be interacted with with speech and keyboard shortcuts (like JAWS or NVDA, but those are software rather than a plugin), some can be used with mouse, like ChromeVox that I used just now. The fact that they can read through the page for you, allow navigation and image translation, makes them increadibly useful even to an average person if they wish to take advantage of it.</p>
+      
+      <h3 id="conclusion">Conclusion</h3>
+      
+      <p>With so many different technologies and ways of making a website more accessible - the simplest and at the same time most important thing you could do is write clean semantic markup that is easy to navigate through for both users and screen readers.</p>
+  
+      <p>Having core support for colorblindness and keyboard support from the getgo (starterkit) would immensely increaase development speed and support of these features.</p>
+  
+      <p>With 10% of population being colorblind to some extent, 2.5% being legally blind, 15% having a disability - by not providing an accessible website, you are losing 27% of your audience due to poor tech.</p>
+      
+</article>
+</body>
+
+<footer class="content__footer">
+        <h3>Resources</h3>
+        <p>webaim.org: <a href="http://webaim.org/resources/contrastchecker/">http://webaim.org/resources/contrastchecker/</a></p>
+        <p>Wiki keyboard shortcuts <a href="https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts">https://en.wikipedia.org/wiki/Table_of_keyboard_shortcuts</a>
+        <p>CSS-Tricks key identifier <a href="https://css-tricks.com/snippets/javascript/javascript-keycodes/">https://css-tricks.com/snippets/javascript/javascript-keycodes/</a></p>
+        <p>Capping a number: <a href="https://stackoverflow.com/questions/11409895/whats-the-most-elegant-way-to-cap-a-number-to-a-segment">https://stackoverflow.com/questions/11409895/whats-the-most-elegant-way-to-cap-a-number-to-a-segment</a></p>
+        <p>Usablenet accessibility PDF: <a href="http://pages.usablenet.com/rs/644-RZH-969/images/State%20of%20Web%20Accessibility%20Whitepaper%20-%20Accessible.pdf">http://pages.usablenet.com/</a></p>
+        <p>Acessible SVG <a href="http://www.a11yall.org/accessible-svg-practical-howto/">http://www.a11yall.org/accessible-svg-practical-howto/</a></p>
+        <p>Crossbrowser input range <a href="https://github.com/darlanrod/input-range-scss/blob/master/_inputrange.scss">https://github.com/darlanrod/input-range-scss/blob/master/_inputrange.scss</a></p>
+        <p>Access keys <a href="http://webaim.org/techniques/keyboard/accesskey">http://webaim.org/techniques/keyboard/accesskey</a></p>
+        <p>JS optimization <a href="http://jsfiddle.net/AlienWebguy/HPEjt/">http://jsfiddle.net/AlienWebguy/HPEjt/</a>
+        <p>Number of people using vision correction <a href="http://glassescrafter.com/information/percentage-population-wears-glasses.html">glassescrafter.com</a></p>
+        <p>Color blindness patterns/study <a href="http://www.colourblindawareness.org/colour-blindness/types-of-colour-blindness/">colourblindnessawareness.org</a></p>
+        <p>Number of disabled people in the world <a href="http://www.worldbank.org/en/topic/disability/overview">http://www.worldbank.org/en/topic/disability/overview</a></p>
+        <p>Screen readers accessibility <a href="https://yellowpencil.com/blog/things-learned-about-accessibility-using-screen-reader/">https://yellowpencil.com/blog/things-learned-about-accessibility-using-screen-reader/</a></p>
+  </footer>
+  
+  <script>
+  // Define Accessibility Panel
+
+var accessPanel = document.getElementById("accessPanel");
+var toggleAccessPanel = document.getElementById("toggleAccessPanel");
+var closeAccessPanel = document.getElementById("closeAccessPanel");
+
+// Define Font Options
+
+var fontSwap = document.getElementById("fontSwap");
+var fontIncrease = document.getElementById("fontIncrease");
+var fontDecrease = document.getElementById("fontDecrease");
+
+// Define Light and Darken Options
+
+var btnTextLighten = document.getElementById("contrastTextLighten");
+var btnTextDarken = document.getElementById("contrastTextDarken");
+var btnBgLighten = document.getElementById("contrastBgLighten");
+var btnBgDarken = document.getElementById("contrastBgDarken");
+
+// Define Highlight Links
+var highlightLinks = document.getElementById("highlightLinks");
+
+// Define Reset Button
+
+var reset = document.getElementById("reset");
+var remove = document.getElementById("remove");
+
+// Define Color Sliders
+
+var bgColorSliders = document.getElementsByClassName("rangeBg");
+var textColorSliders = document.getElementsByClassName("rangeText");
+
+var toggleBlur = document.getElementById("toggleBlur");
+
+function fontReplace() {
+  if ( document.body.classList.contains("accessible-font") == true) {
+    document.body.classList.remove("accessible-font");
+  } else {
+    document.body.classList.add("accessible-font");
+  }
+}
+
+var fontSize = 0;
+
+function fontDec(inc) {
+  var minInc = 0;
+  inc--;
+  if (inc <= minInc) {
+    inc = minInc;
+  }
+  return inc;
+};
+
+function fontInc(inc) {
+  inc++;
+  return inc >= 4 ? 4 : inc; // shorthand version of fontDec
+};
+
+function fontRem(){
+  for(var i =0; i<document.body.classList.length; i++) {
+    var className = document.body.classList[i];
+    if (className.indexOf("fontsize-") >= 0) {
+      document.body.classList.remove(className);
+    }
+  }
+}
+
+var contrastBg = [255,255,255];
+var contrastText = [0,0,0];
+
+function clamp(val, min, max) {
+  return Math.min(Math.max(val, min), max);
+};
+
+function contrastChange(target, array){
+    var valueInc = target * 51;
+    for (var i = 0; i < array.length; i++){
+      var newVal = clamp(parseInt(array[i]) + valueInc, 0, 255);
+      array[i] = newVal;
+      if (array == contrastBg){
+        bgColorSliders[i].value = newVal;
+      }
+      if (array == contrastText){
+        textColorSliders[i].value = newVal;
+      }
+    }
+} 
+
+document.addEventListener("click", function(event){
+  var el = event.target;
+  
+  if(el == toggleAccessPanel){
+      if(!accessPanel.classList.contains("visible") == true){
+        accessPanel.classList.toggle("visible");
+      } else{
+        accessPanel.classList.toggle("visible");
+      }
+    }
+  
+  if(el == highlightLinks){
+    var links = document.getElementsByTagName("a");
+    for (var i = 0; i < links.length; i++) { 
+        links[i].classList.toggle("highlight");
+    }
+    var buttons = document.getElementsByTagName("button");
+    for (var i = 0; i < buttons.length; i++) { 
+        buttons[i].classList.toggle("highlight");
+    }
+  }
+  
+  if(el == reset){
+    document.styleSheets[0].disabled = false;
+    document.body.removeAttribute("style");
+    document.body.removeAttribute("class");
+    contrastBg = [255,255,255];
+    contrastText = [0,0,0];
+    fontSize = 0;
+    for (var i = 0; i < 3; i++){
+      bgColorSliders[i].value = 255;
+      textColorSliders[i].value = 0;
+    }
+    
+    var links = document.getElementsByTagName("a");
+    for (var i = 0; i < links.length; i++) { 
+        links[i].classList.remove("highlight");
+    }
+    var buttons = document.getElementsByTagName("button");
+    for (var i = 0; i < buttons.length; i++) { 
+        buttons[i].classList.remove("highlight");
+    }
+  }
+  
+  if(el == remove){
+    document.styleSheets[0].disabled = true;
+  }
+  
+  if(el == closeAccessPanel){
+      if(!accessPanel.classList.contains("visible") == true){
+        AccessPanel.classList.add("visible").focus();
+      } else{
+        AccessPanel.classList.remove("visible");
+      }
+    }
+ 
+    if(el == fontSwap){
+      fontReplace();
+    }
+  
+    if(el == fontIncrease || el == fontDecrease){
+     fontRem();
+    }
+  
+    if(el == fontDecrease){
+      fontSize = fontDec(fontSize);
+       document.body.classList.add("fontsize-" + fontSize);
+    }
+
+    if(el == fontIncrease){
+      fontSize = fontInc(fontSize);
+      document.body.classList.add("fontsize-" + fontSize);
+    }
+  
+    if(el == contrastTextLighten){
+      contrastChange(1, contrastText);
+      document.body.style["color"] = 'rgb(' + contrastText + ')';
+    }
+  
+    if(el == contrastTextDarken){
+      contrastChange(-1, contrastText);
+      document.body.style["color"] = 'rgb(' + contrastText + ')';
+    }
+  
+    if(el == contrastBgLighten){
+      contrastChange(1, contrastBg);
+      document.body.style["background-color"] = 'rgb(' + contrastBg + ')';
+    }
+  
+    if(el == contrastBgDarken){
+      contrastChange(-1, contrastBg);
+      document.body.style["background-color"] = 'rgb(' + contrastBg + ')';
+    }
+  
+    if(el == toggleBlur){
+      if(!document.body.classList.contains("blur") == true){
+        document.body.classList.add("blur");
+      } else{
+        document.body.classList.remove("blur");
+      }
+    }
+});
+
+document.addEventListener("keydown", function(event){
+    var key = event.keyCode;
+  
+  	if(key == "81" || key == "27"){
+      if(!accessPanel.classList.contains("visible") == true){
+        accessPanel.classList.add("visible").focus();
+      } else{
+        accessPanel.classList.remove("visible");
+      }
+    }
+
+    // redo as switch cases
+    if(key == "65"){
+      fontReplace();
+    }
+  
+    if(key == "68" || key == "83"){
+     fontRem();
+    }
+  
+    if(key == "83"){
+      fontSize = fontDec(fontSize);
+       document.body.classList.add("fontsize-" + fontSize);
+    }
+
+    if(key == "68"){
+      fontSize = fontInc(fontSize);
+      document.body.classList.add("fontsize-" + fontSize);
+    }
+  
+    if(key == "90"){
+      contrastChange(1, contrastText);
+      document.body.style["color"] = 'rgb(' + contrastText + ')';
+    }
+  
+    if(key == "88"){
+      contrastChange(-1, contrastText);
+      document.body.style["color"] = 'rgb(' + contrastText + ')';
+    }
+  
+    if(key == "67"){
+      contrastChange(1, contrastBg);
+      document.body.style["background-color"] = 'rgb(' + contrastBg + ')';
+    }
+  
+    if(key == "86"){
+      contrastChange(-1, contrastBg);
+      document.body.style["background-color"] = 'rgb(' + contrastBg + ')';
+    }
+  
+    if(key == "70"){
+     document.styleSheets[0].disabled = false; document.body.removeAttribute("style");
+      document.body.removeAttribute("class");
+      contrastBg = [255,255,255];
+      contrastText = [0,0,0];
+      fontSize = 0;
+      for (var i = 0; i < 3; i++){
+        bgColorSliders[i].value = 255;
+        textColorSliders[i].value = 0;
+      }
+    }
+  if(key == '71'){
+    document.styleSheets[0].disabled = true;
+  }
+  
+  if(key == '72'){
+    var links = document.getElementsByTagName("a");
+    for (var i = 0; i < links.length; i++) { 
+        links[i].classList.toggle("highlight");
+    }
+    var buttons = document.getElementsByTagName("button");
+    for (var i = 0; i < buttons.length; i++) { 
+        buttons[i].classList.toggle("highlight");
+    }
+  }
+});
+
+
+function bgInputValues(i) {
+    contrastBg[i] = bgColorSliders[i].value;
+    document.body.style.backgroundColor = 'rgb(' + contrastBg.join(',') + ')';
+}
+function bgInputChange(){
+  for (var i = 0; i < 3; i++){
+    bgInputValues(i)
+  }
+}
+document.addEventListener("input", bgInputChange); 
+
+function textInputValues(i) {
+    contrastText[i] = textColorSliders[i].value;
+    document.body.style.color = 'rgb(' + contrastText.join(',') + ')';
+}
+function textInputChange(){
+  for (var i = 0; i < 3; i++){
+    textInputValues(i)
+  }
+}
+document.addEventListener("input", textInputChange);
+  </script>
+
+</body>
+</html>
+
+
