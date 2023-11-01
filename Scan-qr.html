@@ -1,0 +1,436 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Check-in Airlangga Festival</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+
+    <style>
+        body{
+    width:100%;
+    text-align:center;
+}
+img{
+    border:0;
+}
+#main{
+    margin: 15px auto;
+    background:white;
+    overflow: auto;
+	width: 100%;
+}
+#header{
+    background:white;
+    margin-bottom:15px;
+}
+#mainbody{
+    background: white;
+    width:100%;
+	display:none;
+}
+#footer{
+    background:white;
+}
+#v{
+    height:280px;
+    width: -webkit-fill-available;
+}
+#qr-canvas{
+    display:none;
+}
+#qrfile{
+    width:1600px;
+    height:1200px;
+}
+#mp1{
+    text-align:center;
+    font-size:35px;
+}
+#imghelp{
+    position:relative;
+    left:0px;
+    top:-160px;
+    z-index:100;
+    font:18px arial,sans-serif;
+    background:#f0f0f0;
+	margin-left:35px;
+	margin-right:35px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:20px;
+}
+.selector{
+    margin:0;
+    padding:0;
+    cursor:pointer;
+    margin-bottom:-5px;
+}
+#outdiv
+{
+    width:auto;
+    height:auto;
+	border: solid;
+	border-width: 3px 3px 3px 3px;
+}
+#result{
+    border: solid;
+	border-width: 1px 1px 1px 1px;
+	padding:20px;
+	width:70%;
+}
+
+ul{
+    margin-bottom:0;
+    margin-right:40px;
+}
+li{
+    display:inline;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    font-weight: bold;
+    border-right: 1px solid #333333;
+}
+li a{
+    text-decoration: none;
+    color: black;
+}
+
+#footer a{
+	color: black;
+}
+.tsel{
+    padding:0;
+}
+    </style>
+  </head>
+
+  <body class="text-center">
+
+    <main role="main" class="inner cover mt-5">
+        <img class="d-block mx-auto" src="https://airfest.bem.unair.ac.id/images/upload/60e548fc5c030.png" alt="" width="72" height="72">
+        <h1 class="cover-heading">Check-in Airlangga Festival</h1>
+        <div class="container col-lg-5">
+            <div id="outdiv">
+            </div>
+            <p class="lead">Qr Code in frame</p>
+        </div>
+      </main>
+
+    <div id="main">
+        <div id="header" hidden>
+        <div style="position:relative;top:+20px;left:0px;">
+        <p id="mp1" hidden>
+        QR Code scanner
+        </p>
+        
+        </div>
+        <div id="mainbody">
+        <table class="tsel" border="0" width="100%">
+        <tr>
+        <td valign="top" align="center" width="50%">
+        <table class="tsel" border="0">
+        <tr hidden>
+        <td><img class="selector" id="webcamimg" src="https://webqr.com/vid.png" onclick="setwebcam()" align="left" /></td>
+        <td><img class="selector" id="qrimg" src="https://webqr.com/cam.png" onclick="setimg()" align="right"/></td></tr>
+        
+        </table>
+        </td>
+        </tr>
+        
+        <tr><td colspan="3" align="center">
+        <div id="result" hidden></div>
+        </td></tr>
+        </table>
+        
+        <!-- webqr_2016 -->
+        
+        </div>&nbsp;
+        <div id="footer">
+    
+        </div>
+        </div>
+        <canvas id="qr-canvas" width="800" height="600"></canvas>
+
+        <div class="container d-flex justify-content-center">
+            <form class="card p-2" action="{{ url('scanner_qr_checkin') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="input-group">
+                  <div id="result2"><input type="text" required name="order_id" class="form-control" placeholder="#XXXXXX"></div>
+                  <input type="text" hidden name="check_in" class="form-control" value="no"></div>
+                  <div class="input-group-append justify-content-center">
+                    <button type="submit" class="btn btn-secondary m-2">Check-in</button>
+                  </div>
+                </div>
+              </form>
+        </div>
+        <p class="mt-5 mb-3 text-muted bg-warning">           Copyright © 2022 Made with <i class="fa fa-heart text-danger"></i> By <a href="http://bem.unair.ac.id/">BEM Universitas Airlangga.</a></p>
+    
+    
+        <script type="text/javascript" src="https://webqr.com/llqrcode.js"></script>
+        <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+
+        <script>
+            // QRCODE reader Copyright 2011 Lazar Laszlo
+// http://www.webqr.com
+
+var gCtx = null;
+var gCanvas = null;
+var c=0;
+var stype=0;
+var gUM=false;
+var webkit=false;
+var moz=false;
+var v=null;
+
+var imghtml='<div id="qrfile"><canvas id="out-canvas" width="320" height="240"></canvas>'+
+    '<div id="imghelp">drag and drop a QRCode here'+
+	'<br>or select a file'+
+	'<input type="file" onchange="handleFiles(this.files)"/>'+
+	'</div>'+
+'</div>';
+
+var vidhtml = '<video id="v" autoplay></video>';
+
+function dragenter(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
+
+function dragover(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
+function drop(e) {
+  e.stopPropagation();
+  e.preventDefault();
+
+  var dt = e.dataTransfer;
+  var files = dt.files;
+  if(files.length>0)
+  {
+	handleFiles(files);
+  }
+  else
+  if(dt.getData('URL'))
+  {
+	qrcode.decode(dt.getData('URL'));
+  }
+}
+
+function handleFiles(f)
+{
+	var o=[];
+	
+	for(var i =0;i<f.length;i++)
+	{
+        var reader = new FileReader();
+        reader.onload = (function(theFile) {
+        return function(e) {
+            gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+
+			qrcode.decode(e.target.result);
+        };
+        })(f[i]);
+        reader.readAsDataURL(f[i]);	
+    }
+}
+
+function initCanvas(w,h)
+{
+    gCanvas = document.getElementById("qr-canvas");
+    gCanvas.style.width = w + "px";
+    gCanvas.style.height = h + "px";
+    gCanvas.width = w;
+    gCanvas.height = h;
+    gCtx = gCanvas.getContext("2d");
+    gCtx.clearRect(0, 0, w, h);
+}
+
+
+function captureToCanvas() {
+    if(stype!=1)
+        return;
+    if(gUM)
+    {
+        try{
+            gCtx.drawImage(v,0,0);
+            try{
+                qrcode.decode();
+            }
+            catch(e){       
+                console.log(e);
+                setTimeout(captureToCanvas, 500);
+            };
+        }
+        catch(e){       
+                console.log(e);
+                setTimeout(captureToCanvas, 500);
+        };
+    }
+}
+
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function read(a)
+{
+    var html="";
+    if(a.indexOf("http://") === 0 || a.indexOf("https://") === 0)
+        html+="<input type='text' class='form-control' placeholder='#XXXXXX' value='"+a+"'></input>";
+    html+="<input type='text' name='order_id' class='form-control' placeholder='"+htmlEntities(a)+"' value='"+htmlEntities(a)+"'></input>";
+    // document.getElementById("result").innerHTML=html;
+    document.getElementById("result2").innerHTML=html;
+}	
+
+function isCanvasSupported(){
+  var elem = document.createElement('canvas');
+  return !!(elem.getContext && elem.getContext('2d'));
+}
+function success(stream) 
+{
+
+    v.srcObject = stream;
+    v.play();
+
+    gUM=true;
+    setTimeout(captureToCanvas, 500);
+}
+		
+function error(error)
+{
+    gUM=false;
+    return;
+}
+
+function load()
+{
+	if(isCanvasSupported() && window.File && window.FileReader)
+	{
+		initCanvas(800, 600);
+		qrcode.callback = read;
+		document.getElementById("mainbody").style.display="inline";
+        setwebcam();
+	}
+	else
+	{
+		document.getElementById("mainbody").style.display="inline";
+		document.getElementById("mainbody").innerHTML='<p id="mp1">QR code scanner for HTML5 capable browsers</p><br>'+
+        '<br><p id="mp2">sorry your browser is not supported</p><br><br>'+
+        '<p id="mp1">try <a href="http://www.mozilla.com/firefox"><img src="firefox.png"/></a> or <a href="http://chrome.google.com"><img src="chrome_logo.gif"/></a> or <a href="http://www.opera.com"><img src="Opera-logo.png"/></a></p>';
+	}
+}
+
+function setwebcam()
+{
+	
+	var options = true;
+	if(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices)
+	{
+		try{
+			navigator.mediaDevices.enumerateDevices()
+			.then(function(devices) {
+			  devices.forEach(function(device) {
+				if (device.kind === 'videoinput') {
+				  if(device.label.toLowerCase().search("back") >-1)
+					options={'deviceId': {'exact':device.deviceId}, 'facingMode':'environment'} ;
+				}
+				console.log(device.kind + ": " + device.label +" id = " + device.deviceId);
+			  });
+			  setwebcam2(options);
+			});
+		}
+		catch(e)
+		{
+			console.log(e);
+		}
+	}
+	else{
+		console.log("no navigator.mediaDevices.enumerateDevices" );
+		setwebcam2(options);
+	}
+	
+}
+
+function setwebcam2(options)
+{
+	console.log(options);
+	document.getElementById("result").innerHTML="- scanning -";
+    if(stype==1)
+    {
+        setTimeout(captureToCanvas, 500);    
+        return;
+    }
+    var n=navigator;
+    document.getElementById("outdiv").innerHTML = vidhtml;
+    v=document.getElementById("v");
+
+
+    if(n.mediaDevices.getUserMedia)
+    {
+        n.mediaDevices.getUserMedia({video: options, audio: false}).
+            then(function(stream){
+                success(stream);
+            }).catch(function(error){
+                error(error)
+            });
+    }
+    else
+    if(n.getUserMedia)
+	{
+		webkit=true;
+        n.getUserMedia({video: options, audio: false}, success, error);
+	}
+    else
+    if(n.webkitGetUserMedia)
+    {
+        webkit=true;
+        n.webkitGetUserMedia({video:options, audio: false}, success, error);
+    }
+
+    document.getElementById("qrimg").style.opacity=0.2;
+
+    stype=1;
+    setTimeout(captureToCanvas, 500);
+}
+
+        </script>
+    
+        <script>
+            load();
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-24451557-1']);
+            _gaq.push(['_trackPageview']);
+    
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+
+        
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
