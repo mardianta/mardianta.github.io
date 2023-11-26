@@ -1,582 +1,111 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hi, I'm Mardianta</title>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
-  
-  <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Resume - Mardianta Putra Anggara</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            color: #333;
+        }
 
-:root {
-  --blue: #38B6FF;
-  --chip-image: url("https://lh5.googleusercontent.com/y58mIMZC-IwE41TNehTaXikfD26LtOLULH3BRTAnFxSB33UHwDwf5wVfVvwVwsju1uo=w2400");
-  --whiteish-letters: #dafffd;
-  
-}
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-size: 12px;
-  font-family: 'IBM Plex Mono', sans-serif;
-  color: white;
-  font-size: 14px;
-}
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-body {
-  background-color: black;
-  width: 100vw;
-  height: 100vh;
-}
+        h2 {
+            color: #333;
+        }
 
-main {
-  padding: 50px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-/*   flex-direction: column; */
-  flex-direction: row;
-  align-items: center;
-}
-.menu {
-  width: 220px;
-}
-.menu>button {
-  width: 120px;
-  height: 40px;
-  padding-bottom: 5px;
-  margin-top: 20px;
-  background-color: transparent;
-  background-image:url(https://lh6.googleusercontent.com/B3GZqaB4CtIuOZqveBVoBvWZPBZQ7bkkyTEXs9kBCWaop3KXDi5GaHa_zi9Dekl_igc=w2400);
-  background-size: contain;
-  background-repeat:no-repeat;
-  transition: width 0.3s;
-  border: none;
-}
-.menu>.btn:hover {
-  color:var(--blue);
-  background-color: transparent;
-  box-shadow: none;
-  width: 140px;
-}
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-.scene {
-  width: 600px;
-  height: 600px;
-  perspective: 1800px;
-}
+        li {
+            margin-bottom: 10px;
+        }
 
-a {
-  text-decoration: none;
-}
-
-.cube {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style:preserve-3d;
-  transform: translateZ(-300px);
-  transition: transform 1s;
-}
-
-.cube.show-front {
-  transform: translateZ(-300px) rotateY(0deg);
-}
-.cube.show-right {
-  transform: translateZ(-300px) rotateY(-90deg);
-}
-.cube.show-back {
-  transform: translateZ(-300px) rotateY(-180deg);
-}
-.cube.show-left {
-  transform: translateZ(-300px) rotateY(90deg);
-}
-.cube.show-top {
-  transform: translateZ(-300px) rotateX(-90deg);
-}
-.cube.show-bottom {
-  transform: translateZ(-300px) rotateX(90deg);
-}
-
-.df.fd-c {
-  display: flex;
-  flex-direction: column;
-}
-.df.fd-r {
-  display: flex;
-  flex-direction: row;
-}
-
-.cube-face {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  padding: 40px;
-  
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  
-  background-color: rgba(0,0,0,0.8);
-  background-image:var(--chip-image);
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.cube-face-front {
-  transform: rotateY(0deg) translateZ(300px);
-  
-}
-
-.intro-wrapper {
-/*   display: flex; */
-  margin-bottom: 20px;
-  align-items: center;
-}
-
-.image {
-  border-radius: 50%;
-  overflow: hidden;
-  width: 150px;
-  height: 150px;
-  border: 1px dashed var(--blue);
-/*   display: flex; */
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.image-wrapper {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-img {
-  width: 100%;
-  height: 140px;
-  object-fit:cover;
-}
-
-.intro {
-  width: 70%;
-  margin-left: 20px;
-}
-
-.intro-heading {
-  font-size: 2rem;
-  font-family: 'IBM Plex Mono', monospace;
-  width: 100%;
-  color: var(--whiteish-letters);
-  padding-bottom: 20px;
-  line-height: 3rem;
-}
-
-.intro-heading>span {
-  font-size: inherit;
-  font-family: inherit;
-  color: var(--blue);
-}
-
-.intro-text {
-  color: var(--whiteish-letters);
-  width: 90%;
-  padding: 5px 0;
-}
-
-.buttons>button {
-  color: var(--whiteish-letters);
-  border: 2px solid var(--blue);
-  background-color: transparent;
-  padding: 5px 5px;
-  margin: 5px;
-  box-shadow: 0 0 10px var(--blue);
-  transition: box-shadow 0.3s;
-}
-
-button:hover {
-  cursor: pointer;
-  box-shadow: 0 0 15px var(--blue);
-  background-color: var(--blue);
-}
-
-.cube-face-back {
-  transform: rotateY(180deg) translateZ(300px);
-}
-.work-edu-section {
-  margin-bottom: 40px;
-}
-.work-edu-heading {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 1.5rem;
-  padding-bottom: 10px;
-  font-weight: 400;
-}
-.work-edu-heading>i {
-  font-size: 1.2rem;
-  color: var(--blue);
-}
-.work-edu-heading.date {
-  color: var(--blue);
-}
-.work-edu-info {
-  width: 70%;
-  margin-left: 20px;
-}
-.work-edu-info>ul {
-  margin-left: 20px;
-}
-.work-edu-heading.company {
-  width: 100%;
-}
-
-.cube-face-right {
-  transform: rotateY(90deg) translateZ(300px);
-}
-
-.cube-face-left {
-  transform: rotateY(-90deg) translateZ(300px);
-}
-
-.cube-face-top {
-  transform: rotateX(90deg) translateZ(300px);
-}
-.cube-face-bottom {
-  transform: rotateX(-90deg) translateZ(300px);
-}
-.social-media-btns {
-  margin-top: 10px;
-  margin-bottom: 40px;
-}
-.social-media-btns>i {
-  font-size: 2rem;
-  margin: 5px 10px;
-}
-.social-media-btns>i:hover {
-  cursor: pointer;
-  color: var(--blue);
-}
-
-.projects {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 30px;
-}
-.project-border {
-  width: 120px;
-  height: 120px;
-  background-image: url("https://lh5.googleusercontent.com/zgccmEHip1xVXgGhdxVPYB6skDCyHX5LpfqmHHw09nbybd9en_GQdBxOlUlXFSnURks=w2400");
-  background-size: contain;
-  background-repeat: no-repeat;
-  
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-}
-.project-wrapper {
-  width: 90px;
-  height: 90px;
-}
-
-.visit-wrapper {
-  background-color: rgba(0,0,0,0.5);
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.project-border:nth-of-type(1)>.project-wrapper {
-  background-image: url("https://cdn.pixabay.com/photo/2022/12/10/21/41/social-media-7647812_1280.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.project-border:nth-of-type(2)>.project-wrapper {
-  background-image: url("https://cdn.pixabay.com/photo/2019/11/07/20/48/cinema-4609877_1280.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.project-border:nth-of-type(3)>.project-wrapper {
-  background-image: url("https://cdn.pixabay.com/photo/2017/02/15/13/40/tulips-2068692_1280.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.project-border:nth-of-type(4)>.project-wrapper {
-  background-image: url("https://cdn.pixabay.com/photo/2015/09/03/17/50/cobweb-921039_1280.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.project-border:nth-of-type(5)>.project-wrapper {
-  background-image: url("https://cdn.pixabay.com/photo/2016/02/27/12/40/sculpture-1225487_1280.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.project-border:nth-of-type(6)>.project-wrapper {
-  background-image: url("https://cdn.pixabay.com/photo/2016/10/13/15/23/labyrinth-1738039_1280.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.app-title {
-  background-color: rgba(0,0,0,0.7);
-  padding: 3px 7px;
-  margin-bottom: 10px;
-}
-
-.visit-app {
-  background-color: rgba(0,0,0,0.7);
-  padding: 5px 5px;
-}
-.visit-app:hover {
-  text-decoration: underline;
-}
-
-.visit-app,
-.visit-app>i {
-  font-size: 0.8rem;
-}
-
-.visit-app>i {
-  color: var(--blue);p
-}
-
-.certificate-section {
-  width: 80%;
-  justify-content: start;
-  align-items: center;
-  margin-left: 15px;
-  margin-bottom: 10px;
-}
-
-.cube-face-left > div:nth-last-of-type(2) {
-  margin-bottom: 20px;
-}
-
-.certificate-date {
-  font-size: 1.5rem;
-  color: var(--blue);
-}
-.certificate-heading {
-  font-size: 1.5rem;
-  margin-left: 20px;
-}
-
-  </style>
-  
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-  <main>
-    <div class="menu df fd-c">
-      <button class="btn" data-side="front">Intro</button>
-      <button class="btn" data-side="right">Work</button>
-      <button class="btn" data-side="back">Education</button>
-      <button class="btn" data-side="left">Certificates</button>
-      <button class="btn" data-side="top">Projects</button>
-      <button class="btn" data-side="bottom">Contacts</button>
-    </div>
-    <section class="scene">
-      <div class="cube show-front" id="cube" data-side="front">
-        <div class="cube-face cube-face-front">
-          <div class="intro-wrapper df fd-r">
-            <div class="intro">
-            <h1 class="intro-heading">Hi, I'm Mardianta a <span>Website</span> Pentester</h1>
-            <p class="intro-text">An economics major turned business journalist who found a passion for coding and web development. </p>
-            <p class="intro-text">I started out on the software engineering path two years ago with Python but one look at JavaScript was enough to convince me that web development is going to be my zing.</p>
-          </div>
-            <div class="image df fd-r">
-            <div class="image-wrapper">
-              <img src="https://mardianta.github.io/photo.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
-            </div>
-          </div>
-          </div>
-          
-        </div>
-        
-        
-        <div class="cube-face cube-face-back">
-          <p class="intro-heading">Educa<span>tion</span></p>
-          <div class="work-edu-section df fd-r">
-            <h4 class="work-edu-heading date">2020-2022</h4>
-            <div class="work-edu-info">
-              <h4 class="work-edu-heading company">Some university</h4>
-              <ul>
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                <li>Ipsam odio repudiandae, enim unde eveniet blanditiis facilis.</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="work-edu-section df fd-r">
-            <h4 class="work-edu-heading date">2016-2020</h4>
-            <div class="work-edu-info">
-              <h4 class="work-edu-heading company">Some other uni</h4>
-              <ul>
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                <li>Ipsam odio repudiandae, enim unde eveniet blanditiis facilis.</li>
-              </ul>
-            </div>
-          </div>
-          
-        </div>
-        
-        
-        <div class="cube-face cube-face-right">
-          <p class="intro-heading">Wo<span>rk</span></p>
-          <div class="work-edu-section df fd-r">
-            <h4 class="work-edu-heading date">2020-2022</h4>
-            <div class="work-edu-info">
-              <h4 class="work-edu-heading company">Some company</h4>
-              <ul>
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                <li>Ipsam odio repudiandae, enim unde eveniet blanditiis facilis.</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="work-edu-section df fd-r">
-            <h4 class="work-edu-heading date">2016-2020</h4>
-            <div class="work-edu-info">
-              <h4 class="work-edu-heading company">Some other company</h4>
-              <ul>
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-                <li>Ipsam odio repudiandae, enim unde eveniet blanditiis facilis.</li>
-              </ul>
-            </div>
-          </div>
-          
-        </div>
-        
-        
-        <div class="cube-face cube-face-left">
-          <p class="intro-heading">Certi<span>fi</span>cates</p>
-          <div class="certificate-section df fd-r">
-            <h4 class="certificate-date">2022</h4>
-            <h4 class="certificate-heading">Some certificate #1</h4>
-          </div>
-          <div class="certificate-section df fd-r">
-            <h4 class="certificate-date">2020</h4>
-            <h4 class="certificate-heading">Some other certificate #2</h4>
-          </div>
-          <div class="certificate-section df fd-r">
-            <h4 class="certificate-date">2020</h4>
-            <h4 class="certificate-heading">Certificate #3</h4>
-          </div>
-          <div class="certificate-section df fd-r">
-            <h4 class="certificate-date">2018</h4>
-            <h4 class="certificate-heading">Older certificate #4</h4>
-          </div>
-          <div class="certificate-section df fd-r">
-            <h4 class="certificate-date">2018</h4>
-            <h4 class="certificate-heading">Certificate BBB #5</h4>
-          </div>
-          
-        </div>
-        
-        
-        <div class="cube-face cube-face-top">
-          <p class="intro-heading"><span>Pro</span>jects</p>
-          <div class="projects">
-            <div class="project-border">
-              <div class="project-wrapper">
-                <div class="visit-wrapper">
-                  <p class="app-title">#1 App</p>
-                <a class="visit-app" href="">Visit app <i class="fas fa-link"></i></a>
-              </div>
-                </div>
-            </div>
-            
-            <div class="project-border">
-              <div class="project-wrapper">
-                <div class="visit-wrapper">
-                  <p class="app-title">#2 App</p>
-                  <a class="visit-app" href="">Visit app <i class="fas fa-link"></i></a>
-                </div>
-              </div>
-            </div>
-            
-            <div class="project-border">
-              <div class="project-wrapper">
-                <div class="visit-wrapper">
-                  <p class="app-title">#3 App</p>
-                  <a class="visit-app" href="">Visit app <i class="fas fa-link"></i></a>
-                </div>
-              </div>
-            </div>
-            
-            <div class="project-border">
-              <div class="project-wrapper">
-                <div class="visit-wrapper">
-                  <p class="app-title">#4 App</p>
-                  <a class="visit-app" href="">Visit app <i class="fas fa-link"></i></a>
-                </div>
-              </div>
-            </div>
-            
-            <div class="project-border">
-              <div class="project-wrapper">
-                <div class="visit-wrapper">
-                  <p class="app-title">#5 App</p>
-                  <a class="visit-app" href="">Visit app <i class="fas fa-link"></i></a>
-                </div>
-              </div>
-            </div>
-            
-            <div class="project-border">
-              <div class="project-wrapper">
-                <div class="visit-wrapper">
-                  <p class="app-title">#6 App</p>
-                  <a class="visit-app" href="">Visit app <i class="fas fa-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        
-        
-        <div class="cube-face cube-face-bottom">
-          <p class="intro-heading">Con<span>tacts</span></p>
-          <h4 class="work-edu-heading"><i class="fas fa-location-arrow"></i> Sofia, Bulgaria</h4>
-          <h4 class="work-edu-heading"><i class="far fa-envelope"></i> some.persons.email@gmail.com</h4>
-          <h4 class="work-edu-heading"><i class="fas fa-phone"></i> +359 889 111 222</h4>
-          <div class="social-media-btns">
-            <i class="fab fa-facebook"></i>
-            <i class="fab fa-linkedin"></i>
-            <i class="fab fa-github"></i>
-            <i class="fab fa-codepen"></i>
-          </div>
-          
-        </div>
-      </div>
+    <header>
+        <h1>CV Resume - Mardianta Putra Anggara</h1>
+    </header>
+
+    <section>
+        <h2>Title: Web Developer & Cybersecurity Analyst</h2>
+
+        <h3>Professional Summary:</h3>
+        <p>
+            I am a technology professional with expertise in web development and cybersecurity analysis. With a strong background in programming and computer security, I have assisted organizations and companies in safeguarding their sensitive data while ensuring that their applications and websites operate smoothly.
+        </p>
+
+        <h3>Work Experience:</h3>
+        <ul>
+            <li><strong>Web Developer at Airlangga University</strong><br>
+                As a Web Developer, I am responsible for designing and developing attractive, responsive, and functional websites. I use various programming languages such as HTML, CSS, JavaScript, and PHP to create an optimal user experience.
+            </li>
+            <li><strong>Cybersecurity Analyst at Airlangga University</strong><br>
+                In this role, I have helped companies identify, address, and prevent cybersecurity threats. I have conducted security audits, domain range analysis, and provided recommendations to strengthen cybersecurity defenses.
+            </li>
+        </ul>
+
+        <h3>Education:</h3>
+        <p><strong>Bachelor's Degree in Information System from Airlangga University</strong><br>
+            Here, I gained a deep understanding of the fundamentals of programming, computer security, and project management.
+        </p>
+
+        <h3>Certifications:</h3>
+        <ul>
+            <li><strong>Certified Ethical Hacker (CEH)</strong><br>
+                This certification validates my expertise in identifying and addressing security vulnerabilities.
+            </li>
+            <li><strong>Certified Web Developer (CWD)</strong><br>
+                This certification confirms my ability to design and develop efficient and functional websites.
+            </li>
+        </ul>
+
+        <h3>Key Skills:</h3>
+        <ul>
+            <li>Web Development</li>
+            <li>Cybersecurity</li>
+            <li>Programming (HTML, CSS, JavaScript, PHP)</li>
+            <li>Domain Range Analysis</li>
+            <li>Security Auditing</li>
+            <li>Penetration Testing</li>
+            <li>Data Protection</li>
+        </ul>
+
+        <p>
+            I am committed to continuous learning and innovation in these two fields to help organizations excel in the ever-changing digital landscape. If you are looking for someone who can combine web development skills with a deep understanding of cybersecurity, I am ready to join and contribute to advancing your projects.
+        </p>
     </section>
-  </main>
-  <script>
-  const cube = document.getElementById("cube");
 
-const clickOnSide = (side) => {
-  const activeSide = cube.dataset.side;
-  cube.classList.replace(`show-${activeSide}`, `show-${side}`);
-  cube.setAttribute("data-side", side);
-};
-
-document.querySelectorAll(".btn").forEach(btn => {
-  btn.addEventListener("click", (e) => {
-    const sideToTurn = e.target.dataset.side;
-    clickOnSide(sideToTurn);
-  })
-});
-
-  </script>
+    <footer>
+        <p>&copy; 2023 Mardianta Putra Anggara. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
