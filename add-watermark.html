@@ -1,1 +1,104 @@
-w
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watermark App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        #output-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        #output-image {
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Watermark App</h1>
+        <form id="watermarkForm">
+            <div class="form-group">
+                <label for="imageInput">Choose an image:</label>
+                <input type="file" class="form-control-file" id="imageInput" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label for="watermarkText">Watermark text:</label>
+                <input type="text" class="form-control" id="watermarkText" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addWatermark()">Add Watermark</button>
+        </form>
+
+        <div id="output-container">
+            <h2>Output</h2>
+            <img id="output-image" src="https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg" alt="Output Image">
+            <br>
+            <br>
+            <a id="downloadButton" download="watermarked_image.png">
+                <button type="button" class="btn btn-primary" onclick="downloadImage()">Download Watermarked Image</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function addWatermark() {
+            var imageInput = document.getElementById('imageInput');
+            var watermarkText = document.getElementById('watermarkText').value;
+            var outputImage = document.getElementById('output-image');
+
+            if (imageInput.files.length > 0) {
+                var inputImage = imageInput.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var img = new Image();
+                    img.src = e.target.result;
+
+                    img.onload = function() {
+                        var canvas = document.createElement('canvas');
+                        var ctx = canvas.getContext('2d');
+
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+
+                        ctx.drawImage(img, 0, 0);
+
+                        ctx.font = '30px Arial';
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                        ctx.fillText(watermarkText, 20, 40);
+
+                        outputImage.src = canvas.toDataURL('image/png');
+                    };
+                };
+
+                reader.readAsDataURL(inputImage);
+            } else {
+                alert('Please choose an image.');
+            }
+        }
+
+        function downloadImage() {
+            var outputImage = document.getElementById('output-image');
+            var downloadButton = document.getElementById('downloadButton');
+
+            if (outputImage.src) {
+                downloadButton.href = outputImage.src;
+                downloadButton.style.display = 'inline-block';
+            } else {
+                alert('Please add watermark to the image first.');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
