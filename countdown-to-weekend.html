@@ -41,7 +41,7 @@
 </head>
 <body>
 
-  <h1>Countdown to Weekend</h1>
+  <h1>Countdown to The Weekend</h1>
   <div id="countdown">Calculating...</div>
   <button id="shareBtn" onclick="shareToTwitter()">Share to 𝕏/Twitter </button>
   
@@ -75,7 +75,7 @@
         const minutesUntilWeekendEnd = 60 - now.getMinutes() - 1;
         const secondsUntilWeekendEnd = 60 - now.getSeconds();
 
-        const countdownText = `Weekend will end in ${hoursUntilWeekendEnd} hours, ${minutesUntilWeekendEnd} minutes, ${secondsUntilWeekendEnd} seconds`;
+        const countdownText = `The weekend will end in ${hoursUntilWeekendEnd} hours, ${minutesUntilWeekendEnd} minutes, ${secondsUntilWeekendEnd} seconds`;
         document.getElementById('countdown').innerText = countdownText;
       } else {
         // If it's not the weekend, calculate countdown as usual
@@ -84,7 +84,7 @@
         const minutesUntilWeekend = 60 - now.getMinutes() - 1;
         const secondsUntilWeekend = 60 - now.getSeconds();
 
-        const countdownText = `Weekend will start in ${daysUntilWeekend} days, ${hoursUntilWeekend} hours, ${minutesUntilWeekend} minutes, ${secondsUntilWeekend} seconds`;
+        const countdownText = `The weekend will start in ${daysUntilWeekend} days, ${hoursUntilWeekend} hours, ${minutesUntilWeekend} minutes, ${secondsUntilWeekend} seconds`;
         document.getElementById('countdown').innerText = countdownText;
       }
 
