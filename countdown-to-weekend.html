@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown to Weekend</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+
+    #countdown {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    #shareBtn {
+      background-color: #1da1f2;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Countdown to Weekend</h1>
+  <div id="countdown">Calculating...</div>
+  <button id="shareBtn" onclick="shareToTwitter()">Share to Twitter</button>
+
+  <script>
+    function updateCountdown() {
+      const now = new Date();
+      const dayOfWeek = now.getDay(); // 0 (Sunday) to 6 (Saturday)
+
+      // Define target days for weekends
+      const targetDay1 = 6; // Saturday
+      const targetDay2 = 0; // Sunday
+
+      let targetDay;
+      if (dayOfWeek <= targetDay1) {
+        targetDay = targetDay1;
+      } else {
+        targetDay = targetDay2;
+      }
+
+      if (dayOfWeek === targetDay1 || dayOfWeek === targetDay2) {
+        // If it's currently the weekend
+        const hoursUntilWeekendEnd = 24 - now.getHours() - 1;
+        const minutesUntilWeekendEnd = 60 - now.getMinutes() - 1;
+        const secondsUntilWeekendEnd = 60 - now.getSeconds();
+
+        const countdownText = `Weekend will end in ${hoursUntilWeekendEnd} hours, ${minutesUntilWeekendEnd} minutes, ${secondsUntilWeekendEnd} seconds`;
+        document.getElementById('countdown').innerText = countdownText;
+      } else {
+        // If it's not the weekend, calculate countdown as usual
+        const daysUntilWeekend = (targetDay - dayOfWeek + 7) % 7;
+        const hoursUntilWeekend = 24 - now.getHours() - 1;
+        const minutesUntilWeekend = 60 - now.getMinutes() - 1;
+        const secondsUntilWeekend = 60 - now.getSeconds();
+
+        const countdownText = `${daysUntilWeekend} days, ${hoursUntilWeekend} hours, ${minutesUntilWeekend} minutes, ${secondsUntilWeekend} seconds`;
+        document.getElementById('countdown').innerText = countdownText;
+      }
+
+      setTimeout(updateCountdown, 1000);
+    }
+
+    function shareToTwitter() {
+      const countdownText = document.getElementById('countdown').innerText;
+      const tweetText = `Countdown to the weekend: ${countdownText} left! #WeekendCountdown`;
+
+      // You can replace the following link with your own link for sharing on Twitter
+      const twitterShareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+
+      window.open(twitterShareLink, '_blank');
+    }
+
+    // Call the updateCountdown function initially
+    updateCountdown();
+  </script>
+
+</body>
+</html>
