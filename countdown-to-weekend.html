@@ -84,7 +84,7 @@
         const minutesUntilWeekend = 60 - now.getMinutes() - 1;
         const secondsUntilWeekend = 60 - now.getSeconds();
 
-        const countdownText = `${daysUntilWeekend} days, ${hoursUntilWeekend} hours, ${minutesUntilWeekend} minutes, ${secondsUntilWeekend} seconds`;
+        const countdownText = `Weekend will start in ${daysUntilWeekend} days, ${hoursUntilWeekend} hours, ${minutesUntilWeekend} minutes, ${secondsUntilWeekend} seconds`;
         document.getElementById('countdown').innerText = countdownText;
       }
 
