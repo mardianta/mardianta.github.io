@@ -79,7 +79,7 @@
         document.getElementById('countdown').innerText = countdownText;
       } else {
         // If it's not the weekend, calculate countdown as usual
-        const daysUntilWeekend = (targetDay - dayOfWeek + 7) % 7;
+        const daysUntilWeekend = (targetDay - dayOfWeek + 6) % 7;
         const hoursUntilWeekend = 24 - now.getHours() - 1;
         const minutesUntilWeekend = 60 - now.getMinutes() - 1;
         const secondsUntilWeekend = 60 - now.getSeconds();
