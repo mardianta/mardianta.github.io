@@ -139,18 +139,18 @@
                                     if (jsonData.hasOwnProperty(key)) {
                                         var row = document.createElement("tr");
                                         var data = jsonData[key];
-                                        var chartData = data.data.data_tps.chart;
+                                        var chartData = data.chart;
                                         // var kode_tps = data.kode_tps;
                                         var anies = 0;
                                         var prabowo = 0;
                                         var ganjar = 0;
                                         var chartDataHtml = '';
-                                        var images = data.data.data_tps.images[1];
-                                        // var images = data.data.data_tps.images;
+                                        var images = data.images[1];
+                                        // var images = data.images;
                                         if (chartData) {
-                                          anies = data.data.data_tps.chart['100025'];
-                                          prabowo = data.data.data_tps.chart['100026'];
-                                          ganjar = data.data.data_tps.chart['100027'];
+                                          anies = data.chart['100025'];
+                                          prabowo = data.chart['100026'];
+                                          ganjar = data.chart['100027'];
                                         //     for (var chartKey in chartData) {
                                         //         if (chartData.hasOwnProperty(chartKey)) {
                                         //             chartDataHtml += `<div>${chartKey}: ${chartData[chartKey]}</div>`;
@@ -164,7 +164,7 @@
                                         // Tambahkan total ke dalam kolom "Total"
                                         // chartDataHtml += `<div>Total: ${total}</div>`;
                                         row.innerHTML = `
-                                            <td>${data.kode_tps}</td>
+                                            <td>${kode_tps}</td>
                                             <td>${anies}</td>
                                             <td>${prabowo}</td>
                                             <td>${ganjar}</td>
