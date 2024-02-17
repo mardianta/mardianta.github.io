@@ -94,7 +94,7 @@ function cariFile($dir) {
 $hasilPencarian = cariFile($dir);
 
 if (!empty($hasilPencarian)) {
-    $folder_path_bermasalah="data_ppwp/data_bermasalah.json";
+    $folder_path_bermasalah="data_ppwp/data_tps_bermasalah.json";
 
     $json_data = json_encode($hasilPencarian);
     if (file_put_contents($folder_path_bermasalah, $json_data)) {
