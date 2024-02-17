@@ -84,7 +84,58 @@
         </div>
            <p>Thanks! <span class="text-danger">♥</span></p>
 
-        <h1 class="h2">Hasil Real Count Mardianta</h1>
+        <h1 class="h2">Hasil Hitung Ulang Mardianta</h1>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+    // Ambil data JSON dari URL
+    fetch("https://mardianta.github.io/data_ppwp/hitung_ulang.json")
+        .then(response => response.json())
+        .then(data => {
+            // Panggil fungsi untuk membuat grafik setelah menerima data
+            drawChart(data.chart);
+        })
+        .catch(error => console.error('Error fetching JSON:', error));
+
+    // Fungsi untuk membuat grafik Donat menggunakan Google Charts
+    function drawChart(chartData) {
+        // Objek untuk menyimpan kunci yang diubah
+        var renamedKeys = {
+            "100025": "Anies",
+            "100026": "Prabowo",
+            "100027": "Ganjar"
+        };
+
+        // Buat objek baru dengan kunci yang diubah
+        var newData = {};
+        for (var key in chartData) {
+            if (chartData.hasOwnProperty(key) && key !== "persen") {
+                newData[renamedKeys[key]] = chartData[key];
+            }
+        }
+
+        // Load library Google Charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(function() {
+            // Buat data table dari objek yang dibuat sebelumnya
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'ID');
+            data.addColumn('number', 'Suara');
+            data.addRows(Object.entries(newData.suara_hitung_ulang));
+
+            // Konfigurasi opsi grafik
+            var options = {
+                title: 'Suara Pemilu (' + chartData['persen'] + '%)',
+                pieHole: 0.3 // Mengatur lebar donat
+            };
+
+            // Buat instance grafik Donat
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        });
+    }
+});
+        </script>
         <p>Have a bug report to share with us? Use this template to reproduce an isolated test case so we can more easily identify the problem and hopefully find a fix.</p>
         <p>
         <a class="btn btn-primary" href="https://github.com/twbs/bootstrap/blob/main/.github/CONTRIBUTING.md#bug-reports" rel="noopener noreferrer" target="_blank">Read bug report guidelines</a>
@@ -139,18 +190,18 @@
                                     if (jsonData.hasOwnProperty(key)) {
                                         var row = document.createElement("tr");
                                         var data = jsonData[key];
-                                        var chartData = data.chart;
+                                        var chartData = data.data_tps.chart;
                                         // var kode_tps = data.kode_tps;
                                         var anies = 0;
                                         var prabowo = 0;
                                         var ganjar = 0;
                                         var chartDataHtml = '';
-                                        var images = data.images[1];
+                                        var images = data.data_tps.images[1];
                                         // var images = data.images;
                                         if (chartData) {
-                                          anies = data.chart['100025'];
-                                          prabowo = data.chart['100026'];
-                                          ganjar = data.chart['100027'];
+                                          anies = data.data_tps.chart['100025'];
+                                          prabowo = data.data_tps.chart['100026'];
+                                          ganjar = data.data_tps.chart['100027'];
                                         //     for (var chartKey in chartData) {
                                         //         if (chartData.hasOwnProperty(chartKey)) {
                                         //             chartDataHtml += `<div>${chartKey}: ${chartData[chartKey]}</div>`;
@@ -164,7 +215,7 @@
                                         // Tambahkan total ke dalam kolom "Total"
                                         // chartDataHtml += `<div>Total: ${total}</div>`;
                                         row.innerHTML = `
-                                            <td>${kode_tps}</td>
+                                            <td>${data.kode_tps}</td>
                                             <td>${anies}</td>
                                             <td>${prabowo}</td>
                                             <td>${ganjar}</td>
