@@ -85,7 +85,7 @@
         <table id="tps-bermasalah-table">
             <thead>
                 <tr>
-                    <th>Kode Kelurahan</th>
+                    <!-- <th>Kode Kelurahan</th> -->
                     <th>Kode TPS</th>
                     <th>Status Suara</th>
                     <th>Anies</th>
@@ -127,37 +127,37 @@
                             var row = document.createElement("tr");
                             var data = jsonData[key];
                             var chartData = data.data_tps.chart;
-                            var total = 0;
+                            var kode_tps = data.kode_tps;
                             var anies = 0;
                             var prabowo = 0;
                             var ganjar = 0;
                             var chartDataHtml = '';
-                            var images = data.data_tps.images;
-                            // if (chartData) {
-                            //   anies = data.data_tps.chart['100025'];
-                            //   prabowo = data.data_tps.chart['100026'];
-                            //   ganjar = data.data_tps.chart['100027'];
+                            // var images = data.data.data_tps.images;
+                            if (chartData) {
+                              anies = data.data_tps.chart['100025'];
+                              prabowo = data.data_tps.chart['100026'];
+                              ganjar = data.data_tps.chart['100027'];
                             //     for (var chartKey in chartData) {
                             //         if (chartData.hasOwnProperty(chartKey)) {
                             //             chartDataHtml += `<div>${chartKey}: ${chartData[chartKey]}</div>`;
                             //             // Jumlahkan nilai 100025, 100026, dan 100027
                             //             if (["100025", "100026", "100027"].includes(chartKey)) {
-                            //                 total += chartData[chartKey];
+                                            total = anies+prabowo+ganjar;
                             //             }
                             //         }
                             //     }
-                            // }
+                            }
                             // Tambahkan total ke dalam kolom "Total"
-                            chartDataHtml += `<div>Total: ${total}</div>`;
+                            // chartDataHtml += `<div>Total: ${total}</div>`;
                             row.innerHTML = `
-                                <td>${data.kode_kel}</td>
                                 <td>${data.kode_tps}</td>
-                                <td>${data.data_tps.status_suara}</td>
+                                <td>${data.kode_prov}</td>
+                                <td><a href="${data.data_tps.images['1']}">${data.data_tps.images['1']}</a></td>
                                 <td>${anies}</td>
-                                <td>${ganjar}</td>
                                 <td>${prabowo}</td>
+                                <td>${ganjar}</td>
                                 <td>${total}</td>
-                                <td><a href="${images[1]}">${images[1]}</a></td>
+                                
                             `;
                             tpsBody.appendChild(row);
                         }

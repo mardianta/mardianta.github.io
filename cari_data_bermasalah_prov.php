@@ -64,7 +64,7 @@ function cariFile($dir) {
                         $anies = $tps['data_tps']['chart']['100025'];
                         $prabowo = $tps['data_tps']['chart']['100026'];
                         $ganjar = $tps['data_tps']['chart']['100027'];
-                        if ($anies+$prabowo+$ganjar>300) {
+                        if (($anies+$prabowo+$ganjar)>300) {
                             // echo "<br> Kode TPS: ".$tps['kode_tps'];
                             // $data = ;
                             
