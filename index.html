@@ -86,56 +86,71 @@
 
         <h1 class="h2">Hasil Hitung Ulang Mardianta</h1>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-    // Ambil data JSON dari URL
-    fetch("https://mardianta.github.io/data_ppwp/hitung_ulang.json")
-        .then(response => response.json())
-        .then(data => {
-            // Panggil fungsi untuk membuat grafik setelah menerima data
-            drawChart(data.chart);
-        })
-        .catch(error => console.error('Error fetching JSON:', error));
+        <!-- <h2>Suara KPU</h2> -->
+    <!-- Chart untuk suara KPU -->
+    <div id="chart_suara_kpu"></div>
 
-    // Fungsi untuk membuat grafik Donat menggunakan Google Charts
-    function drawChart(chartData) {
-        // Objek untuk menyimpan kunci yang diubah
-        var renamedKeys = {
-            "100025": "Anies",
-            "100026": "Prabowo",
-            "100027": "Ganjar"
-        };
+    <!-- <h2>Suara Hitung Ulang</h2> -->
+    <!-- Chart untuk suara hitung ulang -->
+    <div id="chart_suara_hitung_ulang"></div>
 
-        // Buat objek baru dengan kunci yang diubah
-        var newData = {};
-        for (var key in chartData) {
-            if (chartData.hasOwnProperty(key) && key !== "persen") {
-                newData[renamedKeys[key]] = chartData[key];
-            }
+    <!-- <h2>Suara Bermasalah</h2> -->
+    <!-- Chart untuk suara bermasalah -->
+    <div id="chart_suara_bermasalah"></div>
+
+    <script>
+        // Memuat modul Google Charts
+        google.charts.load('current', {'packages':['corechart']});
+
+        // Memuat data dari URL
+        google.charts.setOnLoadCallback(loadData);
+
+        function loadData() {
+            // Memuat data JSON dari URL
+            var url = 'https://mardianta.github.io/data_ppwp/hitung_ulang.json';
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'json';
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var jsonData = xhr.response;
+                    drawCharts(jsonData);
+                } else {
+                    console.error('Failed to load JSON data from ' + url);
+                }
+            };
+            xhr.send();
         }
 
-        // Load library Google Charts
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(function() {
-            // Buat data table dari objek yang dibuat sebelumnya
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'ID');
-            data.addColumn('number', 'Suara');
-            data.addRows(Object.entries(newData.suara_hitung_ulang));
+        // Fungsi untuk membuat chart
+        function drawCharts(jsonData) {
+            // Fungsi untuk membuat satu chart
+            function drawChart(chartData, chartId, chartTitle) {
+                // Menyiapkan data untuk chart
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Kandidat');
+                data.addColumn('number', 'Suara');
 
-            // Konfigurasi opsi grafik
-            var options = {
-                title: 'Suara Pemilu (' + chartData['persen'] + '%)',
+                for (var candidate in chartData) {
+                    data.addRow([candidate.toUpperCase(), chartData[candidate]]);
+                }
+
+                var options = {
+                title: chartTitle,
                 pieHole: 0.3 // Mengatur lebar donat
             };
 
-            // Buat instance grafik Donat
-            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-        });
-    }
-});
-        </script>
+                // Membuat chart baru
+                var chart = new google.visualization.PieChart(document.getElementById(chartId));
+                chart.draw(data, options);
+            }
+
+            // Memanggil fungsi drawChart untuk setiap data JSON
+            drawChart(jsonData.suara_kpu, 'chart_suara_kpu', 'Suara KPU');
+            drawChart(jsonData.suara_hitung_ulang, 'chart_suara_hitung_ulang', 'Suara Hitung Ulang');
+            drawChart(jsonData.suara_bermasalah, 'chart_suara_bermasalah', 'Suara Bermasalah');
+        }
+    </script>
         <p>Have a bug report to share with us? Use this template to reproduce an isolated test case so we can more easily identify the problem and hopefully find a fix.</p>
         <p>
         <a class="btn btn-primary" href="https://github.com/twbs/bootstrap/blob/main/.github/CONTRIBUTING.md#bug-reports" rel="noopener noreferrer" target="_blank">Read bug report guidelines</a>
@@ -264,7 +279,7 @@
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 // URL JSON
-                // var url = "https://mardianta.github.io/data_ppwp/ppwp_0.json";
+                var url = "https://mardianta.github.io/data_ppwp/ppwp_0.json";
     
                 // Mengambil data JSON dari URL
                 fetch(url)
