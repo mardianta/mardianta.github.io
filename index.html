@@ -100,22 +100,73 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {
-                // URL JSON
-                var url = "https://mardianta.github.io/data_ppwp/ppwp_0.json";
-    
-                // Mengambil data JSON dari URL
-                fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    // Menampilkan data JSON dalam tabel
-                    var provinsiBody = document.getElementById("tps-bermasalah-body");
-                    data.forEach(function(provinsi) {
-                        var row = document.createElement("tr");
-                        row.innerHTML = `<td>${provinsi.nama}</td><td>${provinsi.kode}</td><td>${provinsi.tingkat}</td>`;
-                        provinsiBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching JSON:', error));
+              
+                    var url = `https://mardianta.github.io/data_ppwp/data_tps_bermasalah.json`;
+                    loadData(url);
+                
+      
+                // Fungsi untuk memuat data dari URL yang diberikan
+                function loadData(url) {
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Panggil fungsi untuk menampilkan data setelah menerima data
+                            displayData(data);
+                        })
+                        .catch(error => console.error('Error fetching JSON:', error));
+                }
+      
+                // Fungsi untuk menampilkan data dalam tabel
+                function displayData(jsonData) {
+                    var tpsBody = document.getElementById("tps-bermasalah-body");
+                    // Bersihkan isi tabel sebelum menambahkan data baru
+                    tpsBody.innerHTML = "";
+      
+                    for (var key in jsonData) {
+                        if (jsonData.hasOwnProperty(key)) {
+                            var row = document.createElement("tr");
+                            var data = jsonData[key];
+                            var chartData = data.data_tps.chart;
+                            var total = 0;
+                            var anies = 0;
+                            var prabowo = 0;
+                            var ganjar = 0;
+                            var chartDataHtml = '';
+                            var images = data.data_tps.images;
+                            // if (chartData) {
+                            //   anies = data.data_tps.chart['100025'];
+                            //   prabowo = data.data_tps.chart['100026'];
+                            //   ganjar = data.data_tps.chart['100027'];
+                            //     for (var chartKey in chartData) {
+                            //         if (chartData.hasOwnProperty(chartKey)) {
+                            //             chartDataHtml += `<div>${chartKey}: ${chartData[chartKey]}</div>`;
+                            //             // Jumlahkan nilai 100025, 100026, dan 100027
+                            //             if (["100025", "100026", "100027"].includes(chartKey)) {
+                            //                 total += chartData[chartKey];
+                            //             }
+                            //         }
+                            //     }
+                            // }
+                            // Tambahkan total ke dalam kolom "Total"
+                            chartDataHtml += `<div>Total: ${total}</div>`;
+                            row.innerHTML = `
+                                <td>${data.kode_kel}</td>
+                                <td>${data.kode_tps}</td>
+                                <td>${data.data_tps.status_suara}</td>
+                                <td>${anies}</td>
+                                <td>${ganjar}</td>
+                                <td>${prabowo}</td>
+                                <td>${total}</td>
+                                <td><a href="${images[1]}">${images[1]}</a></td>
+                            `;
+                            tpsBody.appendChild(row);
+                        }
+                    }
+                }
+      
+                // Panggil fungsi untuk memuat data dengan URL default saat halaman dimuat
+                var defaultUrl = `https://mardianta.github.io/data_ppwp/11/1101/110101/data_suara_ppwp_110101.json`;
+                loadData(defaultUrl);
             });
         </script>
 

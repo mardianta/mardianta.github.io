@@ -33,20 +33,20 @@ function cariFile($dir) {
                     if(isset($tps['data_tps']['chart'])){
                         if (!isset($tps['data_tps']['chart']['100025'])) {
                             $tps_data = $tps;
-                            $data['suara_kosong'][$tps['kode_tps']]['detail'] = $tps_data;
-                            $data['suara_kosong'][$tps['kode_tps']]['keterangan'] = "Tidak ada suara Anies";
+                            // $data['suara_kosong'][$tps['kode_tps']]['detail'] = $tps_data;
+                            // $data['suara_kosong'][$tps['kode_tps']]['keterangan'] = "Tidak ada suara Anies";
                             $tps['data_tps']['chart']['100025'] = 0;
                         }
                         if (!isset($tps['data_tps']['chart']['100026'])) {
                             $tps['data_tps']['chart']['100026'] = 0;
                             $tps_data = $tps;
-                            $data['suara_kosong'][$tps['kode_tps']]['detail'] = $tps_data;
-                            $data['suara_kosong'][$tps['kode_tps']]['keterangan'] = "Tidak ada suara Prabowo";
+                            // $data['suara_kosong'][$tps['kode_tps']]['detail'] = $tps_data;
+                            // $data['suara_kosong'][$tps['kode_tps']]['keterangan'] = "Tidak ada suara Prabowo";
                         }
                         if (!isset($tps['data_tps']['chart']['100027'])) {
                             $tps_data = $tps;
-                            $data['suara_kosong'][$tps['kode_tps']]['detail'] = $tps_data;
-                            $data['suara_kosong'][$tps['kode_tps']]['keterangan'] = "Tidak ada suara Ganjar";
+                            // $data['suara_kosong'][$tps['kode_tps']]['detail'] = $tps_data;
+                            // $data['suara_kosong'][$tps['kode_tps']]['keterangan'] = "Tidak ada suara Ganjar";
                             $tps['data_tps']['chart']['100027'] = 0;
                         }
                         
@@ -67,10 +67,12 @@ function cariFile($dir) {
                         if ($anies+$prabowo+$ganjar>300) {
                             // echo "<br> Kode TPS: ".$tps['kode_tps'];
                             // $data = ;
+                            
 
                             $tps_data = $tps;
-                            $data['masalah_jumlah_suara'][$tps['kode_tps']]['detail'] = $tps_data;
-                            $data['masalah_jumlah_suara'][$tps['kode_tps']]['keterangan'] = "jumlah suara > 300";
+                            $data[$tps['kode_tps']]['kode_tps']= $tps['kode_tps'];
+                            $data[$tps['kode_tps']]['data']= $tps_data;
+                            $data[$tps['kode_tps']]['keterangan'] = "jumlah suara > 300";
                             // $data[$tps['kode_tps']]['status_masalah'] = "jumlah suara > 300";
 
                         }
