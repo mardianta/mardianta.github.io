@@ -126,17 +126,17 @@
                         if (jsonData.hasOwnProperty(key)) {
                             var row = document.createElement("tr");
                             var data = jsonData[key];
-                            var chartData = data.data_tps.chart;
-                            var kode_tps = data.kode_tps;
+                            var chartData = data.data.data_tps.chart
+                            // var kode_tps = data.kode_tps;
                             var anies = 0;
                             var prabowo = 0;
                             var ganjar = 0;
                             var chartDataHtml = '';
                             // var images = data.data.data_tps.images;
                             if (chartData) {
-                              anies = data.data_tps.chart['100025'];
-                              prabowo = data.data_tps.chart['100026'];
-                              ganjar = data.data_tps.chart['100027'];
+                              anies = data.data.data_tps.chart['100025']
+                              prabowo = data.data.data_tps.chart['100026'];
+                              ganjar = data.data.data_tps.chart['100027'];
                             //     for (var chartKey in chartData) {
                             //         if (chartData.hasOwnProperty(chartKey)) {
                             //             chartDataHtml += `<div>${chartKey}: ${chartData[chartKey]}</div>`;
@@ -151,8 +151,7 @@
                             // chartDataHtml += `<div>Total: ${total}</div>`;
                             row.innerHTML = `
                                 <td>${data.kode_tps}</td>
-                                <td>${data.kode_prov}</td>
-                                <td><a href="${data.data_tps.images['1']}">${data.data_tps.images['1']}</a></td>
+                                <td>${data.data.kode_prov}</td>
                                 <td>${anies}</td>
                                 <td>${prabowo}</td>
                                 <td>${ganjar}</td>
@@ -165,7 +164,7 @@
                 }
       
                 // Panggil fungsi untuk memuat data dengan URL default saat halaman dimuat
-                var defaultUrl = `https://mardianta.github.io/data_ppwp/11/1101/110101/data_suara_ppwp_110101.json`;
+                var defaultUrl = `https://mardianta.github.io/data_ppwp/data_tps_bermasalah.json`;
                 loadData(defaultUrl);
             });
         </script>
