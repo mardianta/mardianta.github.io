@@ -89,7 +89,6 @@
                 <thead>
                     <tr>
                         <th>Nama</th>
-                        <th>ID</th>
                         <th>Kode</th>
                         <th>Tingkat</th>
                     </tr>
@@ -112,7 +111,7 @@
                     var provinsiBody = document.getElementById("provinsi-body");
                     data.forEach(function(provinsi) {
                         var row = document.createElement("tr");
-                        row.innerHTML = `<td>${provinsi.nama}</td><td>${provinsi.id}</td><td>${provinsi.kode}</td><td>${provinsi.tingkat}</td>`;
+                        row.innerHTML = `<td>${provinsi.nama}</td><td>${provinsi.kode}</td><td>${provinsi.tingkat}</td>`;
                         provinsiBody.appendChild(row);
                     });
                 })
