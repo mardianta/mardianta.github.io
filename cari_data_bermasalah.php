@@ -65,6 +65,7 @@ if (!empty($hasilPencarian)) {
                     
                 }
     }
+    echo "Total TPS : ".count($data_tps);
     $folder_path_bermasalah="data_ppwp/data_tps_bermasalah.json";
     $json_data = json_encode($data_tps);
     if (file_put_contents($folder_path_bermasalah, $json_data)) {
