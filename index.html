@@ -126,9 +126,10 @@
                                 if (xhr.status === 200) {
                                     var jsonData = xhr.response;
                                     drawCharts(jsonData);
-                                    var count_tps = jsonData.length;
+                                    var total_tps = jsonData.total_tps;
+                                    var percent = Number(total_tps/823366*100).toFixed(2);
                                     var tpsTitle = document.getElementById("hitung-ulang-title");
-                                    tpsTitle.innerHTML = "Hasil Hitung Ulang Mardianta("+count_tps+" TPS)";
+                                    tpsTitle.innerHTML = "Hasil Hitung Ulang Mardianta ("+total_tps+" TPS)";
                                 } else {
                                     console.error('Failed to load JSON data from ' + url);
                                 }
@@ -158,10 +159,13 @@
                                 var chart = new google.visualization.PieChart(document.getElementById(chartId));
                                 chart.draw(data, options);
                             }
+
+                            var total_tps = jsonData.total_tps;
+                            var percent = Number(total_tps/823366*100).toFixed(2);
         
                             // Memanggil fungsi drawChart untuk setiap data JSON
-                            drawChart(jsonData.suara_kpu, 'chart_suara_kpu', 'Suara KPU');
-                            drawChart(jsonData.suara_hitung_ulang, 'chart_suara_hitung_ulang', 'Suara Hitung Ulang');
+                            drawChart(jsonData.suara_kpu, 'chart_suara_kpu', 'Suara KPU ('+percent+'%)');
+                            drawChart(jsonData.suara_hitung_ulang, 'chart_suara_hitung_ulang', 'Suara Hitung Ulang ('+percent+'%)');
                         }
                     </script>
                         <p>
