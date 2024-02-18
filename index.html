@@ -126,10 +126,10 @@
                                 if (xhr.status === 200) {
                                     var jsonData = xhr.response;
                                     drawCharts(jsonData);
-                                    var total_tps = jsonData.total_tps;
+                                    var total_tps_kpu = jsonData.total_tps_kpu;
                                     var percent = Number(total_tps/823366*100).toFixed(2);
                                     var tpsTitle = document.getElementById("hitung-ulang-title");
-                                    tpsTitle.innerHTML = "Hasil Hitung Ulang Mardianta ("+total_tps+" TPS)";
+                                    tpsTitle.innerHTML = "Hasil Hitung Ulang Mardianta ("+total_tps_kpu+" TPS)";
                                 } else {
                                     console.error('Failed to load JSON data from ' + url);
                                 }
@@ -166,8 +166,8 @@
                             var percent_ulang = Number(total_tps_ulang/823366*100).toFixed(2);
         
                             // Memanggil fungsi drawChart untuk setiap data JSON
-                            drawChart(jsonData.suara_kpu, 'chart_suara_kpu', 'Suara KPU ('+percent_kpu+'%)');
-                            drawChart(jsonData.suara_hitung_ulang, 'chart_suara_hitung_ulang', 'Suara Hitung Ulang ('+percent_ulang+'%)');
+                            drawChart(jsonData.suara_kpu, 'chart_suara_kpu', 'Suara KPU ('+percent_kpu+'% - '+total_tps_kpu+' TPS)');
+                            drawChart(jsonData.suara_hitung_ulang, 'chart_suara_hitung_ulang', 'Suara Hitung Ulang ('+percent_ulang+'% - '+total_tps_ulang+' TPS)');
                         }
                     </script>
                         <p>
