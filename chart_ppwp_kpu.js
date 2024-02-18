@@ -13,9 +13,9 @@ document.addEventListener("DOMContentLoaded", function() {
     function drawChart(chartData) {
         // Objek untuk menyimpan kunci yang diubah
         var renamedKeys = {
-            "100025": "Anies",
-            "100026": "Prabowo",
-            "100027": "Ganjar"
+            "100025": "ANIES",
+            "100026": "PRABOWO",
+            "100027": "GANJAR"
         };
 
         // Buat objek baru dengan kunci yang diubah

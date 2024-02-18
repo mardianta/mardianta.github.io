@@ -118,7 +118,7 @@
                             </div>
 
                         </div>
-                        <p class="small"><b>*TPS bermasalah : TPS yang mimiliki total > 300 suara</b></p>
+                        <p class="small"><b>*TPS bermasalah : TPS yang mimiliki total > 300 suara dari ketiga calon</b></p>
                         <hr>
                             <p class="small">Contoh API Sirekap KPU per TPS: <br>https://sirekap-obj-data.kpu.go.id/pemilu/hhcw/ppwp/11/1101/110101/1101012002/1101012002001.json</p>
                             <p>Rekapitulasi hitung ulang masih berlangsung. Data akan diupdate secara berkala. Laporan kesalahan data melalui sosial media X/Twitter <a href="https://twitter.com/Mardiantapa" rel="noopener noreferrer" target="_blank">Mardianta PA</a>.</p>
@@ -174,7 +174,7 @@
                                 data.addColumn('number', 'Suara');
         
                                 for (var candidate in chartData) {
-                                    data.addRow([candidate, chartData[candidate]]);
+                                    data.addRow([candidate.toUpperCase(), chartData[candidate]]);
                                 }
         
                                 var options = {
