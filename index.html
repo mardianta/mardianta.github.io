@@ -160,12 +160,14 @@
                                 chart.draw(data, options);
                             }
 
-                            var total_tps = jsonData.total_tps;
-                            var percent = Number(total_tps/823366*100).toFixed(2);
+                            var total_tps_kpu = jsonData.total_tps_kpu;
+                            var total_tps_ulang = jsonData.total_tps_ulang;
+                            var percent_kpu = Number(total_tps_kpu/823366*100).toFixed(2);
+                            var percent_ulang = Number(total_tps_ulang/823366*100).toFixed(2);
         
                             // Memanggil fungsi drawChart untuk setiap data JSON
-                            drawChart(jsonData.suara_kpu, 'chart_suara_kpu', 'Suara KPU ('+percent+'%)');
-                            drawChart(jsonData.suara_hitung_ulang, 'chart_suara_hitung_ulang', 'Suara Hitung Ulang ('+percent+'%)');
+                            drawChart(jsonData.suara_kpu, 'chart_suara_kpu', 'Suara KPU ('+percent_kpu+'%)');
+                            drawChart(jsonData.suara_hitung_ulang, 'chart_suara_hitung_ulang', 'Suara Hitung Ulang ('+percent_ulang+'%)');
                         }
                     </script>
                         <p>

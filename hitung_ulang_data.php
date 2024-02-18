@@ -40,12 +40,15 @@ $suara_bermasalah_anies = 0;
 $suara_bermasalah_prabowo = 0;
 $suara_bermasalah_ganjar = 0;
 $total_tps = 0;
+$total_tps_kpu = 0;
+$total_tps_ulang = 0;
+$total_tps_bermasalah = 0;
+
 if (!empty($hasilPencarian)) {
     echo "File yang ditemukan:<br>";
     foreach ($hasilPencarian as $filePath) {
         $json_data = file_get_contents($filePath);
                 $data_ppwp = json_decode($json_data, true);
-                $total_tps = $total_tps + count($data_ppwp);
 
                 foreach ($data_ppwp as $tps) {
                     // var_dump($tps['data_tps']['chart']['100025']);
@@ -68,15 +71,20 @@ if (!empty($hasilPencarian)) {
                         $suara_ulang_anies = $suara_ulang_anies +$anies;
                         $suara_ulang_prabowo = $suara_ulang_prabowo +$prabowo;
                         $suara_ulang_ganjar = $suara_ulang_ganjar +$ganjar;
+                        
+                        $total_tps_ulang = $total_tps_ulang + 1;
                     }
                     if($anies+$prabowo+$ganjar>300){
                         $suara_bermasalah_anies = $suara_bermasalah_anies +$anies;
                         $suara_bermasalah_prabowo = $suara_bermasalah_prabowo +$prabowo;
                         $suara_bermasalah_ganjar = $suara_bermasalah_ganjar +$ganjar;
+
+                        $total_tps_bermasalah = $total_tps_bermasalah + 1;
                     }
                         $suara_kpu_anies = $suara_kpu_anies +$anies;
                         $suara_kpu_prabowo = $suara_kpu_prabowo +$prabowo;
                         $suara_kpu_ganjar = $suara_kpu_ganjar +$ganjar;
+                        $total_tps_kpu = $total_tps_kpu + 1;
                     }
                     
                 }
@@ -96,7 +104,14 @@ $data_tps['suara_bermasalah']['anies'] = $suara_bermasalah_anies;
 $data_tps['suara_bermasalah']['prabowo'] = $suara_bermasalah_prabowo;
 $data_tps['suara_bermasalah']['ganjar'] = $suara_bermasalah_ganjar;
 
-$data_tps['total_tps'] = $total_tps;
+$data_tps['total_tps_kpu'] = $total_tps_kpu;
+$data_tps['total_tps_ulang'] = $total_tps_ulang;
+$data_tps['total_tps_bermasalah'] = $total_tps_bermasalah;
+
+echo "<br>total_tps: ".$total_tps;
+echo "<br>total_tps_kpu : ".$total_tps_kpu;
+echo "<br>total_tps_ulang : ".$total_tps_ulang;
+echo "<br>total_tps_bermasalah : ".$total_tps_bermasalah;
 
 $folder_path_bermasalah="data_ppwp/hitung_ulang.json";
     $json_data = json_encode($data_tps);
