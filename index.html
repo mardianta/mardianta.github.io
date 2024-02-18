@@ -71,97 +71,113 @@
         <!-- Follow these instructions, please! -->
     <div class="container py-5">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <h1 class="h2">Hasil Real Count KPU</h1>
-                <div id="chart_div"></div>
-        <p>Data bersumber dari API Sirekap KPU <br>https://sirekap-obj-data.kpu.go.id/pemilu/hhcw/ppwp.json </p>
-        <p>
-        <a class="btn btn-primary" href="https://github.com/twbs/bootstrap/blob/main/.github/CONTRIBUTING.md#bug-reports" rel="noopener noreferrer" target="_blank">Read bug report guidelines</a>
-        </p>
-        <div class="">
-            <a href="./view_data_ppwp_kecamatan.html">view_data_ppwp_kecamatan.html</a>
-    
-        </div>
-           <p>Thanks! <span class="text-danger">♥</span></p>
+                <div id="chart_div" ></div>
+                <p>Data bersumber dari API Sirekap KPU <br>https://sirekap-obj-data.kpu.go.id/pemilu/hhcw/ppwp.json </p>
+                <div class="">
+                    <a href="./view_data_ppwp_kecamatan.html">view_data_ppwp_kecamatan.html</a>
+            
+                </div>
+                <p>Thanks! <span class="text-danger">♥</span></p>
 
-        <h1 class="h2">Hasil Hitung Ulang Mardianta</h1>
+               
+                    </div>
+                    <div class="col-lg-8">
+                        <h1 class="h2" id="hitung-ulang-title">Hasil Hitung Ulang Mardianta</h1>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div id="chart_suara_kpu"></div>
+                                <p>Data bersumber dari API Sirekap KPU <br>https://sirekap-obj-data.kpu.go.id/pemilu/hhcw/ppwp.json </p>
+                    
 
-        <!-- <h2>Suara KPU</h2> -->
-    <!-- Chart untuk suara KPU -->
-    <div id="chart_suara_kpu"></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div id="chart_suara_hitung_ulang" ></div>
+                                <p>Data bersumber dari API Sirekap KPU <br>https://sirekap-obj-data.kpu.go.id/pemilu/hhcw/ppwp.json </p>
 
-    <!-- <h2>Suara Hitung Ulang</h2> -->
-    <!-- Chart untuk suara hitung ulang -->
-    <div id="chart_suara_hitung_ulang"></div>
+                            </div>
 
-    <!-- <h2>Suara Bermasalah</h2> -->
-    <!-- Chart untuk suara bermasalah -->
-    <div id="chart_suara_bermasalah"></div>
+                        </div>
+                        
 
-    <script>
-        // Memuat modul Google Charts
-        google.charts.load('current', {'packages':['corechart']});
+                        <!-- <h2>Suara KPU</h2> -->
+                    <!-- Chart untuk suara KPU -->
+        
+                    <!-- <h2>Suara Hitung Ulang</h2> -->
+                    <!-- Chart untuk suara hitung ulang -->
+                    <!-- style="width: 500px; height: 300px;" -->
+        
+        
+                    <script>
+                        // Memuat modul Google Charts
+                        google.charts.load('current', {'packages':['corechart']});
+        
+                        // Memuat data dari URL
+                        google.charts.setOnLoadCallback(loadData);
+        
+                        function loadData() {
+                            // Memuat data JSON dari URL
+                            var url = 'https://mardianta.github.io/data_ppwp/hitung_ulang.json';
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', url, true);
+                            xhr.responseType = 'json';
+                            xhr.onload = function() {
+                                if (xhr.status === 200) {
+                                    var jsonData = xhr.response;
+                                    drawCharts(jsonData);
+                                    var count_tps = jsonData.length;
+                                    var tpsTitle = document.getElementById("hitung-ulang-title");
+                                    tpsTitle.innerHTML = "Hasil Hitung Ulang Mardianta("+count_tps+" TPS)";
+                                } else {
+                                    console.error('Failed to load JSON data from ' + url);
+                                }
+                            };
+                            xhr.send();
+                        }
+        
+                        // Fungsi untuk membuat chart
+                        function drawCharts(jsonData) {
+                            // Fungsi untuk membuat satu chart
+                            function drawChart(chartData, chartId, chartTitle) {
+                                // Menyiapkan data untuk chart
+                                var data = new google.visualization.DataTable();
+                                data.addColumn('string', 'Kandidat');
+                                data.addColumn('number', 'Suara');
+        
+                                for (var candidate in chartData) {
+                                    data.addRow([candidate, chartData[candidate]]);
+                                }
+        
+                                var options = {
+                                title: chartTitle,
+                                pieHole: 0.3 // Mengatur lebar donat
+                            };
+        
+                                // Membuat chart baru
+                                var chart = new google.visualization.PieChart(document.getElementById(chartId));
+                                chart.draw(data, options);
+                            }
+        
+                            // Memanggil fungsi drawChart untuk setiap data JSON
+                            drawChart(jsonData.suara_kpu, 'chart_suara_kpu', 'Suara KPU');
+                            drawChart(jsonData.suara_hitung_ulang, 'chart_suara_hitung_ulang', 'Suara Hitung Ulang');
+                        }
+                    </script>
+                        <p>
+                        <a class="btn btn-primary" href="https://github.com/twbs/bootstrap/blob/main/.github/CONTRIBUTING.md#bug-reports" rel="noopener noreferrer" target="_blank">Read bug report guidelines</a>
+                        </p>
+                        <p>Once you're set, replace the contents of this page and share the link with us in a <a href="https://github.com/twbs/bootstrap/issues/new/choose" rel="noopener noreferrer" target="_blank">new issue</a>.</p>
+                        <p>Thanks! <span class="text-danger">♥</span></p>
+        
 
-        // Memuat data dari URL
-        google.charts.setOnLoadCallback(loadData);
+                    </div>
 
-        function loadData() {
-            // Memuat data JSON dari URL
-            var url = 'https://mardianta.github.io/data_ppwp/hitung_ulang.json';
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.responseType = 'json';
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var jsonData = xhr.response;
-                    drawCharts(jsonData);
-                } else {
-                    console.error('Failed to load JSON data from ' + url);
-                }
-            };
-            xhr.send();
-        }
-
-        // Fungsi untuk membuat chart
-        function drawCharts(jsonData) {
-            // Fungsi untuk membuat satu chart
-            function drawChart(chartData, chartId, chartTitle) {
-                // Menyiapkan data untuk chart
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Kandidat');
-                data.addColumn('number', 'Suara');
-
-                for (var candidate in chartData) {
-                    data.addRow([candidate.toUpperCase(), chartData[candidate]]);
-                }
-
-                var options = {
-                title: chartTitle,
-                pieHole: 0.3 // Mengatur lebar donat
-            };
-
-                // Membuat chart baru
-                var chart = new google.visualization.PieChart(document.getElementById(chartId));
-                chart.draw(data, options);
-            }
-
-            // Memanggil fungsi drawChart untuk setiap data JSON
-            drawChart(jsonData.suara_kpu, 'chart_suara_kpu', 'Suara KPU');
-            drawChart(jsonData.suara_hitung_ulang, 'chart_suara_hitung_ulang', 'Suara Hitung Ulang');
-            drawChart(jsonData.suara_bermasalah, 'chart_suara_bermasalah', 'Suara Bermasalah');
-        }
-    </script>
-        <p>Have a bug report to share with us? Use this template to reproduce an isolated test case so we can more easily identify the problem and hopefully find a fix.</p>
-        <p>
-        <a class="btn btn-primary" href="https://github.com/twbs/bootstrap/blob/main/.github/CONTRIBUTING.md#bug-reports" rel="noopener noreferrer" target="_blank">Read bug report guidelines</a>
-        </p>
-        <p>Once you're set, replace the contents of this page and share the link with us in a <a href="https://github.com/twbs/bootstrap/issues/new/choose" rel="noopener noreferrer" target="_blank">new issue</a>.</p>
-        <p>Thanks! <span class="text-danger">♥</span></p>
-
-            </div>
-            <div class="col-lg-6">
+                </div>
+        <div class="row">
+            <div class="col-lg-12">
                 <div class="container">
-                    <h2>Data TPS Bermasalah</h2>
+                    <h2 id="tps-bermasalah-title">Data TPS Bermasalah</h2>
                     <table id="data-tabale" class="table table-striped dt-responsive nowrap" style="width:100%">
                         <thead>
                             <tr>
@@ -172,6 +188,8 @@
                                 <th>Prabowo</th>
                                 <th>Total</th>
                                 <th>Link C1</th>
+                                <th>Link Detail TPS</th>
+                                
                             </tr>
                         </thead>
                         <tbody id="tps-bermasalah-body"></tbody>
@@ -197,6 +215,9 @@
                   
                             // Fungsi untuk menampilkan data dalam tabel
                             function displayData(jsonData) {
+                                var count_tps = jsonData.length;
+                                var tpsTitle = document.getElementById("tps-bermasalah-title");
+                                tpsTitle.innerHTML = "Data TPS Bermasalah ("+count_tps+" TPS)";
                                 var tpsBody = document.getElementById("tps-bermasalah-body");
                                 // Bersihkan isi tabel sebelum menambahkan data baru
                                 tpsBody.innerHTML = "";
@@ -212,7 +233,6 @@
                                         var ganjar = 0;
                                         var chartDataHtml = '';
                                         var images = data.data_tps.images[1];
-                                        // var images = data.images;
                                         if (chartData) {
                                           anies = data.data_tps.chart['100025'];
                                           prabowo = data.data_tps.chart['100026'];
@@ -236,6 +256,7 @@
                                             <td>${ganjar}</td>
                                             <td>${total}</td>
                                             <td><a href="${images}">C1</a></td>
+                                            <td><a href="https://pemilu2024.kpu.go.id/pilpres/hitung-suara/${data.kode_prov}/${data.kode_kec}/${data.kode_kel}/${data.kode_tps}">Detail TPS KPU</a></td>
                                             
                                             
                                         `;

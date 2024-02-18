@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Konfigurasi opsi grafik
             var options = {
-                title: 'Suara Pemilu (' + chartData['persen'] + '%)',
+                title: 'Suara KPU (' + chartData['persen'] + '%)',
                 pieHole: 0.3 // Mengatur lebar donat
             };
 

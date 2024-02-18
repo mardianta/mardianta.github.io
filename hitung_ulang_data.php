@@ -39,11 +39,14 @@ $suara_ulang_ganjar = 0;
 $suara_bermasalah_anies = 0;
 $suara_bermasalah_prabowo = 0;
 $suara_bermasalah_ganjar = 0;
+$total_tps = 0;
 if (!empty($hasilPencarian)) {
     echo "File yang ditemukan:<br>";
     foreach ($hasilPencarian as $filePath) {
         $json_data = file_get_contents($filePath);
                 $data_ppwp = json_decode($json_data, true);
+                $total_tps = $total_tps + count($data_ppwp);
+
                 foreach ($data_ppwp as $tps) {
                     // var_dump($tps['data_tps']['chart']['100025']);
                     // end();
@@ -92,6 +95,8 @@ $data_tps['suara_hitung_ulang']['ganjar'] = $suara_ulang_ganjar;
 $data_tps['suara_bermasalah']['anies'] = $suara_bermasalah_anies;
 $data_tps['suara_bermasalah']['prabowo'] = $suara_bermasalah_prabowo;
 $data_tps['suara_bermasalah']['ganjar'] = $suara_bermasalah_ganjar;
+
+$data_tps['total_tps'] = $total_tps;
 
 $folder_path_bermasalah="data_ppwp/hitung_ulang.json";
     $json_data = json_encode($data_tps);
