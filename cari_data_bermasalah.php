@@ -76,8 +76,8 @@ if (!empty($hasilPencarian)) {
         // var_dump($file_path_tps);
         end();
     }
-    var_dump($json_data);
-                        end();
+    // var_dump($json_data);
+                        // end();
 } else {
     echo "Tidak ada file yang ditemukan.";
 }
