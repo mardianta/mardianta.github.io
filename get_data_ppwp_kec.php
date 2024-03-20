@@ -114,6 +114,8 @@ header('Content-Type: application/json');
                         // end();
 
                     $json_url= 'https://sirekap-obj-data.kpu.go.id/pemilu/hhcw/ppwp/'.$kode_prov.'/'.$kode_kab.'/'.$kode_kec.'/'.$kel['kode'].'/'.$tps['kode'].'.json';
+                    // var_dump($json_url);
+                    // end();
                     $json_data = file_get_contents($json_url);
                     $json_data_string = json_decode($json_data, true);
                     $data[$tps['kode']]['kode_prov'] = $kode_prov;
