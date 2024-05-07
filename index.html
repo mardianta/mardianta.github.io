@@ -94,19 +94,19 @@
                         outOfDateCount++; // Increment counter
                         sectionHTML += '<p class="out-of-date">' + line + '</p>'; // Add class to highlight in orange
                     } else {
-                        //sectionHTML += '<p>' + line + '</p>';
+                        sectionHTML += '<p>' + line + '</p>';
                     }
                 }
             });
 
-            // Append the last section to report container
-            reportContainer.innerHTML += '<div class="section">' + sectionHTML + '</div>';
-
             // Display vulnerability count
-            reportContainer.innerHTML += '<div class="section"><p>Total vulnerabilities identified: ' + vulnerabilityCount + '</p></div>';
+            reportContainer.innerHTML = '<div class="section"><p>Total vulnerabilities identified: ' + vulnerabilityCount + '</p></div>' + reportContainer.innerHTML;
 
             // Display out of date count
-            reportContainer.innerHTML += '<div class="section"><p>Total plugins/themes out of date: ' + outOfDateCount + '</p></div>';
+            reportContainer.innerHTML = '<div class="section"><p>Total plugins/themes out of date: ' + outOfDateCount + '</p></div>' + reportContainer.innerHTML;
+            
+            // Append the last section to report container
+            reportContainer.innerHTML += '<div class="section">' + sectionHTML + '</div>';
         }
     </script>
 </body>
