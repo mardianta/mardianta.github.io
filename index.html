@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WPScan Report Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,11 +13,15 @@
         h1 {
             text-align: center;
         }
+        p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
         .section {
             margin-bottom: 20px;
         }
         .section-title {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -45,16 +50,60 @@
 </head>
 <body>
     <h1>WPScan Report Generator</h1>
+    <div class="row d-flex justify-content-center">
+        <div class="col-8">
+            <form id="wpscan-form">
+                <div class="">
+                    <label for="wpscan-input">Paste WPScan Results:</label><br>
+                    <textarea id="wpscan-input" name="wpscan-input" placeholder="Paste WPScan results here..."></textarea>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit">Generate Report</button>
+                </div>
+            </form>
 
-    <form id="wpscan-form">
-        <div class="section">
-            <label for="wpscan-input">Paste WPScan Results:</label><br>
-            <textarea id="wpscan-input" name="wpscan-input" placeholder="Paste WPScan results here..."></textarea>
         </div>
-        <button type="submit">Generate Report</button>
-    </form>
+    </div>
 
-    <div id="report-container"></div>
+   
+    <br>
+    <div class="section">
+        <div class="row d-flex justify-content-center">
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-title text-center">
+                        <h2 class="">Laporan Temuan "Slot Gacor"</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Website: <a href="#">{{ website }}</a></p>
+                    <p>Tanggal: {{01 Januari 2024}}</p>
+                    <p>Disusun oleh: {{Mardianta Putra Anggara}}</p>
+                    
+                    <h2>I. Pendahuluan</h2>
+                    <p>Dalam rangka memastikan keamanan aplikasi dan website di lingkungan Universitas Airlangga, kami melakukan pencarian kata kunci terkait konten-konten yang tidak pantas dan melanggar hukum seperti "Judi" dan "Pornografi" yang dapat membahayakan pengguna dan menurunkan reputasi universitas. Selain itu kami juga melakukan scanning pada website tersebut untuk mengetahui apakah ada celah keamanan. Tujuan dari kegiatan ini adalah untuk memberikan rekomendasi bagi pengelola website dalam meningkatkan keamanan website yang dikelola dan melindunginya dari serangan siber yang berbahaya.</p>
+                    
+                    <h2>II. Hasil</h2>
+                    <p>Dalam kegiatan ini, kami menemukan riwayat halaman website perpustakaan <a href="https://fkh.unair.ac.id">fkh.unair.ac.id</a> yang mengandung kata kunci "slot" dan "gacor" dengan domain <a href="https://fkh.unair.ac.id">fkh.unair.ac.id</a> pada hasil pencarian google. Hasilnya adalah terdapat beberapa halaman pada website tersebut berisi iklan situs "Judi online". Berikut tangkapan layar dan link sumbernya:</p>
+                    <ul>
+                      <li><a href="link-to-screenshot-1">Screenshot 1</a></li>
+                      <li><a href="link-to-screenshot-2">Screenshot 2</a></li>
+                      <li><a href="link-to-screenshot-3">Screenshot 3</a></li>
+                    </ul>
+                    
+                        <div id="report-container"></div>
+
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+
+    </div>
+    
+
+   
 
     <script>
         document.getElementById('wpscan-form').addEventListener('submit', function(event) {
@@ -109,5 +158,10 @@
             reportContainer.innerHTML += '<div class="section">' + sectionHTML + '</div>';
         }
     </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoJtKh7z7lGz7fuP4F8nfdFvAOA6Gg/z6Y5J6XqqyGXYM2ntX5" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
 </body>
 </html>
