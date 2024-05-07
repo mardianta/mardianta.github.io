@@ -1,3 +1,4 @@
+
 1.Laman Landing Page (Home)
 2.Laman Arsip Artikel (Store)
 3.Laman Detail Artikel (Store)
@@ -12,4 +13,4 @@
 12.Laman Kelola Transaksi (Admin)
 13.Laman Dashboard (Admin)
 
-Referensi : https://www.planetsports.asia/
+Referensi : https://watchclub.co.id/
