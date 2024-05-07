@@ -12,3 +12,6 @@
 11.Laman Kelola Pengguna (Admin)
 12.Laman Kelola Transaksi (Admin)
 13.Laman Dashboard (Admin)
+
+Referensi : https://www.urbanicon.co.id/watches.html
+https://watchclub.co.id/ 
