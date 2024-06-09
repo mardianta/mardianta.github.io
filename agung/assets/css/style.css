@@ -1,26 +1,39 @@
+/* CSS Buatan Sendiri PASKAH AGUNG SIMBOLON */
 
-      /* Navbar */
-      nav {
-        background-color: #064394 !important;
-      }
-      nav a{
-        color: #fff;
-      }
-      nav a:hover {
-        color: #fff;
-        background-color: #022047;
-      }
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
+/* Navbar */
+nav {
+  background-color: #064394 !important;
+}
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
+nav a {
+  color: #fff;
+}
+
+nav a:hover {
+  color: #fff;
+  background-color: #022047;
+}
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #064394 !important;
+}
+
+/* Footer */
+footer {
+  background-color: #064394 !important;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
