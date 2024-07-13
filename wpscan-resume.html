@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WPScan Report Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .vulnerability {
+            margin-left: 20px;
+            margin-bottom: 10px;
+            color: red; /* Set color to red */
+        }
+        .out-of-date {
+            margin-left: 20px;
+            margin-bottom: 10px;
+            color: orange; /* Set color to orange */
+        }
+        .vulnerability-title {
+            font-weight: bold;
+        }
+        .vulnerability-details {
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        #wpscan-input {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>WPScan Report Generator</h1>
+    <div class="row d-flex justify-content-center">
+        <div class="col-8">
+            <form id="wpscan-form">
+                <div class="">
+                    <label for="wpscan-input">Paste WPScan Results:</label><br>
+                    <textarea id="wpscan-input" name="wpscan-input" placeholder="Paste WPScan results here..."></textarea>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit">Generate Report</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+   
+    <br>
+    <div class="section">
+        <div class="row d-flex justify-content-center">
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-title text-center">
+                        <h3 class="">Laporan “Vulnerability Scanning” Website 
+                            {{https://plk.unair.ac.id/}}
+                            </h3>
+                    </div>
+                    <div class="card-body justify-content-between text-justify">
+                        <p>Website: <a href="#">{{ website }}</a></p>
+                    <p>Tanggal: {{01 Januari 2024}}</p>
+                    <p>Disusun oleh: {{Mardianta Putra Anggara}}</p>
+                    
+                    <h4>I. Pendahuluan</h4>
+                    <p>Dalam rangka memastikan keamanan website dan aplikasi di lingkungan Universitas Airlangga, kami melakukan “Vulnerability Scanning” atau pemindaian kerentanan pada website plk.unair.ac.id. Hal ini dilakukan dengan tujuan untuk mengetahui celah keamanan pada website dan memberikan rekomendasi untuk mengatasi celah keamanan yang ditemukan.
+                    </p>
+                    
+                    <h4>II. Hasil</h4>
+                    <p>Dalam kegiatan ini, kami melakukan “Vulnerability Scanning” menggunakan tools WPscan untuk mengetahui apakah ada plugin atau tema yang belum diupdate pada website plk.unair.ac.id. Berikut ringkasan hasil scanning-nya: </p>
+                    <div id="report-resume-container"></div>
+
+                    <h4>III. Rekomendasi</h4>
+                    <p>Berikut adalah rekomendasi yang dapat diambil dalam penanganan dan peningkatan  keamanan website agar tidak terjadi hal yang serupa :
+                        <li>Update versi plugin dan tema wordpress yang digunakan ke versi terbaru</li>
+                        <li>Lakukan scanning website menggunakan plugin wordfence yang telah diinstall pada wordpress</li>
+                        <li>Lakukan perubahan password pada akses cpanel, server, atau vps yang digunakan</li>
+                        <li>Hapus file dan folder terindikasi berupa malware atau berisi file yang berbahaya dari hasil scanning </li>
+                        <li>Lakukan perubahan password pada seluruh akun administrator</li>
+                        <li>Lakukan backup seluruh file dan folder untuk salinan website.</li>
+                        <li>Monitoring traffic, perubahan file, dan perilaku user secara berkala untuk mendeteksi lebih dini terkait kegiatan yang dapat membahayakan website.</li>
+                    </p>
+                        <br>
+                    <h4>IV. Lampiran</h4>
+                        <div id="report-container"></div>
+                    </div>
+                    
+                    
+                    
+
+
+    
+                </div>
+    
+            </div>
+    
+        </div>
+
+    </div>
+    
+
+   
+
+    <script>
+        document.getElementById('wpscan-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var wpscanInput = document.getElementById('wpscan-input').value;
+            generateReport(wpscanInput);
+        });
+
+        function generateReport(wpscanInput) {
+            var reportContainer = document.getElementById('report-container');
+            reportContainer.innerHTML = ''; // Clear previous report
+
+            var reportResumeContainer = document.getElementById('report-resume-container');
+            reportResumeContainer.innerHTML = ''; // Clear previous report
+
+            var lines = wpscanInput.split('\n');
+            var section = '';
+            var sectionHTML = '';
+            var vulnerabilityCount = 0; // Counter for vulnerability identified lines
+            var outOfDateCount = 0; // Counter for out of date lines
+
+            lines.forEach(function(line) {
+                var lineText = line.trim();
+                if (lineText.startsWith('[+]') || lineText.startsWith('[-]') || lineText.startsWith('[i]')) {
+                    // Start of a new section
+                    if (sectionHTML !== '') {
+                        // Append previous section to report container
+                        reportContainer.innerHTML += '<div class="section">' + sectionHTML + '</div>';
+                        sectionHTML = ''; // Reset section HTML
+                    }
+                    // Start a new section
+                    section = lineText;
+                    sectionHTML += '<div class="section-title">' + section + '</div>';
+                } else {
+                    // Append line to section HTML
+                    if (lineText.includes('vulnerability identified') || lineText.includes('vulnerabilities identified')) {
+                        vulnerabilityCount++; // Increment counter
+                        sectionHTML += '<p class="vulnerability">' + line + '</p>'; // Add class to highlight in red
+                    } else if (lineText.includes('out of date')) {
+                        outOfDateCount++; // Increment counter
+                        sectionHTML += '<p class="out-of-date">' + line + '</p>'; // Add class to highlight in orange
+                    } else {
+                        sectionHTML += '<p>' + line + '</p>';
+                    }
+                }
+            });
+
+            // Display vulnerability count
+            reportResumeContainer.innerHTML = '<div class="section"><p>Total vulnerabilities identified: ' + vulnerabilityCount + '</p></div>' + reportResumeContainer.innerHTML;
+
+            // Display out of date count
+            reportResumeContainer.innerHTML = '<div class="section"><p>Total plugins/themes out of date: ' + outOfDateCount + '</p></div>' + reportResumeContainer.innerHTML;
+            
+            reportContainer.innerHTML += '<div class="section">' + "<h4>Lampiran</h4>" + '</div>';
+
+            // Append the last section to report container
+            reportContainer.innerHTML += '<div class="section">' + sectionHTML + '</div>';
+        }
+    </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoJtKh7z7lGz7fuP4F8nfdFvAOA6Gg/z6Y5J6XqqyGXYM2ntX5" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</body>
+</html>

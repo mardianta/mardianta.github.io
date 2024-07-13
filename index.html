@@ -3,185 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WPScan Report Generator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            text-align: center;
-        }
-        p {
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-        .section {
-            margin-bottom: 20px;
-        }
-        .section-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .vulnerability {
-            margin-left: 20px;
-            margin-bottom: 10px;
-            color: red; /* Set color to red */
-        }
-        .out-of-date {
-            margin-left: 20px;
-            margin-bottom: 10px;
-            color: orange; /* Set color to orange */
-        }
-        .vulnerability-title {
-            font-weight: bold;
-        }
-        .vulnerability-details {
-            margin-top: 5px;
-            margin-bottom: 10px;
-        }
-        #wpscan-input {
-            width: 100%;
-            height: 200px;
-        }
-    </style>
+    <title>Mardianta's Cybersecurity Portfolio</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>WPScan Report Generator</h1>
-    <div class="row d-flex justify-content-center">
-        <div class="col-8">
-            <form id="wpscan-form">
-                <div class="">
-                    <label for="wpscan-input">Paste WPScan Results:</label><br>
-                    <textarea id="wpscan-input" name="wpscan-input" placeholder="Paste WPScan results here..."></textarea>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <button type="submit">Generate Report</button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-
-   
-    <br>
-    <div class="section">
-        <div class="row d-flex justify-content-center">
-            <div class="col-8">
-                <div class="card">
-                    <div class="card-title text-center">
-                        <h3 class="">Laporan “Vulnerability Scanning” Website 
-                            {{https://plk.unair.ac.id/}}
-                            </h3>
-                    </div>
-                    <div class="card-body justify-content-between text-justify">
-                        <p>Website: <a href="#">{{ website }}</a></p>
-                    <p>Tanggal: {{01 Januari 2024}}</p>
-                    <p>Disusun oleh: {{Mardianta Putra Anggara}}</p>
-                    
-                    <h4>I. Pendahuluan</h4>
-                    <p>Dalam rangka memastikan keamanan website dan aplikasi di lingkungan Universitas Airlangga, kami melakukan “Vulnerability Scanning” atau pemindaian kerentanan pada website plk.unair.ac.id. Hal ini dilakukan dengan tujuan untuk mengetahui celah keamanan pada website dan memberikan rekomendasi untuk mengatasi celah keamanan yang ditemukan.
-                    </p>
-                    
-                    <h4>II. Hasil</h4>
-                    <p>Dalam kegiatan ini, kami melakukan “Vulnerability Scanning” menggunakan tools WPscan untuk mengetahui apakah ada plugin atau tema yang belum diupdate pada website plk.unair.ac.id. Berikut ringkasan hasil scanning-nya: </p>
-                    <div id="report-resume-container"></div>
-
-                    <h4>III. Rekomendasi</h4>
-                    <p>Berikut adalah rekomendasi yang dapat diambil dalam penanganan dan peningkatan  keamanan website agar tidak terjadi hal yang serupa :
-                        <li>Update versi plugin dan tema wordpress yang digunakan ke versi terbaru</li>
-                        <li>Lakukan scanning website menggunakan plugin wordfence yang telah diinstall pada wordpress</li>
-                        <li>Lakukan perubahan password pada akses cpanel, server, atau vps yang digunakan</li>
-                        <li>Hapus file dan folder terindikasi berupa malware atau berisi file yang berbahaya dari hasil scanning </li>
-                        <li>Lakukan perubahan password pada seluruh akun administrator</li>
-                        <li>Lakukan backup seluruh file dan folder untuk salinan website.</li>
-                        <li>Monitoring traffic, perubahan file, dan perilaku user secara berkala untuk mendeteksi lebih dini terkait kegiatan yang dapat membahayakan website.</li>
-                    </p>
-                        <br>
-                    <h4>IV. Lampiran</h4>
-                        <div id="report-container"></div>
-                    </div>
-                    
-                    
-                    
-
-
-    
-                </div>
-    
+    <header class="bg-dark text-white">
+        <nav class="navbar navbar-expand-lg navbar-dark container">
+            <a class="navbar-brand" href="#">Mardianta</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about-experience-skills">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experience-portfolio">Experience & Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tools">Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
             </div>
-    
-        </div>
+        </nav>
+    </header>
+    <main class="container mt-5">
+        <section id="about-experience-skills" class="mb-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="https://pbs.twimg.com/profile_images/1539086254494453760/RIu8QWtx_400x400.jpg" alt="My Picture" class="img-fluid rounded">
+                    <div id="contact" class="mb-4">
+                        <p>Want to discuss a project or learn more about my services? Feel free to reach out to me at:</p>
+                        <ul>
+                            <li><a href="mailto:mardianta.pa@gmail.com">mardianta.pa@gmail.com</a></li>
+                            <li><a href="https://linkedin.com/in/mardianta">LinkedIn</a></li>
+                            <li><a href="https://twitter.com/mardianta">Twitter</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div id="about" class="mb-4">
+                        <h1>About Me</h1>
+                        <p>Hello, I'm Mardianta, a seasoned cybersecurity analyst and penetration tester with a passion for helping organizations protect their digital assets. With a strong background in computer science and cybersecurity, I've developed a unique expertise in:</p>
+                        <ul>
+                            <li>Vulnerability assessment and penetration testing</li>
+                            <li>Network security and architecture</li>
+                            <li>Compliance and risk management</li>
+                            <li>Incident response and threat hunting</li>
+                        </ul>
+                    </div>
+                    <div id="skills">
+                        <h1>Skills</h1>
+                        <ul>
+                            <li>Network security</li>
+                            <li>Vulnerability assessment and penetration testing</li>
+                            <li>Compliance and risk management</li>
+                            <li>Incident response and threat hunting</li>
+                            <li>Cloud security (AWS, Azure, Google Cloud)</li>
+                            <li>Programming languages (Python, Bash, Ruby)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    </div>
-    
+        <section id="standards" class="mb-5">
+            <h1>Standards</h1>
+            <p>In my cybersecurity and penetration testing work, I adhere to several industry standards to ensure the highest quality and effectiveness. These standards include:</p>
+            <ul>
+                <li><strong>OWASP (Open Web Application Security Project):</strong> A foundation that works to improve the security of software through community-led open-source software projects, local chapters, conferences, and more.</li>
+                <li><strong>NIST (National Institute of Standards and Technology):</strong> Provides a cybersecurity framework consisting of standards, guidelines, and best practices to manage cybersecurity-related risk.</li>
+                <li><strong>ISO/IEC 27001:</strong> An international standard on how to manage information security, providing requirements for an information security management system (ISMS).</li>
+                <li><strong>PCI DSS (Payment Card Industry Data Security Standard):</strong> A set of security standards designed to ensure that all companies that accept, process, store or transmit credit card information maintain a secure environment.</li>
+                <li><strong>MITRE ATT&CK:</strong> A globally accessible knowledge base of adversary tactics and techniques based on real-world observations.</li>
+            </ul>
+        </section>
+        
+        <section id="projects" class="mb-5">
+            <h2>Open Projects</h2>
+            <div class="row">
+                <!-- Penetration Testing Project -->
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Penetration Testing</h5>
+                            <p class="card-text">Perform thorough penetration testing to uncover security weaknesses and provide actionable recommendations for remediation.</p>
+                            <a href="mailto:mardianta@example.com?subject=Penetration Testing" class="btn btn-primary">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Incident Response Planning Project -->
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Incident Response Planning</h5>
+                            <p class="card-text">Develop and implement an incident response plan tailored to your organization to ensure quick and effective responses to security incidents.</p>
+                            <a href="mailto:mardianta@example.com?subject=Incident Response Planning" class="btn btn-primary">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Cyber Security Consultation Project -->
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Cyber Security Consultation</h5>
+                            <p class="card-text">Provide expert consultation on cyber security strategies, policies, and procedures tailored to your organization's needs.</p>
+                            <a href="mailto:mardianta@example.com?subject=Cyber Security Consultation" class="btn btn-primary">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Cyber Security Training Project -->
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Cyber Security Training</h5>
+                            <p class="card-text">Deliver training sessions to enhance cyber security awareness and best practices among your organization's personnel.</p>
+                            <a href="mailto:mardianta@example.com?subject=Cyber Security Training" class="btn btn-primary">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
 
-   
+        <section id="experience-portfolio" class="mb-5">
+            <h1>Experience & Portfolio</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Experience</h2>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Cybersecurity Analyst, ABC Corporation</h5>
+                            <p class="card-text">Conducted vulnerability assessments and penetration tests to identify security weaknesses in ABC Corporation's network infrastructure. Developed and implemented remediation plans to mitigate identified risks, resulting in a 30% reduction in security incidents.</p>
+                            <span>January 2020 - August 2022</span>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Penetration Tester, DEF Consulting</h5>
+                            <p class="card-text">Performed penetration tests for various clients, including a major financial institution and a government agency. Identified and exploited vulnerabilities in web applications, networks, and systems, and provided recommendations for remediation.</p>
+                            <span>September 2018 - December 2019</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h2>Portfolio</h2>
+                    <div class="card mb-4">
+                        <img src="images/wifi.jpg" class="card-img-top" alt="Wifi Penetration Testing">
+                        <div class="card-body">
+                            <h5 class="card-title">Wifi Penetration Testing</h5>
+                            <p class="card-text">Conducted a penetration test of a wireless network for a major retailer, identifying vulnerabilities in the WPA2 encryption protocol. Developed a report outlining findings and recommendations for remediation, resulting in a 90% reduction in security incidents.</p>
+                            <span>March 2020 - May 2020</span>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <img src="images/5G.jpg" class="card-img-top" alt="Encryption in 5G Network">
+                        <div class="card-body">
+                            <h5 class="card-title">Encryption in 5G Network</h5>
+                            <p class="card-text">Researched and developed a report on the encryption methods used in 5G networks, including the use of quantum-resistant algorithms. Presented findings to a team of engineers and security professionals, resulting in the implementation of more secure encryption methods.</p>
+                            <span>June 2020 - August 2020</span>
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <img src="images/home.jpg" class="card-img-top" alt="Innovative Home Automation with Security">
+                        <div class="card-body">
+                            <h5 class="card-title">Innovative Home Automation with Security</h5>
+                            <p class="card-text">Designed and developed a home automation system with integrated security features, including biometric authentication and intrusion detection. Presented the system at a security conference, receiving positive feedback from industry professionals.</p>
+                            <span>September 2019 - November 2019</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <script>
-        document.getElementById('wpscan-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var wpscanInput = document.getElementById('wpscan-input').value;
-            generateReport(wpscanInput);
-        });
+        <section id="tools" class="mb-5">
+            <h1>Tools</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="images/nmap.jpg" class="card-img-top" alt="Nmap">
+                        <div class="card-body">
+                            <h5 class="card-title">Nmap</h5>
+                            <p class="card-text">A powerful network scanning tool used to discover hosts and services on a computer network by sending packets and analyzing the responses.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="images/metasploit.jpg" class="card-img-top" alt="Metasploit">
+                        <div class="card-body">
+                            <h5 class="card-title">Metasploit</h5>
+                            <p class="card-text">An advanced, open-source platform for developing, testing, and executing exploits against a variety of software and hardware targets.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="images/burpsuite.jpg" class="card-img-top" alt="Burp Suite">
+                        <div class="card-body">
+                            <h5 class="card-title">Burp Suite</h5>
+                            <p class="card-text">An integrated platform for performing security testing of web applications. Its various tools work seamlessly together to support the entire testing process.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="images/wirehark.jpg" class="card-img-top" alt="Wireshark">
+                        <div class="card-body">
+                            <h5 class="card-title">Wireshark</h5>
+                            <p class="card-text">A network protocol analyzer that captures and interactively displays the data traveling back and forth on a network in real-time.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="images/kali-linux.jpg" class="card-img-top" alt="Kali Linux">
+                        <div class="card-body">
+                            <h5 class="card-title">Kali Linux</h5>
+                            <p class="card-text">A Debian-based Linux distribution aimed at advanced penetration testing and security auditing, containing hundreds of tools.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="images/nessus.jpg" class="card-img-top" alt="Nessus">
+                        <div class="card-body">
+                            <h5 class="card-title">Nessus</h5>
+                            <p class="card-text">A widely used vulnerability scanner that helps to identify vulnerabilities, misconfigurations, and missing patches on a variety of devices.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
 
-        function generateReport(wpscanInput) {
-            var reportContainer = document.getElementById('report-container');
-            reportContainer.innerHTML = ''; // Clear previous report
-
-            var reportResumeContainer = document.getElementById('report-resume-container');
-            reportResumeContainer.innerHTML = ''; // Clear previous report
-
-            var lines = wpscanInput.split('\n');
-            var section = '';
-            var sectionHTML = '';
-            var vulnerabilityCount = 0; // Counter for vulnerability identified lines
-            var outOfDateCount = 0; // Counter for out of date lines
-
-            lines.forEach(function(line) {
-                var lineText = line.trim();
-                if (lineText.startsWith('[+]') || lineText.startsWith('[-]') || lineText.startsWith('[i]')) {
-                    // Start of a new section
-                    if (sectionHTML !== '') {
-                        // Append previous section to report container
-                        reportContainer.innerHTML += '<div class="section">' + sectionHTML + '</div>';
-                        sectionHTML = ''; // Reset section HTML
-                    }
-                    // Start a new section
-                    section = lineText;
-                    sectionHTML += '<div class="section-title">' + section + '</div>';
-                } else {
-                    // Append line to section HTML
-                    if (lineText.includes('vulnerability identified') || lineText.includes('vulnerabilities identified')) {
-                        vulnerabilityCount++; // Increment counter
-                        sectionHTML += '<p class="vulnerability">' + line + '</p>'; // Add class to highlight in red
-                    } else if (lineText.includes('out of date')) {
-                        outOfDateCount++; // Increment counter
-                        sectionHTML += '<p class="out-of-date">' + line + '</p>'; // Add class to highlight in orange
-                    } else {
-                        sectionHTML += '<p>' + line + '</p>';
-                    }
-                }
-            });
-
-            // Display vulnerability count
-            reportResumeContainer.innerHTML = '<div class="section"><p>Total vulnerabilities identified: ' + vulnerabilityCount + '</p></div>' + reportResumeContainer.innerHTML;
-
-            // Display out of date count
-            reportResumeContainer.innerHTML = '<div class="section"><p>Total plugins/themes out of date: ' + outOfDateCount + '</p></div>' + reportResumeContainer.innerHTML;
-            
-            reportContainer.innerHTML += '<div class="section">' + "<h4>Lampiran</h4>" + '</div>';
-
-            // Append the last section to report container
-            reportContainer.innerHTML += '<div class="section">' + sectionHTML + '</div>';
-        }
-    </script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoJtKh7z7lGz7fuP4F8nfdFvAOA6Gg/z6Y5J6XqqyGXYM2ntX5" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-</body>
+        <section id="contact" class="mb-5">
+            <h1>Get in Touch</h1>
+            <p>Want to discuss a project or learn more about my services? Feel free to reach out to me at:</p>
+            <ul class="list-unstyled">
+                <li><a href="mailto:mardianta@example.com">mardianta@example.com</a></li>
+                <li><a href="https://linkedin.com/in/mardianta">LinkedIn</a></li>
+                <li><a href="https://twitter.com/mardianta">Twitter</a></li>
+            </ul>
+        </section>
+    </main>
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Mardianta. All rights reserved.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
