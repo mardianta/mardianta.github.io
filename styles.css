@@ -5,7 +5,7 @@ body {
 }
 
 header {
-    background-color: #333;
+    background-color: #013584;
     color: #fff;
     padding: 1em;
     text-align: center;
@@ -42,9 +42,8 @@ section {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    font-size: 24px;
+h1,h2 {
+    /* font-size: 24px; */
     margin-top: 0;
+    color: #013584;
 }
-
-h2
