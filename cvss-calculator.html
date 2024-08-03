@@ -22,10 +22,6 @@
             padding: 8px;
             margin-top: 5px;
         }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-        }
         #result, #cvss-vector {
             margin-top: 20px;
             font-size: 1.2em;
@@ -37,7 +33,7 @@
     <div class="container">
         <h1>CVSS 3.1 Calculator</h1>
         <label for="av">Attack Vector (AV):</label>
-        <select id="av">
+        <select id="av" onchange="calculateCVSS()">
             <option value="N">Network (N)</option>
             <option value="A">Adjacent Network (A)</option>
             <option value="L">Local (L)</option>
@@ -45,52 +41,50 @@
         </select>
 
         <label for="ac">Attack Complexity (AC):</label>
-        <select id="ac">
+        <select id="ac" onchange="calculateCVSS()">
             <option value="L">Low (L)</option>
             <option value="H">High (H)</option>
         </select>
 
         <label for="pr">Privileges Required (PR):</label>
-        <select id="pr">
+        <select id="pr" onchange="calculateCVSS()">
             <option value="N">None (N)</option>
             <option value="L">Low (L)</option>
             <option value="H">High (H)</option>
         </select>
 
         <label for="ui">User Interaction (UI):</label>
-        <select id="ui">
+        <select id="ui" onchange="calculateCVSS()">
             <option value="N">None (N)</option>
             <option value="R">Required (R)</option>
         </select>
 
         <label for="s">Scope (S):</label>
-        <select id="s">
+        <select id="s" onchange="calculateCVSS()">
             <option value="U">Unchanged (U)</option>
             <option value="C">Changed (C)</option>
         </select>
 
         <label for="c">Confidentiality Impact (C):</label>
-        <select id="c">
+        <select id="c" onchange="calculateCVSS()">
             <option value="H">High (H)</option>
             <option value="L">Low (L)</option>
             <option value="N">None (N)</option>
         </select>
 
         <label for="i">Integrity Impact (I):</label>
-        <select id="i">
+        <select id="i" onchange="calculateCVSS()">
             <option value="H">High (H)</option>
             <option value="L">Low (L)</option>
             <option value="N">None (N)</option>
         </select>
 
         <label for="a">Availability Impact (A):</label>
-        <select id="a">
+        <select id="a" onchange="calculateCVSS()">
             <option value="H">High (H)</option>
             <option value="L">Low (L)</option>
             <option value="N">None (N)</option>
         </select>
-
-        <button onclick="calculateCVSS()">Calculate CVSS Score</button>
 
         <div id="result"></div>
         <div id="cvss-vector"></div>
@@ -126,6 +120,9 @@
             document.getElementById('result').innerText = `CVSS Base Score: ${baseScore.toFixed(1)}`;
             document.getElementById('cvss-vector').innerText = `CVSS Vector: ${cvssVector}`;
         }
+
+        // Call calculateCVSS on page load to initialize the values
+        window.onload = calculateCVSS;
     </script>
 </body>
 </html>
