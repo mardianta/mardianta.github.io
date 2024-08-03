@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVSS 3.1 Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+        }
+        #result, #cvss-vector {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CVSS 3.1 Calculator</h1>
+        <label for="av">Attack Vector (AV):</label>
+        <select id="av">
+            <option value="N">Network (N)</option>
+            <option value="A">Adjacent Network (A)</option>
+            <option value="L">Local (L)</option>
+            <option value="P">Physical (P)</option>
+        </select>
+
+        <label for="ac">Attack Complexity (AC):</label>
+        <select id="ac">
+            <option value="L">Low (L)</option>
+            <option value="H">High (H)</option>
+        </select>
+
+        <label for="pr">Privileges Required (PR):</label>
+        <select id="pr">
+            <option value="N">None (N)</option>
+            <option value="L">Low (L)</option>
+            <option value="H">High (H)</option>
+        </select>
+
+        <label for="ui">User Interaction (UI):</label>
+        <select id="ui">
+            <option value="N">None (N)</option>
+            <option value="R">Required (R)</option>
+        </select>
+
+        <label for="s">Scope (S):</label>
+        <select id="s">
+            <option value="U">Unchanged (U)</option>
+            <option value="C">Changed (C)</option>
+        </select>
+
+        <label for="c">Confidentiality Impact (C):</label>
+        <select id="c">
+            <option value="H">High (H)</option>
+            <option value="L">Low (L)</option>
+            <option value="N">None (N)</option>
+        </select>
+
+        <label for="i">Integrity Impact (I):</label>
+        <select id="i">
+            <option value="H">High (H)</option>
+            <option value="L">Low (L)</option>
+            <option value="N">None (N)</option>
+        </select>
+
+        <label for="a">Availability Impact (A):</label>
+        <select id="a">
+            <option value="H">High (H)</option>
+            <option value="L">Low (L)</option>
+            <option value="N">None (N)</option>
+        </select>
+
+        <button onclick="calculateCVSS()">Calculate CVSS Score</button>
+
+        <div id="result"></div>
+        <div id="cvss-vector"></div>
+    </div>
+
+    <script>
+        function calculateCVSS() {
+            const av = document.getElementById('av').value;
+            const ac = document.getElementById('ac').value;
+            const pr = document.getElementById('pr').value;
+            const ui = document.getElementById('ui').value;
+            const s = document.getElementById('s').value;
+            const c = document.getElementById('c').value;
+            const i = document.getElementById('i').value;
+            const a = document.getElementById('a').value;
+
+            const avValue = av === 'N' ? 0.85 : av === 'A' ? 0.62 : av === 'L' ? 0.55 : 0.20;
+            const acValue = ac === 'L' ? 0.77 : 0.44;
+            const prValue = pr === 'N' ? 0.85 : pr === 'L' ? 0.62 : 0.27;
+            const uiValue = ui === 'N' ? 0.85 : 0.62;
+            const sValue = s === 'U' ? 1.00 : 1.50;
+            const cValue = c === 'H' ? 0.56 : c === 'L' ? 0.22 : 0.00;
+            const iValue = i === 'H' ? 0.56 : i === 'L' ? 0.22 : 0.00;
+            const aValue = a === 'H' ? 0.56 : a === 'L' ? 0.22 : 0.00;
+
+            const iss = 1 - ((1 - cValue) * (1 - iValue) * (1 - aValue));
+            const exploitability = 8.22 * avValue * acValue * prValue * uiValue;
+            const impact = sValue === 1.00 ? 6.42 * iss : 7.52 * (iss - 0.029) - 3.25 * Math.pow((iss - 0.02), 15);
+            const baseScore = impact <= 0 ? 0 : sValue === 1.00 ? Math.min(exploitability + impact, 10) : Math.min(1.08 * (exploitability + impact), 10);
+
+            const cvssVector = `CVSS:3.1/AV:${av}/AC:${ac}/PR:${pr}/UI:${ui}/S:${s}/C:${c}/I:${i}/A:${a}`;
+
+            document.getElementById('result').innerText = `CVSS Base Score: ${baseScore.toFixed(1)}`;
+            document.getElementById('cvss-vector').innerText = `CVSS Vector: ${cvssVector}`;
+        }
+    </script>
+</body>
+</html>
