@@ -19,11 +19,29 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="#about-experience-skills" data-translate-key="nav_about_me">About Me</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#open-projects" data-translate-key="nav_open_projects">Open Project</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#standards" data-translate-key="nav_standards">Standards</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#experience-portfolio" data-translate-key="nav_experience_portfolio">Experience & Portfolio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tools" data-translate-key="nav_tools">Tools</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#gallery" data-translate-key="nav_gallery">Gallery</a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownShowcase" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-translate-key="nav_showcase">
+                            Showcase
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownShowcase">
+                            <a class="dropdown-item" href="#open-projects" data-translate-key="nav_open_projects">Open Project</a>
+                            <a class="dropdown-item" href="#experience-portfolio" data-translate-key="nav_experience_portfolio">Experience & Portfolio</a>
+                            <a class="dropdown-item" href="#gallery" data-translate-key="nav_gallery">Gallery</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownResources" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-translate-key="nav_resources">
+                            Resources
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownResources">
+                            <a class="dropdown-item" href="#standards" data-translate-key="nav_standards">Standards</a>
+                            <a class="dropdown-item" href="#tools" data-translate-key="nav_tools">Tools</a>
+                            <a class="dropdown-item" href="#my-html-tools" data-translate-key="nav_my_html_tools">My HTML Tools</a>
+                        </div>
+                    </li>
+
                     <li class="nav-item"><a class="nav-link" href="#contact" data-translate-key="nav_contact">Contact</a></li>
                 </ul>
                 <div class="language-switcher ml-lg-3 mt-2 mt-lg-0">
@@ -253,6 +271,44 @@
             </div>
         </div>
     </section>
+
+    <section id="my-html-tools" class="py-3">
+        <div class="container-fluid">
+            <h2 class="text-center mb-3" data-translate-key="my_html_tools_title">My HTML Tools</h2>
+            <div class="row">
+                <!-- Credential Grouper -->
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title" data-translate-key="tool_cred_grouper_title">Credential Grouper</h5>
+                            <p class="card-text" data-translate-key="tool_cred_grouper_desc">A tool to group and analyze credential logs.</p>
+                            <a href="credential-grouper.html" target="_blank" class="btn btn-brand-primary mt-auto" data-translate-key="open_tool">Open Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- CVSS Calculator -->
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title" data-translate-key="tool_cvss_calc_title">CVSS Calculator</h5>
+                            <p class="card-text" data-translate-key="tool_cvss_calc_desc">Calculate CVSS scores for vulnerabilities.</p>
+                            <a href="cvss-calculator.html" target="_blank" class="btn btn-brand-primary mt-auto" data-translate-key="open_tool">Open Tool</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- WPSCAN Resume Parser -->
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title" data-translate-key="tool_wpscan_resume_title">WPSCAN Resume Parser</h5>
+                            <p class="card-text" data-translate-key="tool_wpscan_resume_desc">Parse and resume WPSCAN JSON output.</p>
+                            <a href="wpscan-resume.html" target="_blank" class="btn btn-brand-primary mt-auto" data-translate-key="open_tool">Open Tool</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     
     <section id="gallery" class="py-3">
         <div class="container-fluid">
@@ -380,11 +436,14 @@
             en: {
                 // Nav
                 "nav_about_me": "About Me",
-                "nav_open_projects": "Open Project",
-                "nav_standards": "Standards",
-                "nav_experience_portfolio": "Experience & Portfolio",
-                "nav_tools": "Tools",
-                "nav_gallery": "Gallery",
+                "nav_showcase": "Showcase",
+                    "nav_open_projects": "Open Project",
+                    "nav_experience_portfolio": "Experience & Portfolio",
+                    "nav_gallery": "Gallery",
+                "nav_resources": "Resources",
+                    "nav_standards": "Standards",
+                    "nav_tools": "Tools",
+                    "nav_my_html_tools": "My HTML Tools",
                 "nav_contact": "Contact",
                 // About Section
                 "about_name": "Mardianta PA",
@@ -429,15 +488,27 @@
                 "footprint_hackthebox_link": "My Hack The Box Profile (Search on Google)",
                 "footprint_medium_link": "My Medium Articles (Search on Google)",
                 "footprint_exploitdb_link": "My Exploit-DB Profile (Search on Google)"
+                // My HTML Tools
+                "my_html_tools_title": "My HTML Tools",
+                "tool_cred_grouper_title": "Credential Grouper",
+                "tool_cred_grouper_desc": "A tool to group and analyze credential logs.",
+                "tool_cvss_calc_title": "CVSS Calculator",
+                "tool_cvss_calc_desc": "Calculate CVSS scores for vulnerabilities.",
+                "tool_wpscan_resume_title": "WPSCAN Resume Parser",
+                "tool_wpscan_resume_desc": "Parse and resume WPSCAN JSON output.",
+                "open_tool": "Open Tool",
             },
             id: {
                 // Nav
                 "nav_about_me": "Tentang Saya",
-                "nav_open_projects": "Proyek Terbuka",
-                "nav_standards": "Standar",
-                "nav_experience_portfolio": "Pengalaman & Portofolio",
-                "nav_tools": "Alat",
-                "nav_gallery": "Galeri",
+                "nav_showcase": "Pameran",
+                    "nav_open_projects": "Proyek Terbuka",
+                    "nav_experience_portfolio": "Pengalaman & Portofolio",
+                    "nav_gallery": "Galeri",
+                "nav_resources": "Sumber Daya",
+                    "nav_standards": "Standar",
+                    "nav_tools": "Alat",
+                    "nav_my_html_tools": "Alat HTML Saya",
                 "nav_contact": "Kontak",
                 // About Section
                 "about_name": "Mardianta PA", // Nama mungkin tetap sama
@@ -482,7 +553,15 @@
                 "footprint_hackthebox_link": "Profil Hack The Box Saya (Cari di Google)",
                 "footprint_medium_link": "Artikel Medium Saya (Cari di Google)",
                 "footprint_exploitdb_link": "Profil Exploit-DB Saya (Cari di Google)"
-            }
+                // My HTML Tools
+                "my_html_tools_title": "Alat HTML Saya",
+                "tool_cred_grouper_title": "Pengelompok Kredensial",
+                "tool_cred_grouper_desc": "Alat untuk mengelompokkan dan menganalisis log kredensial.",
+                "tool_cvss_calc_title": "Kalkulator CVSS",
+                "tool_cvss_calc_desc": "Hitung skor CVSS untuk kerentanan.",
+                "tool_wpscan_resume_title": "Parser Resume WPSCAN",
+                "tool_wpscan_resume_desc": "Parsing dan melanjutkan output JSON WPSCAN.",
+                "open_tool": "Buka Alat",            }
         };
 
         function switchLanguage(lang) {
