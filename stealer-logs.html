@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pengelompok Data Kredensial</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        textarea#dataInput {
+            width: calc(100% - 22px);
+            height: 200px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .controls button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease;
+        }
+        .controls button:hover {
+            background-color: #2980b9;
+        }
+        .group {
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #fdfdfd;
+        }
+        .group h3 {
+            margin-top: 0;
+            color: #2980b9;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            word-break: break-all;
+        }
+        .group ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .group li, #output > div > div { /* Style for ungrouped items too */
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85em;
+            word-break: break-all;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        } /* This was for the old list item structure, still relevant for items within a selected group */
+         .group li .details, #output > div > div .details {
+            /* This class seems unused, can be removed or repurposed if needed */
+            font-size: 0.9em;
+            color: #555;
+        }
+        .group li .original-line, #output > div > div .original-line {
+             flex-grow: 1;
+        }
+        .error-message {
+            color: red;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        .count {
+            font-weight: normal;
+            font-size: 0.8em;
+            color: #777;
+        }
+        .parsed-info {
+            font-size: 0.8em;
+            color: #007bff;
+            margin-left: 10px;
+            white-space: pre-wrap; /* Allows line breaks within the preformatted text */
+            background-color: #e9f5ff;
+            padding: 3px 6px;
+            border-radius: 3px;
+            border: 1px dashed #b3d7ff;
+            min-width: 200px; /* Ensure some minimum width for parsed info */
+        }
+
+        .parsed-info.hidden {
+            display: none;
+        }
+
+        #groupButtonsContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px; /* Spacing between buttons */
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .group-selector-button {
+            background-color: #5cb85c; /* Green for group selectors */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+        .group-selector-button:hover {
+            background-color: #4cae4c;
+        }
+
+        .group li, #output > div > div { /* Selector for ungrouped items in showAllParsed */
+            cursor: pointer; /* Indicate clickable items */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pengelompok Data Kredensial</h1>
+        <p>Salin dan tempel data dari file teks Anda ke dalam area teks di bawah ini. Setiap baris data diharapkan dalam format <code>url:username:password</code> atau <code>username:password::url</code>.</p>
+        <textarea id="dataInput" placeholder="Contoh: domain.com/login:pengguna123:sandiRahasia ATAU pengguna@email.com:sandiEmail::domain.com/login"></textarea>
+        
+        <div class="controls">
+            <button onclick="processAndGroup('url')">Kelompokkan berdasarkan URL</button>
+            <button onclick="processAndGroup('username')">Kelompokkan berdasarkan Username</button>
+            <button onclick="processAndGroup('password')">Kelompokkan berdasarkan Password</button>
+            <button onclick="processAndGroup('domain')">Kelompokkan berdasarkan Domain</button>
+            <button onclick="removeDuplicateLinesFromTextarea()">Hapus Duplikat dari Textarea</button>
+            <button onclick="showAllParsed()">Tampilkan Semua (Diparsing)</button>
+        </div>
+        
+        <div id="output">
+            <p>Hasil pengelompokan akan ditampilkan di sini.</p>
+        </div>
+    </div>
+
+    <script>
+        let parsedEntriesGlobal = [];
+
+        function extractDomain(urlString) {
+            if (!urlString || typeof urlString !== 'string') {
+                return "URL Tidak Valid/Kosong";
+            }
+            let trimmedUrl = urlString.trim();
+            if (trimmedUrl === '') {
+                return "URL Kosong";
+            }
+
+            // Coba tambahkan protokol jika tidak ada, karena konstruktor URL membutuhkannya
+            let parsableUrl = trimmedUrl;
+            if (!parsableUrl.match(/^[\w.-]+:\/\//)) {
+                // Jika terlihat seperti domain (misalnya, example.com/path atau hanya example.com)
+                if (parsableUrl.includes('.') && !parsableUrl.startsWith('/') && !parsableUrl.includes(' ')) {
+                    parsableUrl = 'http://' + parsableUrl;
+                } else {
+                    // Tidak terlihat seperti domain yang bisa dikoreksi otomatis dengan http://
+                    return "Format URL Tidak Standar"; 
+                }
+            }
+
+            try {
+                const url = new URL(parsableUrl);
+                let hostname = url.hostname;
+                if (hostname) {
+                    // Hapus 'www.' jika ada untuk mengelompokkan www.domain.com dan domain.com bersama-sama
+                    if (hostname.startsWith('www.')) {
+                        hostname = hostname.substring(4);
+                    }
+                    return hostname;
+                } else {
+                    // URL dapat diparsing tetapi hostname kosong (misalnya "http://")
+                    return "Hostname Kosong";
+                }
+            } catch (e) {
+                return "Domain Tidak Dapat Diekstrak"; // Fallback untuk URL yang tidak dapat diparsing
+            }
+        }
+
+        function parseEntry(lineStr) {
+            const line = lineStr.trim();
+            if (!line) return null;
+
+            let url = '', username = '', password = '';
+            let error = null;
+
+            const doubleColonIndex = line.indexOf('::');
+
+            if (doubleColonIndex !== -1) {
+                // Format is likely username:password::url (or variations)
+                const userPassPartRaw = line.substring(0, doubleColonIndex);
+                const urlPartRaw = line.substring(doubleColonIndex + 2);
+                
+                url = urlPartRaw.trim(); 
+
+                const userPassPart = userPassPartRaw.trim();
+                if (userPassPart === '') { 
+                    username = '';
+                    password = '';
+                } else {
+                    const lastColonInUserPass = userPassPart.lastIndexOf(':');
+                    if (lastColonInUserPass === -1) { 
+                        username = userPassPart;
+                        password = '';
+                    } else if (lastColonInUserPass === 0 && userPassPart.length > 1) { 
+                        username = ''; 
+                        password = userPassPart.substring(1).trim();
+                        error = 'Format :password::url tidak standar, username diasumsikan kosong.';
+                    } else if (lastColonInUserPass === userPassPart.length - 1) { 
+                        username = userPassPart.substring(0, lastColonInUserPass).trim();
+                        password = '';
+                        error = 'Format ' + userPassPart + '::url (username diakhiri :) tidak standar, password diasumsikan kosong.';
+                    } else { 
+                        username = userPassPart.substring(0, lastColonInUserPass).trim();
+                        password = userPassPart.substring(lastColonInUserPass + 1).trim();
+                    }
+                }
+            } else {
+                // No '::', parse as url:username:password or heuristics
+                const parts = line.split(':');
+                if (parts.length >= 3) {
+                    password = parts.pop().trim();
+                    username = parts.pop().trim();
+                    url = parts.join(':').trim();
+                } else if (parts.length === 2) {
+                    const part1 = parts[0].trim();
+                    const part2 = parts[1].trim();
+                    // Heuristic: if first part looks like a URL (contains . and / or http/www)
+                    if (part1.includes('.') && (part1.includes('/') || part1.toLowerCase().startsWith('http') || part1.toLowerCase().startsWith('www'))) {
+                        url = part1;
+                        username = part2;
+                        password = ''; 
+                        error = 'Format 2 bagian, diasumsikan url:username (password kosong).';
+                    } else { 
+                        username = part1;
+                        password = part2;
+                        url = ''; 
+                        error = 'Format 2 bagian, diasumsikan username:password (URL kosong).';
+                    }
+                } else if (parts.length === 1 && line.length > 0) {
+                    const singlePart = line.trim(); 
+                    // Heuristic for 1 part: username (contains @ or no . and no /) OR URL
+                    if (singlePart.includes('@') || (!singlePart.includes('.') && !singlePart.includes('/'))) {
+                       username = singlePart;
+                       url = '';
+                       password = '';
+                    } else {
+                       url = singlePart;
+                       username = '';
+                       password = '';
+                    }
+                    error = 'Format 1 bagian, diasumsikan sebagai ' + (username ? 'username' : 'URL') + ' (lainnya kosong).';
+                } else {
+                    // Not enough parts to parse meaningfully or empty line after trim (though initial check should catch this)
+                    return { original: line, url:'', username:'', password:'', error: 'Baris tidak memiliki cukup bagian untuk diparsing.' };
+                }
+            }
+            
+            return { url, username, password, original: line, error };
+        }
+
+        function parseAllData() {
+            const dataString = document.getElementById('dataInput').value;
+            if (!dataString.trim()) {
+                document.getElementById('output').innerHTML = '<p class="error-message">Area teks kosong. Silakan masukkan data.</p>';
+                return [];
+            }
+            // Split by newline characters (handles Unix, Windows, and old Mac line endings)
+            const lines = dataString.split(/\r?\n/);
+            const entries = [];
+            lines.forEach(line => {
+                const entry = parseEntry(line);
+                if (entry) { // parseEntry now always returns an object or null
+                    entries.push(entry);
+                }
+            });
+            return entries;
+        }
+
+        function groupBy(entries, key) {
+            if (!entries || entries.length === 0) return {};
+            return entries.reduce((acc, entry) => {
+                // If entry has an error, its specific key (url, username, password) might be empty.
+                let groupKeyVal = entry[key];
+                if (entry.error) {
+                    groupKeyVal = "Tidak Dapat Diparsing/Error";
+                } else if (key === 'domain') {
+                    groupKeyVal = extractDomain(entry.url); 
+                } else if (groupKeyVal === null || groupKeyVal === undefined || groupKeyVal.trim() === '') {
+                    groupKeyVal = "Data Kunci Kosong"; // Lebih spesifik untuk data kunci yang memang kosong
+                }
+                
+                if (!acc[groupKeyVal]) {
+                    acc[groupKeyVal] = [];
+                }
+                acc[groupKeyVal].push(entry);
+                return acc;
+            }, {});
+        }
+
+        function displayGroupedData(groupedData, groupByKeyName) {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = ''; // Clear previous output
+
+            if (Object.keys(groupedData).length === 0) {
+                outputDiv.innerHTML = '<p>Tidak ada data untuk ditampilkan atau dikelompokkan.</p>';
+                return;
+            }
+
+            const groupButtonsContainer = document.createElement('div');
+            groupButtonsContainer.id = 'groupButtonsContainer';
+
+            const groupItemsDisplayDiv = document.createElement('div');
+            groupItemsDisplayDiv.id = 'groupItemsDisplayDiv';
+
+            outputDiv.appendChild(groupButtonsContainer);
+            outputDiv.appendChild(groupItemsDisplayDiv);
+
+            const sortedGroupKeys = Object.keys(groupedData).sort((a, b) => {
+                if (a === "Tidak Dapat Diparsing/Error") return 1;
+                if (b === "Tidak Dapat Diparsing/Error") return -1;
+                if (a === "Kosong") return 1;
+                if (b === "Kosong") return -1;
+                // Sort by count descending, then by key ascending
+                return groupedData[b].length - groupedData[a].length || a.localeCompare(b);
+            });
+
+            sortedGroupKeys.forEach(key => {
+                const entries = groupedData[key];
+                const groupButton = document.createElement('button');
+                groupButton.className = 'group-selector-button'; 
+                // Memberikan warna berbeda untuk kategori khusus
+                if (key === "Tidak Dapat Diparsing/Error" || key === "URL Tidak Valid/Kosong" || key === "URL Kosong" || key === "Format URL Tidak Standar" || key === "Hostname Kosong" || key === "Domain Tidak Dapat Diekstrak" || key === "Data Kunci Kosong") {
+                    groupButton.style.backgroundColor = '#f0ad4e'; // Oranye untuk peringatan/kategori khusus
+                }
+                groupButton.textContent = `${key} (${entries.length})`;
+
+                groupButton.addEventListener('click', function() {
+                    // Clear previous items
+                    groupItemsDisplayDiv.innerHTML = '';
+
+                    // Display items for this group
+                    const groupContentDiv = document.createElement('div');
+                    groupContentDiv.className = 'group'; // Reuse existing styling for the list container
+
+                    const title = document.createElement('h3');
+                    title.textContent = `${groupByKeyName}: ${key} `;
+                    const countSpan = document.createElement('span');
+                    countSpan.className = 'count';
+                    countSpan.textContent = `(${entries.length} entri)`;
+                    title.appendChild(countSpan);
+                    groupContentDiv.appendChild(title);
+
+                    const ul = document.createElement('ul');
+                    entries.forEach(entry => {
+                        const li = document.createElement('li');
+
+                        const originalLineSpan = document.createElement('span');
+                        originalLineSpan.className = 'original-line';
+                        originalLineSpan.textContent = entry.original;
+                        li.appendChild(originalLineSpan);
+
+                        const parsedInfoSpan = document.createElement('span');
+                        parsedInfoSpan.className = 'parsed-info';
+
+                        let infoHTML = `URL: ${entry.url || '[kosong]'}<br>User: ${entry.username || '[kosong]'}<br>Pass: ${entry.password || '[kosong]'}`;
+                        if (entry.error) {
+                            parsedInfoSpan.classList.add('error-message');
+                            infoHTML += `<br><span style="font-style:italic;">Parsing Info: ${entry.error}</span>`;
+                        }
+                        parsedInfoSpan.innerHTML = infoHTML;
+                        li.appendChild(parsedInfoSpan);
+                        ul.appendChild(li);
+
+                        // Initially hide details and add click listener to toggle
+                        parsedInfoSpan.classList.add('hidden');
+                        li.addEventListener('click', function(event) {
+                            const details = this.querySelector('.parsed-info');
+                            if (details) {
+                                details.classList.toggle('hidden');
+                            }
+                        });
+                    });
+                    groupContentDiv.appendChild(ul);
+                    groupItemsDisplayDiv.appendChild(groupContentDiv);
+                });
+                groupButtonsContainer.appendChild(groupButton);
+            });
+        }
+        
+        function showAllParsed() {
+            parsedEntriesGlobal = parseAllData();
+            if (parsedEntriesGlobal.length === 0 && document.getElementById('dataInput').value.trim()) {
+                 document.getElementById('output').innerHTML = '<p class="error-message">Tidak ada data yang berhasil diparsing. Periksa format input.</p>';
+                return;
+            } else if (parsedEntriesGlobal.length === 0) {
+                return; 
+            }
+
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = '<h2>Semua Entri (Diparsing)</h2>';
+            const containerDiv = document.createElement('div');
+
+            parsedEntriesGlobal.forEach(entry => {
+                const itemDiv = document.createElement('div'); // Using div instead of li for ungrouped items
+                    
+                const originalLineSpan = document.createElement('span');
+                originalLineSpan.className = 'original-line';
+                originalLineSpan.textContent = entry.original;
+                itemDiv.appendChild(originalLineSpan);
+
+                const parsedInfoSpan = document.createElement('span');
+                parsedInfoSpan.className = 'parsed-info';
+                let infoHTML = `URL: ${entry.url || '[kosong]'}<br>User: ${entry.username || '[kosong]'}<br>Pass: ${entry.password || '[kosong]'}`;
+                if (entry.error) {
+                    parsedInfoSpan.classList.add('error-message');
+                    infoHTML += `<br><span style="font-style:italic;">Parsing Info: ${entry.error}</span>`;
+                }
+                parsedInfoSpan.innerHTML = infoHTML;
+                itemDiv.appendChild(parsedInfoSpan);
+                
+                // Initially hide details and add click listener to toggle
+                parsedInfoSpan.classList.add('hidden');
+                itemDiv.addEventListener('click', function(event) {
+                    const details = this.querySelector('.parsed-info');
+                    if (details) {
+                        details.classList.toggle('hidden');
+                    }
+                });
+
+                containerDiv.appendChild(itemDiv);
+            });
+            outputDiv.appendChild(containerDiv);
+        }
+
+        function processAndGroup(keyName) {
+            parsedEntriesGlobal = parseAllData();
+             if (parsedEntriesGlobal.length === 0 && document.getElementById('dataInput').value.trim()) {
+                 document.getElementById('output').innerHTML = '<p class="error-message">Tidak ada data yang berhasil diparsing. Periksa format input.</p>';
+                return;
+            } else if (parsedEntriesGlobal.length === 0) {
+                return; 
+            }
+            
+            // Group all entries, including those with errors, based on the key or error status
+            const grouped = groupBy(parsedEntriesGlobal, keyName);
+            
+            let keyNameIndonesian = keyName;
+            if (keyName === 'url') keyNameIndonesian = 'URL';
+            else if (keyName === 'username') keyNameIndonesian = 'Username';
+            else if (keyName === 'password') keyNameIndonesian = 'Password';
+            
+            displayGroupedData(grouped, keyNameIndonesian);
+        }
+
+        function removeDuplicateLinesFromTextarea() {
+            const dataInput = document.getElementById('dataInput');
+            const outputDiv = document.getElementById('output');
+            const lines = dataInput.value.split(/\r?\n/);
+            
+            const originalLineCount = lines.filter(line => line.trim() !== '').length;
+            if (originalLineCount === 0) {
+                outputDiv.innerHTML = '<p class="error-message">Textarea kosong, tidak ada duplikat untuk dihapus.</p>';
+                return;
+            }
+
+            const uniqueLines = new Set();
+            const linesInOrder = [];
+
+            lines.forEach(line => {
+                const strippedLine = line.trim(); // Konsisten dengan logika Python, strip dulu
+                if (strippedLine) { // Hanya proses baris yang tidak kosong setelah di-strip
+                    if (!uniqueLines.has(strippedLine)) {
+                        uniqueLines.add(strippedLine);
+                        linesInOrder.push(line); // Simpan baris asli (dengan spasi awal/akhir jika ada, sebelum strip)
+                    }
+                } else if (line === '' && (linesInOrder.length === 0 || linesInOrder[linesInOrder.length -1] !== '')) {
+                    // Simpan baris kosong jika itu adalah baris kosong yang signifikan (bukan bagian dari beberapa baris kosong berturut-turut)
+                    linesInOrder.push(line); 
+                }
+            });
+            dataInput.value = linesInOrder.join('\n');
+            outputDiv.innerHTML = `<p>Proses hapus duplikat selesai. Jumlah baris asli (tidak kosong): ${originalLineCount}. Jumlah baris unik (termasuk baris kosong signifikan): ${linesInOrder.filter(line => line.trim() !== '').length}.</p>`;
+        }
+    </script>
+</body>
+</html>
