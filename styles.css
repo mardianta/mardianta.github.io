@@ -1,3 +1,38 @@
+/* Warna merek utama */
+:root {
+    --brand-primary-color: #013584;
+    --brand-primary-hover-color: #002a6b; /* Sedikit lebih gelap untuk hover */
+  }
+  
+  /* Gaya untuk tombol utama merek */
+  .btn-brand-primary {
+    background-color: var(--brand-primary-color);
+    border-color: var(--brand-primary-color);
+    color: #fff; /* Pastikan teks putih untuk kontras */
+  }
+  
+  .btn-brand-primary:hover,
+  .btn-brand-primary:focus,
+  .btn-brand-primary:active {
+    background-color: var(--brand-primary-hover-color);
+    border-color: var(--brand-primary-hover-color);
+    color: #fff;
+    box-shadow: none; /* Opsional: hilangkan shadow jika ada */
+  }
+  
+  /* Gaya untuk badge utama merek */
+  .badge-brand-primary {
+    background-color: var(--brand-primary-color);
+    color: #fff; /* Pastikan teks putih jika diperlukan */
+  }
+  
+  /* Anda mungkin juga ingin menyesuaikan warna teks utama jika belum */
+  /* h1, h2, h3, h4, h5, h6 { color: #333; } */ /* Contoh warna teks gelap default */
+  
+  /* Pastikan kontras yang baik untuk text-muted jika perlu disesuaikan */
+  /* .text-muted { color: #5a6268 !important; } */ /* Contoh penyesuaian jika default kurang kontras */
+  
+  
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -46,4 +81,20 @@ h1,h2 {
     /* font-size: 24px; */
     margin-top: 0;
     color: #013584;
+}
+
+/* Digital Footprint card styling */
+#digital-footprint .card i {
+    color: #013584; /* Warna utama untuk ikon (biru) */
+    transition: color 0.2s ease-in-out; /* Transisi halus untuk efek hover */
+}
+
+/* Opsional: Ubah warna ikon saat card di-hover untuk efek visual tambahan */
+#digital-footprint .card:hover i {
+    color: #002766; /* Warna biru yang lebih gelap saat hover, atau warna lain sesuai preferensi */
+}
+
+/* Pastikan teks judul pada card tetap jelas dan mudah dibaca */
+#digital-footprint .card h6 {
+    color: #333; /* Warna teks standar (abu-abu tua), bisa disesuaikan jika perlu */
 }
