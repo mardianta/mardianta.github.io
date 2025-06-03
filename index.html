@@ -16,271 +16,496 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="#about-experience-skills">About Me</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#open-project">Open Project</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#standards">Standards</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#experience-portfolio">Experience & Portfolio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tools">Tools</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about-experience-skills" data-translate-key="nav_about_me">About Me</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#open-projects" data-translate-key="nav_open_projects">Open Project</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#standards" data-translate-key="nav_standards">Standards</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experience-portfolio" data-translate-key="nav_experience_portfolio">Experience & Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tools" data-translate-key="nav_tools">Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery" data-translate-key="nav_gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact" data-translate-key="nav_contact">Contact</a></li>
                 </ul>
+                <div class="language-switcher ml-lg-3 mt-2 mt-lg-0">
+                    <button onclick="switchLanguage('en')" class="btn btn-sm btn-outline-light mr-1">EN</button>
+                    <button onclick="switchLanguage('id')" class="btn btn-sm btn-outline-light">ID</button>
+                </div>
             </div>
         </nav>
     </header>
-    <section id="about-experience-skills" class="mb-2 bg-white">
-        <div class="row">
-            <div class="col-md-4">
-                <img src="photo.png" alt="My Picture" class="img-fluid rounded">
-                <!-- <div><a href="mailto:mardianta@example.com?subject=Penetration Testing" class="btn btn-da mb-2"><i class="fa-solid fa-bug mr-1"></i>Download CV</a></div> -->
-                <!-- <div id="contact" class="mb-4">
-                    <p> Feel free to reach out to discuss a project or learn more about my services at:</p>
-                    <ul>
-                        <li><a href="https://linkedin.com/in/mardianta">LinkedIn: @mardiantapa</a></li>
-                        <li><a href="https://twitter.com/mardianta">Twitter: @mardiantapa</a></li>
-                        <li><a href="mailto:mardianta.pa@gmail.com">Email: mardianta[at]gmail.com</a></li>
-                    </ul>
-                </div> -->
-            </div>
-            <div class="col-md-8">
-                <div id="about" class="mb-4">
-                    <h1 style="color: #013584; font-size: -webkit-xxx-large;">Mardianta PA - Cybersecurity Analyst</h1>
-                    <p>Hello, I'm Mardianta, a seasoned cybersecurity analyst and penetration tester with a passion for helping organizations protect their digital assets. With a strong background in computer science and cybersecurity, I've developed a unique expertise in:</p>
-                    <ul>
-                        <li>Compliance and risk management</li>
-                        <li>Vulnerability assessment and penetration testing</li>
-                        <li>Incident response and threat hunting</li>
-                        <li>Network security</li>
-                        <li>Programming languages (Python, PHP, Java Script)</li>
-                    </ul>
+    <section id="about-experience-skills" class="py-3 bg-light">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center">
+                    <img src="photo.png" alt="Mardianta PA" class="img-fluid rounded mb-3">
+                    <!-- Optional: <a href="path/to/your/cv.pdf" class="btn btn-primary mb-2" download><i class="fa-solid fa-download mr-1"></i>Download CV</a> -->
                 </div>
-                <div id="projects" class="mb-4">
-                    <!-- <h2>Available Cybersecurity Services</h2> -->
-                    <p>As a seasoned cybersecurity professional, I offer a range of services designed to help organizations like yours protect their digital assets from cyber threats. From penetration testing to incident response planning, I can help you identify vulnerabilities and develop a robust cybersecurity strategy.</p>
-                    <div>
-                        <a href="mailto:mardianta@example.com?subject=Penetration Testing" class="btn btn-danger mb-2"><i class="fa-solid fa-bug mr-1"></i>Penetration Testing</a>
-                        <a href="mailto:mardianta@example.com?subject=Incident Response Planning" class="btn btn-warning mb-2"><i class="fa-solid fa-arrows-spin mr-1"></i>Incident Response Planning</a>
-                        <a href="mailto:mardianta@example.com?subject=Cyber Security Consultation" class="btn btn-info mb-2"><i class="fa-solid fa-shield-halved mr-1"></i>Cyber Security Consultation</a>
-                        <a href="mailto:mardianta@example.com?subject=Cyber Security Training" class="btn btn-dark mb-2"><i class="fa-solid fa-graduation-cap mr-1"></i>Cyber Security Training</a>
+                <div class="col-md-8">
+                    <div id="about" class="mb-3">
+                        <h1 class="display-4 mb-2" style="color: #013584;" data-translate-key="about_name">Mardianta PA</h1>
+                        <h2 class="h4 text-muted mb-2" data-translate-key="about_role">Cybersecurity Analyst & Penetration Tester</h2>
+                        <p data-translate-key="about_intro">Hello, I'm Mardianta, a seasoned cybersecurity analyst and penetration tester with a passion for helping organizations protect their digital assets. With a strong background in computer science and cybersecurity, I've developed a unique expertise in:</p>
+                        <ul>
+                            <li data-translate-key="about_skill_1">Compliance and risk management</li>
+                            <li data-translate-key="about_skill_2">Vulnerability assessment and penetration testing</li>
+                            <li data-translate-key="about_skill_3">Incident response and threat hunting</li>
+                            <li data-translate-key="about_skill_4">Network security</li>
+                            <li data-translate-key="about_skill_5">Programming languages (Python, PHP, JavaScript)</li>
+                        </ul>
                     </div>
+                    <div id="services" class="mb-3">
+                        <h4 data-translate-key="services_title">Available Cybersecurity Services</h4>
+                        <p data-translate-key="services_description">I offer a range of services designed to help organizations protect their digital assets. From penetration testing to incident response planning, I can help you identify vulnerabilities and develop a robust cybersecurity strategy.</p>
+                        <div>
+                            <a href="mailto:mardianta.pa@gmail.com?subject=Penetration Testing Inquiry" class="btn btn-danger mb-2"><i class="fa-solid fa-bug mr-1"></i>Penetration Testing</a>
+                            <a href="mailto:mardianta.pa@gmail.com?subject=Incident Response Planning Inquiry" class="btn btn-brand-primary mb-2"><i class="fa-solid fa-arrows-spin mr-1"></i>Incident Response Planning</a>
+                            <a href="mailto:mardianta.pa@gmail.com?subject=Cyber Security Consultation Inquiry" class="btn btn-secondary mb-2"><i class="fa-solid fa-shield-halved mr-1"></i>Cyber Security Consultation</a>
+                            <a href="mailto:mardianta.pa@gmail.com?subject=Cyber Security Training Inquiry" class="btn btn-info mb-2"><i class="fa-solid fa-graduation-cap mr-1"></i>Cyber Security Training</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="open-projects" class="py-3">
+        <div class="container-fluid">
+            <h2 class="text-center mb-3" data-translate-key="open_projects_title">Open Projects</h2>
+            <div class="row">
+                <!-- Penetration Testing Project -->
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title" data-translate-key="project_pentest_title">Penetration Testing</h5>
+                            <p class="card-text" data-translate-key="project_pentest_desc">Perform thorough penetration testing to uncover security weaknesses and provide actionable recommendations for remediation.</p>
+                            <a href="mailto:mardianta.pa@gmail.com?subject=Penetration Testing Project Inquiry" class="btn btn-brand-primary mt-auto" data-translate-key="inquire_now">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Incident Response Planning Project -->
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title" data-translate-key="project_ir_title">Incident Response Planning</h5>
+                            <p class="card-text" data-translate-key="project_ir_desc">Develop and implement an incident response plan tailored to your organization to ensure quick and effective responses to security incidents.</p>
+                            <a href="mailto:mardianta.pa@gmail.com?subject=Incident Response Planning Project Inquiry" class="btn btn-brand-primary mt-auto" data-translate-key="inquire_now">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cyber Security Consultation Project -->
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title" data-translate-key="project_consult_title">Cyber Security Consultation</h5>
+                            <p class="card-text" data-translate-key="project_consult_desc">Provide expert consultation on cyber security strategies, policies, and procedures tailored to your organization's needs.</p>
+                            <a href="mailto:mardianta.pa@gmail.com?subject=Cyber Security Consultation Project Inquiry" class="btn btn-brand-primary mt-auto" data-translate-key="inquire_now">Inquire Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cyber Security Training Project -->
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title" data-translate-key="project_training_title">Cyber Security Training</h5>
+                            <p class="card-text" data-translate-key="project_training_desc">Deliver training sessions to enhance cyber security awareness and best practices among your organization's personnel.</p>
+                            <a href="mailto:mardianta.pa@gmail.com?subject=Cyber Security Training Project Inquiry" class="btn btn-brand-primary mt-auto" data-translate-key="inquire_now">Inquire Now</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="mt-2">
-        <div class="row">
-            <div class="col-md-8">
-                <div id="standards" class="mb-4" >
-                <div><h1>Standards</h1></div>
-                <p>In my cybersecurity and penetration testing work, I adhere to several industry standards to ensure the highest quality and effectiveness. These standards include:</p>
-                <ul>
-                    <li><strong>OWASP (Open Web Application Security Project):</strong> A foundation that works to improve the security of software through community-led open-source software projects, local chapters, conferences, and more.</li>
-                    <li><strong>NIST (National Institute of Standards and Technology):</strong> Provides a cybersecurity framework consisting of standards, guidelines, and best practices to manage cybersecurity-related risk.</li>
-                    <li><strong>ISO/IEC 27001:</strong> An international standard on how to manage information security, providing requirements for an information security management system (ISMS).</li>
-                    <li><strong>MITRE ATT&CK:</strong> A globally accessible knowledge base of adversary tactics and techniques based on real-world observations.</li>
-                </ul>
-                <div class="d-flex justify-content-center"><img src="standards.png" alt="Standard" class="img-fluid rounded"></div>
-            </div>
-            <div id="Experience" >
-                    <h2>Experience</h2>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h5 class="card-title">Cybersecurity Analyst, DSID UNAIR</h5>
-                                    <p class="card-text">Conducted vulnerability assessments and penetration tests to identify security weaknesses in ABC Corporation's network infrastructure. Developed and implemented remediation plans to mitigate identified risks, resulting in a 30% reduction in security incidents.</p>
-                                    <span>January 2020 - August 2022</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h5 class="card-title">Penetration Tester, DSID UNAIR</h5>
-                                    <p class="card-text">Performed penetration tests for various clients, including a major financial institution and a government agency. Identified and exploited vulnerabilities in web applications, networks, and systems, and provided recommendations for remediation.</p>
-                                    <span>September 2018 - December 2019</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
-                </div>
-            <div id="projects" >
-                <h2>Open Projects</h2>
-                <div class="row">
-                    <!-- Penetration Testing Project -->
-                    <div class="col-md-3">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">Penetration Testing</h5>
-                                <p class="card-text">Perform thorough penetration testing to uncover security weaknesses and provide actionable recommendations for remediation.</p>
-                                <a href="mailto:mardianta@example.com?subject=Penetration Testing" class="btn btn-primary">Inquire Now</a>
-                            </div>
-                        </div>
-                    </div>
     
-                    <!-- Incident Response Planning Project -->
-                    <div class="col-md-3">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">Incident Response Planning</h5>
-                                <p class="card-text">Develop and implement an incident response plan tailored to your organization to ensure quick and effective responses to security incidents.</p>
-                                <a href="mailto:mardianta@example.com?subject=Incident Response Planning" class="btn btn-primary">Inquire Now</a>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <!-- Cyber Security Consultation Project -->
-                    <div class="col-md-3">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">Cyber Security Consultation</h5>
-                                <p class="card-text">Provide expert consultation on cyber security strategies, policies, and procedures tailored to your organization's needs.</p>
-                                <a href="mailto:mardianta@example.com?subject=Cyber Security Consultation" class="btn btn-primary">Inquire Now</a>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <!-- Cyber Security Training Project -->
-                    <div class="col-md-3">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">Cyber Security Training</h5>
-                                <p class="card-text">Deliver training sessions to enhance cyber security awareness and best practices among your organization's personnel.</p>
-                                <a href="mailto:mardianta@example.com?subject=Cyber Security Training" class="btn btn-primary">Inquire Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            <div class="col-md-4">
-                <section id="experience-portfolio" >
-                    <div class="row">
-                        <div class="col-12">
-                            <h2>Portfolio by Industry</h2>
-                            <ul class="list-group mb-4">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>Universities</strong>
-                                    <span class="badge badge-primary badge-pill">3</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>Government</strong>
-                                    <span class="badge badge-primary badge-pill">2</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>Private Sector</strong>
-                                    <span class="badge badge-primary badge-pill">5</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>Healthcare</strong>
-                                    <span class="badge badge-primary badge-pill">1</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>Banks</strong>
-                                    <span class="badge badge-primary badge-pill">1</span>
-                                </li>
-                                <!-- Add more categories as needed -->
-                            </ul>
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h5 class="card-title">Portfolio Details</h5>
-                                    <p class="card-text">Explore detailed descriptions of selected projects in each category.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tools" >
-                        <h2>Tools & Technology</h2>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <!-- <div class="card"> -->
-                                <img src="https://nmap.org/images/sitelogo-2x.png" class="card-img-top" alt="Nmap">
-                                <!-- <div class="card-body">
-                                    <p>Nmap</p>
-                                    <p class="card-text">A powerful network scanning tool used to discover hosts and services on a computer network by sending packets and analyzing the responses.</p>
-                                </div> -->
-                            <!-- </div> -->
-                        </div>
-                        <div class="col-md-3">
-                            <!-- <div class="card"> -->
-                                <img src="https://miro.medium.com/v2/resize:fit:1400/1*waFDh88WH0YeIK3xMP6TjA.png" class="card-img-top" alt="Metasploit">
-                                <!-- <div class="card-body">
-                                    <p>Metasploit</p>
-                                    <p class="card-text">An advanced, open-source platform for developing, testing, and executing exploits against a variety of software and hardware targets.</p>
-                                </div> -->
-                            <!-- </div> -->
-                        </div>
-                        <div class="col-md-3">
-                            <!-- <div class="card"> -->
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvdAoXv_ukedOGkOQg57lomA8bkqs6V1WKog&s" class="card-img-top" alt="Burp Suite">
-                                <!-- <div class="card-body">
-                                    <p>Burp Suite</p>
-                                    <p class="card-text">An integrated platform for performing security testing of web applications. Its various tools work seamlessly together to support the entire testing process.</p>
-                                </div> -->
-                            <!-- </div> -->
-                        </div>
-                        <div class="col-md-3">
-                            <!-- <div class="card"> -->
-                                <img src="https://www.pngitem.com/pimgs/m/540-5409366_kali-linux-logo-png-png-download-kali-linux.png" class="card-img-top" alt="Kali Linux">
-                                <!-- <div class="card-body">
-                                    <p>Kali Linux</p>
-                                    <p class="card-text">A Debian-based Linux distribution aimed at advanced penetration testing and security auditing, containing hundreds of tools.</p>
-                                </div> -->
-                            <!-- </div> -->
-                        </div>
-                        <div class="col-md-3">
-                            <!-- <div class="card"> -->
-                                <img src="expolit-db.png" class="card-img-top" alt="Nessus">
-                                <!-- <div class="card-body">
-                                    <p>EXPLOIT DATABASE BY OFFSEC</p>
-                                    <p class="card-text">A widely used vulnerability scanner that helps to identify vulnerabilities, misconfigurations, and missing patches on a variety of devices.</p>
-                                </div> -->
-                            <!-- </div> -->
-                        </div>
-                        <div class="col-md-3">
-                            <!-- <div class="card"> -->
-                                <img src="https://image.spreadshirtmedia.com/image-server/v1/compositions/T812A1PA4267PT17X48Y79D1047238805W25000H7262/views/1,width=650,height=650,appearanceId=1/wireshark-is-the-worlds-premiere-packet-analyzer.jpg" class="card-img-top" alt="Wireshark">
-                                <!-- <div class="card-body">
-                                    <p>Wireshark</p>
-                                    <p class="card-text">A network protocol analyzer that captures and interactively displays the data traveling back and forth on a network in real-time.</p>
-                                </div> -->
-                            <!-- </div> -->
-                        </div>
-                    </div>
-                    </div>
-                </section>
-                <section id="contact">
-                    <h2>Contact & Social Media</h2>
-                    <p>Want to discuss a project or learn more about my services? Feel free to reach out to me at:</p>
+    <section id="standards" class="py-3 bg-light">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <h2 class="mb-3" data-translate-key="standards_title">Standards I Adhere To</h2>
+                    <p data-translate-key="standards_intro">In my cybersecurity and penetration testing work, I adhere to several industry standards to ensure the highest quality and effectiveness. These standards include:</p>
                     <ul>
-                        <li><a href="mailto:mardianta@example.com">mardianta@example.com</a></li>
-                        <li><a href="https://linkedin.com/in/mardianta">LinkedIn</a></li>
-                        <li><a href="https://twitter.com/mardianta">Twitter</a></li>
+                        <li data-translate-key="standards_owasp"><strong>OWASP (Open Web Application Security Project):</strong> A foundation that works to improve the security of software through community-led open-source software projects, local chapters, conferences, and more.</li>
+                        <li data-translate-key="standards_nist"><strong>NIST (National Institute of Standards and Technology):</strong> Provides a cybersecurity framework consisting of standards, guidelines, and best practices to manage cybersecurity-related risk.</li>
+                        <li data-translate-key="standards_iso"><strong>ISO/IEC 27001:</strong> An international standard on how to manage information security, providing requirements for an information security management system (ISMS).</li>
+                        <li data-translate-key="standards_mitre"><strong>MITRE ATT&CK:</strong> A globally accessible knowledge base of adversary tactics and techniques based on real-world observations.</li>
                     </ul>
-                </section>
-                
+                </div>
+                <div class="col-md-5 text-center">
+                    <img src="standards.png" alt="Cybersecurity Standards" class="img-fluid rounded">
+                </div>
             </div>
-        </div>
-
-        <div id="portfolio">
-            <h2>Gallery</h2>
-            <div>
-                <img src="gambar.jpeg" height="155px" alt="" srcset="">
-                <img src="gambar.jpeg" height="155px" alt="" srcset="">
-                <img src="gambar.jpeg" height="155px" alt="" srcset="">
-                <img src="gambar.jpeg" height="155px" alt="" srcset="">
-                <img src="gambar.jpeg" height="155px" alt="" srcset="">
-                <img src="gambar.jpeg" height="155px" alt="" srcset="">
-            </div>
-            <a href="https://info.flagcounter.com/p747"><img src="https://s01.flagcounter.com/count2/p747/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
         </div>
     </section>
+    
+    <section id="experience-portfolio" class="py-3">
+        <div class="container-fluid">
+            <h2 class="text-center mb-3" data-translate-key="experience_portfolio_title">Experience & Portfolio</h2>
+            <div class="row">
+                <div class="col-lg-8">
+                    <h3 class="mb-3" data-translate-key="experience_title">Experience</h3>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title" data-translate-key="exp1_title">Cybersecurity Analyst, DSID UNAIR</h5>
+                                    <p class="card-text" data-translate-key="exp1_desc">Conducted vulnerability assessments and penetration tests to identify security weaknesses in ABC Corporation's network infrastructure. Developed and implemented remediation plans to mitigate identified risks, resulting in a 30% reduction in security incidents.</p>
+                                    <p class="card-text"><small class="text-muted" data-translate-key="exp1_date">January 2020 - August 2022</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title" data-translate-key="exp2_title">Penetration Tester, DSID UNAIR</h5>
+                                    <p class="card-text" data-translate-key="exp2_desc">Performed penetration tests for various clients, including a major financial institution and a government agency. Identified and exploited vulnerabilities in web applications, networks, and systems, and provided recommendations for remediation.</p>
+                                    <p class="card-text"><small class="text-muted" data-translate-key="exp2_date">September 2018 - December 2019</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h3 class="mb-3" data-translate-key="portfolio_by_industry_title">Portfolio by Industry</h3>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong data-translate-key="industry_universities">Universities</strong>
+                            <span class="badge badge-brand-primary badge-pill">3</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong data-translate-key="industry_government">Government</strong>
+                            <span class="badge badge-brand-primary badge-pill">2</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong data-translate-key="industry_private">Private Sector</strong>
+                            <span class="badge badge-brand-primary badge-pill">5</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong data-translate-key="industry_healthcare">Healthcare</strong>
+                            <span class="badge badge-brand-primary badge-pill">1</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <strong data-translate-key="industry_banks">Banks</strong>
+                            <span class="badge badge-brand-primary badge-pill">1</span>
+                        </li>
+                    </ul>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" data-translate-key="portfolio_details_title">Portfolio Details</h5>
+                            <p class="card-text" data-translate-key="portfolio_details_desc">Explore detailed descriptions of selected projects in each category (details available upon request).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tools" class="py-3 bg-light">
+        <div class="container-fluid">
+            <h2 class="text-center mb-3" data-translate-key="tools_title">Tools & Technology I Use</h2>
+            <div class="row">
+                <div class="col-md-4 col-lg-2 mb-3 text-center">
+                    <div class="card h-100">
+                        <img src="https://nmap.org/images/sitelogo-2x.png" class="card-img-top p-3" alt="Nmap" style="max-height: 80px; object-fit: contain;">
+                        <div class="card-body">
+                            <h6 class="card-title" data-translate-key="tool_nmap">Nmap</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-3 text-center">
+                    <div class="card h-100">
+                        <img src="https://miro.medium.com/v2/resize:fit:1400/1*waFDh88WH0YeIK3xMP6TjA.png" class="card-img-top p-3" alt="Metasploit" style="max-height: 80px; object-fit: contain;">
+                        <div class="card-body">
+                            <h6 class="card-title" data-translate-key="tool_metasploit">Metasploit</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-3 text-center">
+                    <div class="card h-100">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvdAoXv_ukedOGkOQg57lomA8bkqs6V1WKog&s" class="card-img-top p-3" alt="Burp Suite" style="max-height: 80px; object-fit: contain;">
+                        <div class="card-body">
+                            <h6 class="card-title" data-translate-key="tool_burp">Burp Suite</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-3 text-center">
+                    <div class="card h-100">
+                        <img src="https://www.pngitem.com/pimgs/m/540-5409366_kali-linux-logo-png-png-download-kali-linux.png" class="card-img-top p-3" alt="Kali Linux" style="max-height: 80px; object-fit: contain;">
+                        <div class="card-body">
+                            <h6 class="card-title" data-translate-key="tool_kali">Kali Linux</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-3 text-center">
+                    <div class="card h-100">
+                        <img src="expolit-db.png" class="card-img-top p-3" alt="Exploit DB" style="max-height: 80px; object-fit: contain;">
+                        <div class="card-body">
+                            <h6 class="card-title" data-translate-key="tool_exploitdb">Exploit DB</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-3 text-center">
+                    <div class="card h-100">
+                        <img src="https://image.spreadshirtmedia.com/image-server/v1/compositions/T812A1PA4267PT17X48Y79D1047238805W25000H7262/views/1,width=650,height=650,appearanceId=1/wireshark-is-the-worlds-premiere-packet-analyzer.jpg" class="card-img-top p-3" alt="Wireshark" style="max-height: 80px; object-fit: contain;">
+                        <div class="card-body">
+                            <h6 class="card-title" data-translate-key="tool_wireshark">Wireshark</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="gallery" class="py-3">
+        <div class="container-fluid">
+            <h2 class="text-center mb-3" data-translate-key="gallery_title">Gallery</h2>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <img src="gambar.jpeg" class="img-fluid rounded" alt="Gallery Image 1">
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <img src="gambar.jpeg" class="img-fluid rounded" alt="Gallery Image 2">
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <img src="gambar.jpeg" class="img-fluid rounded" alt="Gallery Image 3">
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <img src="gambar.jpeg" class="img-fluid rounded" alt="Gallery Image 4">
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <img src="gambar.jpeg" class="img-fluid rounded" alt="Gallery Image 5">
+                </div>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <img src="gambar.jpeg" class="img-fluid rounded" alt="Gallery Image 6">
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="https://info.flagcounter.com/p747"><img src="https://s01.flagcounter.com/count2/p747/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="digital-footprint" class="py-3">
+        <div class="container-fluid">
+            <h2 class="text-center mb-3" data-translate-key="digital_footprint_title">Jejak Digital Saya</h2>
+            <p class="text-center mb-4" data-translate-key="digital_footprint_intro">Temukan profil dan kontribusi saya di berbagai platform online:</p>
+            <div class="row justify-content-center">
+                <!-- GitHub -->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <a href="https://github.com/mardianta" target="_blank" class="text-decoration-none d-block h-100">
+                        <div class="card h-100 text-center py-3">
+                            <i class="fab fa-github fa-2x mb-2"></i>
+                            <h6 class="mb-0" data-translate-key="footprint_github_link">Profil GitHub Saya</h6>
+                        </div>
+                    </a>
+                </div>
+                <!-- LinkedIn -->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <a href="https://linkedin.com/in/mardianta" target="_blank" class="text-decoration-none d-block h-100">
+                        <div class="card h-100 text-center py-3">
+                            <i class="fab fa-linkedin fa-2x mb-2"></i>
+                            <h6 class="mb-0" data-translate-key="footprint_linkedin_link">Profil LinkedIn Saya</h6>
+                        </div>
+                    </a>
+                </div>
+                <!-- Twitter -->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <a href="https://twitter.com/mardianta" target="_blank" class="text-decoration-none d-block h-100">
+                        <div class="card h-100 text-center py-3">
+                            <i class="fab fa-twitter fa-2x mb-2"></i>
+                            <h6 class="mb-0" data-translate-key="footprint_twitter_link">Profil Twitter Saya</h6>
+                        </div>
+                    </a>
+                </div>
+                <!-- TryHackMe -->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <a href="https://www.google.com/search?q=%22Mardianta+Putra+Anggara%22+TryHackMe+OR+%22Mardianta+PA%22+TryHackMe" target="_blank" class="text-decoration-none d-block h-100">
+                        <div class="card h-100 text-center py-3">
+                            <i class="fas fa-terminal fa-2x mb-2"></i>
+                            <h6 class="mb-0" data-translate-key="footprint_tryhackme_link">Profil TryHackMe Saya (Cari di Google)</h6>
+                        </div>
+                    </a>
+                </div>
+                <!-- Hack The Box -->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <a href="https://www.google.com/search?q=%22Mardianta+Putra+Anggara%22+%22Hack+The+Box%22+OR+%22Mardianta+PA%22+%22Hack+The+Box%22" target="_blank" class="text-decoration-none d-block h-100">
+                        <div class="card h-100 text-center py-3">
+                            <i class="fas fa-cube fa-2x mb-2"></i>
+                            <h6 class="mb-0" data-translate-key="footprint_hackthebox_link">Profil Hack The Box Saya (Cari di Google)</h6>
+                        </div>
+                    </a>
+                </div>
+                <!-- Medium -->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <a href="https://www.google.com/search?q=%22Mardianta+Putra+Anggara%22+Medium+OR+%22Mardianta+PA%22+Medium" target="_blank" class="text-decoration-none d-block h-100">
+                        <div class="card h-100 text-center py-3">
+                            <i class="fab fa-medium fa-2x mb-2"></i>
+                            <h6 class="mb-0" data-translate-key="footprint_medium_link">Artikel Medium Saya (Cari di Google)</h6>
+                        </div>
+                    </a>
+                </div>
+                <!-- Exploit-DB -->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <a href="https://www.google.com/search?q=%22Mardianta+Putra+Anggara%22+%22Exploit-DB%22+OR+%22Mardianta+PA%22+%22Exploit-DB%22" target="_blank" class="text-decoration-none d-block h-100">
+                        <div class="card h-100 text-center py-3">
+                            <i class="fas fa-user-secret fa-2x mb-2"></i>
+                            <h6 class="mb-0" data-translate-key="footprint_exploitdb_link">Profil Exploit-DB Saya (Cari di Google)</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-3 bg-light">
+        <div class="container-fluid text-center">
+            <h2 class="mb-3" data-translate-key="contact_title">Contact & Social Media</h2>
+            <p class="lead" data-translate-key="contact_intro">Want to discuss a project or learn more about my services? Feel free to reach out to me:</p>
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-envelope mr-2"></i><a href="mailto:mardianta.pa@gmail.com" data-translate-key="contact_email_link">mardianta.pa@gmail.com</a> <span data-translate-key="contact_email_preferred">(Preferred)</span></li>
+                <li class="mb-2"><i class="fab fa-linkedin mr-2"></i><a href="https://linkedin.com/in/mardianta" target="_blank" data-translate-key="contact_linkedin_link">linkedin.com/in/mardianta</a></li>
+                <li class="mb-2"><i class="fab fa-twitter mr-2"></i><a href="https://twitter.com/mardianta" target="_blank" data-translate-key="contact_twitter_link">twitter.com/mardianta</a></li>
+            </ul>
+        </div>
+    </section>
+
     <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2024 Mardianta. All rights reserved.</p>
+        <p class="mb-0" data-translate-key="footer_copyright">&copy; 2024 Mardianta PA. All rights reserved.</p>
     </footer>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const translations = {
+            en: {
+                // Nav
+                "nav_about_me": "About Me",
+                "nav_open_projects": "Open Project",
+                "nav_standards": "Standards",
+                "nav_experience_portfolio": "Experience & Portfolio",
+                "nav_tools": "Tools",
+                "nav_gallery": "Gallery",
+                "nav_contact": "Contact",
+                // About Section
+                "about_name": "Mardianta PA",
+                "about_role": "Cybersecurity Analyst & Penetration Tester",
+                "about_intro": "Hello, I'm Mardianta, a seasoned cybersecurity analyst and penetration tester with a passion for helping organizations protect their digital assets. With a strong background in computer science and cybersecurity, I've developed a unique expertise in:",
+                "about_skill_1": "Compliance and risk management",
+                "about_skill_2": "Vulnerability assessment and penetration testing",
+                "about_skill_3": "Incident response and threat hunting",
+                "about_skill_4": "Network security",
+                "about_skill_5": "Programming languages (Python, PHP, JavaScript)",
+                "services_title": "Available Cybersecurity Services",
+                "services_description": "I offer a range of services designed to help organizations protect their digital assets. From penetration testing to incident response planning, I can help you identify vulnerabilities and develop a robust cybersecurity strategy.",
+                // Open Projects
+                "open_projects_title": "Open Projects",
+                "project_pentest_title": "Penetration Testing",
+                "project_pentest_desc": "Perform thorough penetration testing to uncover security weaknesses and provide actionable recommendations for remediation.",
+                "project_ir_title": "Incident Response Planning",
+                "project_ir_desc": "Develop and implement an incident response plan tailored to your organization to ensure quick and effective responses to security incidents.",
+                "project_consult_title": "Cyber Security Consultation",
+                "project_consult_desc": "Provide expert consultation on cyber security strategies, policies, and procedures tailored to your organization's needs.",
+                "project_training_title": "Cyber Security Training",
+                "project_training_desc": "Deliver training sessions to enhance cyber security awareness and best practices among your organization's personnel.",
+                "inquire_now": "Inquire Now",
+                // Standards
+                "standards_title": "Standards I Adhere To",
+                "standards_intro": "In my cybersecurity and penetration testing work, I adhere to several industry standards to ensure the highest quality and effectiveness. These standards include:",
+                "standards_owasp": "<strong>OWASP (Open Web Application Security Project):</strong> A foundation that works to improve the security of software through community-led open-source software projects, local chapters, conferences, and more.",
+                "standards_nist": "<strong>NIST (National Institute of Standards and Technology):</strong> Provides a cybersecurity framework consisting of standards, guidelines, and best practices to manage cybersecurity-related risk.",
+                "standards_iso": "<strong>ISO/IEC 27001:</strong> An international standard on how to manage information security, providing requirements for an information security management system (ISMS).",
+                "standards_mitre": "<strong>MITRE ATT&CK:</strong> A globally accessible knowledge base of adversary tactics and techniques based on real-world observations.",
+                // Experience & Portfolio
+                "experience_portfolio_title": "Experience & Portfolio",
+                "experience_title": "Experience",
+                // ... tambahkan semua key dan teks Bahasa Inggris lainnya di sini
+                // Digital Footprint
+                "digital_footprint_title": "My Digital Footprint",
+                "digital_footprint_intro": "Find my profiles and contributions across various online platforms:",
+                "footprint_github_link": "My GitHub Profile",
+                "footprint_linkedin_link": "My LinkedIn Profile",
+                "footprint_twitter_link": "My Twitter Profile",
+                "footprint_tryhackme_link": "My TryHackMe Profile (Search on Google)",
+                "footprint_hackthebox_link": "My Hack The Box Profile (Search on Google)",
+                "footprint_medium_link": "My Medium Articles (Search on Google)",
+                "footprint_exploitdb_link": "My Exploit-DB Profile (Search on Google)"
+            },
+            id: {
+                // Nav
+                "nav_about_me": "Tentang Saya",
+                "nav_open_projects": "Proyek Terbuka",
+                "nav_standards": "Standar",
+                "nav_experience_portfolio": "Pengalaman & Portofolio",
+                "nav_tools": "Alat",
+                "nav_gallery": "Galeri",
+                "nav_contact": "Kontak",
+                // About Section
+                "about_name": "Mardianta PA", // Nama mungkin tetap sama
+                "about_role": "Analis Keamanan Siber & Penguji Penetrasi",
+                "about_intro": "Halo, saya Mardianta, seorang analis keamanan siber dan penguji penetrasi berpengalaman dengan semangat untuk membantu organisasi melindungi aset digital mereka. Dengan latar belakang yang kuat dalam ilmu komputer dan keamanan siber, saya telah mengembangkan keahlian unik dalam:",
+                "about_skill_1": "Kepatuhan dan manajemen risiko",
+                "about_skill_2": "Penilaian kerentanan dan pengujian penetrasi",
+                "about_skill_3": "Respons insiden dan perburuan ancaman",
+                "about_skill_4": "Keamanan jaringan",
+                "about_skill_5": "Bahasa pemrograman (Python, PHP, JavaScript)",
+                "services_title": "Layanan Keamanan Siber yang Tersedia",
+                "services_description": "Saya menawarkan berbagai layanan yang dirancang untuk membantu organisasi melindungi aset digital mereka. Mulai dari pengujian penetrasi hingga perencanaan respons insiden, saya dapat membantu Anda mengidentifikasi kerentanan dan mengembangkan strategi keamanan siber yang kuat.",
+                // Open Projects
+                "open_projects_title": "Proyek Terbuka",
+                "project_pentest_title": "Pengujian Penetrasi",
+                "project_pentest_desc": "Lakukan pengujian penetrasi menyeluruh untuk mengungkap kelemahan keamanan dan memberikan rekomendasi perbaikan yang dapat ditindaklanjuti.",
+                "project_ir_title": "Perencanaan Respons Insiden",
+                "project_ir_desc": "Kembangkan dan implementasikan rencana respons insiden yang disesuaikan dengan organisasi Anda untuk memastikan respons yang cepat dan efektif terhadap insiden keamanan.",
+                "project_consult_title": "Konsultasi Keamanan Siber",
+                "project_consult_desc": "Berikan konsultasi ahli mengenai strategi, kebijakan, dan prosedur keamanan siber yang disesuaikan dengan kebutuhan organisasi Anda.",
+                "project_training_title": "Pelatihan Keamanan Siber",
+                "project_training_desc": "Selenggarakan sesi pelatihan untuk meningkatkan kesadaran keamanan siber dan praktik terbaik di antara personel organisasi Anda.",
+                "inquire_now": "Tanya Sekarang",
+                 // Standards
+                "standards_title": "Standar yang Saya Patuhi",
+                "standards_intro": "Dalam pekerjaan keamanan siber dan pengujian penetrasi saya, saya mematuhi beberapa standar industri untuk memastikan kualitas dan efektivitas tertinggi. Standar-standar ini meliputi:",
+                "standards_owasp": "<strong>OWASP (Open Web Application Security Project):</strong> Sebuah yayasan yang bekerja untuk meningkatkan keamanan perangkat lunak melalui proyek perangkat lunak sumber terbuka yang dipimpin komunitas, cabang lokal, konferensi, dan lainnya.",
+                "standards_nist": "<strong>NIST (National Institute of Standards and Technology):</strong> Menyediakan kerangka kerja keamanan siber yang terdiri dari standar, pedoman, dan praktik terbaik untuk mengelola risiko terkait keamanan siber.",
+                "standards_iso": "<strong>ISO/IEC 27001:</strong> Standar internasional tentang cara mengelola keamanan informasi, menyediakan persyaratan untuk sistem manajemen keamanan informasi (SMKI).",
+                "standards_mitre": "<strong>MITRE ATT&CK:</strong> Basis pengetahuan global yang dapat diakses tentang taktik dan teknik musuh berdasarkan pengamatan dunia nyata.",
+                // Experience & Portfolio
+                "experience_portfolio_title": "Pengalaman & Portofolio",
+                "experience_title": "Pengalaman",
+                // ... tambahkan semua key dan teks Bahasa Indonesia lainnya di sini
+                // Jejak Digital
+                "digital_footprint_title": "Jejak Digital Saya",
+                "digital_footprint_intro": "Temukan profil dan kontribusi saya di berbagai platform online:",
+                "footprint_github_link": "Profil GitHub Saya",
+                "footprint_linkedin_link": "Profil LinkedIn Saya",
+                "footprint_twitter_link": "Profil Twitter Saya",
+                "footprint_tryhackme_link": "Profil TryHackMe Saya (Cari di Google)",
+                "footprint_hackthebox_link": "Profil Hack The Box Saya (Cari di Google)",
+                "footprint_medium_link": "Artikel Medium Saya (Cari di Google)",
+                "footprint_exploitdb_link": "Profil Exploit-DB Saya (Cari di Google)"
+            }
+        };
+
+        function switchLanguage(lang) {
+            document.querySelectorAll('[data-translate-key]').forEach(element => {
+                const key = element.getAttribute('data-translate-key');
+                if (translations[lang] && translations[lang][key]) {
+                    // Check if the element is a button or link to preserve inner icons if any
+                    if (element.tagName === 'BUTTON' || element.tagName === 'A' && element.innerHTML.includes('<i')) {
+                        const iconHTML = element.querySelector('i') ? element.querySelector('i').outerHTML + ' ' : '';
+                        element.innerHTML = iconHTML + translations[lang][key];
+                    } else {
+                        element.innerHTML = translations[lang][key]; // Use innerHTML to render <strong> tags correctly
+                    }
+                }
+            });
+            localStorage.setItem('preferredLanguage', lang); // Simpan preferensi
+        }
+
+        // Saat halaman dimuat, cek preferensi bahasa atau default ke Bahasa Inggris
+        document.addEventListener('DOMContentLoaded', () => {
+            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en'; // Default ke 'en'
+            switchLanguage(preferredLanguage);
+        });
+    </script>
 </body>
 </html>
