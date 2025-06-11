@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cybersecurity Toolkit</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #1e88e5;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #1565c0;
+    }
+    nav a {
+      padding: 1rem;
+      color: white;
+      text-decoration: none;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+    nav a:hover {
+      background: #0d47a1;
+    }
+    section {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    .output {
+      background: #f1f1f1;
+      padding: 0.5rem;
+      white-space: pre-wrap;
+      border-radius: 4px;
+    }
+    .strength {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><span class="material-icons">security</span> Cybersecurity Toolkit</h1>
+  </header>
+
+  <nav>
+    <a href="#port">Port Scanner</a>
+    <a href="#password">Password Tester</a>
+    <a href="#hash">Hash Generator</a>
+    <a href="#encoder">Encoder/Decoder</a>
+    <a href="#geo">IP Geolocation</a>
+  </nav>
+
+  <section id="port" class="tool-section">
+    <h2>🔍 Port Scanner</h2>
+    <p>Enter a host and select port range to check for open ports (client-side simulation).</p>
+    <input type="text" id="portHost" placeholder="e.g., example.com or IP">
+    <select id="portOption" onchange="togglePortRange()">
+      <option value="21-23">FTP / Telnet (21-23)</option>
+      <option value="80-81">HTTP (80-81)</option>
+      <option value="443-443">HTTPS (443)</option>
+      <option value="20-25">Email/FTP (20-25)</option>
+      <option value="custom">Custom</option>
+    </select>
+    <input type="text" id="portRange" placeholder="e.g., 20-25" style="display:none;">
+    <button onclick="scanPorts()">Scan</button>
+    <div class="output" id="portResult"></div>
+  </section>
+
+  <section id="password" class="tool-section">
+    <h2>🔑 Password Strength Tester</h2>
+    <input type="password" id="passwordInput" placeholder="Enter password" oninput="testStrength()">
+    <div class="output"><span class="strength" id="strengthOutput">Strength: </span></div>
+  </section>
+
+  <section id="hash" class="tool-section">
+    <h2>🔐 Hash Generator</h2>
+    <textarea id="hashInput" placeholder="Enter text"></textarea>
+    <button onclick="generateHashes()">Generate Hashes</button>
+    <div class="output" id="hashOutput"></div>
+  </section>
+
+  <section id="encoder" class="tool-section">
+    <h2>🧪 Payload Encoder/Decoder</h2>
+    <textarea id="encodeInput" placeholder="Enter text to encode/decode"></textarea>
+    <select id="encodeType">
+      <option value="base64">Base64</option>
+      <option value="url">URL Encoding</option>
+    </select>
+    <button onclick="encode()">Encode</button>
+    <button onclick="decode()">Decode</button>
+    <div class="output" id="encodeOutput"></div>
+  </section>
+
+  <section id="geo" class="tool-section">
+    <h2>🌍 IP Geolocation Lookup</h2>
+    <input type="text" id="ipInput" placeholder="Enter IP address (or leave blank for your IP)">
+    <button onclick="lookupIP()">Lookup</button>
+    <div class="output" id="geoOutput"></div>
+  </section>
+
+  <script>
+    function togglePortRange() {
+      const portOption = document.getElementById("portOption").value;
+      const portRange = document.getElementById("portRange");
+      portRange.style.display = portOption === "custom" ? "block" : "none";
+    }
+
+    function scanPorts() {
+      const host = document.getElementById("portHost").value;
+      const portOption = document.getElementById("portOption").value;
+      const customRange = document.getElementById("portRange").value;
+      const result = document.getElementById("portResult");
+
+      result.textContent = "Scanning...\n";
+
+      let range = portOption === "custom" ? customRange : portOption;
+      const [start, end] = range.split('-').map(Number);
+
+      if (!host || isNaN(start) || isNaN(end)) {
+        result.textContent = "Invalid input.";
+        return;
+      }
+
+      let openPorts = [];
+      let scanned = 0;
+
+      for (let port = start; port <= end; port++) {
+        const img = new Image();
+        img.onload = () => {
+          openPorts.push(port);
+          checkDone();
+        };
+        img.onerror = checkDone;
+        img.src = `http://${host}:${port}`;
+      }
+
+      function checkDone() {
+        scanned++;
+        if (scanned === (end - start + 1)) {
+          result.textContent += openPorts.length > 0
+            ? "Open ports: " + openPorts.join(", ")
+            : "No open ports detected.";
+        }
+      }
+    }
+
+    function testStrength() {
+      const pwd = document.getElementById("passwordInput").value;
+      const output = document.getElementById("strengthOutput");
+
+      let strength = "Weak";
+      if (pwd.length > 12 && /[A-Z]/.test(pwd) && /\d/.test(pwd) && /\W/.test(pwd)) {
+        strength = "Strong";
+      } else if (pwd.length >= 8) {
+        strength = "Moderate";
+      }
+      output.textContent = `Strength: ${strength}`;
+    }
+
+    async function generateHashes() {
+      const text = document.getElementById("hashInput").value;
+      const out = document.getElementById("hashOutput");
+
+      const encode = (str) => new TextEncoder().encode(str);
+      const toHex = buffer => [...new Uint8Array(buffer)].map(x => x.toString(16).padStart(2, '0')).join('');
+
+      const hashes = {
+        "MD5": await crypto.subtle.digest("MD5", encode(text)).catch(() => "N/A"),
+        "SHA-1": await crypto.subtle.digest("SHA-1", encode(text)),
+        "SHA-256": await crypto.subtle.digest("SHA-256", encode(text))
+      };
+
+      out.textContent = Object.entries(hashes).map(([k, v]) => `${k}: ${typeof v === "string" ? v : toHex(v)}`).join("\n");
+    }
+
+    function encode() {
+      const input = document.getElementById("encodeInput").value;
+      const type = document.getElementById("encodeType").value;
+      const out = document.getElementById("encodeOutput");
+
+      if (type === "base64") {
+        out.textContent = btoa(input);
+      } else {
+        out.textContent = encodeURIComponent(input);
+      }
+    }
+
+    function decode() {
+      const input = document.getElementById("encodeInput").value;
+      const type = document.getElementById("encodeType").value;
+      const out = document.getElementById("encodeOutput");
+
+      try {
+        if (type === "base64") {
+          out.textContent = atob(input);
+        } else {
+          out.textContent = decodeURIComponent(input);
+        }
+      } catch (e) {
+        out.textContent = "Decoding error.";
+      }
+    }
+
+    function lookupIP() {
+      const ip = document.getElementById("ipInput").value;
+      const out = document.getElementById("geoOutput");
+      out.textContent = "Looking up...";
+      fetch(`https://ip-api.com/json/${ip || ''}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "fail") {
+            out.textContent = `Error: ${data.message}`;
+            return;
+          }
+          out.textContent = `
+IP: ${data.query}
+Country: ${data.country}
+Region: ${data.regionName}
+City: ${data.city}
+ISP: ${data.isp}
+Latitude: ${data.lat}
+Longitude: ${data.lon}
+Timezone: ${data.timezone}
+          `;
+        })
+        .catch(err => {
+          out.textContent = "Lookup failed. Check your connection or try again.";
+        });
+    }
+
+    // === Show only selected tool section ===
+    document.addEventListener("DOMContentLoaded", () => {
+      const sections = document.querySelectorAll('.tool-section');
+      const navLinks = document.querySelectorAll('nav a');
+
+      function showSection(id) {
+        sections.forEach(section => {
+          section.style.display = section.id === id ? 'block' : 'none';
+        });
+      }
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').substring(1);
+          showSection(targetId);
+        });
+      });
+
+      // Show default tool on load
+      showSection('port');
+    });
+  </script>
+</body>
+</html>
