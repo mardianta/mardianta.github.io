@@ -98,3 +98,12 @@ h1,h2 {
 #digital-footprint .card h6 {
     color: #333; /* Warna teks standar (abu-abu tua), bisa disesuaikan jika perlu */
 }
+
+/* Mengubah warna tautan spesifik di bagian standar */
+#standards ul li a {
+    color: var(--brand-primary-color); /* Menggunakan warna biru utama merek Anda */
+}
+
+#standards ul li a:hover {
+    color: var(--brand-primary-hover-color); /* Warna hover yang lebih gelap */
+}
