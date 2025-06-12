@@ -25,9 +25,6 @@
             padding-left: 20px;
             color: #333;
        }
-        .content-section a {
-            color: var(--brand-primary-color);
-        }
         .content-section a:hover {
             text-decoration: underline;
         }
@@ -109,11 +106,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="scripts.js"></script> <!-- Mengasumsikan skrip IP dan datetime ada di sini -->
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-        // Jika fungsi displayDateTime dan fetch IP ada di scripts.js, tidak perlu duplikasi di sini.
-        // Jika tidak, salin fungsi tersebut dari owasp-info.html atau nist-info.html ke sini atau ke scripts.js
-    </script>
+    <script src="scripts.js"></script>
+    <!-- Skrip inline untuk tahun dihapus, ditangani oleh scripts.js -->
 </body>
 </html>
