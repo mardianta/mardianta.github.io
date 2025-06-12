@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi NIST - Mardianta PA</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .content-section {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .content-section h1, .content-section h2 {
+            color: var(--brand-primary-color); /* Menggunakan warna utama */
+        }
+        .content-section p {
+            line-height: 1.7;
+            color: #333;
+        }
+        .content-section ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            color: #333;
+       }
+        .content-section a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-back {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="clientIpDisplay" style="background-color: #282c30; color: #f0f0f0; padding: 5px; text-align: center; font-size: 0.9em;">Your IP: <span id="clientIpAddress">Loading...</span></div>    
+    <header class="text-white">
+        <nav class="navbar navbar-expand-lg navbar-dark container">
+            <a class="navbar-brand" href="index.html">Mardianta PA</a>
+            <div id="datetime" class="navbar-text py-2 mr-3 d-none d-lg-block"></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html#about-experience-skills" >About Me</a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownShowcase" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Showcase
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownShowcase">
+                            <a class="dropdown-item" href="index.html#open-projects">Open Project</a>
+                            <a class="dropdown-item" href="index.html#experience-portfolio">Experience & Portfolio</a>
+                            <a class="dropdown-item" href="index.html#gallery">Gallery</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="content-section">
+           <h1>NIST (National Institute of Standards and Technology)</h1>
+
+           <p><strong>NIST (National Institute of Standards and Technology)</strong> adalah lembaga non-regulatori dari Departemen Perdagangan Amerika Serikat. Misi NIST adalah untuk mempromosikan inovasi dan daya saing industri AS dengan memajukan ilmu pengukuran, standar, dan teknologi.</p>
+
+           <p>Dalam konteks keamanan siber, NIST sangat dikenal karena menyediakan kerangka kerja (frameworks), standar, pedoman, dan praktik terbaik untuk membantu organisasi mengelola risiko keamanan siber. Sumber daya ini banyak digunakan oleh pemerintah, industri, dan akademisi di seluruh dunia.</p>
+
+           <h2>Mengapa NIST Penting dalam Keamanan Siber?</h2>
+           <ul>
+               <li><strong>Kerangka Kerja Komprehensif:</strong> NIST Cybersecurity Framework (CSF) menyediakan pendekatan berbasis risiko yang fleksibel dan dapat diadaptasi untuk mengelola keamanan siber.</li>
+               <li><strong>Publikasi Rinci:</strong> NIST menerbitkan berbagai Special Publications (SPs) dan Interagency Reports (NISTIRs) yang mencakup berbagai topik keamanan siber secara mendalam, mulai dari manajemen risiko hingga kontrol keamanan spesifik.</li>
+               <li><strong>Standar Global:</strong> Meskipun merupakan lembaga AS, standar dan pedoman NIST diadopsi secara luas secara internasional.</li>
+               <li><strong>Dasar Kepatuhan:</strong> Banyak regulasi dan standar industri merujuk atau dibangun di atas kerangka kerja NIST.</li>
+               <li><strong>Sumber Daya Gratis:</strong> Sebagian besar publikasi NIST tersedia secara gratis untuk umum.</li>
+           </ul>
+
+           <h2>Contoh Kerangka Kerja dan Publikasi Utama NIST:</h2>
+           <ul>
+               <li><strong>NIST Cybersecurity Framework (CSF):</strong> Kerangka kerja sukarela yang terdiri dari standar, pedoman, dan praktik terbaik untuk mengelola risiko keamanan siber.</li>
+               <li><strong>NIST SP 800-53:</strong> Katalog kontrol keamanan dan privasi untuk sistem dan organisasi informasi federal.</li>
+               <li><strong>NIST SP 800-171:</strong> Melindungi Informasi Tidak Terklasifikasi Terkendali (CUI) dalam Sistem dan Organisasi Nonfederal.</li>
+               <li><strong>NIST SP 800-30:</strong> Panduan untuk Melakukan Penilaian Risiko.</li>
+               <li><strong>NIST Privacy Framework:</strong> Alat untuk membantu organisasi mengidentifikasi dan mengelola risiko privasi.</li>
+           </ul>
+
+           <p>Dengan memanfaatkan sumber daya dari NIST, organisasi dapat membangun program keamanan siber yang lebih matang, efektif, dan selaras dengan praktik terbaik industri.</p>
+
+           <p>Untuk informasi lebih lanjut, kunjungi situs web resmi NIST: <a href="https://www.nist.gov" target="_blank">www.nist.gov</a> dan bagian keamanan siber di <a href="https://www.nist.gov/cybersecurity" target="_blank">www.nist.gov/cybersecurity</a>.</p>
+
+           <div class="text-center mt-4">
+               <a href="index.html#standards" class="btn btn-brand-primary btn-back">Kembali ke Portfolio</a>
+           </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-4 mt-4 bg-dark text-white">
+        <p class="mb-0">&copy; 2024 Mardianta PA. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts.js"></script> <!-- Menggunakan skrip global jika fungsi IP dan datetime dipindahkan -->
+</body>
+</html>
