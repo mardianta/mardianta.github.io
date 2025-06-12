@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi MITRE ATT&CK - Mardianta PA</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .content-section {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .content-section h1, .content-section h2 {
+            color: var(--brand-primary-color); /* Menggunakan warna utama */
+        }
+        .content-section p {
+            line-height: 1.7;
+            color: #333;
+        }
+        .content-section ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            color: #333;
+       }
+        .content-section a {
+            color: var(--brand-primary-color);
+        }
+        .content-section a:hover {
+            text-decoration: underline;
+        }
+        .btn-back {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="clientIpDisplay" style="background-color: #282c30; color: #f0f0f0; padding: 5px; text-align: center; font-size: 0.9em;">Your IP: <span id="clientIpAddress">Loading...</span></div>
+    <header class="text-white">
+        <nav class="navbar navbar-expand-lg navbar-dark container">
+            <a class="navbar-brand" href="index.html">Mardianta PA</a>
+            <div id="datetime" class="navbar-text py-2 mr-3 d-none d-lg-block"></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html#about-experience-skills" >About Me</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownShowcase" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Showcase
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownShowcase">
+                            <a class="dropdown-item" href="index.html#open-projects">Open Project</a>
+                            <a class="dropdown-item" href="index.html#experience-portfolio">Experience & Portfolio</a>
+                            <a class="dropdown-item" href="index.html#gallery">Gallery</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <div class="content-section">
+           <h1>MITRE ATT&CK&reg;</h1>
+
+           <p><strong>MITRE ATT&CK&reg;</strong> adalah basis pengetahuan yang dapat diakses secara global tentang taktik dan teknik musuh berdasarkan pengamatan dunia nyata. ATT&CK adalah singkatan dari Adversarial Tactics, Techniques, and Common Knowledge.</p>
+
+           <p>Kerangka kerja ATT&CK digunakan sebagai dasar untuk pengembangan model ancaman dan metodologi spesifik di sektor swasta, di pemerintahan, dan di komunitas produk dan layanan keamanan siber.</p>
+
+           <h2>Mengapa MITRE ATT&CK Penting?</h2>
+           <ul>
+               <li><strong>Bahasa Standar:</strong> Menyediakan kosakata umum untuk menggambarkan perilaku penyerang, meningkatkan komunikasi di antara para profesional keamanan.</li>
+               <li><strong>Peningkatan Pertahanan:</strong> Membantu organisasi memahami bagaimana penyerang beroperasi, sehingga memungkinkan mereka untuk memprioritaskan upaya pertahanan dan mengisi kesenjangan keamanan.</li>
+               <li><strong>Intelijen Ancaman yang Lebih Baik:</strong> Memungkinkan pengayaan intelijen ancaman siber dengan memetakan perilaku yang diamati ke taktik dan teknik ATT&CK.</li>
+               <li><strong>Deteksi dan Respons yang Efektif:</strong> Mendukung pengembangan strategi deteksi dan respons yang lebih efektif dengan berfokus pada perilaku musuh yang diketahui.</li>
+               <li><strong>Emulasi Musuh:</strong> Memfasilitasi latihan red teaming dan emulasi musuh untuk menguji pertahanan terhadap teknik dunia nyata.</li>
+           </ul>
+
+           <h2>Komponen Utama MITRE ATT&CK:</h2>
+           <ul>
+               <li><strong>Taktik (Tactics):</strong> Tujuan taktis tingkat tinggi dari musuh; "mengapa" di balik suatu tindakan (misalnya, Initial Access, Execution, Persistence, Defense Evasion).</li>
+               <li><strong>Teknik (Techniques):</strong> Cara spesifik musuh mencapai tujuan taktis; "bagaimana" suatu taktik dicapai (misalnya, Phishing sebagai teknik untuk Initial Access).</li>
+               <li><strong>Sub-teknik (Sub-techniques):</strong> Perilaku yang lebih spesifik untuk menjelaskan bagaimana teknik dilakukan.</li>
+               <li><strong>Prosedur (Procedures):</strong> Implementasi spesifik dari teknik dan sub-teknik oleh kelompok ancaman atau perangkat lunak tertentu.</li>
+               <li><strong>Kelompok (Groups):</strong> Kumpulan aktivitas intrusi yang dilacak dengan nama umum (misalnya, APT29, FIN7).</li>
+               <li><strong>Perangkat Lunak (Software):</strong> Alat dan malware yang digunakan oleh musuh (misalnya, Cobalt Strike, Mimikatz).</li>
+               <li><strong>Mitigasi (Mitigations):</strong> Konsep keamanan dan kelas teknologi yang dapat digunakan untuk mencegah atau mendeteksi teknik ATT&CK.</li>
+           </ul>
+
+           <p>Dengan memanfaatkan MITRE ATT&CK, organisasi dapat meningkatkan postur keamanan siber mereka secara keseluruhan, mulai dari perencanaan strategis hingga operasi taktis sehari-hari.</p>
+
+           <p>Untuk informasi lebih lanjut dan menjelajahi matriks ATT&CK, kunjungi situs web resmi: <a href="https://attack.mitre.org/" target="_blank">attack.mitre.org</a></p>
+
+           <div class="text-center mt-4">
+               <a href="index.html#standards" class="btn btn-brand-primary btn-back">Kembali ke Portfolio</a>
+           </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-4 mt-4 bg-dark text-white">
+        <p class="mb-0">&copy; <span id="year"></span> Mardianta PA. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts.js"></script> <!-- Mengasumsikan skrip IP dan datetime ada di sini -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        // Jika fungsi displayDateTime dan fetch IP ada di scripts.js, tidak perlu duplikasi di sini.
+        // Jika tidak, salin fungsi tersebut dari owasp-info.html atau nist-info.html ke sini atau ke scripts.js
+    </script>
+</body>
+</html>
