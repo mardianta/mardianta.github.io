@@ -101,7 +101,7 @@
     </div>
 
     <footer class="text-center py-4 mt-4 bg-dark text-white">
-        <p class="mb-0">&copy; 2024 Mardianta PA. All rights reserved.</p>
+        <p class="mb-0">&copy; <span id="year"></span> Mardianta PA. All rights reserved.</p>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -109,52 +109,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
     // Fetch and display client IP
-    fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-            const clientIpElement = document.getElementById('clientIpAddress');
-            if (clientIpElement) {
-                clientIpElement.textContent = data.ip;
-            }
-        })
-        .catch(error => {
-            const clientIpElement = document.getElementById('clientIpAddress');
-            if (clientIpElement) {
-                clientIpElement.textContent = 'Unavailable';
-            }
-            console.error('Error fetching IP:', error);
-        });
-</script>
-<script>
-function displayDateTime() {
-    const now = new Date();
-    const preferredLang = 'en';
-    let localeToUse;
-
-    if (preferredLang === 'id') {
-        localeToUse = 'id-ID';
-    } else {
-        localeToUse = 'en-US'; // Default untuk Bahasa Inggris (US)
-    }
-
-    const options = {
-        dateStyle: 'full', // Contoh: "Saturday, July 20, 2024" atau "Sabtu, 20 Juli 2024"
-        timeStyle: 'long'  // Contoh: "10:30:45 AM PDT" atau "10.30.45 WIB"
-    };
-
-    const formattedDateTime = now.toLocaleString(localeToUse, options);
-    const dateTimeElement = document.getElementById('datetime'); // Menggunakan getElementById
-
-    if (dateTimeElement) {
-        dateTimeElement.textContent = formattedDateTime;
-    }
-}
-
-// Perbarui tanggal dan waktu setiap detik
-setInterval(displayDateTime, 1000);
-
-// Tampilkan segera saat halaman dimuat
-displayDateTime();
-</script>
+    // Logika IP, datetime, dan tahun sekarang ada di scripts.js
+    </script>
+    <script src="scripts.js"></script>
 </body>
 </html>
