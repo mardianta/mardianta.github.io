@@ -37,6 +37,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    /* Menambahkan gradien latar belakang yang halus */
+    background: linear-gradient(to bottom, #e7f0fe, #ffffff);
 }
 
 header {
