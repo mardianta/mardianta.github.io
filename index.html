@@ -18,6 +18,7 @@
     </style>
 </head>
 <body>
+    <div id="clientIpDisplay" style="background-color: #282c30; color: #f0f0f0; padding: 5px; text-align: center; font-size: 0.9em;">Your IP: <span id="clientIpAddress">Loading...</span></div>
     <header class="text-white">
         <nav class="navbar navbar-expand-lg navbar-dark container">
             <a class="navbar-brand" href="#">Mardianta PA</a>
@@ -765,6 +766,23 @@
         document.addEventListener('DOMContentLoaded', () => {
             const preferredLanguage = localStorage.getItem('preferredLanguage') || 'en'; // Default ke 'en'
             switchLanguage(preferredLanguage);
+
+            // Fetch and display client IP
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const clientIpElement = document.getElementById('clientIpAddress');
+                    if (clientIpElement) {
+                        clientIpElement.textContent = data.ip;
+                    }
+                })
+                .catch(error => {
+                    const clientIpElement = document.getElementById('clientIpAddress');
+                    if (clientIpElement) {
+                        clientIpElement.textContent = 'Unavailable';
+                    }
+                    console.error('Error fetching IP:', error);
+                });
         });
     </script>
     <script>
