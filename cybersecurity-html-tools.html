@@ -65,6 +65,7 @@
 <body>
   <header>
     <h1><span class="material-icons">security</span> Cybersecurity Toolkit</h1>
+    <p style="font-size: 0.9rem; margin-top: -0.5rem;">Your IP: <span id="clientIp">Loading...</span></p>
   </header>
 
   <nav>
@@ -255,6 +256,17 @@ Timezone: ${data.timezone}
 
     // === Show only selected tool section ===
     document.addEventListener("DOMContentLoaded", () => {
+      // Fetch and display client IP
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('clientIp').textContent = data.ip;
+        })
+        .catch(error => {
+          document.getElementById('clientIp').textContent = 'Unavailable';
+          console.error('Error fetching IP:', error);
+        });
+
       const sections = document.querySelectorAll('.tool-section');
       const navLinks = document.querySelectorAll('nav a');
 
