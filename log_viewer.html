@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Log Viewer - Filter Improvement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+            table-layout: fixed; /* Membuat lebar kolom tetap */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            overflow: visible; /* Biarkan konten terlihat (tidak disembunyikan) */
+            white-space: normal; /* Izinkan teks untuk membungkus ke baris berikutnya */
+            word-wrap: break-word; /* Memastikan kata yang sangat panjang juga bisa pecah */
+            vertical-align: top; /* Agar konten multi-baris tidak melayang di tengah */
+        }
+        /* Lebar spesifik untuk setiap kolom */
+        th:nth-child(1), td:nth-child(1) { width: 120px; } /* IP Address */
+        th:nth-child(2), td:nth-child(2) { width: 180px; } /* Timestamp */
+        th:nth-child(3), td:nth-child(3) { width: 250px; } /* Request */
+        th:nth-child(4), td:nth-child(4) { width: 70px; }  /* Status Code */
+        th:nth-child(5), td:nth-child(5) { width: 80px; }  /* Bytes Sent */
+        th:nth-child(6), td:nth-child(6) { width: 150px; } /* Referrer */
+        th:nth-child(7), td:nth-child(7) { width: 250px; } /* User Agent */
+
+        th {
+            background-color: #007bff;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 2; /* Pastikan header di atas baris */
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .search-input {
+            width: calc(100% - 16px);
+            padding: 4px;
+            margin-top: 4px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        #no-results {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ffe0b2; /* Light orange */
+            border: 1px solid #ffcc80;
+            border-radius: 4px;
+            display: none; /* Sembunyikan secara default */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Access Log Viewer with Column Search</h1>
+
+    <textarea id="logInput" placeholder="Tempelkan log akses Anda di sini (satu baris per entri log)...">210.57.215.158 - - [02/Jun/2025:13:12:54 +0700] "GET /sapp-wp-signon.php?pass=mtyjzfsbood468lferbookjjpstpauud HTTP/2" 302 0 "https://ailg.unair.ac.id:2083/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+162.120.184.36 - - [02/Jun/2025:13:13:07 +0700] "GET /HANIME/ HTTP/2" 404 23577 "https://www.google.com/" "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36"</textarea>
+    <button onclick="processLogs()">Proses Log</button>
+    <div id="error-message"></div>
+
+    <div id="log-container"></div>
+    <p id="no-results">Tidak ada log yang cocok dengan filter yang Anda terapkan.</p>
+
+    <script>
+        let allParsedLogs = []; // Variabel global untuk menyimpan semua log yang sudah diparsing
+        let currentTableBody = null; // Referensi ke tbody tabel
+
+        function parseLogEntry(logEntry) {
+            const regex = /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - - \[(.*?)\] "(.*?)" (\d{3}) (\d+) "(.*?)" "(.*?)"/;
+            const match = logEntry.match(regex);
+            if (!match) return null;
+
+            return {
+                ipAddress: match[1],
+                timestamp: match[2],
+                request: match[3],
+                statusCode: match[4],
+                bytesSent: match[5],
+                referrer: match[6],
+                userAgent: match[7]
+            };
+        }
+
+        // Fungsi untuk membuat struktur tabel awal (header dengan input pencarian)
+        function renderInitialTable() {
+            const container = document.getElementById('log-container');
+            // Hanya buat tabel jika belum ada
+            if (!container.querySelector('table')) {
+                const table = document.createElement('table');
+                const thead = document.createElement('thead');
+                const tbody = document.createElement('tbody');
+                tbody.id = 'logTableBody'; // Beri ID agar mudah diakses
+                currentTableBody = tbody; // Simpan referensi
+
+                // Header Tabel
+                const headerRow = document.createElement('tr');
+                const headers = [
+                    { name: 'IP Address', key: 'ipAddress' },
+                    { name: 'Timestamp', key: 'timestamp' },
+                    { name: 'Request', key: 'request' },
+                    { name: 'Status Code', key: 'statusCode' },
+                    { name: 'Bytes Sent', key: 'bytesSent' },
+                    { name: 'Referrer', key: 'referrer' },
+                    { name: 'User Agent', key: 'userAgent' }
+                ];
+
+                headers.forEach(headerInfo => {
+                    const th = document.createElement('th');
+                    th.innerHTML = `
+                        ${headerInfo.name}<br>
+                        <input type="text" class="search-input" placeholder="Cari ${headerInfo.name}..." data-column-key="${headerInfo.key}" onkeyup="filterTable()">
+                    `;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+                table.appendChild(tbody); // Tambahkan tbody ke tabel
+                container.appendChild(table);
+            }
+        }
+
+        // Fungsi untuk hanya memperbarui baris data di dalam tbody
+        function updateTableRows(logsToDisplay) {
+            const tbody = currentTableBody || document.getElementById('logTableBody');
+            const noResultsMessage = document.getElementById('no-results');
+
+            if (!tbody) return; // Keluar jika tbody belum ada
+
+            tbody.innerHTML = ''; // Hapus semua baris yang ada
+
+            if (logsToDisplay.length === 0) {
+                noResultsMessage.style.display = 'block'; // Tampilkan pesan
+            } else {
+                noResultsMessage.style.display = 'none'; // Sembunyikan pesan
+                logsToDisplay.forEach(logEntry => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${logEntry.ipAddress}</td>
+                        <td>${logEntry.timestamp}</td>
+                        <td>${logEntry.request}</td>
+                        <td>${logEntry.statusCode}</td>
+                        <td>${logEntry.bytesSent}</td>
+                        <td>${logEntry.referrer}</td>
+                        <td>${logEntry.userAgent}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+        }
+
+        function processLogs() {
+            const logInput = document.getElementById('logInput').value;
+            const logLines = logInput.split('\n').filter(line => line.trim() !== '');
+
+            allParsedLogs = []; // Reset global log array
+            const errors = [];
+
+            logLines.forEach((log, index) => {
+                const parsed = parseLogEntry(log);
+                if (parsed) {
+                    allParsedLogs.push(parsed);
+                } else {
+                    errors.push(`Baris ${index + 1}: Format log tidak valid - "${log}"`);
+                }
+            });
+
+            const errorMessageDiv = document.getElementById('error-message');
+            if (errors.length > 0) {
+                errorMessageDiv.innerHTML = '<h3>Peringatan Log Tidak Valid:</h3><ul>' + errors.map(err => `<li>${err}</li>`).join('') + '</ul>';
+            } else {
+                errorMessageDiv.innerHTML = '';
+            }
+
+            renderInitialTable(); // Pastikan struktur tabel ada
+            updateTableRows(allParsedLogs); // Tampilkan semua log awalnya
+        }
+
+        function filterTable() {
+            const searchInputs = document.querySelectorAll('.search-input');
+            let filteredLogs = [...allParsedLogs]; // Mulai dengan semua log
+
+            searchInputs.forEach(input => {
+                const columnKey = input.dataset.columnKey;
+                const searchTerm = input.value.toLowerCase();
+
+                if (searchTerm) {
+                    filteredLogs = filteredLogs.filter(log => {
+                        const cellValue = String(log[columnKey]).toLowerCase();
+                        return cellValue.includes(searchTerm);
+                    });
+                }
+            });
+            updateTableRows(filteredLogs); // Render ulang baris tabel dengan log yang sudah difilter
+        }
+
+        // Jalankan saat halaman pertama kali dimuat dengan data contoh di textarea
+        document.addEventListener('DOMContentLoaded', processLogs);
+    </script>
+
+</body>
+</html>
