@@ -107,3 +107,12 @@ h1,h2 {
 #standards ul li a:hover {
     color: var(--brand-primary-hover-color); /* Warna hover yang lebih gelap */
 }
+
+/* Mengubah warna tautan pada card-title di bagian Open Projects */
+#open-projects .card .card-title a {
+    color: var(--brand-primary-color); /* Menggunakan warna biru utama merek Anda */
+}
+
+#open-projects .card .card-title a:hover {
+    color: var(--brand-primary-hover-color); /* Warna hover yang lebih gelap */
+}
