@@ -30,10 +30,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
                     <label class="block text-gray-700 mb-2">Target URL</label>
+                    <p class="text-xs text-gray-500 -mt-2 mb-2">URL target yang akan diuji, termasuk parameternya.</p>
                     <input type="text" id="targetUrl" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="http://example.com/page.php?id=1">
                 </div>
                 <div>
                     <label class="block text-gray-700 mb-2">Request Method</label>
+                    <p class="text-xs text-gray-500 -mt-2 mb-2">Metode request HTTP (GET atau POST).</p>
                     <select id="requestMethod" class="w-full px-3 py-2 border border-gray-300 rounded-md">
                         <option value="GET">GET</option>
                         <option value="POST">POST</option>
@@ -43,11 +45,13 @@
             
             <div class="mb-4">
                 <label class="block text-gray-700 mb-2">Data Parameters (for POST)</label>
+                <p class="text-xs text-gray-500 -mt-2 mb-2">Parameter yang dikirim dalam body request POST. Contoh: <strong>user=admin&pass=123</strong></p>
                 <input type="text" id="postData" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="username=admin&password=123">
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-700 mb-2">Cookie</label>
+                <p class="text-xs text-gray-500 -mt-2 mb-2">Sertakan cookie dalam request HTTP. Pisahkan beberapa cookie dengan titik koma (;).</p>
                 <textarea id="cookie" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="PHPSESSID=abcdef123456; another_cookie=value" rows="3"></textarea>
             </div>
         </div>
@@ -72,40 +76,40 @@
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="flex items-center">
-                        <input type="checkbox" id="currentUser" class="mr-2">
-                        <label for="currentUser">Current User</label>
+                        <input type="checkbox" id="currentUser" class="mr-2" title="Mengambil nama pengguna database saat ini.">
+                        <label for="currentUser" title="Mengambil nama pengguna database saat ini.">Current User</label>
                     </div>
                     <div class="flex items-center">
-                        <input type="checkbox" id="currentDb" class="mr-2">
-                        <label for="currentDb">Current Database</label>
+                        <input type="checkbox" id="currentDb" class="mr-2" title="Mengambil nama database yang sedang digunakan.">
+                        <label for="currentDb" title="Mengambil nama database yang sedang digunakan.">Current Database</label>
                     </div>
                     <div class="flex items-center">
-                        <input type="checkbox" id="isDba" class="mr-2">
-                        <label for="isDba">Is DBA?</label>
+                        <input type="checkbox" id="isDba" class="mr-2" title="Mendeteksi apakah pengguna saat ini adalah seorang DBA (Database Administrator).">
+                        <label for="isDba" title="Mendeteksi apakah pengguna saat ini adalah seorang DBA (Database Administrator).">Is DBA?</label>
                     </div>
                     <div class="flex items-center">
-                        <input type="checkbox" id="users" class="mr-2">
-                        <label for="users">List Users</label>
+                        <input type="checkbox" id="users" class="mr-2" title="Mencacah (enumerate) semua pengguna database.">
+                        <label for="users" title="Mencacah (enumerate) semua pengguna database.">List Users</label>
                     </div>
                     <div class="flex items-center">
-                        <input type="checkbox" id="passwords" class="mr-2">
-                        <label for="passwords">List Passwords</label>
+                        <input type="checkbox" id="passwords" class="mr-2" title="Mencoba mengambil hash kata sandi pengguna database.">
+                        <label for="passwords" title="Mencoba mengambil hash kata sandi pengguna database.">List Passwords</label>
                     </div>
                     <div class="flex items-center">
-                        <input type="checkbox" id="roles" class="mr-2">
-                        <label for="roles">List Roles</label>
+                        <input type="checkbox" id="roles" class="mr-2" title="Mencacah peran (roles) pengguna database.">
+                        <label for="roles" title="Mencacah peran (roles) pengguna database.">List Roles</label>
                     </div>
                     <div class="flex items-center">
-                        <input type="checkbox" id="hostname" class="mr-2">
-                        <label for="hostname">Hostname</label>
+                        <input type="checkbox" id="hostname" class="mr-2" title="Mengambil nama host server database.">
+                        <label for="hostname" title="Mengambil nama host server database.">Hostname</label>
                     </div>
                     <div class="flex items-center">
-                        <input type="checkbox" id="privileges" class="mr-2">
-                        <label for="privileges">Privileges</label>
+                        <input type="checkbox" id="privileges" class="mr-2" title="Mencacah hak akses (privileges) pengguna database.">
+                        <label for="privileges" title="Mencacah hak akses (privileges) pengguna database.">Privileges</label>
                     </div>
                     <div class="flex items-center">
-                        <input type="checkbox" id="dbs" class="mr-2">
-                        <label for="dbs">List Databases</label>
+                        <input type="checkbox" id="dbs" class="mr-2" title="Mencacah (enumerate) semua nama database yang ada.">
+                        <label for="dbs" title="Mencacah (enumerate) semua nama database yang ada.">List Databases</label>
                     </div>
                 </div>
             </div>
@@ -117,6 +121,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-gray-700 mb-2">Level (1-5)</label>
+                        <p class="text-xs text-gray-500 -mt-2 mb-2">Tingkat kedalaman tes (1-5). Level lebih tinggi melakukan lebih banyak tes.</p>
                         <select id="level" class="w-full px-3 py-2 border border-gray-300 rounded-md">
                             <option value="1">1 - Default</option>
                             <option value="2">2</option>
@@ -127,6 +132,7 @@
                     </div>
                     <div>
                         <label class="block text-gray-700 mb-2">Risk (1-3)</label>
+                        <p class="text-xs text-gray-500 -mt-2 mb-2">Tingkat risiko tes (1-3). Risiko lebih tinggi berpotensi merusak data.</p>
                         <select id="risk" class="w-full px-3 py-2 border border-gray-300 rounded-md">
                             <option value="1">1 - Default</option>
                             <option value="2">2</option>
@@ -137,6 +143,7 @@
                 
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-2">Tamper Scripts</label>
+                    <p class="text-xs text-gray-500 -mt-2 mb-2">Mengaburkan payload untuk melewati WAF (Web Application Firewall).</p>
                     <select id="tamper" class="w-full px-3 py-2 border border-gray-300 rounded-md">
                         <option value="">None</option>
                         <option value="space2comment">space2comment</option>
