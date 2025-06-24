@@ -141,10 +141,7 @@
             <div class="command-box mb-4" id="commandOutput">
                 python sqlmap.py -u "http://example.com/page.php?id=1"
             </div>
-            <button onclick="generateCommand()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Generate Command
-            </button>
-            <button onclick="copyCommand()" class="ml-2 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <button onclick="copyCommand()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                 Copy Command
             </button>
         </div>
@@ -204,8 +201,28 @@
             });
         }
         
-        // Initialize with default command
-        window.onload = generateCommand;
+        // Automatically generate the command whenever an input changes.
+        document.addEventListener('DOMContentLoaded', () => {
+            // List of all input element IDs that should trigger a command update
+            const inputIds = [
+                'targetUrl', 'requestMethod', 'postData', 'cookie',
+                'currentUser', 'currentDb', 'isDba', 'users', 'passwords',
+                'roles', 'hostname', 'privileges', 'dbs',
+                'level', 'risk', 'tamper'
+            ];
+
+            // Attach the generateCommand function to the appropriate event for each input
+            inputIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const eventType = (element.type === 'text' || element.tagName.toLowerCase() === 'textarea') ? 'input' : 'change';
+                    element.addEventListener(eventType, generateCommand);
+                }
+            });
+
+            // Generate the initial command when the page loads
+            generateCommand();
+        });
     </script>
 </body>
 </html>
