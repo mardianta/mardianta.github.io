@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto p-4 max-w-6xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Website Viewer</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div class="flex flex-col md:flex-row gap-4">
+                <input 
+                    type="url" 
+                    id="websiteUrl" 
+                    placeholder="https://example.com" 
+                    class="flex-grow p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value="https://www.wikipedia.org">
+                
+                <div class="flex gap-2">
+                    <button 
+                        id="viewBtn" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        View Website
+                    </button>
+                    <button 
+                        id="refreshBtn" 
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 disabled">
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-wrap gap-2">
+                <div class="flex items-center">
+                    <input type="checkbox" id="sandboxCheck" class="mr-2" checked>
+                    <label for="sandboxCheck" class="text-sm text-gray-700">Enable Sandbox (recommended)</label>
+                </div>
+                <div class="flex items-center ml-4">
+                    <input type="checkbox" id="allowScripts" class="mr-2">
+                    <label for="allowScripts" class="text-sm text-gray-700">Allow Scripts</label>
+                </div>
+            </div>
+            
+            <div id="errorMessage" class="mt-3 text-red-600 text-sm hidden"></div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-4 border-b flex justify-between items-center">
+                <div id="currentUrl" class="text-sm text-gray-600 truncate">No website loaded</div>
+                <div class="flex gap-2">
+                    <button id="backBtn" class="p-1 text-gray-600 hover:text-gray-900 disabled" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button id="forwardBtn" class="p-1 text-gray-600 hover:text-gray-900 disabled" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="iframe-container">
+                <iframe 
+                    id="websiteFrame" 
+                    sandbox="allow-same-origin allow-forms allow-popups allow-presentation"
+                    allow="fullscreen"
+                    src="about:blank"
+                    title="Website viewer"></iframe>
+            </div>
+        </div>
+        
+        <div class="mt-6 bg-white rounded-lg shadow-lg p-4">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Security Information</h2>
+            <p class="text-sm text-gray-600">
+                This viewer loads websites in a sandboxed iframe for security. 
+                Some features may be restricted to prevent malicious activity.
+                For best security, keep "Enable Sandbox" checked.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const websiteUrl = document.getElementById('websiteUrl');
+            const viewBtn = document.getElementById('viewBtn');
+            const refreshBtn = document.getElementById('refreshBtn');
+            const backBtn = document.getElementById('backBtn');
+            const forwardBtn = document.getElementById('forwardBtn');
+            const websiteFrame = document.getElementById('websiteFrame');
+            const currentUrl = document.getElementById('currentUrl');
+            const errorMessage = document.getElementById('errorMessage');
+            const sandboxCheck = document.getElementById('sandboxCheck');
+            const allowScripts = document.getElementById('allowScripts');
+            
+            let iframeLoaded = false;
+            
+            // Update sandbox attributes when checkboxes change
+            function updateSandbox() {
+                let sandboxAttrs = 'allow-same-origin allow-forms allow-popups allow-presentation';
+                
+                if (!sandboxCheck.checked) {
+                    websiteFrame.removeAttribute('sandbox');
+                    return;
+                }
+                
+                if (allowScripts.checked) {
+                    sandboxAttrs += ' allow-scripts';
+                }
+                
+                websiteFrame.setAttribute('sandbox', sandboxAttrs);
+            }
+            
+            sandboxCheck.addEventListener('change', updateSandbox);
+            allowScripts.addEventListener('change', updateSandbox);
+            
+            // Load URL in iframe
+            function loadUrl(url) {
+                if (!url) return;
+                
+                try {
+                    // Basic validation
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        url = 'https://' + url;
+                    }
+                    
+                    // Update iframe src
+                    websiteFrame.src = url;
+                    iframeLoaded = true;
+                    currentUrl.textContent = url;
+                    errorMessage.classList.add('hidden');
+                    
+                    // Enable navigation buttons
+                    refreshBtn.classList.remove('disabled');
+                    refreshBtn.disabled = false;
+                } catch (err) {
+                    console.error('Error loading URL:', err);
+                    errorMessage.textContent = 'Error loading website: ' + err.message;
+                    errorMessage.classList.remove('hidden');
+                }
+            }
+            
+            // Handle view button click
+            viewBtn.addEventListener('click', function() {
+                const url = websiteUrl.value.trim();
+                loadUrl(url);
+            });
+            
+            // Handle refresh button click
+            refreshBtn.addEventListener('click', function() {
+                if (iframeLoaded) {
+                    websiteFrame.src = websiteFrame.src;
+                }
+            });
+            
+            // Handle back/forward navigation (within iframe)
+            backBtn.addEventListener('click', function() {
+                try {
+                    websiteFrame.contentWindow.history.back();
+                } catch (err) {
+                    console.error('Navigation error:', err);
+                }
+            });
+            
+            forwardBtn.addEventListener('click', function() {
+                try {
+                    websiteFrame.contentWindow.history.forward();
+                } catch (err) {
+                    console.error('Navigation error:', err);
+                }
+            });
+            
+            // Update navigation buttons based on iframe history
+            setInterval(function() {
+                try {
+                    if (iframeLoaded && websiteFrame.contentWindow) {
+                        backBtn.disabled = !websiteFrame.contentWindow.history.length || 
+                                          websiteFrame.contentWindow.history.scrollRestoration !== 'manual';
+                        forwardBtn.disabled = true; // Hard to determine forward state due to security
+                        
+                        backBtn.classList.toggle('disabled', backBtn.disabled);
+                        forwardBtn.classList.toggle('disabled', forwardBtn.disabled);
+                    }
+                } catch (err) {
+                    // Cross-origin errors are expected
+                    backBtn.disabled = true;
+                    forwardBtn.disabled = true;
+                    backBtn.classList.add('disabled');
+                    forwardBtn.classList.add('disabled');
+                }
+            }, 500);
+            
+            // Handle URL changes in iframe
+            websiteFrame.addEventListener('load', function() {
+                try {
+                    // Update current URL display (may fail due to same-origin policy)
+                    currentUrl.textContent = websiteFrame.contentWindow.location.href;
+                } catch (err) {
+                    // Expected for cross-origin iframes
+                    currentUrl.textContent = "Loaded (cross-origin restrictions apply)";
+                }
+            });
+            
+            // Initialize sandbox settings
+            updateSandbox();
+            
+            // Load default website after short delay
+            setTimeout(() => {
+                if (!iframeLoaded && websiteUrl.value) {
+                    loadUrl(websiteUrl.value);
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
