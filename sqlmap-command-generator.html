@@ -1,186 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQLMap Command Generator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <style>
+        /* Light theme variables */
+        [data-bs-theme="light"] {
+            --highlight-color: #005a9c;
+            --command-box-bg: #f1f1f1;
+            --command-box-text: #333333;
+        }
+
+        /* Cyber dark theme variables for Bootstrap */
+        [data-bs-theme="dark"] {
+            --bs-body-bg: #0a0a0a; /* Latar belakang tetap gelap pekat */
+            --bs-body-color: antiquewhite; /* Teks utama menjadi antiquewhite */
+            --bs-secondary-color: #1E8449; /* Darker Emerald untuk teks sekunder/muted */
+            --bs-border-color: #2ECC71; /* Emerald Green untuk border */
+            --bs-tertiary-bg: #0d0d0d; /* Background input tetap gelap */
+            --bs-primary-rgb: 30, 140, 60; /* Darker Emerald untuk tombol utama */
+            --bs-btn-hover-bg: #28B463; /* Slightly brighter Emerald untuk hover tombol */
+            --bs-card-bg: #0a0a0a; /* Background kartu sama dengan body */
+            --bs-card-box-shadow: 0 4px 8px -1px rgba(46, 204, 113, 0.15), 0 2px 4px -1px rgba(46, 204, 113, 0.1); /* Bayangan Emerald Green */
+            --highlight-color: #2ECC71; /* Emerald Green untuk sorotan perintah */
+            --command-box-bg: #000000; /* Latar belakang kotak perintah tetap hitam */
+            --command-box-text: #2ECC71; /* Teks di kotak perintah menggunakan warna sorotan */
+            --bs-btn-secondary-bg: #003300; /* Very dark green untuk tombol sekunder */
+            --bs-btn-secondary-color: #2ECC71; /* Emerald Green untuk teks tombol sekunder */
+            --bs-success-rgb: 46, 204, 113; /* Emerald Green untuk pesan sukses */
+            --bs-danger-rgb: 255, 0, 0; /* Merah tetap untuk pesan gagal */
+            --bs-link-color-rgb: 46, 204, 113; /* Emerald Green untuk link */
+            --bs-link-hover-color-rgb: 76, 217, 130; /* Lighter Emerald untuk hover link */
+            h1, h2, h3, h4, h5, h6, label {
+                color: antiquewhite;
+            }
+
+            /* Apply green color to input text and borders */
+            .form-control,
+            .form-select,
+            textarea {
+                color: #2ECC71; /* Emerald Green for input text */
+                border-color: #2ECC71; /* Emerald Green for input border */
+                background-color: var(--bs-tertiary-bg); /* Ensure background is dark */
+            }
+
+            /* For checkboxes/radio buttons, ensure their border is green */
+            .form-check-input {
+                border-color: #2ECC71; /* Emerald Green for checkbox/radio border */
+            }
+            /* When checked, the background of form-check-input should also be green */
+            .form-check-input:checked {
+                background-color: #2ECC71;
+                border-color: #2ECC71;
+            }
+
+            /* Ensure form-text (help text) uses the muted green color */
+            .form-text {
+                color: antiquewhite;
+            }
+        }
         .command-box {
             font-family: monospace;
-            background-color: #1e1e1e;
-            color: #d4d4d4;
+            background-color: var(--command-box-bg);
+            color: var(--command-box-text);
             padding: 15px;
             border-radius: 5px;
             overflow-x: auto;
             white-space: nowrap;
         }
         .highlight {
-            color: #569cd6;
+            color: var(--highlight-color);
+        }
+        [data-bs-theme="dark"] .card {
+            box-shadow: var(--bs-card-box-shadow);
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">SQLMap Command Generator</h1>
+<body>
+    <div class="container py-5">
+        <h1 class="fw-bold text-center mb-5">SQLMap Command Generator</h1>
         
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-xl font-semibold mb-4 text-gray-700">Basic Options</h2>
+        <div class="card shadow-sm p-4 mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fs-4 fw-semibold mb-0">Basic Options</h2>
+                <button id="themeToggle" class="btn btn-secondary">
+                    <i class="fas fa-moon me-2"></i>Dark Mode
+                </button>
+            </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div>
-                    <label class="block text-gray-700 mb-2">Target URL</label>
-                    <p class="text-xs text-gray-500 -mt-2 mb-2">URL target yang akan diuji, termasuk parameternya.</p>
-                    <input type="text" id="targetUrl" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="http://example.com/page.php?id=1">
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label for="targetUrl" class="form-label">Target URL</label>
+                    <p class="form-text mt-0 mb-2">URL target yang akan diuji, termasuk parameternya.</p>
+                    <input type="text" id="targetUrl" class="form-control" placeholder="http://example.com/page.php?id=1">
                 </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">Request Method</label>
-                    <p class="text-xs text-gray-500 -mt-2 mb-2">Metode request HTTP (GET atau POST).</p>
-                    <select id="requestMethod" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                <div class="col-md-6">
+                    <label for="requestMethod" class="form-label">Request Method</label>
+                    <p class="form-text mt-0 mb-2">Metode request HTTP (GET atau POST).</p>
+                    <select id="requestMethod" class="form-select">
                         <option value="GET">GET</option>
                         <option value="POST">POST</option>
                     </select>
                 </div>
             </div>
             
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Data Parameters (for POST)</label>
-                <p class="text-xs text-gray-500 -mt-2 mb-2">Parameter yang dikirim dalam body request POST. Contoh: <strong>user=admin&pass=123</strong></p>
-                <input type="text" id="postData" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="username=admin&password=123">
+            <div class="mb-3">
+                <label for="postData" class="form-label">Data Parameters (for POST)</label>
+                <p class="form-text mt-0 mb-2">Parameter yang dikirim dalam body request POST. Contoh: <strong>user=admin&pass=123</strong></p>
+                <input type="text" id="postData" class="form-control" placeholder="username=admin&password=123">
             </div>
 
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Cookie</label>
-                <p class="text-xs text-gray-500 -mt-2 mb-2">Sertakan cookie dalam request HTTP. Pisahkan beberapa cookie dengan titik koma (;).</p>
-                <textarea id="cookie" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="PHPSESSID=abcdef123456; another_cookie=value" rows="3"></textarea>
+            <div class="mb-3">
+                <label for="cookie" class="form-label">Cookie</label>
+                <p class="form-text mt-0 mb-2">Sertakan cookie dalam request HTTP. Pisahkan beberapa cookie dengan titik koma (;).</p>
+                <textarea id="cookie" class="form-control" placeholder="PHPSESSID=abcdef123456; another_cookie=value" rows="3"></textarea>
             </div>
         </div>
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-xl font-semibold mb-4 text-gray-700">Generated Command</h2>
+
+        <div class="card shadow-sm p-4 mb-5">
+            <h2 class="fs-4 fw-semibold mb-4">Generated Command</h2>
             <div class="command-box mb-4" id="commandOutput">
                 python sqlmap.py -u "http://example.com/page.php?id=1"
             </div>
-            <div class="flex items-center">
-                <button onclick="copyCommand()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <div class="d-flex align-items-center">
+                <button onclick="copyCommand()" class="btn btn-primary">
                     Copy Command
                 </button>
-                <span id="copyMessage" class="ml-4 text-green-600 font-semibold"></span>
+                <span id="copyMessage" class="ms-3 fw-semibold"></span>
             </div>
         </div>
         
         <!-- Grid container for Information Gathering and Advanced Options -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div class="row g-5 mb-5">
             <!-- Information Gathering Section -->
-            <div class="bg-white rounded-lg shadow-md p-6 h-full">
-                <h2 class="text-xl font-semibold mb-4 text-gray-700">Information Gathering</h2>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="flex items-center">
-                        <input type="checkbox" id="currentUser" class="mr-2" title="Mengambil nama pengguna database saat ini.">
-                        <label for="currentUser" title="Mengambil nama pengguna database saat ini.">Current User</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="currentDb" class="mr-2" title="Mengambil nama database yang sedang digunakan.">
-                        <label for="currentDb" title="Mengambil nama database yang sedang digunakan.">Current Database</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="isDba" class="mr-2" title="Mendeteksi apakah pengguna saat ini adalah seorang DBA (Database Administrator).">
-                        <label for="isDba" title="Mendeteksi apakah pengguna saat ini adalah seorang DBA (Database Administrator).">Is DBA?</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="users" class="mr-2" title="Mencacah (enumerate) semua pengguna database.">
-                        <label for="users" title="Mencacah (enumerate) semua pengguna database.">List Users</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="passwords" class="mr-2" title="Mencoba mengambil hash kata sandi pengguna database.">
-                        <label for="passwords" title="Mencoba mengambil hash kata sandi pengguna database.">List Passwords</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="roles" class="mr-2" title="Mencacah peran (roles) pengguna database.">
-                        <label for="roles" title="Mencacah peran (roles) pengguna database.">List Roles</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="hostname" class="mr-2" title="Mengambil nama host server database.">
-                        <label for="hostname" title="Mengambil nama host server database.">Hostname</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="privileges" class="mr-2" title="Mencacah hak akses (privileges) pengguna database.">
-                        <label for="privileges" title="Mencacah hak akses (privileges) pengguna database.">Privileges</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="checkbox" id="dbs" class="mr-2" title="Mencacah (enumerate) semua nama database yang ada.">
-                        <label for="dbs" title="Mencacah (enumerate) semua nama database yang ada.">List Databases</label>
+            <div class="col-md-6">
+                <div class="card shadow-sm p-4 h-100 d-flex flex-column">
+                    <h2 class="fs-4 fw-semibold mb-4">Information Gathering</h2>
+                    
+                    <div class="row g-3">
+                        <div class="col-sm-6 form-check"><input class="form-check-input" type="checkbox" id="currentUser" title="Mengambil nama pengguna database saat ini."><label class="form-check-label" for="currentUser" title="Mengambil nama pengguna database saat ini.">Current User</label></div>
+                        <div class="col-sm-6 form-check"><input class="form-check-input" type="checkbox" id="currentDb" title="Mengambil nama database yang sedang digunakan."><label class="form-check-label" for="currentDb" title="Mengambil nama database yang sedang digunakan.">Current Database</label></div>
+                        <div class="col-sm-6 form-check"><input class="form-check-input" type="checkbox" id="isDba" title="Mendeteksi apakah pengguna saat ini adalah seorang DBA (Database Administrator)."><label class="form-check-label" for="isDba" title="Mendeteksi apakah pengguna saat ini adalah seorang DBA (Database Administrator).">Is DBA?</label></div>
+                        <div class="col-sm-6 form-check"><input class="form-check-input" type="checkbox" id="users" title="Mencacah (enumerate) semua pengguna database."><label class="form-check-label" for="users" title="Mencacah (enumerate) semua pengguna database.">List Users</label></div>
+                        <div class="col-sm-6 form-check"><input class="form-check-input" type="checkbox" id="passwords" title="Mencoba mengambil hash kata sandi pengguna database."><label class="form-check-label" for="passwords" title="Mencoba mengambil hash kata sandi pengguna database.">List Passwords</label></div>
+                        <div class="col-sm-6 form-check"><input class="form-check-input" type="checkbox" id="roles" title="Mencacah peran (roles) pengguna database."><label class="form-check-label" for="roles" title="Mencacah peran (roles) pengguna database.">List Roles</label></div>
+                        <div class="col-sm-6 form-check"><input class="form-check-input" type="checkbox" id="hostname" title="Mengambil nama host server database."><label class="form-check-label" for="hostname" title="Mengambil nama host server database.">Hostname</label></div>
+                        <div class="col-sm-6 form-check"><input class="form-check-input" type="checkbox" id="privileges" title="Mencacah hak akses (privileges) pengguna database."><label class="form-check-label" for="privileges" title="Mencacah hak akses (privileges) pengguna database.">Privileges</label></div>
+                        <div class="col-sm-6 form-check"><input class="form-check-input" type="checkbox" id="dbs" title="Mencacah (enumerate) semua nama database yang ada."><label class="form-check-label" for="dbs" title="Mencacah (enumerate) semua nama database yang ada.">List Databases</label></div>
                     </div>
                 </div>
             </div>
             
             <!-- Advanced Options Section -->
-            <div class="bg-white rounded-lg shadow-md p-6 h-full">
-                <h2 class="text-xl font-semibold mb-4 text-gray-700">Advanced Options</h2>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-gray-700 mb-2">Level (1-5)</label>
-                        <p class="text-xs text-gray-500 -mt-2 mb-2">Tingkat kedalaman tes (1-5). Level lebih tinggi melakukan lebih banyak tes.</p>
-                        <select id="level" class="w-full px-3 py-2 border border-gray-300 rounded-md">
-                            <option value="1">1 - Default</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5" selected>5 - Maximum</option>
+            <div class="col-md-6">
+                <div class="card shadow-sm p-4 h-100 d-flex flex-column">
+                    <h2 class="fs-4 fw-semibold mb-4">Advanced Options</h2>
+                    
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6">
+                            <label for="level" class="form-label">Level (1-5)</label>
+                            <p class="form-text mt-0 mb-2">Tingkat kedalaman tes (1-5). Level lebih tinggi melakukan lebih banyak tes.</p>
+                            <select id="level" class="form-select">
+                                <option value="1">1 - Default</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5 - Maximum</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="risk" class="form-label">Risk (1-3)</label>
+                            <p class="form-text mt-0 mb-2">Tingkat risiko tes (1-3). Risiko lebih tinggi berpotensi merusak data.</p>
+                            <select id="risk" class="form-select">
+                                <option value="1">1 - Default</option>
+                                <option value="2">2</option>
+                                <option value="3">3 - Maximum</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="tamper" class="form-label">Tamper Scripts</label>
+                        <p class="form-text mt-0 mb-2">Mengaburkan payload untuk melewati WAF. Tahan <strong>Ctrl (atau Cmd di Mac)</strong> untuk memilih lebih dari satu.</p>
+                        <select id="tamper" class="form-select" multiple size="5">
+                            <option value="space2comment">space2comment</option>
+                            <option value="between">between</option>
+                            <option value="randomcase">randomcase</option>
+                            <option value="charunicodeencode">charunicodeencode</option>
+                            <option value="apostrophemask">apostrophemask</option>
+                            <option value="base64encode">base64encode</option>
+                            <option value="charencode">charencode</option>
+                            <option value="unmagicquotes">unmagicquotes</option>
+                            <option value="versionedmorekeywords">versionedmorekeywords</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-gray-700 mb-2">Risk (1-3)</label>
-                        <p class="text-xs text-gray-500 -mt-2 mb-2">Tingkat risiko tes (1-3). Risiko lebih tinggi berpotensi merusak data.</p>
-                        <select id="risk" class="w-full px-3 py-2 border border-gray-300 rounded-md">
-                            <option value="1">1 - Default</option>
-                            <option value="2">2</option>
-                            <option value="3" selected>3 - Maximum</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">Tamper Scripts</label>
-                    <p class="text-xs text-gray-500 -mt-2 mb-2">Mengaburkan payload untuk melewati WAF. Tahan <strong>Ctrl (atau Cmd di Mac)</strong> untuk memilih lebih dari satu.</p>
-                    <select id="tamper" class="w-full px-3 py-2 border border-gray-300 rounded-md" multiple size="5">
-                        <option value="space2comment">space2comment</option>
-                        <option value="between">between</option>
-                        <option value="randomcase">randomcase</option>
-                        <option value="charunicodeencode">charunicodeencode</option>
-                        <option value="apostrophemask">apostrophemask</option>
-                        <option value="base64encode">base64encode</option>
-                        <option value="charencode">charencode</option>
-                        <option value="unmagicquotes">unmagicquotes</option>
-                        <option value="versionedmorekeywords">versionedmorekeywords</option>
-                    </select>
                 </div>
             </div>
         </div>
         
         <!-- Explanation Section -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">Penjelasan Alat</h2>
-            <div class="text-gray-700 space-y-4">
+        <div class="card shadow-sm p-4">
+            <h2 class="h3 fw-bold mb-4">Penjelasan Alat</h2>
+            <div class="vstack gap-3">
                 <p>
-                    <strong>SQLMap Command Generator</strong> ini dirancang untuk mempermudah pembuatan perintah (command) untuk alat pengujian penetrasi populer, <a href="http://sqlmap.org/" target="_blank" class="text-blue-600 hover:underline">SQLMap</a>. Daripada mengingat semua flag dan opsi yang tersedia, Anda dapat menggunakan antarmuka grafis ini untuk memilih opsi yang Anda butuhkan, dan perintah yang sesuai akan dibuat secara otomatis.
+                    <strong>SQLMap Command Generator</strong> ini dirancang untuk mempermudah pembuatan perintah (command) untuk alat pengujian penetrasi populer, <a href="http://sqlmap.org/" target="_blank">SQLMap</a>. Daripada mengingat semua flag dan opsi yang tersedia, Anda dapat menggunakan antarmuka grafis ini untuk memilih opsi yang Anda butuhkan, dan perintah yang sesuai akan dibuat secara otomatis.
                 </p>
                 <p>
                     <strong>Apa itu SQLMap?</strong> SQLMap adalah alat open-source yang mengotomatiskan proses pendeteksian dan eksploitasi kelemahan SQL injection. Ini adalah alat yang sangat kuat yang digunakan oleh para profesional keamanan untuk menguji keamanan database.
                 </p>
-                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-4" role="alert">
-                    <p class="font-bold">Peringatan Penggunaan yang Bertanggung Jawab</p>
+                <div class="alert alert-warning mt-4" role="alert">
+                    <p class="fw-bold">Peringatan Penggunaan yang Bertanggung Jawab</p>
                     <p>Alat ini ditujukan untuk tujuan pendidikan dan pengujian keamanan yang sah saja. Menggunakan SQLMap pada sistem atau jaringan tanpa izin eksplisit dari pemiliknya adalah ilegal dan tidak etis. Pengguna bertanggung jawab penuh atas tindakan mereka sendiri. Selalu dapatkan izin sebelum melakukan pengujian penetrasi.</p>
                 </div>
-                <div class="text-center mt-6">
-                    <a href="index.html" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <div class="text-center mt-4">
+                    <a href="index.html" class="btn btn-dark text-white">
                         Kembali ke Portfolio
                     </a>
                 </div>
             </div>
         </div>
-        
     </div>
 
     <script>
@@ -238,22 +279,59 @@
             const copyMessage = document.getElementById('copyMessage');
             
             navigator.clipboard.writeText(command).then(() => {
+                copyMessage.className = 'ms-3 fw-semibold text-success';
                 copyMessage.textContent = 'Copied!';
-                copyMessage.style.color = '#16a34a'; // Tailwind's green-600
                 setTimeout(() => {
                     copyMessage.textContent = '';
                 }, 2000); // Message disappears after 2 seconds
             }, (err) => {
+                copyMessage.className = 'ms-3 fw-semibold text-danger';
                 copyMessage.textContent = 'Failed to copy!';
-                copyMessage.style.color = '#ef4444'; // Tailwind's red-500
                 console.error('Could not copy text: ', err);
                 setTimeout(() => {
                     copyMessage.textContent = '';
                 }, 2000);
             });
         }
-        
-        // Automatically generate the command whenever an input changes.
+
+        // Theme Toggle Logic
+        const htmlEl = document.documentElement;
+        const themeToggleBtn = document.getElementById('themeToggle');
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                htmlEl.setAttribute('data-bs-theme', 'dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon me-2"></i>Dark Mode';
+            } else {
+                htmlEl.setAttribute('data-bs-theme', 'light');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun me-2"></i>Light Mode';
+            }
+        }
+
+        // Check for saved theme preference or system preference on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                applyTheme('dark'); // Default to dark if system prefers it
+            } else {
+                applyTheme('light'); // Default to light
+            }
+        });
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlEl.getAttribute('data-bs-theme') === 'dark') {
+                applyTheme('light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                applyTheme('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            // Re-generate command to ensure highlighting colors are correct if they depend on theme
+            generateCommand();
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             // List of all input element IDs that should trigger a command update
             const inputIds = [
@@ -267,14 +345,19 @@
             inputIds.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
-                    const eventType = (element.type === 'text' || element.tagName.toLowerCase() === 'textarea') ? 'input' : 'change';
+                    const eventType = (element.type === 'text' || element.tagName.toLowerCase() === 'textarea' || element.tagName.toLowerCase() === 'select') ? 'input' : 'change';
                     element.addEventListener(eventType, generateCommand);
                 }
             });
+
+            // Set default values for level and risk
+            document.getElementById('level').value = '5';
+            document.getElementById('risk').value = '3';
 
             // Generate the initial command when the page loads
             generateCommand();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
