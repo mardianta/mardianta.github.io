@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLMap Command Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .command-box {
+            font-family: monospace;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .highlight {
+            color: #569cd6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">SQLMap Command Generator</h1>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Basic Options</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-gray-700 mb-2">Target URL</label>
+                    <input type="text" id="targetUrl" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="http://example.com/page.php?id=1">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Request Method</label>
+                    <select id="requestMethod" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Data Parameters (for POST)</label>
+                <input type="text" id="postData" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="username=admin&password=123">
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Information Gathering</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="flex items-center">
+                    <input type="checkbox" id="currentUser" class="mr-2">
+                    <label for="currentUser">Current User</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="currentDb" class="mr-2">
+                    <label for="currentDb">Current Database</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="isDba" class="mr-2">
+                    <label for="isDba">Is DBA?</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="users" class="mr-2">
+                    <label for="users">List Users</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="passwords" class="mr-2">
+                    <label for="passwords">List Passwords</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="roles" class="mr-2">
+                    <label for="roles">List Roles</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="hostname" class="mr-2">
+                    <label for="hostname">Hostname</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="privileges" class="mr-2">
+                    <label for="privileges">Privileges</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="dbs" class="mr-2">
+                    <label for="dbs">List Databases</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Advanced Options</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">Level (1-5)</label>
+                    <select id="level" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                        <option value="1">1 - Default</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5" selected>5 - Maximum</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Risk (1-3)</label>
+                    <select id="risk" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                        <option value="1">1 - Default</option>
+                        <option value="2">2</option>
+                        <option value="3" selected>3 - Maximum</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Tamper Scripts</label>
+                <select id="tamper" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    <option value="">None</option>
+                    <option value="space2comment">space2comment</option>
+                    <option value="between">between</option>
+                    <option value="randomcase">randomcase</option>
+                    <option value="charunicodeencode">charunicodeencode</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Generated Command</h2>
+            <div class="command-box mb-4" id="commandOutput">
+                python sqlmap.py -u "http://example.com/page.php?id=1"
+            </div>
+            <button onclick="generateCommand()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Generate Command
+            </button>
+            <button onclick="copyCommand()" class="ml-2 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                Copy Command
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function generateCommand() {
+            const targetUrl = document.getElementById('targetUrl').value || 'http://example.com/page.php?id=1';
+            const requestMethod = document.getElementById('requestMethod').value;
+            const postData = document.getElementById('postData').value;
+            
+            let command = 'python sqlmap.py';
+            
+            if (requestMethod === 'GET') {
+                command += ` -u "${targetUrl}"`;
+            } else {
+                command += ` -u "${targetUrl}" --data="${postData}"`;
+            }
+            
+            // Information gathering options
+            if (document.getElementById('currentUser').checked) command += ' --current-user';
+            if (document.getElementById('currentDb').checked) command += ' --current-db';
+            if (document.getElementById('isDba').checked) command += ' --is-dba';
+            if (document.getElementById('users').checked) command += ' --users';
+            if (document.getElementById('passwords').checked) command += ' --passwords';
+            if (document.getElementById('roles').checked) command += ' --roles';
+            if (document.getElementById('hostname').checked) command += ' --hostname';
+            if (document.getElementById('privileges').checked) command += ' --privileges';
+            if (document.getElementById('dbs').checked) command += ' --dbs';
+            
+            // Advanced options
+            const level = document.getElementById('level').value;
+            const risk = document.getElementById('risk').value;
+            const tamper = document.getElementById('tamper').value;
+            
+            command += ` --level=${level} --risk=${risk}`;
+            if (tamper) command += ` --tamper=${tamper}`;
+            
+            // Highlight the command parts
+            const highlightedCommand = command
+                .replace(/python sqlmap.py/g, '<span class="highlight">python sqlmap.py</span>')
+                .replace(/-u/g, '<span class="highlight">-u</span>')
+                .replace(/--[a-z-]+/g, '<span class="highlight">$&</span>');
+            
+            document.getElementById('commandOutput').innerHTML = highlightedCommand;
+        }
+        
+        function copyCommand() {
+            const command = document.getElementById('commandOutput').textContent;
+            navigator.clipboard.writeText(command).then(() => {
+                alert('Command copied to clipboard!');
+            });
+        }
+        
+        // Initialize with default command
+        window.onload = generateCommand;
+    </script>
+</body>
+</html>
