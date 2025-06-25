@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alat PDF - Gabung & Pisah</title>
+    <title>Alat PDF - Gabung, Pisah & Edit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-    <!-- PDF.js for rendering thumbnails -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
         :root {
@@ -28,6 +27,56 @@
             border-color: var(--bs-primary) !important;
             background-color: rgba(var(--bs-primary-rgb), 0.1);
         }
+        
+        /* Styles for PDF Editor */
+        #editCanvasContainer {
+            position: relative;
+            border: 1px solid #ccc;
+            background-color: #e9ecef;
+            max-width: 100%;
+            overflow: auto;
+            margin: 0 auto; /* Center the container */
+            cursor: crosshair; /* Indicate it's an interactive area */
+        }
+        #editCanvas {
+            display: block; /* Remove extra space below canvas */
+            margin: 0 auto; /* Center the canvas */
+        }
+        .text-input-overlay, .image-overlay {
+            position: absolute;
+            border: 1px dashed #007bff;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-family: sans-serif;
+            padding: 2px;
+            z-index: 10;
+            resize: both; /* Allow resizing */
+            overflow: hidden; /* Hide overflow when resizing */
+            cursor: grab;
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+        }
+        .text-input-overlay.selected, .image-overlay.selected {
+            border: 2px solid #007bff; /* Stronger border when selected */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .text-input-overlay textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            resize: none;
+            overflow: hidden;
+            font-family: inherit;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            outline: none; /* Remove default textarea outline */
+        }
+        .image-overlay img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures image fits within the box without distortion */
+            pointer-events: none; /* Allows mouse events to pass through to the parent div for dragging */
+        }
 
         .drop-area .icon {
             font-size: 4rem;
@@ -43,13 +92,12 @@
             overflow-y: auto;
         }
 
-        /* Styles for PDF Splitter Thumbnails */
         #pdfThumbnailsContainer {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             justify-content: center;
-            max-height: 400px; /* Limit height for scrollability */
+            max-height: 400px;
             overflow-y: auto;
             padding: 10px;
             border: 1px solid #e9ecef;
@@ -65,6 +113,15 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
+        /* Custom Context Menu Styles */
+        #customContextMenu {
+            display: none; /* Hidden by default */
+            border-radius: 0.5rem;
+            overflow: hidden; /* For rounded corners on list items */
+        }
+        #ctxImageUpload {
+            display: none; /* Hide the actual file input */
+        }
     </style>
 </head>
 <body class="bg-light-subtle">
@@ -82,10 +139,14 @@
                             <i class="fa-solid fa-scissors me-2"></i>Pisah PDF
                         </button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="editor-tab" data-bs-toggle="tab" data-bs-target="#editor-tab-pane" type="button" role="tab" aria-controls="editor-tab-pane" aria-selected="false">
+                            <i class="fa-solid fa-pencil me-2"></i>Edit PDF
+                        </button>
+                    </li>
                 </ul>
             </div>
             <div class="tab-content" id="pdfToolsTabContent">
-                <!-- Merger Tab Pane -->
                 <div class="tab-pane fade show active" id="merger-tab-pane" role="tabpanel" aria-labelledby="merger-tab" tabindex="0">
                     <div class="card-body p-4 p-md-5 text-center">
                         <h1 class="card-title text-primary fw-bold mb-4">Penggabung PDF Online</h1>
@@ -109,7 +170,6 @@
                         <div class="alert mt-4 d-none" id="mergeFeedback" role="alert"></div>
                     </div>
                 </div>
-                <!-- Splitter Tab Pane -->
                 <div class="tab-pane fade" id="splitter-tab-pane" role="tabpanel" aria-labelledby="splitter-tab" tabindex="0">
                     <div class="card-body p-4 p-md-5 text-center">
                         <h1 class="card-title text-primary fw-bold mb-4">Pemisah PDF Online</h1>
@@ -131,8 +191,7 @@
                                 </div>
                                 <p class="form-text text-start">Pilih halaman yang ingin Anda pisahkan:</p>
                                 <div id="pdfThumbnailsContainer" class="mt-3 d-flex flex-wrap justify-content-center gap-3">
-                                    <!-- PDF thumbnails will be rendered here -->
-                                </div>
+                                    </div>
                             </div>
                         </div>
                         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -146,27 +205,81 @@
                         <div class="alert mt-4 d-none" id="splitFeedback" role="alert"></div>
                     </div>
                 </div>
+                <div class="tab-pane fade" id="editor-tab-pane" role="tabpanel" aria-labelledby="editor-tab" tabindex="0">
+                    <div class="card-body p-4 p-md-5 text-center">
+                        <h1 class="card-title text-primary fw-bold mb-4">Editor PDF (Tambah Teks & Gambar)</h1>
+                        <p class="text-muted mb-4">Fitur ini memungkinkan Anda untuk menambahkan teks dan gambar baru ke halaman PDF. Ini **tidak dapat** mengedit teks atau gambar yang sudah ada.</p>
+                        
+                        <div class="drop-area border border-dashed rounded p-5 mb-4" id="editUploadArea">
+                            <span class="icon"><i class="fa-solid fa-file-pen"></i></span>
+                            <p class="fs-5 text-muted my-2">Seret & jatuhkan file PDF di sini atau</p>
+                            <button class="btn btn-primary upload-btn px-4"><i class="fa-solid fa-upload me-2"></i>Pilih File</button>
+                            <input type="file" id="editFileInput" class="file-input" accept=".pdf">
+                        </div>
+
+                        <div id="editorView" class="d-none">
+                            <p><strong>File:</strong> <span id="editFileName" class="text-muted"></span></p>
+                            
+                            <div id="customContextMenu" class="card shadow-sm position-absolute d-none" style="z-index: 1000; width: 200px;">
+                                <div class="list-group list-group-flush">
+                                    <button type="button" class="list-group-item list-group-item-action" id="ctxAddTextBox">
+                                        <i class="fa-solid fa-plus me-2"></i>Tambah Teks
+                                    </button>
+                                    <button type="button" class="list-group-item list-group-item-action" id="ctxAddImage">
+                                        <i class="fa-solid fa-image me-2"></i>Tambahkan Gambar
+                                        <input type="file" id="ctxImageUpload" accept="image/*" class="file-input">
+                                    </button>
+                                    <button type="button" class="list-group-item list-group-item-action text-danger" id="ctxDeleteSelected" disabled>
+                                        <i class="fa-solid fa-trash-alt me-2"></i>Hapus yang Dipilih
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="editCanvasContainer" class="mb-3">
+                                <canvas id="editCanvas"></canvas>
+                                </div>
+                            
+                            <div class="d-flex justify-content-center align-items-center my-3">
+                                <div id="editPageNav">
+                                    <button class="btn btn-secondary" id="editPrevPageBtn" disabled>&lt; Sebelumnya</button>
+                                    <span id="editCurrentPageSpan" class="mx-2 align-middle">Halaman 1 / 1</span>
+                                    <button class="btn btn-secondary" id="editNextPageBtn" disabled>Berikutnya &gt;</button>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                                <button class="btn btn-primary btn-lg px-4" id="editSaveBtn" disabled>
+                                    <i class="fa-solid fa-save me-2"></i>Simpan & Unduh
+                                </button>
+                                <a id="editDownloadLink" class="btn btn-success btn-lg px-4 d-none">
+                                    <i class="fa-solid fa-download me-2"></i>Unduh PDF yang Diedit
+                                </a>
+                            </div>
+                        </div>
+                        <div class="alert mt-4 d-none" id="editFeedback" role="alert"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="card shadow-sm mt-4">
             <div class="card-body p-4 p-md-5">
-                <h2 class="card-title text-primary mb-3">Tentang Alat PDF Ini</h2>
-                <p class="card-text"><strong>Alat PDF Online</strong> ini adalah kumpulan utilitas berbasis web yang memungkinkan Anda untuk menggabungkan beberapa file PDF menjadi satu (Gabung PDF) atau memisahkan satu file PDF berdasarkan halaman yang Anda pilih (Pisah PDF). Semua proses dilakukan langsung di browser Anda, tanpa perlu mengunggah file ke server.</p>
+                <h2 class="card-title text-primary mb-3">Tentang Alat Penggabung PDF Ini</h2>
+                <p class="card-text"><strong>Penggabung PDF Online</strong> ini adalah alat berbasis web yang memungkinkan Anda untuk menggabungkan beberapa file PDF menjadi satu dokumen tunggal dengan mudah dan cepat. Semua proses penggabungan dilakukan langsung di browser Anda, tanpa perlu mengunggah file ke server.</p>
                 
                 <h3 class="text-primary mt-4 mb-3">Bagaimana Cara Kerjanya?</h3>
-                <p class="card-text">Alat ini menggunakan kombinasi pustaka JavaScript yang kuat. Untuk memanipulasi PDF (menggabungkan dan memisahkan halaman), kami menggunakan <strong>pdf-lib</strong>. Untuk menampilkan pratinjau halaman pada fitur Pisah PDF, kami menggunakan <strong>PDF.js</strong> dari Mozilla. Karena semua proses terjadi di sisi klien (di komputer Anda), file Anda tetap aman dan pribadi.</p>
+                <p class="card-text">Alat ini menggunakan pustaka JavaScript yang kuat bernama <strong>pdf-lib</strong>. Ketika Anda memilih file PDF, browser Anda akan membaca file tersebut, dan pustaka ini akan memprosesnya untuk menyalin halaman dari setiap dokumen dan menyusunnya menjadi satu file PDF baru. Karena semua proses terjadi di sisi klien (di komputer Anda), file Anda tetap aman dan pribadi.</p>
 
                 <h3 class="text-primary mt-4 mb-3">Keuntungan Utama</h3>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><i class="fa-solid fa-lock me-2 text-success"></i><strong>Privasi Terjamin:</strong> File Anda tidak pernah meninggalkan komputer Anda. Tidak ada data yang dikirim atau disimpan di server eksternal.</li>
-                    <li class="list-group-item"><i class="fa-solid fa-bolt me-2 text-warning"></i><strong>Cepat dan Efisien:</strong> Proses manipulasi PDF sangat cepat karena tidak ada waktu tunggu untuk unggah atau unduh dari server.</li>
+                    <li class="list-group-item"><i class="fa-solid fa-bolt me-2 text-warning"></i><strong>Cepat dan Efisien:</strong> Proses penggabungan sangat cepat karena tidak ada waktu tunggu untuk unggah atau unduh dari server.</li>
                     <li class="list-group-item"><i class="fa-solid fa-infinity me-2 text-info"></i><strong>Gratis dan Tanpa Batas:</strong> Gunakan alat ini sepuasnya tanpa biaya atau batasan jumlah file.</li>
                 </ul>
 
                 <div class="alert alert-warning mt-4" role="alert">
                     <h4 class="alert-heading"><i class="fa-solid fa-triangle-exclamation me-2"></i>Peringatan</h4>
-                    <p>Meskipun alat ini efisien, memproses file PDF yang sangat besar atau dalam jumlah yang sangat banyak dapat membebani memori browser Anda dan mungkin menyebabkan kinerja lambat atau crash pada browser. Disarankan untuk me-refresh halaman jika Anda mengalami masalah.</p>
+                    <p>Meskipun alat ini efisien, menggabungkan file PDF yang sangat besar atau dalam jumlah yang sangat banyak dapat membebani memori browser Anda dan mungkin menyebabkan kinerja lambat atau crash pada browser. Disarankan untuk me-refresh halaman jika Anda mengalami masalah.</p>
                 </div>
             </div>
         </div>
@@ -178,7 +291,7 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
         document.addEventListener('DOMContentLoaded', () => {
-            const { PDFDocument } = PDFLib;
+            const { PDFDocument, rgb, StandardFonts } = PDFLib;
 
             // --- MERGER SCRIPT ---
             const mergeDragArea = document.getElementById('mergeDragArea');
@@ -219,7 +332,7 @@
                     mergeFileList.appendChild(listItem);
                 });
 
-                mergeBtn.disabled = true;
+                mergeBtn.disabled = false;
             }
 
             function handleMergeFiles(files) {
@@ -367,7 +480,7 @@
                 try {
                     const arrayBuffer = await file.arrayBuffer();
                     splitSourcePdfDoc = await PDFDocument.load(arrayBuffer);
-                    splitPdfjsDoc = await pdfjsLib.getDocument(arrayBuffer).promise; // Load with PDF.js
+                    splitPdfjsDoc = await pdfjsLib.getDocument({data: arrayBuffer}).promise; // Load with PDF.js
 
                     splitFileNameSpan.textContent = file.name;
                     splitTotalPagesSpan.textContent = splitPdfjsDoc.numPages;
@@ -417,9 +530,6 @@
                 splitBtn.disabled = true;
                 splitDownloadBtn.classList.add('d-none');
                 try {
-                    const pageCount = splitSourcePdfDoc.getPageCount();
-                    // pagesToCopy is now selectedPageIndices
-                    if (selectedPageIndices.length === 0) throw new Error("Tidak ada halaman yang valid untuk diekstrak.");
                     const newPdfDoc = await PDFDocument.create();
                     const copiedPages = await newPdfDoc.copyPages(splitSourcePdfDoc, selectedPageIndices);
                     copiedPages.forEach(page => newPdfDoc.addPage(page));
@@ -435,6 +545,533 @@
                     showSplitFeedback(`Terjadi kesalahan: ${error.message}`, 'danger');
                 } finally {
                     splitBtn.disabled = false;
+                }
+            });
+
+            // --- EDIT SCRIPT ---
+            const editUploadArea = document.getElementById('editUploadArea');
+            const editFileInput = document.getElementById('editFileInput');
+            const editorView = document.getElementById('editorView');
+            const editFileNameSpan = document.getElementById('editFileName');
+            const editCanvasContainer = document.getElementById('editCanvasContainer');
+            const editCanvas = document.getElementById('editCanvas');
+            const editPrevPageBtn = document.getElementById('editPrevPageBtn');
+            const editNextPageBtn = document.getElementById('editNextPageBtn');
+            const editCurrentPageSpan = document.getElementById('editCurrentPageSpan');
+            const editSaveBtn = document.getElementById('editSaveBtn');
+            const editDownloadLink = document.getElementById('editDownloadLink');
+            const editFeedback = document.getElementById('editFeedback');
+            
+            // Context Menu Elements
+            const customContextMenu = document.getElementById('customContextMenu');
+            const ctxAddTextBox = document.getElementById('ctxAddTextBox');
+            const ctxAddImage = document.getElementById('ctxAddImage');
+            const ctxImageUpload = document.getElementById('ctxImageUpload'); 
+            const ctxDeleteSelected = document.getElementById('ctxDeleteSelected'); 
+
+            let editPdfJsDoc = null; // PDF.js document for rendering
+            let editPdfLibDoc = null; // pdf-lib document for modification
+            let editCurrentPageNum = 1;
+            // Structure: { pageNum: [{ type: 'text', x, y, text, fontSize, fontColor, fontFamily, width, height, element }, { type: 'image', x, y, imageData, width, height, element }] }
+            let pageElements = {}; // Stores elements added to each page
+
+            let selectedElement = null; // Currently selected text/image overlay for editing/deletion
+
+            function showEditFeedback(message, type) {
+                editFeedback.textContent = message;
+                editFeedback.className = `alert alert-${type} d-block`;
+            }
+
+            function hideEditFeedback() {
+                editFeedback.className = 'alert d-none';
+            }
+
+            // Function to load and render a specific page
+            async function renderPage(pageNum) {
+                if (!editPdfJsDoc) return;
+
+                const page = await editPdfJsDoc.getPage(pageNum);
+                const viewport = page.getViewport({ scale: 1.5 }); // Adjust scale as needed
+                const context = editCanvas.getContext('2d');
+
+                editCanvas.height = viewport.height;
+                editCanvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport,
+                };
+
+                // Clear previous overlays
+                Array.from(editCanvasContainer.querySelectorAll('.text-input-overlay, .image-overlay')).forEach(el => el.remove());
+                selectedElement = null; // Deselect any element
+
+                // Render PDF page
+                await page.render(renderContext).promise;
+
+                // Add existing elements for this page
+                if (pageElements[pageNum]) {
+                    pageElements[pageNum].forEach(elementData => {
+                        if (elementData.type === 'text') {
+                            addTextOverlay(elementData.x, elementData.y, elementData.text, elementData.width, elementData.height, elementData.fontFamily, elementData.fontSize, elementData.fontColor, elementData);
+                        } else if (elementData.type === 'image') {
+                            addImageOverlay(elementData.x, elementData.y, elementData.imageData, elementData.width, elementData.height, elementData);
+                        }
+                    });
+                }
+
+                editCurrentPageSpan.textContent = `Halaman ${pageNum} / ${editPdfJsDoc.numPages}`;
+                editPrevPageBtn.disabled = pageNum <= 1;
+                editNextPageBtn.disabled = pageNum >= editPdfJsDoc.numPages;
+
+                // Adjust canvas container size to match canvas for proper overlay positioning
+                editCanvasContainer.style.width = `${editCanvas.width}px`;
+                editCanvasContainer.style.height = `${editCanvas.height}px`;
+                editCanvasContainer.style.margin = '0 auto'; // Center it again after resizing
+            }
+
+            async function handleEditFile(file) {
+                if (!file || file.type !== 'application/pdf') {
+                    showEditFeedback('Silakan pilih satu file PDF.', 'danger');
+                    return;
+                }
+                hideEditFeedback();
+                showEditFeedback('Memuat PDF untuk diedit...', 'info');
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    editPdfLibDoc = await PDFDocument.load(arrayBuffer); // For modification
+                    editPdfJsDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise; // For rendering
+
+                    editFileNameSpan.textContent = file.name;
+                    editorView.classList.remove('d-none');
+                    editSaveBtn.disabled = false;
+                    editDownloadLink.classList.add('d-none');
+                    
+                    pageElements = {}; // Reset elements for new file
+                    for (let i = 1; i <= editPdfJsDoc.numPages; i++) {
+                        pageElements[i] = []; // Initialize empty array for each page
+                    }
+
+                    editCurrentPageNum = 1;
+                    await renderPage(editCurrentPageNum);
+                    hideEditFeedback();
+                } catch (error) {
+                    showEditFeedback('Gagal memuat file PDF untuk diedit. File mungkin rusak.', 'danger');
+                    console.error(error);
+                }
+            }
+
+            editUploadArea.querySelector('.upload-btn').addEventListener('click', () => editFileInput.click());
+            editFileInput.addEventListener('change', (event) => handleEditFile(event.target.files[0]));
+
+            editUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); editUploadArea.classList.add('highlight'); });
+            editUploadArea.addEventListener('dragleave', () => editUploadArea.classList.remove('highlight'));
+            editUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                editUploadArea.classList.remove('highlight');
+                handleEditFile(e.dataTransfer.files[0]);
+            });
+
+            editPrevPageBtn.addEventListener('click', () => {
+                if (editCurrentPageNum > 1) {
+                    editCurrentPageNum--;
+                    renderPage(editCurrentPageNum);
+                }
+            });
+
+            editNextPageBtn.addEventListener('click', () => {
+                if (editCurrentPageNum < editPdfJsDoc.numPages) {
+                    editCurrentPageNum++;
+                    renderPage(editCurrentPageNum);
+                }
+            });
+
+            // --- Custom Context Menu Logic ---
+            let ctxMenuClickX = 0;
+            let ctxMenuClickY = 0;
+
+            editCanvasContainer.addEventListener('contextmenu', (event) => {
+                event.preventDefault(); // Prevent default browser context menu
+                
+                // Store click coordinates relative to the canvas container
+                const rect = editCanvasContainer.getBoundingClientRect();
+                ctxMenuClickX = event.clientX - rect.left;
+                ctxMenuClickY = event.clientY - rect.top;
+
+                customContextMenu.style.display = 'block';
+                // Position menu relative to the viewport
+                customContextMenu.style.left = `${event.clientX}px`;
+                customContextMenu.style.top = `${event.clientY}px`;
+
+                // Check if an element is selected to enable/disable delete option
+                ctxDeleteSelected.disabled = !selectedElement;
+            });
+
+            // Hide context menu when clicking anywhere else
+            document.addEventListener('click', (event) => {
+                if (!customContextMenu.contains(event.target)) {
+                    customContextMenu.style.display = 'none';
+                }
+            });
+
+            // Function to add a movable/resizable text overlay
+            function addTextOverlay(x, y, initialText = '', initialWidth = 150, initialHeight = 50, fontFamily = 'Arial', fontSize = 12, fontColor = '#000000', existingData = null) {
+                const overlay = document.createElement('div');
+                overlay.className = 'text-input-overlay';
+                overlay.style.left = `${x}px`;
+                overlay.style.top = `${y}px`;
+                overlay.style.width = `${initialWidth}px`;
+                overlay.style.height = `${initialHeight}px`;
+
+                const textarea = document.createElement('textarea');
+                textarea.value = initialText;
+                textarea.style.fontFamily = fontFamily;
+                textarea.style.fontSize = `${fontSize}px`;
+                textarea.style.color = fontColor;
+                overlay.appendChild(textarea);
+                editCanvasContainer.appendChild(overlay);
+
+                let isDragging = false;
+                let offsetX, offsetY;
+
+                overlay.addEventListener('mousedown', (e) => {
+                    if (e.target === textarea) return; // Don't drag if interacting with textarea
+                    isDragging = true;
+                    offsetX = e.clientX - overlay.getBoundingClientRect().left;
+                    offsetY = e.clientY - overlay.getBoundingClientRect().top;
+                    overlay.style.cursor = 'grabbing';
+                    e.stopPropagation(); // Prevent canvas container from also triggering drag
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return;
+                    let newX = e.clientX - offsetX;
+                    let newY = e.clientY - offsetY;
+
+                    // Constrain within canvas container bounds
+                    const containerRect = editCanvasContainer.getBoundingClientRect();
+                    const overlayRect = overlay.getBoundingClientRect();
+
+                    newX = Math.max(0, Math.min(newX, containerRect.width - overlayRect.width));
+                    newY = Math.max(0, Math.min(newY, containerRect.height - overlayRect.height));
+
+                    overlay.style.left = `${newX}px`;
+                    overlay.style.top = `${newY}px`;
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (isDragging) {
+                        isDragging = false;
+                        overlay.style.cursor = 'grab';
+                        updateElementData(overlay); // Update position after drag ends
+                    }
+                });
+
+                // Select/Deselect logic
+                overlay.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent deselecting if clicking on this overlay
+                    if (selectedElement) {
+                        selectedElement.classList.remove('selected');
+                    }
+                    selectedElement = overlay;
+                    overlay.classList.add('selected');
+                    ctxDeleteSelected.disabled = false;
+                });
+
+                textarea.addEventListener('input', () => {
+                    updateElementData(overlay); // Update text content
+                });
+                
+                // Mutation observer for resize events
+                const resizeObserver = new ResizeObserver(entries => {
+                    for (let entry of entries) {
+                        if (entry.target === overlay) {
+                            updateElementData(overlay); // Update width/height after resize
+                        }
+                    }
+                });
+                resizeObserver.observe(overlay);
+
+
+                // Store data for saving
+                const elementData = existingData || {
+                    type: 'text',
+                    text: initialText,
+                    x: x,
+                    y: y,
+                    width: initialWidth,
+                    height: initialHeight,
+                    fontSize: fontSize,
+                    fontColor: fontColor,
+                    fontFamily: fontFamily,
+                    element: overlay // Store reference to the overlay element
+                };
+
+                if (!existingData) { // Only add if it's a new element, not rendering existing ones
+                    if (!pageElements[editCurrentPageNum]) {
+                        pageElements[editCurrentPageNum] = [];
+                    }
+                    pageElements[editCurrentPageNum].push(elementData);
+                } else {
+                    // If it's existing data, ensure the element reference is updated
+                    existingData.element = overlay;
+                }
+            }
+
+            // Function to update element data in pageElements array
+            function updateElementData(overlayElement) {
+                const rect = overlayElement.getBoundingClientRect();
+                const containerRect = editCanvasContainer.getBoundingClientRect();
+
+                // Find the corresponding element data in pageElements
+                const currentElements = pageElements[editCurrentPageNum] || [];
+                const elementData = currentElements.find(item => item.element === overlayElement);
+
+                if (elementData) {
+                    elementData.x = rect.left - containerRect.left;
+                    elementData.y = rect.top - containerRect.top;
+                    elementData.width = rect.width;
+                    elementData.height = rect.height;
+
+                    if (elementData.type === 'text') {
+                        elementData.text = overlayElement.querySelector('textarea').value;
+                    }
+                    // For images, imageData remains the same, only dimensions and position change
+                }
+            }
+
+
+            // Function to add a movable/resizable image overlay
+            function addImageOverlay(x, y, imageData, initialWidth = 100, initialHeight = 100, existingData = null) {
+                const overlay = document.createElement('div');
+                overlay.className = 'image-overlay';
+                overlay.style.left = `${x}px`;
+                overlay.style.top = `${y}px`;
+                overlay.style.width = `${initialWidth}px`;
+                overlay.style.height = `${initialHeight}px`;
+
+                const img = document.createElement('img');
+                img.src = imageData;
+                overlay.appendChild(img);
+                editCanvasContainer.appendChild(overlay);
+
+                let isDragging = false;
+                let offsetX, offsetY;
+
+                overlay.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    offsetX = e.clientX - overlay.getBoundingClientRect().left;
+                    offsetY = e.clientY - overlay.getBoundingClientRect().top;
+                    overlay.style.cursor = 'grabbing';
+                    e.stopPropagation();
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return;
+                    let newX = e.clientX - offsetX;
+                    let newY = e.clientY - offsetY;
+
+                    const containerRect = editCanvasContainer.getBoundingClientRect();
+                    const overlayRect = overlay.getBoundingClientRect();
+
+                    newX = Math.max(0, Math.min(newX, containerRect.width - overlayRect.width));
+                    newY = Math.max(0, Math.min(newY, containerRect.height - overlayRect.height));
+
+                    overlay.style.left = `${newX}px`;
+                    overlay.style.top = `${newY}px`;
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (isDragging) {
+                        isDragging = false;
+                        overlay.style.cursor = 'grab';
+                        updateElementData(overlay);
+                    }
+                });
+
+                overlay.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (selectedElement) {
+                        selectedElement.classList.remove('selected');
+                    }
+                    selectedElement = overlay;
+                    overlay.classList.add('selected');
+                    ctxDeleteSelected.disabled = false;
+                });
+
+                const resizeObserver = new ResizeObserver(entries => {
+                    for (let entry of entries) {
+                        if (entry.target === overlay) {
+                            updateElementData(overlay);
+                        }
+                    }
+                });
+                resizeObserver.observe(overlay);
+
+                const elementData = existingData || {
+                    type: 'image',
+                    imageData: imageData,
+                    x: x,
+                    y: y,
+                    width: initialWidth,
+                    height: initialHeight,
+                    element: overlay
+                };
+
+                if (!existingData) {
+                    if (!pageElements[editCurrentPageNum]) {
+                        pageElements[editCurrentPageNum] = [];
+                    }
+                    pageElements[editCurrentPageNum].push(elementData);
+                } else {
+                    existingData.element = overlay;
+                }
+            }
+
+
+            ctxAddTextBox.addEventListener('click', () => {
+                customContextMenu.style.display = 'none';
+                // Add text box at the context menu click location
+                addTextOverlay(ctxMenuClickX, ctxMenuClickY, 'Tulis teks di sini');
+                // Immediately select the new text box
+                if (selectedElement) {
+                    selectedElement.classList.remove('selected');
+                }
+                selectedElement = editCanvasContainer.lastChild; // The newly added overlay
+                selectedElement.classList.add('selected');
+                ctxDeleteSelected.disabled = false;
+            });
+
+            ctxAddImage.addEventListener('click', () => {
+                customContextMenu.style.display = 'none';
+                ctxImageUpload.click(); // Trigger hidden file input
+            });
+
+            ctxImageUpload.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        addImageOverlay(ctxMenuClickX, ctxMenuClickY, e.target.result);
+                        // Immediately select the new image
+                        if (selectedElement) {
+                            selectedElement.classList.remove('selected');
+                        }
+                        selectedElement = editCanvasContainer.lastChild; // The newly added overlay
+                        selectedElement.classList.add('selected');
+                        ctxDeleteSelected.disabled = false;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            ctxDeleteSelected.addEventListener('click', () => {
+                if (selectedElement) {
+                    // Remove from DOM
+                    selectedElement.remove();
+                    // Remove from pageElements data
+                    pageElements[editCurrentPageNum] = pageElements[editCurrentPageNum].filter(
+                        item => item.element !== selectedElement
+                    );
+                    selectedElement = null;
+                    ctxDeleteSelected.disabled = true;
+                    customContextMenu.style.display = 'none';
+                }
+            });
+
+            // Deselect any element when clicking on the canvas directly (not on an overlay)
+            editCanvasContainer.addEventListener('click', (event) => {
+                if (event.target === editCanvas || event.target === editCanvasContainer) {
+                    if (selectedElement) {
+                        selectedElement.classList.remove('selected');
+                        selectedElement = null;
+                        ctxDeleteSelected.disabled = true;
+                    }
+                }
+            });
+
+
+            editSaveBtn.addEventListener('click', async () => {
+                if (!editPdfLibDoc) {
+                    showEditFeedback('Tidak ada file PDF yang dimuat.', 'danger');
+                    return;
+                }
+
+                showEditFeedback('Menyimpan perubahan...', 'info');
+                editSaveBtn.disabled = true;
+                editDownloadLink.classList.add('d-none');
+
+                try {
+                    const font = await editPdfLibDoc.embedFont(StandardFonts.Helvetica);
+                    const pages = editPdfLibDoc.getPages();
+
+                    for (const pageNum in pageElements) {
+                        const elementsOnPage = pageElements[pageNum];
+                        if (elementsOnPage.length === 0) continue;
+
+                        const pdfPage = pages[pageNum - 1]; // PDF-lib pages are 0-indexed
+
+                        elementsOnPage.forEach(async (elementData) => {
+                            // Ensure coordinates are relative to the PDF page size
+                            // PDF-lib's coordinate system origin is bottom-left, PDF.js canvas is top-left
+                            // We need to convert canvas top-left (x, y) to pdf-lib bottom-left (x, y')
+                            
+                            // Get page dimensions from pdf-lib
+                            const { width: pageWidth, height: pageHeight } = pdfPage.getSize();
+
+                            // Calculate scale factor from canvas to PDF page
+                            // Assuming canvas was rendered at a fixed scale (1.5 in renderPage)
+                            const canvasScale = editCanvas.width / pageWidth; // or editCanvas.height / pageHeight
+
+                            // Convert overlay coordinates (relative to canvas container) to PDF-lib coordinates
+                            const actualX = elementData.x / canvasScale;
+                            const actualWidth = elementData.width / canvasScale;
+                            const actualHeight = elementData.height / canvasScale;
+
+                            // Convert Y: canvas top-left Y becomes pdf-lib bottom-left Y
+                            const actualY = pageHeight - (elementData.y / canvasScale) - actualHeight;
+                            
+                            if (elementData.type === 'text') {
+                                // Calculate approximate font size for PDF-lib
+                                // This is a rough estimation and might need fine-tuning
+                                const textFontSize = elementData.fontSize / canvasScale;
+
+                                pdfPage.drawText(elementData.text, {
+                                    x: actualX,
+                                    y: actualY,
+                                    font: font,
+                                    size: textFontSize,
+                                    color: rgb(0, 0, 0), // Use black for simplicity or parse elementData.fontColor
+                                    maxWidth: actualWidth // Constrain text width
+                                });
+                            } else if (elementData.type === 'image') {
+                                const image = await editPdfLibDoc.embedPng(elementData.imageData); // Assuming PNG
+                                // For other formats like JPEG, use embedJpg
+                                // const image = await editPdfLibDoc.embedJpg(elementData.imageData); 
+
+                                pdfPage.drawImage(image, {
+                                    x: actualX,
+                                    y: actualY,
+                                    width: actualWidth,
+                                    height: actualHeight,
+                                });
+                            }
+                        });
+                    }
+
+                    const modifiedPdfBytes = await editPdfLibDoc.save();
+                    const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    editDownloadLink.href = url;
+                    editDownloadLink.download = `edited_${editFileNameSpan.textContent}`;
+                    editDownloadLink.classList.remove('d-none');
+                    showEditFeedback('PDF berhasil diedit dan siap diunduh!', 'success');
+
+                } catch (error) {
+                    console.error('Error saving PDF:', error);
+                    showEditFeedback(`Terjadi kesalahan saat menyimpan PDF: ${error.message}`, 'danger');
+                } finally {
+                    editSaveBtn.disabled = false;
                 }
             });
         });
