@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP Request Code Generator (Bootstrap)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background */
+        }
+        .container-fluid {
+            max-width: 960px; /* Limit container width for better readability */
+        }
+        .card {
+            margin-top: 20px;
+            border: none; /* Remove default card border */
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.05); /* Subtle shadow */
+        }
+        .form-control {
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .code-output {
+            background-color: #e9ecef; /* Light gray background for code */
+            padding: 1rem;
+            border-radius: 0.25rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: monospace;
+            font-size: 0.85em;
+            margin-top: 15px;
+            border: 1px solid #dee2e6;
+        }
+        .nav-tabs .nav-link.active {
+            font-weight: bold;
+        }
+        .error-message {
+            color: #dc3545; /* Bootstrap danger color */
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+        textarea {
+            min-height: 250px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid py-4">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title text-center text-primary mb-4">HTTP Request Code Generator</h1>
+                <p class="text-muted text-center mb-4">Tempelkan seluruh **raw HTTP request** dari Burp Suite (termasuk baris pertama, header, dan body) ke dalam textarea di bawah ini.</p>
+
+                <hr class="my-4">
+
+                <h2 class="h5 mb-3 text-secondary">Raw HTTP Request Input</h2>
+                <div class="mb-3">
+                    <label for="rawRequestInput" class="form-label">Tempelkan HTTP Request di sini:</label>
+                    <textarea class="form-control" id="rawRequestInput">POST /site/login HTTP/1.1
+Host: unairsatu.unair.ac.id
+Cookie: _ga_XMR14F0QLK=GS1.1.1732506615.4.1.1732506757.0.0.0; _ga_ETZLK7ZSZ6=GS1.1.1732639183.3.0.1732639183.0.0.0; _ga_DZRY0QMHJZ=GS1.1.1740710243.3.1.1740710597.0.0.0; _ga_LZF357HXBM=GS1.1.1740722192.1.0.1740722270.0.0.0; _ga_8C2BJ3B748=GS1.1.1741243603.6.0.1741243603.0.0.0; _ga_9NBTZHMRDB=GS1.1.1743733731.3.0.1743733748.0.0.0; _ga_04SL14WBPF=GS1.3.1744788881.1.1.1744788897.0.0.0; _ga_3Y79X4GT6K=GS2.1.s1744788881$o1$g1$t1744789428$j0$l0$h0; _ga_2PQ2Q475WQ=GS1.1.1744789909.1.1.1744791338.0.0.0; _ga_C6RYZ70Q9D=GS1.1.1745210432.8.1.1745210540.58.0.0; AMCV_4D6368F454EC41940A4C98A6%40AdobeOrg=-2121179033%7CMCIDTS%7C20201%7CMCMID%7C28852687816188215920581698167788512829%7CMCAAMLH-1745896283%7C3%7CMCAAMB-1745896283%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1745298683s%7CNONE%7CMCAID%7CNONE%7MCCIDH%7C1666666991%7CvVersion%7C5.3.0; s_pers=%20c19%3Dpr%253Apure%253Aadmin%253Aeditor%253Aperson%253Apersoneditor%253Arelations%7C1745296460519%3B%20v68%3D1745294658191%7C1745296460520%3B%20v8%3D1745295251707%7C1839903251707%3B%20v8_s%3DFirst%2520Visit%7C1745297051707%3B; cna=BwyOINeP7QYCAVzfVfS+gnDV; isg=BPn5lQ4Dte8GBWl7ldoW-fnMCGPTBu24MiAh6hsucyCfohk0Y1ZviGj2Ib5UKYXw; tfstk=gCUngtYyTA9fHvyvpRuCmlJWpxjtRBgSj8L-e4HPbAksv6TdAlxuH8nyv7ICr0kgEynzvTwMOP2DyeBCA78oy4WAHZQYO9gSztLfmEWtdbNZU1nUuxc7P4WAHNn13CLjz8ehYV7g_AGoaHkUUV-ZMA8eLpUTd8ZCburU8uPs5lO6OHKLYaNCrVZ56DSxPcnxxPN5U8uREnn3WkMziaitTk4TAYyyxctlYPzUTY-uowgrmy5rFgLiluZtlfybvo0YJh_EZYELPVU8vUFBeHUR5rYyR5yzYqa0mMUfO_SYowL0c4OKFM4b5V-jl1WvYEja8ibytTIL7Pblo3crQcgm5uG4tKw0mOwPR6uf3tSYfGiHk7RP2bFVsd1s1xqtDlsTFCGs3ZtYfGiH1fM06nE1X8O.; _ga_M2RCV3G3BZ=GS2.1.s1746606591$o1$g0$t1746606591$j60$l0$h0; _ga_ZTYRHQFRP6=GS2.1.s1747619150$o1$g1$t1747619173$j0$l0$h0; _ga=GA1.3.1978133280.1724144720; _ga_613SBPKBPD=GS2.1.s1748417776$o4$g0$t1748417776$j60$l0$h0; PHPSESSID=4j0q926uom1b82fk9m068g2ihu; _csrf=c3d77c9515f2a94398c4bfda66c31f7d8465dfe061e38a5ffe5d708984949e83a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22kSLx7YWTVKRRuWhGP5zCWcqVsPYd8piT%22%3B%7D
+Content-Length: 180
+Cache-Control: max-age=0
+Origin: https://unairsatu.unair.ac.id
+Sec-Ch-Ua-Platform: "macOS"
+Accept-Language: en-GB,en;q=0.9
+Sec-Ch-Ua: "Chromium";v="137", "Not/A)Brand";v="24"
+Upgrade-Insecure-Requests: 1
+Sec-Ch-Ua-Mobile: ?0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Content-Type: application/x-www-form-urlencoded
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: empty
+Referer: https://unairsatu.unair.ac.id/site/login
+Accept-Encoding: gzip, deflate, br
+Priority: u=0, i
+Connection: keep-alive
+
+username=123&password=Password&_csrf=Ggrq9BkGKTyohCcPP1e5mQP4_ivuVALSTaknt34BMY9xWaaMLl9-aP7PdV1KANHeU82EaLk3c4Q--X7TRnFY2w%3D%3D&login-button=&captcha=61</textarea>
+                </div>
+
+                <button type="button" class="btn btn-primary btn-lg w-100" onclick="generateCode()">Generate Code</button>
+                <div id="errorMessage" class="error-message text-center mt-2"></div>
+
+                <hr class="my-4">
+
+                <h2 class="h5 mb-3 text-secondary">Generated Code</h2>
+                <ul class="nav nav-tabs" id="codeTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="curl-tab" data-bs-toggle="tab" data-bs-target="#curlCode" type="button" role="tab" aria-controls="curlCode" aria-selected="true">cURL</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="php-tab" data-bs-toggle="tab" data-bs-target="#phpCode" type="button" role="tab" aria-controls="phpCode" aria-selected="false">PHP</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="python-tab" data-bs-toggle="tab" data-bs-target="#pythonCode" type="button" role="tab" aria-controls="pythonCode" aria-selected="false">Python</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="js-tab" data-bs-toggle="tab" data-bs-target="#jsCode" type="button" role="tab" aria-controls="jsCode" aria-selected="false">JavaScript</button>
+                    </li>
+                </ul>
+                <div class="tab-content border border-top-0 rounded-bottom p-3 bg-light" id="codeTabContent">
+                    <div class="tab-pane fade show active" id="curlCode" role="tabpanel" aria-labelledby="curl-tab">
+                        <pre class="code-output" id="curlOutput"></pre>
+                    </div>
+                    <div class="tab-pane fade" id="phpCode" role="tabpanel" aria-labelledby="php-tab">
+                        <pre class="code-output" id="phpOutput"></pre>
+                    </div>
+                    <div class="tab-pane fade" id="pythonCode" role="tabpanel" aria-labelledby="python-tab">
+                        <pre class="code-output" id="pythonOutput"></pre>
+                    </div>
+                    <div class="tab-pane fade" id="jsCode" role="tabpanel" aria-labelledby="js-tab">
+                        <pre class="code-output" id="jsOutput"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Bootstrap tabs manually as we're not relying solely on data-bs-toggle
+            const triggerTabList = document.querySelectorAll('#codeTabs button');
+            triggerTabList.forEach(triggerEl => {
+                const tabTrigger = new bootstrap.Tab(triggerEl);
+
+                triggerEl.addEventListener('click', event => {
+                    event.preventDefault();
+                    tabTrigger.show();
+                });
+            });
+
+            generateCode(); // Generate on page load with default content
+        });
+
+        function parseUrlEncoded(dataString) {
+            const params = {};
+            dataString.split('&').forEach(pair => {
+                const parts = pair.split('=');
+                if (parts.length >= 1) {
+                    const key = decodeURIComponent(parts[0]);
+                    const value = parts.length > 1 ? decodeURIComponent(parts.slice(1).join('=')) : '';
+                    params[key] = value;
+                }
+            });
+            return params;
+        }
+
+        function escapeShellArg(arg) {
+            // Basic escaping for shell arguments to prevent issues with quotes
+            return `'` + arg.replace(/'/g, `'"'"'`) + `'`;
+        }
+
+        function generateCode() {
+            const rawRequest = document.getElementById('rawRequestInput').value;
+            const lines = rawRequest.split('\n');
+            let errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = ''; // Clear previous errors
+
+            if (lines.length < 2) {
+                errorMessage.textContent = "Format permintaan mentah tidak valid. Setidaknya butuh baris metode dan header host.";
+                return;
+            }
+
+            // Parse Request Line (e.g., POST /site/login HTTP/1.1)
+            const requestLine = lines[0].trim().split(' ');
+            if (requestLine.length < 3) {
+                errorMessage.textContent = "Format baris permintaan tidak valid. Diharapkan: METHOD /path HTTP/VERSION";
+                return;
+            }
+            const method = requestLine[0].toUpperCase();
+            const path = requestLine[1];
+            
+            let url = '';
+            let hostHeader = '';
+            let headers = {};
+            let body = '';
+            let isBody = false;
+
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i]; // Don't trim yet to preserve potential leading/trailing spaces in body
+                if (line.trim() === '') { // Empty line indicates end of headers and start of body
+                    isBody = true;
+                    continue;
+                }
+
+                if (isBody) {
+                    // Accumulate body lines, preserve newlines for potential multi-line bodies (e.g. JSON)
+                    body += line + '\n'; 
+                } else {
+                    const headerParts = line.split(':');
+                    if (headerParts.length >= 2) {
+                        const headerName = headerParts[0].trim();
+                        const headerValue = headerParts.slice(1).join(':').trim();
+                        headers[headerName] = headerValue;
+                        if (headerName.toLowerCase() === 'host') {
+                            hostHeader = headerValue;
+                        }
+                    }
+                }
+            }
+            body = body.trim(); // Trim final body string
+
+            if (hostHeader) {
+                let protocol = 'http';
+                if (headers['Origin'] && headers['Origin'].startsWith('https')) {
+                    protocol = 'https';
+                } else if (url.includes('https://') || path.startsWith('/')) { 
+                    // Basic heuristic: if original path or origin suggests HTTPS
+                    // For host-based URL, protocol often derived from context or origin
+                    // The original request 'Host: unairsatu.unair.ac.id' is ambiguous on protocol
+                    // but the "Origin: https://unairsatu.unair.ac.id" provides the hint.
+                    // If Origin is not present, we might default to http, or assume from common ports.
+                    // For now, rely heavily on 'Origin' if available.
+                    // If no Origin and path is not absolute URL, default to http.
+                }
+                url = `${protocol}://${hostHeader}${path}`;
+            } else {
+                errorMessage.textContent = "Header Host tidak ditemukan dalam permintaan. Tidak dapat membuat URL.";
+                return;
+            }
+
+            const rawBody = body; // Keep raw body for cURL and some JS methods
+            const postData = parseUrlEncoded(body); // For PHP/Python/JS form-urlencoded
+
+            // --- Generate cURL Code ---
+            let curlCommand = `curl -X ${method} ${escapeShellArg(url)}`;
+            for (const key in headers) {
+                curlCommand += ` -H ${escapeShellArg(`${key}: ${headers[key]}`)}`;
+            }
+            if (rawBody) {
+                curlCommand += ` -d ${escapeShellArg(rawBody)}`;
+            }
+            document.getElementById('curlOutput').textContent = curlCommand;
+
+
+            // --- Generate PHP Code ---
+            let phpHeaders = [];
+            for (const key in headers) {
+                let value = headers[key].replace(/'/g, "\\'");
+                phpHeaders.push(`'${key}: ${value}'`);
+            }
+            const phpHeadersString = `[\n    ${phpHeaders.join(',\n    ')}\n]`;
+
+            let phpBodyContent = '';
+            if (headers['Content-Type'] && headers['Content-Type'].toLowerCase().includes('application/x-www-form-urlencoded')) {
+                let phpPostData = [];
+                for (const key in postData) {
+                    let value = postData[key].replace(/'/g, "\\'");
+                    phpPostData.push(`'${key}' => '${value}'`);
+                }
+                const phpPostDataString = `[\n    ${phpPostData.join(',\n')}\n]`;
+                phpBodyContent = `curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(${phpPostDataString})); // Assumes form-urlencoded`;
+            } else {
+                // For other content types, send as raw body
+                const escapedRawBody = rawBody.replace(/'/g, "\\'").replace(/\n/g, "\\n");
+                phpBodyContent = `curl_setopt($ch, CURLOPT_POSTFIELDS, '${escapedRawBody}'); // Raw body`;
+            }
+
+            const phpCode = `<?php
+
+$url = '${url}';
+
+$headers = ${phpHeadersString};
+
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, '${method}');
+${phpBodyContent}
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// Anda mungkin perlu menonaktifkan verifikasi SSL jika menemui masalah dengan sertifikat
+// curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+// curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+$response = curl_exec($ch);
+
+if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+} else {
+    echo $response;
+}
+
+curl_close($ch);
+
+?>`;
+            document.getElementById('phpOutput').textContent = phpCode;
+
+            // --- Generate Python Code ---
+            let pythonHeaders = [];
+            for (const key in headers) {
+                let value = headers[key].replace(/'/g, "\\'");
+                pythonHeaders.push(`    '${key}': '${value}'`);
+            }
+            const pythonHeadersString = `{\n${pythonHeaders.join(',\n')}\n}`;
+
+            let pythonBodyContent = '';
+            if (headers['Content-Type'] && headers['Content-Type'].toLowerCase().includes('application/x-www-form-urlencoded')) {
+                let pythonPostData = [];
+                for (const key in postData) {
+                    let value = postData[key].replace(/'/g, "\\'");
+                    pythonPostData.push(`    '${key}': '${value}'`);
+                }
+                const pythonPostDataString = `{\n${pythonPostData.join(',\n')}\n}`;
+                pythonBodyContent = `data = ${pythonPostDataString} # For form-urlencoded body`;
+            } else {
+                const escapedRawBody = rawBody.replace(/'/g, "\\'"); // Handle single quotes for raw string
+                pythonBodyContent = `data = '${escapedRawBody}' # Raw body`;
+            }
+
+            const pythonCode = `import requests
+
+url = '${url}'
+
+headers = ${pythonHeadersString}
+
+${pythonBodyContent}
+
+response = requests.request(method='${method}', url=url, headers=headers, data=data)
+
+print(response.text)`;
+            document.getElementById('pythonOutput').textContent = pythonCode;
+
+            // --- Generate JavaScript Code ---
+            let jsHeaders = [];
+            for (const key in headers) {
+                let value = headers[key].replace(/`/g, '\\`').replace(/'/g, "\\'").replace(/\n/g, '\\n');
+                jsHeaders.push(`    '${key}': \`${value}\``);
+            }
+            const jsHeadersString = `{\n${jsHeaders.join(',\n')}\n}`;
+
+            let jsBodyVariable = '';
+            if (headers['Content-Type'] && headers['Content-Type'].toLowerCase().includes('application/x-www-form-urlencoded')) {
+                let jsPostData = [];
+                for (const key in postData) {
+                    let value = postData[key].replace(/`/g, '\\`').replace(/'/g, "\\'").replace(/\n/g, '\\n');
+                    jsPostData.push(`    '${key}': \`${value}\``);
+                }
+                const jsPostDataString = `{\n${jsPostData.join(',\n')}\n}`;
+                jsBodyVariable = `const requestBodyData = ${jsPostDataString};\nconst body = new URLSearchParams(requestBodyData).toString(); // Form URL-encoded`;
+            } else {
+                jsBodyVariable = `const body = \`${rawBody.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`; // Raw body`;
+            }
+            
+            const jsCode = `// Untuk Node.js, Anda mungkin butuh: import fetch from 'node-fetch';
+// Untuk browser, 'fetch' tersedia secara global.
+
+const url = \`${url}\`;
+
+const headers = ${jsHeadersString};
+
+${jsBodyVariable}
+
+async function sendRequest() {
+    try {
+        const response = await fetch(url, {
+            method: '${method}',
+            headers: headers,
+            body: body,
+        });
+
+        const data = await response.text();
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+sendRequest();
+`;
+            document.getElementById('jsOutput').textContent = jsCode;
+        }
+    </script>
+
+</body>
+</html>
