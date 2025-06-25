@@ -3,165 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buka Aplikasi Favorit Anda</title>
-    <!-- Tailwind CSS for modern, responsive styling. Replaced Bootstrap for consistency. -->
+    <title>QRIS Payment Shortcut</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <style>
-        /* Custom styles for app buttons, embracing Tailwind's utility-first approach */
-        body {
-            font-family: 'Inter', sans-serif; /* Using Inter as specified */
-            @apply bg-gray-100 flex justify-center items-center min-h-screen p-4;
+        .payment-card {
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
         }
-
-        /* Base button styles, mostly handled by Tailwind classes now */
-        .btn-app {
-            @apply text-white font-semibold py-3 px-6 text-xl rounded-full transition-all duration-300 ease-in-out flex items-center justify-center space-x-3 shadow-md;
+        .payment-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .btn-app:hover {
-            @apply transform -translate-y-0.5 shadow-lg;
+        .qr-container {
+            transition: all 0.3s;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.1));
         }
-        .btn-app:active {
-            @apply transform translate-y-0 shadow-sm;
+        .qr-container:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.2));
         }
-
-        /* Specific app button colors using Tailwind's custom color approach if needed,
-           but mostly defined inline for simplicity or directly via classes. */
-        .btn-gojek {
-            background-color: #00AA45;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-        .btn-gojek:hover {
-            background-color: #008C3A;
-        }
-
-        .btn-dana {
-            background-color: #108EE9;
-        }
-        .btn-dana:hover {
-            background-color: #0d73b9;
-        }
-
-        .btn-ovo {
-            background-color: #4D2A86;
-        }
-        .btn-ovo:hover {
-            background-color: #3b2066;
-        }
-
-        .btn-mandiri {
-            background-color: #003D79;
-        }
-        .btn-mandiri:hover {
-            background-color: #002c57;
-        }
-
-        .btn-shopee {
-            background-color: #EE4D2D;
-        }
-        .btn-shopee:hover {
-            background-color: #d44124;
+        .animate-pulse {
+            animation: pulse 2s infinite;
         }
     </style>
 </head>
-<body>
-    <div class="bg-white shadow-xl rounded-2xl p-6 md:p-8 text-center mx-auto max-w-sm w-full">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">Buka Aplikasi Favorit Anda</h1>
-        <p class="text-gray-600 mb-6">Klik tombol di bawah untuk langsung membuka aplikasi di perangkat Anda.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <!-- Gojek Button -->
-            <button id="openGojekBtn" class="btn-app btn-gojek">
-                <i class="fas fa-car"></i> <span>Buka Gojek</span>
-            </button>
-            <!-- DANA Button -->
-            <button id="openDanaBtn" class="btn-app btn-dana">
-                <i class="fas fa-wallet"></i> <span>Buka DANA</span>
-            </button>
-            <!-- OVO Button -->
-            <button id="openOvoBtn" class="btn-app btn-ovo">
-                <i class="fas fa-money-bill-wave"></i> <span>Buka OVO</span>
-            </button>
-            <!-- Mandiri Button -->
-            <button id="openMandiriBtn" class="btn-app btn-mandiri">
-                <i class="fas fa-bank"></i> <span>Buka Livin'</span>
-            </button>
-            <!-- Shopee Button -->
-            <div class="col-span-1 md:col-span-2">
-                <button id="openShopeeBtn" class="btn-app btn-shopee w-full">
-                    <i class="fas fa-shopping-bag"></i> <span>Buka Shopee</span>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen py-12 px-4">
+    <div class="max-w-md mx-auto bg-white rounded-3xl overflow-hidden shadow-xl">
+        <div class="p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Pembayaran QRIS</h1>
+                <span class="bg-green-100 text-green-800 py-1 px-3 rounded-full text-xs font-medium">Statis</span>
+            </div>
+            
+            <!-- QR Code Display -->
+            <div class="qr-container bg-white p-4 rounded-xl border border-gray-200 mb-8 flex flex-col items-center">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020101021126660014ID.GOJEK.WWW01189360091431110553910203UMI52045812530336054061000.05802ID5913Merchant Name6015Jakarta Selatan6304E7D8" 
+                     alt="QRIS Code"
+                     class="w-48 h-48 mb-4">
+                <p class="text-sm text-gray-600 mb-1">Nominal: Rp10.000 - Rp5.000.000</p>
+                <p class="text-xs text-gray-500 text-center">Scan kode QR di atas menggunakan aplikasi pembayaran QRIS</p>
+            </div>
+            
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">Bayar dengan cepat via:</h2>
+            
+            <!-- Payment Buttons -->
+            <div class="space-y-4">
+                <!-- Gojek Button -->
+                <button onclick="openGojek()" 
+                        class="payment-card w-full flex items-center justify-between p86aaa;4 rounded-xl bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:-translate-y-1 shadow-md">
+                    <div class="flex items-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Gojek.svg/2560px-Gojek.svg.png" 
+                             alt="Gojek" 
+                             class="h-8 object-contain mr-3 bg-white p-1 rounded">
+                        <div>
+                            <h3 class="font-bold">GoPay</h3>
+                            <p class="text-xs opacity-90">QRIS Shortcut</p>
+                        </div>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                
+                <!-- DANA Button -->
+                <button onclick="openDana()" 
+                        class="payment-card w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:-translate-y-1 shadow-md">
+                    <div class="flex items-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/DANA_logo.svg/2560px-DANA_logo.svg.png" 
+                             alt="DANA" 
+                             class="h-8 object-contain mr-3 bg-white p-1 rounded">
+                        <div>
+                            <h3 class="font-bold">DANA</h3>
+                            <p class="text-xs opacity-90">Scan QRIS</p>
+                        </div>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
                 </button>
             </div>
-        </div>
-
-        <div class="instructions text-left text-gray-500 text-sm">
-            <p class="font-bold text-gray-700 mb-2">Jika aplikasi tidak terbuka:</p>
-            <ul class="list-none space-y-2">
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
-                    <span>Pastikan Anda sudah menginstal aplikasi yang sesuai.</span>
-                </li>
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
-                    <span>Jika menggunakan iPhone, coba buka halaman ini di browser Safari.</span>
-                </li>
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
-                    <span>Jika menggunakan Android, pastikan izin 'Buka tautan yang didukung' diaktifkan di pengaturan aplikasi.</span>
-                </li>
-            </ul>
+            
+            <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                <h3 class="text-sm font-medium text-yellow-800 mb-2">Petunjuk Pembayaran:</h3>
+                <ol class="list-decimal list-inside text-xs text-yellow-700 space-y-1">
+                    <li>Klik tombol GoPay/DANA di atas</li>
+                    <li>Aplikasi akan terbuka dengan auto-scan QRIS</li>
+                    <li>Masukkan nominal pembayaran</li>
+                    <li>Konfirmasi pembayaran</li>
+                </ol>
+            </div>
         </div>
     </div>
 
     <script>
-        // Function to attempt opening an app via URI scheme with a fallback URL
-        function openApp(appUri, fallbackUrl) {
-            // Attempt to open the app using the URI scheme
-            window.location.href = appUri;
-
-            // Set a timeout to redirect to the fallback URL if the app doesn't open
-            // This relies on `document.hidden` changing, which indicates the browser
-            // window lost focus, likely due to an app opening.
-            const timeout = setTimeout(() => {
-                // Check if the document is still visible (meaning the app likely didn't open)
-                if (!document.hidden) {
-                    window.location.href = fallbackUrl;
-                }
-            }, 1000); // Shorter timeout for quicker fallback
-
-            // Clear the timeout if the document becomes hidden (app successfully opened)
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    clearTimeout(timeout);
-                }
-            }, { once: true }); // Listener only fires once
+        // Deep link untuk Gojek QRIS Shortcut
+        function openGojek() {
+            // Fallback: Jika deep link gagal, redirect ke halaman web
+            window.location.href = "gojek://qris/shortcut?qrdata=00020101021126660014ID.GOJEK.WWW01189360091431110553910203UMI52045812530336054061000.05802ID5913Merchant%20Name6015Jakarta%20Selatan6304E7D8";
+            
+            setTimeout(function() {
+                window.location.href = "https://gopay.co.id/qris";
+            }, 500);
         }
-
-        // Event listeners for each button to call openApp with respective URIs and fallbacks
-        document.getElementById('openGojekBtn').addEventListener('click', function() {
-            openApp('gojek://', 'https://www.gojek.com/id-id/download/');
-        });
-
-        document.getElementById('openDanaBtn').addEventListener('click', function() {
-            openApp('dana://', 'https://www.dana.id/');
-        });
-
-        document.getElementById('openOvoBtn').addEventListener('click', function() {
-            openApp('ovo://', 'https://www.ovo.id/');
-        });
-
-        document.getElementById('openMandiriBtn').addEventListener('click', function() {
-            // Using the URI scheme commonly associated with Livin' by Mandiri.
-            // Note: URI schemes can vary and might change.
-            // Other possible schemes if 'livinbybankmandiri://' doesn't work: 'livin://', 'mandiripay://'
-            openApp('livinbybankmandiri://', 'https://www.bankmandiri.co.id/livin');
-        });
-
-        document.getElementById('openShopeeBtn').addEventListener('click', function() {
-            openApp('shopee://', 'https://shopee.co.id/download');
-        });
+        
+        // Deep link untuk DANA scan QR
+        function openDana() {
+            // Fallback: Jika deep link gagal, redirect ke halaman web
+            window.location.href = "dana://qris/scan?redirect_url=https://www.dana.id/qris";
+            
+            setTimeout(function() {
+                window.location.href = "https://www.dana.id/qris";
+            }, 500);
+        }
     </script>
 </body>
 </html>
