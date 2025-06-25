@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buka Aplikasi Gojek</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00AA45 0%, #00B14F 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        
+        .btn-open {
+            background: #00AA45;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-open:hover {
+            background: #008C3A;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 170, 69, 0.3);
+        }
+        
+        .btn-open:active {
+            transform: translateY(0);
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            text-align: left;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <svg class="logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.5 16.5H10.5V7.5H7.5V16.5Z" fill="#00AA45"/>
+            <path d="M13.5 16.5H16.5V12H13.5V16.5Z" fill="#00AA45"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#00AA45"/>
+        </svg>
+        
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Buka Aplikasi Gojek</h1>
+        <p class="text-gray-600 mb-6">Klik tombol di bawah untuk langsung membuka aplikasi Gojek di perangkat Anda</p>
+        
+        <button id="openGojekBtn" class="btn-open">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 16.5H10.5V7.5H7.5V16.5Z" fill="white"/>
+                <path d="M13.5 16.5H16.5V12H13.5V16.5Z" fill="white"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="white"/>
+            </svg>
+            Buka Gojek
+        </button>
+        
+        <div class="instructions">
+            <p class="font-semibold mb-2">Jika aplikasi tidak terbuka:</p>
+            <ul class="list-disc pl-5 space-y-1">
+                <li>Pastikan Anda sudah menginstal aplikasi Gojek</li>
+                <li>Jika menggunakan iPhone, buka halaman ini di Safari</li>
+                <li>Jika menggunakan Android, pastikan izin 'Buka tautan yang didukung' diaktifkan</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('openGojekBtn').addEventListener('click', function() {
+            // Deep link URI untuk Gojek
+            const gojekAppUri = 'gojek://';
+            
+            // Fallback URL jika aplikasi tidak terinstall
+            const fallbackUrl = 'https://www.gojek.com/id-id/download/';
+            
+            // Coba buka aplikasi
+            window.location.href = gojekAppUri;
+            
+            // Jika aplikasi tidak terbuka, redirect ke fallback URL setelah timeout
+            setTimeout(function() {
+                if (!document.hidden) {
+                    window.location.href = fallbackUrl;
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
