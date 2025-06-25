@@ -119,11 +119,38 @@
         
         <div class="mt-6 bg-white rounded-lg shadow-lg p-4">
             <h2 class="text-lg font-semibold text-gray-800 mb-2">Security Information</h2>
-            <p class="text-sm text-gray-600">
+            <p class="text-sm text-gray-600 mb-3">
                 This viewer loads websites in a sandboxed iframe for security. 
                 Some features may be restricted to prevent malicious activity.
                 For best security, keep "Enable Sandbox" checked.
             </p>
+            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+                <p class="font-bold">Why won't some websites load?</p>
+                <p class="text-sm">Many modern websites use security policies (like <code>X-Frame-Options</code> or <code>Content-Security-Policy</code>) to prevent themselves from being loaded inside another site's frame. This is a security feature to protect against "clickjacking". If a website doesn't load, it's likely due to this protection, and this is expected behavior.</p>
+            </div>
+        </div>
+
+        <div class="mt-6 bg-white rounded-lg shadow-lg p-4">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Header Information</h2>
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+                <p class="font-bold">Can this tool show HTTP headers?</p>
+                <p class="text-sm">Due to browser security restrictions (Same-Origin Policy), JavaScript running on this page cannot directly access the HTTP response headers of a website loaded from a different domain (like Wikipedia.org). To view headers, a server-side proxy would be required, which is not possible on this static hosting platform (GitHub Pages).</p>
+                <p class="text-sm mt-2">An example of headers you might see from a server are:</p>
+                <pre class="text-xs mt-2 bg-gray-800 text-white p-2 rounded"><code>Content-Type: text/html; charset=UTF-8
+Server: Apache/2.4.1 (Unix)
+X-Frame-Options: DENY
+Content-Security-Policy: frame-ancestors 'none'</code></pre>
+            </div>
+        </div>
+
+        <div class="mt-6 bg-white rounded-lg shadow-lg p-4">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Source Code Viewer</h2>
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+                <p class="font-bold">Can this tool show the page's source code?</p>
+                <p class="text-sm">Similar to viewing HTTP headers, browser security policies (specifically the Same-Origin Policy and CORS) prevent this page from directly reading the HTML source code of a website loaded from a different domain. This is a crucial security measure.</p>
+                <p class="text-sm mt-2">To fetch a page's content, the server must send the correct CORS headers (e.g., <code>Access-Control-Allow-Origin: *</code>), which most websites do not. The only other reliable way is through a server-side proxy, which is not available on this static site.</p>
+                <p class="text-sm mt-2"><strong>How to view source code manually:</strong> Most browsers allow you to view the source code of any page by right-clicking and selecting "View Page Source" or by pressing <code>Ctrl+U</code> (Windows/Linux) or <code>Cmd+Option+U</code> (Mac).</p>
+            </div>
         </div>
     </div>
 
