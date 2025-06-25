@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penggabung PDF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --secondary-color: #50E3C2;
+            --background-color: #F0F2F5;
+            --card-background: #FFFFFF;
+            --text-color: #333333;
+            --border-color: #E0E0E0;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .drag-area {
+            border: 3px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            background-color: rgba(74, 144, 226, 0.05);
+        }
+
+        .drag-area.highlight {
+            border-color: var(--primary-color);
+            background-color: rgba(74, 144, 226, 0.1);
+        }
+
+        .drag-area p {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .drag-area .icon {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: left;
+            background-color: #fdfdfd;
+        }
+
+        .file-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .file-list li:last-child {
+            border-bottom: none;
+        }
+
+        .file-list li span {
+            flex-grow: 1;
+            margin-right: 15px;
+            word-break: break-all; /* Ensure long filenames wrap */
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: var(--error-color);
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 5px;
+            transition: color 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            color: #c0392b;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            outline: none;
+            margin: 0 10px;
+        }
+
+        .btn:hover {
+            background-color: #3A7BD5;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none; /* Hidden by default */
+            word-wrap: break-word; /* Ensure messages wrap */
+        }
+
+        .feedback.success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+
+        .feedback.error {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+        }
+
+        .feedback.info {
+            background-color: rgba(74, 144, 226, 0.1);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        #downloadBtn {
+            display: none; /* Hidden until PDF is merged */
+            margin-top: 20px;
+            background-color: var(--secondary-color);
+        }
+
+        #downloadBtn:hover {
+            background-color: #3ed0a9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Penggabung PDF Online</h1>
+        <div class="drag-area" id="dragArea">
+            <span class="icon">📄</span>
+            <p>Seret & jatuhkan file PDF di sini atau</p>
+            <button class="btn upload-btn">Pilih File</button>
+            <input type="file" id="pdfFile" class="file-input" accept=".pdf" multiple>
+        </div>
+
+        <ul class="file-list" id="fileList">
+            </ul>
+
+        <button class="btn" id="mergeBtn" disabled>Gabungkan PDF</button>
+        <a id="downloadBtn" class="btn" style="display: none;">Unduh PDF Gabungan</a>
+
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+    <script>
+        const { PDFDocument } = PDFLib;
+
+        const dragArea = document.getElementById('dragArea');
+        const fileInput = document.getElementById('pdfFile');
+        const fileList = document.getElementById('fileList');
+        const mergeBtn = document.getElementById('mergeBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const feedbackDiv = document.getElementById('feedback');
+
+        let uploadedFiles = []; // Menyimpan objek File dari PDF yang diunggah
+
+        // Fungsi untuk menampilkan feedback
+        function showFeedback(message, type) {
+            feedbackDiv.textContent = message;
+            feedbackDiv.className = `feedback ${type}`; // Reset dan set kelas
+            feedbackDiv.style.display = 'block';
+        }
+
+        // Fungsi untuk menyembunyikan feedback
+        function hideFeedback() {
+            feedbackDiv.style.display = 'none';
+        }
+
+        // Fungsi untuk memperbarui daftar file yang ditampilkan
+        function updateFileList() {
+            fileList.innerHTML = ''; // Kosongkan daftar yang ada
+            if (uploadedFiles.length === 0) {
+                fileList.style.display = 'none';
+                mergeBtn.disabled = true;
+                downloadBtn.style.display = 'none';
+                return;
+            }
+
+            fileList.style.display = 'block';
+            uploadedFiles.forEach((file, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <span>${file.name}</span>
+                    <button class="remove-btn" data-index="${index}">&times;</button>
+                `;
+                fileList.appendChild(listItem);
+            });
+
+            // Aktifkan tombol gabung jika ada setidaknya 2 file
+            mergeBtn.disabled = uploadedFiles.length < 2;
+        }
+
+        // Event listener untuk tombol "Pilih File"
+        dragArea.querySelector('.upload-btn').addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Event listener untuk input file
+        fileInput.addEventListener('change', (event) => {
+            hideFeedback();
+            const files = Array.from(event.target.files);
+            
+            // Filter hanya file PDF
+            const pdfs = files.filter(file => file.type === 'application/pdf');
+
+            if (pdfs.length === 0) {
+                showFeedback('Hanya file PDF yang diizinkan.', 'error');
+                return;
+            }
+
+            // Tambahkan file yang baru diunggah ke daftar yang sudah ada, menghindari duplikat berdasarkan nama & ukuran
+            pdfs.forEach(newFile => {
+                const exists = uploadedFiles.some(existingFile => 
+                    existingFile.name === newFile.name && existingFile.size === newFile.size
+                );
+                if (!exists) {
+                    uploadedFiles.push(newFile);
+                } else {
+                    showFeedback(`File "${newFile.name}" sudah ada dalam daftar.`, 'info');
+                }
+            });
+            updateFileList();
+        });
+
+        // Event listener untuk area drag-and-drop
+        dragArea.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dragArea.classList.add('highlight');
+            showFeedback('Lepaskan file PDF Anda di sini.', 'info');
+        });
+
+        dragArea.addEventListener('dragleave', () => {
+            dragArea.classList.remove('highlight');
+            hideFeedback();
+        });
+
+        dragArea.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dragArea.classList.remove('highlight');
+            hideFeedback();
+
+            const files = Array.from(event.dataTransfer.files);
+            const pdfs = files.filter(file => file.type === 'application/pdf');
+
+            if (pdfs.length === 0) {
+                showFeedback('Hanya file PDF yang diizinkan.', 'error');
+                return;
+            }
+
+            pdfs.forEach(newFile => {
+                const exists = uploadedFiles.some(existingFile => 
+                    existingFile.name === newFile.name && existingFile.size === newFile.size
+                );
+                if (!exists) {
+                    uploadedFiles.push(newFile);
+                } else {
+                    showFeedback(`File "${newFile.name}" sudah ada dalam daftar.`, 'info');
+                }
+            });
+            updateFileList();
+        });
+
+        // Event listener untuk menghapus file dari daftar
+        fileList.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove-btn')) {
+                const indexToRemove = parseInt(event.target.dataset.index);
+                uploadedFiles.splice(indexToRemove, 1);
+                updateFileList();
+                hideFeedback();
+            }
+        });
+
+        // Event listener untuk tombol "Gabungkan PDF"
+        mergeBtn.addEventListener('click', async () => {
+            if (uploadedFiles.length < 2) {
+                showFeedback('Pilih setidaknya 2 file PDF untuk digabungkan.', 'error');
+                return;
+            }
+
+            showFeedback('Menggabungkan PDF, mohon tunggu...', 'info');
+            mergeBtn.disabled = true;
+            downloadBtn.style.display = 'none';
+
+            try {
+                const mergedPdf = await PDFDocument.create();
+
+                for (const file of uploadedFiles) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await PDFDocument.load(arrayBuffer);
+                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                }
+
+                const mergedPdfBytes = await mergedPdf.save();
+                const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+
+                downloadBtn.href = url;
+                downloadBtn.download = 'pdf_gabungan.pdf';
+                downloadBtn.style.display = 'block';
+                showFeedback('PDF berhasil digabungkan!', 'success');
+            } catch (error) {
+                console.error('Error saat menggabungkan PDF:', error);
+                showFeedback(`Terjadi kesalahan saat menggabungkan PDF: ${error.message}`, 'error');
+            } finally {
+                mergeBtn.disabled = false;
+            }
+        });
+
+        // Inisialisasi tampilan daftar file
+        updateFileList();
+    </script>
+</body>
+</html>
