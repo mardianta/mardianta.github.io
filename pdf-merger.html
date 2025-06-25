@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penggabung PDF</title>
+    <title>Alat PDF - Gabung & Pisah</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <!-- PDF.js for rendering thumbnails -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
         :root {
             --bs-primary: royalblue;
@@ -16,18 +18,18 @@
             background-color: #f0f2f5;
         }
 
-        .drag-area {
+        .drop-area {
             border-width: 3px !important;
             transition: all 0.3s ease;
             cursor: pointer;
         }
 
-        .drag-area.highlight {
+        .drop-area.highlight {
             border-color: var(--bs-primary) !important;
             background-color: rgba(var(--bs-primary-rgb), 0.1);
         }
 
-        .drag-area .icon {
+        .drop-area .icon {
             font-size: 4rem;
             color: var(--bs-primary);
         }
@@ -36,9 +38,31 @@
             display: none;
         }
 
-        #fileList {
+        #mergeFileList {
             max-height: 250px;
             overflow-y: auto;
+        }
+
+        /* Styles for PDF Splitter Thumbnails */
+        #pdfThumbnailsContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            max-height: 400px; /* Limit height for scrollability */
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+        .pdf-thumbnail-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
     </style>
@@ -46,30 +70,82 @@
 <body class="bg-light-subtle">
     <div class="container my-5">
         <div class="card shadow-sm">
-            <div class="card-body p-4 p-md-5 text-center">
-                <h1 class="card-title text-primary fw-bold mb-4">Penggabung PDF Online</h1>
-                <div class="drag-area border border-dashed rounded p-5 mb-4" id="dragArea">
-                    <span class="icon"><i class="fa-solid fa-file-pdf"></i></span>
-                    <p class="fs-5 text-muted my-2">Seret & jatuhkan file PDF di sini atau</p>
-                    <button class="btn btn-primary upload-btn px-4">
-                        <i class="fa-solid fa-upload me-2"></i>Pilih File
-                    </button>
-                    <input type="file" id="pdfFile" class="file-input" accept=".pdf" multiple>
-                </div>
-
-                <ul class="list-group text-start mb-4" id="fileList">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="pdfToolsTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="merger-tab" data-bs-toggle="tab" data-bs-target="#merger-tab-pane" type="button" role="tab" aria-controls="merger-tab-pane" aria-selected="true">
+                            <i class="fa-solid fa-object-group me-2"></i>Gabung PDF
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="splitter-tab" data-bs-toggle="tab" data-bs-target="#splitter-tab-pane" type="button" role="tab" aria-controls="splitter-tab-pane" aria-selected="false">
+                            <i class="fa-solid fa-scissors me-2"></i>Pisah PDF
+                        </button>
+                    </li>
                 </ul>
-
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <button class="btn btn-primary btn-lg px-4" id="mergeBtn" disabled>
-                        <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Gabungkan PDF
-                    </button>
-                    <a id="downloadBtn" class="btn btn-success btn-lg px-4 d-none">
-                        <i class="fa-solid fa-download me-2"></i>Unduh PDF Gabungan
-                    </a>
+            </div>
+            <div class="tab-content" id="pdfToolsTabContent">
+                <!-- Merger Tab Pane -->
+                <div class="tab-pane fade show active" id="merger-tab-pane" role="tabpanel" aria-labelledby="merger-tab" tabindex="0">
+                    <div class="card-body p-4 p-md-5 text-center">
+                        <h1 class="card-title text-primary fw-bold mb-4">Penggabung PDF Online</h1>
+                        <div class="drop-area border border-dashed rounded p-5 mb-4" id="mergeDragArea">
+                            <span class="icon"><i class="fa-solid fa-file-pdf"></i></span>
+                            <p class="fs-5 text-muted my-2">Seret & jatuhkan file PDF di sini atau</p>
+                            <button class="btn btn-primary upload-btn px-4">
+                                <i class="fa-solid fa-upload me-2"></i>Pilih File
+                            </button>
+                            <input type="file" id="mergeFileInput" class="file-input" accept=".pdf" multiple>
+                        </div>
+                        <ul class="list-group text-start mb-4" id="mergeFileList"></ul>
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                            <button class="btn btn-primary btn-lg px-4" id="mergeBtn" disabled>
+                                <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Gabungkan PDF
+                            </button>
+                            <a id="mergeDownloadBtn" class="btn btn-success btn-lg px-4 d-none">
+                                <i class="fa-solid fa-download me-2"></i>Unduh PDF Gabungan
+                            </a>
+                        </div>
+                        <div class="alert mt-4 d-none" id="mergeFeedback" role="alert"></div>
+                    </div>
                 </div>
-
-                <div class="alert mt-4 d-none" id="feedback" role="alert"></div>
+                <!-- Splitter Tab Pane -->
+                <div class="tab-pane fade" id="splitter-tab-pane" role="tabpanel" aria-labelledby="splitter-tab" tabindex="0">
+                    <div class="card-body p-4 p-md-5 text-center">
+                        <h1 class="card-title text-primary fw-bold mb-4">Pemisah PDF Online</h1>
+                        <div class="drop-area border border-dashed rounded p-5 mb-4" id="splitUploadArea">
+                            <span class="icon"><i class="fa-solid fa-file-import"></i></span>
+                            <p class="fs-5 text-muted my-2">Seret & jatuhkan satu file PDF di sini atau</p>
+                            <button class="btn btn-primary upload-btn px-4"><i class="fa-solid fa-upload me-2"></i>Pilih File</button>
+                            <input type="file" id="splitFileInput" class="file-input" accept=".pdf">
+                        </div>
+                        <div id="splitFileInfo" class="text-start mb-4 d-none">
+                            <p><strong>File Terpilih:</strong> <span id="splitFileName" class="text-muted"></span></p>
+                            <p><strong>Total Halaman:</strong> <span id="splitTotalPages" class="text-muted"></span></p>
+                            <div class="mb-3">
+                                <div class="form-check text-start mb-2">
+                                    <input class="form-check-input" type="checkbox" id="selectAllPages">
+                                    <label class="form-check-label" for="selectAllPages">
+                                        Pilih Semua Halaman
+                                    </label>
+                                </div>
+                                <p class="form-text text-start">Pilih halaman yang ingin Anda pisahkan:</p>
+                                <div id="pdfThumbnailsContainer" class="mt-3 d-flex flex-wrap justify-content-center gap-3">
+                                    <!-- PDF thumbnails will be rendered here -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                            <button class="btn btn-primary btn-lg px-4" id="splitBtn" disabled>
+                                <i class="fa-solid fa-scissors me-2"></i>Pisahkan PDF
+                            </button>
+                            <a id="splitDownloadBtn" class="btn btn-success btn-lg px-4 d-none">
+                                <i class="fa-solid fa-download me-2"></i>Unduh PDF Hasil
+                            </a>
+                        </div>
+                        <div class="alert mt-4 d-none" id="splitFeedback" role="alert"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -100,172 +176,268 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
-        const { PDFDocument } = PDFLib;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        document.addEventListener('DOMContentLoaded', () => {
+            const { PDFDocument } = PDFLib;
 
-        const dragArea = document.getElementById('dragArea');
-        const fileInput = document.getElementById('pdfFile');
-        const fileList = document.getElementById('fileList');
-        const mergeBtn = document.getElementById('mergeBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const feedbackDiv = document.getElementById('feedback');
+            // --- MERGER SCRIPT ---
+            const mergeDragArea = document.getElementById('mergeDragArea');
+            const mergeFileInput = document.getElementById('mergeFileInput');
+            const mergeFileList = document.getElementById('mergeFileList');
+            const mergeBtn = document.getElementById('mergeBtn');
+            const mergeDownloadBtn = document.getElementById('mergeDownloadBtn');
+            const mergeFeedback = document.getElementById('mergeFeedback');
 
-        let uploadedFiles = []; // Menyimpan objek File dari PDF yang diunggah
+            let uploadedFiles = [];
 
-        // Fungsi untuk menampilkan feedback
-        function showFeedback(message, type) {
-            feedbackDiv.textContent = message;
-            feedbackDiv.className = `alert alert-${type} d-block`; // Reset dan set kelas
-        }
+            function showMergeFeedback(message, type) {
+                mergeFeedback.textContent = message;
+                mergeFeedback.className = `alert alert-${type} d-block`;
+            }
 
-        // Fungsi untuk menyembunyikan feedback
-        function hideFeedback() {
-            feedbackDiv.className = 'alert d-none';
-        }
+            function hideMergeFeedback() {
+                mergeFeedback.className = 'alert d-none';
+            }
 
-        // Fungsi untuk memperbarui daftar file yang ditampilkan
-        function updateFileList() {
-            fileList.innerHTML = ''; // Kosongkan daftar yang ada
-            if (uploadedFiles.length === 0) {
-                fileList.classList.add('d-none');
+            function updateMergeFileList() {
+                mergeFileList.innerHTML = '';
+                if (uploadedFiles.length === 0) {
+                    mergeFileList.classList.add('d-none');
+                    mergeBtn.disabled = true;
+                    mergeDownloadBtn.classList.add('d-none');
+                    return;
+                }
+
+                mergeFileList.classList.remove('d-none');
+                uploadedFiles.forEach((file, index) => {
+                    const listItem = document.createElement('div');
+                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    listItem.innerHTML = `
+                        <span class="text-truncate me-3">${file.name}</span>
+                        <button class="btn btn-sm btn-outline-danger remove-btn" data-index="${index}">&times;</button>
+                    `;
+                    mergeFileList.appendChild(listItem);
+                });
+
                 mergeBtn.disabled = true;
-                downloadBtn.classList.add('d-none');
-                return;
             }
 
-            fileList.classList.remove('d-none');
-            uploadedFiles.forEach((file, index) => {
-                const listItem = document.createElement('div');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                listItem.innerHTML = `
-                    <span class="text-truncate me-3">${file.name}</span>
-                    <button class="btn btn-sm btn-outline-danger remove-btn" data-index="${index}">&times;</button>
-                `;
-                fileList.appendChild(listItem);
+            function handleMergeFiles(files) {
+                const pdfs = files.filter(file => file.type === 'application/pdf');
+                if (pdfs.length === 0) {
+                    showMergeFeedback('Hanya file PDF yang diizinkan.', 'danger');
+                    return;
+                }
+                pdfs.forEach(newFile => {
+                    const exists = uploadedFiles.some(existingFile => existingFile.name === newFile.name && existingFile.size === newFile.size);
+                    if (!exists) {
+                        uploadedFiles.push(newFile);
+                    } else {
+                        showMergeFeedback(`File "${newFile.name}" sudah ada dalam daftar.`, 'warning');
+                    }
+                });
+                updateMergeFileList();
+            }
+
+            mergeDragArea.querySelector('.upload-btn').addEventListener('click', () => mergeFileInput.click());
+            mergeFileInput.addEventListener('change', (event) => {
+                hideMergeFeedback();
+                handleMergeFiles(Array.from(event.target.files));
             });
 
-            // Aktifkan tombol gabung jika ada setidaknya 2 file
-            mergeBtn.disabled = uploadedFiles.length < 2;
-        }
+            mergeDragArea.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                mergeDragArea.classList.add('highlight');
+            });
+            mergeDragArea.addEventListener('dragleave', () => mergeDragArea.classList.remove('highlight'));
+            mergeDragArea.addEventListener('drop', (event) => {
+                event.preventDefault();
+                mergeDragArea.classList.remove('highlight');
+                hideMergeFeedback();
+                handleMergeFiles(Array.from(event.dataTransfer.files));
+            });
 
-        // Event listener untuk tombol "Pilih File"
-        dragArea.querySelector('.upload-btn').addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        // Event listener untuk input file
-        fileInput.addEventListener('change', (event) => {
-            hideFeedback();
-            const files = Array.from(event.target.files);
-            
-            // Filter hanya file PDF
-            const pdfs = files.filter(file => file.type === 'application/pdf');
-
-            if (pdfs.length === 0) {
-                showFeedback('Hanya file PDF yang diizinkan.', 'danger');
-                return;
-            }
-
-            // Tambahkan file yang baru diunggah ke daftar yang sudah ada, menghindari duplikat berdasarkan nama & ukuran
-            pdfs.forEach(newFile => {
-                const exists = uploadedFiles.some(existingFile => 
-                    existingFile.name === newFile.name && existingFile.size === newFile.size
-                );
-                if (!exists) {
-                    uploadedFiles.push(newFile);
-                } else {
-                    showFeedback(`File "${newFile.name}" sudah ada dalam daftar.`, 'warning');
+            mergeFileList.addEventListener('click', (event) => {
+                if (event.target.classList.contains('remove-btn')) {
+                    const indexToRemove = parseInt(event.target.dataset.index);
+                    uploadedFiles.splice(indexToRemove, 1);
+                    updateMergeFileList();
+                    hideMergeFeedback();
                 }
             });
-            updateFileList();
-        });
 
-        // Event listener untuk area drag-and-drop
-        dragArea.addEventListener('dragover', (event) => {
-            event.preventDefault();
-            dragArea.classList.add('highlight');
-            showFeedback('Lepaskan file PDF Anda di sini.', 'info');
-        });
-
-        dragArea.addEventListener('dragleave', () => {
-            dragArea.classList.remove('highlight');
-            hideFeedback();
-        });
-
-        dragArea.addEventListener('drop', (event) => {
-            event.preventDefault();
-            dragArea.classList.remove('highlight');
-            hideFeedback();
-
-            const files = Array.from(event.dataTransfer.files);
-            const pdfs = files.filter(file => file.type === 'application/pdf');
-
-            if (pdfs.length === 0) {
-                showFeedback('Hanya file PDF yang diizinkan.', 'danger');
-                return;
-            }
-
-            pdfs.forEach(newFile => {
-                const exists = uploadedFiles.some(existingFile => 
-                    existingFile.name === newFile.name && existingFile.size === newFile.size
-                );
-                if (!exists) {
-                    uploadedFiles.push(newFile);
-                } else {
-                    showFeedback(`File "${newFile.name}" sudah ada dalam daftar.`, 'warning');
+            mergeBtn.addEventListener('click', async () => {
+                if (uploadedFiles.length < 2) {
+                    showMergeFeedback('Pilih setidaknya 2 file PDF untuk digabungkan.', 'danger');
+                    return;
+                }
+                showMergeFeedback('Menggabungkan PDF, mohon tunggu...', 'info');
+                mergeBtn.disabled = true;
+                mergeDownloadBtn.classList.add('d-none');
+                try {
+                    const mergedPdf = await PDFDocument.create();
+                    for (const file of uploadedFiles) {
+                        const arrayBuffer = await file.arrayBuffer();
+                        const pdf = await PDFDocument.load(arrayBuffer);
+                        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                        copiedPages.forEach((page) => mergedPdf.addPage(page));
+                    }
+                    const mergedPdfBytes = await mergedPdf.save();
+                    const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    mergeDownloadBtn.href = url;
+                    mergeDownloadBtn.download = 'pdf_gabungan.pdf';
+                    mergeDownloadBtn.classList.remove('d-none');
+                    showMergeFeedback('PDF berhasil digabungkan!', 'success');
+                } catch (error) {
+                    console.error('Error saat menggabungkan PDF:', error);
+                    showMergeFeedback(`Terjadi kesalahan saat menggabungkan PDF: ${error.message}`, 'danger');
+                } finally {
+                    mergeBtn.disabled = false;
                 }
             });
-            updateFileList();
-        });
+            updateMergeFileList();
 
-        // Event listener untuk menghapus file dari daftar
-        fileList.addEventListener('click', (event) => {
-            if (event.target.classList.contains('remove-btn')) {
-                const indexToRemove = parseInt(event.target.dataset.index);
-                uploadedFiles.splice(indexToRemove, 1);
-                updateFileList();
-                hideFeedback();
+            // --- SPLITTER SCRIPT ---
+            const splitUploadArea = document.getElementById('splitUploadArea');
+            const splitFileInput = document.getElementById('splitFileInput');
+            const splitFileInfoDiv = document.getElementById('splitFileInfo');
+            const splitFileNameSpan = document.getElementById('splitFileName');
+            const splitTotalPagesSpan = document.getElementById('splitTotalPages');
+            const selectAllPagesCheckbox = document.getElementById('selectAllPages');
+            const pdfThumbnailsContainer = document.getElementById('pdfThumbnailsContainer');
+            const splitBtn = document.getElementById('splitBtn');
+            const splitDownloadBtn = document.getElementById('splitDownloadBtn');
+            const splitFeedback = document.getElementById('splitFeedback');
+
+            let splitUploadedFile = null;
+            let splitSourcePdfDoc = null;
+            let splitPdfjsDoc = null; // To store PDF.js document for rendering
+
+            function showSplitFeedback(message, type) {
+                splitFeedback.textContent = message;
+                splitFeedback.className = `alert alert-${type} d-block`;
             }
-        });
 
-        // Event listener untuk tombol "Gabungkan PDF"
-        mergeBtn.addEventListener('click', async () => {
-            if (uploadedFiles.length < 2) {
-                showFeedback('Pilih setidaknya 2 file PDF untuk digabungkan.', 'danger');
-                return;
+            function hideSplitFeedback() {
+                splitFeedback.className = 'alert d-none';
             }
 
-            showFeedback('Menggabungkan PDF, mohon tunggu...', 'info');
-            mergeBtn.disabled = true;
-            downloadBtn.classList.add('d-none');
+            async function renderPdfThumbnails(pdfDoc) {
+                pdfThumbnailsContainer.innerHTML = ''; // Clear previous thumbnails
+                for (let i = 1; i <= pdfDoc.numPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    const viewport = page.getViewport({ scale: 0.5 }); // Adjust scale for thumbnail size
 
-            try {
-                const mergedPdf = await PDFDocument.create();
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
 
-                for (const file of uploadedFiles) {
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport,
+                    };
+                    await page.render(renderContext).promise;
+
+                    const thumbnailItem = document.createElement('div');
+                    thumbnailItem.className = 'pdf-thumbnail-item';
+                    thumbnailItem.innerHTML = `
+                        <div class="form-check">
+                            <input class="form-check-input page-checkbox" type="checkbox" value="${i - 1}" id="pageCheck${i}" checked>
+                            <label class="form-check-label" for="pageCheck${i}">
+                                Halaman ${i}
+                            </label>
+                        </div>
+                    `;
+                    thumbnailItem.appendChild(canvas);
+                    pdfThumbnailsContainer.appendChild(thumbnailItem);
+                }
+                selectAllPagesCheckbox.checked = true; // Select all by default
+            }
+
+            async function handleSplitFile(file) {
+                if (!file || file.type !== 'application/pdf') {
+                    showSplitFeedback('Silakan pilih satu file PDF.', 'danger');
+                    return;
+                }
+                splitUploadedFile = file;
+                hideSplitFeedback();
+                showSplitFeedback('Memproses file...', 'info');
+                try {
                     const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await PDFDocument.load(arrayBuffer);
-                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                    splitSourcePdfDoc = await PDFDocument.load(arrayBuffer);
+                    splitPdfjsDoc = await pdfjsLib.getDocument(arrayBuffer).promise; // Load with PDF.js
+
+                    splitFileNameSpan.textContent = file.name;
+                    splitTotalPagesSpan.textContent = splitPdfjsDoc.numPages;
+                    splitFileInfoDiv.classList.remove('d-none');
+                    splitBtn.disabled = false;
+                    hideSplitFeedback();
+
+                    await renderPdfThumbnails(splitPdfjsDoc); // Render thumbnails
+                } catch (error) {
+                    showSplitFeedback('Gagal memuat file PDF. File mungkin rusak.', 'danger');
+                    console.error(error);
+                }
+            }
+
+            // Select All Pages checkbox logic
+            selectAllPagesCheckbox.addEventListener('change', (event) => {
+                document.querySelectorAll('.page-checkbox').forEach(checkbox => {
+                    checkbox.checked = event.target.checked;
+                });
+            });
+
+            splitUploadArea.querySelector('.upload-btn').addEventListener('click', () => splitFileInput.click());
+            splitFileInput.addEventListener('change', (event) => handleSplitFile(event.target.files[0]));
+
+            splitUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); splitUploadArea.classList.add('highlight'); });
+            splitUploadArea.addEventListener('dragleave', () => splitUploadArea.classList.remove('highlight'));
+            splitUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                splitUploadArea.classList.remove('highlight');
+                handleSplitFile(e.dataTransfer.files[0]);
+            });
+
+            splitBtn.addEventListener('click', async () => {
+                if (!splitSourcePdfDoc) {
+                    showSplitFeedback('Silakan unggah file PDF terlebih dahulu.', 'danger');
+                    return;
                 }
 
-                const mergedPdfBytes = await mergedPdf.save();
-                const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
+                const selectedPageIndices = Array.from(document.querySelectorAll('.page-checkbox:checked'))
+                                                .map(checkbox => parseInt(checkbox.value, 10));
 
-                downloadBtn.href = url;
-                downloadBtn.download = 'pdf_gabungan.pdf';
-                downloadBtn.classList.remove('d-none');
-                showFeedback('PDF berhasil digabungkan!', 'success');
-            } catch (error) {
-                console.error('Error saat menggabungkan PDF:', error);
-                showFeedback(`Terjadi kesalahan saat menggabungkan PDF: ${error.message}`, 'danger');
-            } finally {
-                mergeBtn.disabled = false;
-            }
+                if (selectedPageIndices.length === 0) {
+                    showSplitFeedback('Silakan pilih setidaknya satu halaman untuk dipisah.', 'danger');
+                    return; 
+                }
+                showSplitFeedback('Memisahkan PDF, mohon tunggu...', 'info');
+                splitBtn.disabled = true;
+                splitDownloadBtn.classList.add('d-none');
+                try {
+                    const pageCount = splitSourcePdfDoc.getPageCount();
+                    // pagesToCopy is now selectedPageIndices
+                    if (selectedPageIndices.length === 0) throw new Error("Tidak ada halaman yang valid untuk diekstrak.");
+                    const newPdfDoc = await PDFDocument.create();
+                    const copiedPages = await newPdfDoc.copyPages(splitSourcePdfDoc, selectedPageIndices);
+                    copiedPages.forEach(page => newPdfDoc.addPage(page));
+                    const newPdfBytes = await newPdfDoc.save();
+                    const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    splitDownloadBtn.href = url;
+                    splitDownloadBtn.download = `${splitUploadedFile.name.replace('.pdf', '')}_split.pdf`;
+                    splitDownloadBtn.classList.remove('d-none');
+                    showSplitFeedback('PDF berhasil dipisah!', 'success');
+                } catch (error) {
+                    console.error('Error saat memisahkan PDF:', error);
+                    showSplitFeedback(`Terjadi kesalahan: ${error.message}`, 'danger');
+                } finally {
+                    splitBtn.disabled = false;
+                }
+            });
         });
-
-        // Inisialisasi tampilan daftar file
-        updateFileList();
     </script>
 </body>
 </html>
