@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buka Aplikasi Favorit Anda</title>
-    <!-- Tailwind CSS for modern, responsive styling. Replaced Bootstrap for consistency. -->
+    <!-- Tailwind CSS for modern, responsive styling. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -28,38 +28,97 @@
             @apply transform translate-y-0 shadow-sm;
         }
 
-        /* Specific app button colors using Tailwind's custom color approach if needed,
-           but mostly defined inline for simplicity or directly via classes. */
-        .btn-gojek {
-            background-color: #00AA45;
-        }
-        .btn-gojek:hover {
-            background-color: #008C3A;
-        }
+        /* Specific app button colors */
+        .btn-gojek { background-color: #00AA45; }
+        .btn-gojek:hover { background-color: #008C3A; }
         
-        /* New style for WhatsApp button */
-        .btn-whatsapp {
-            background-color: #25D366; /* WhatsApp Green */
-        }
-        .btn-whatsapp:hover {
-            background-color: #1DA851; /* Darker green on hover */
-        }
+        .btn-whatsapp { background-color: #25D366; } /* WhatsApp Green */
+        .btn-whatsapp:hover { background-color: #1DA851; }
+
+        .btn-grab { background-color: #00B14F; } /* Grab Green */
+        .btn-grab:hover { background-color: #009944; }
+
+        .btn-dana { background-color: #108EE9; } /* DANA Blue */
+        .btn-dana:hover { background-color: #0d73b9; }
+
+        .btn-ovo { background-color: #4D2A86; } /* OVO Purple */
+        .btn-ovo:hover { background-color: #3b2066; }
+
+        .btn-shopee { background-color: #EE4D2D; } /* Shopee Orange */
+        .btn-shopee:hover { background-color: #d44124; }
+
+        .btn-tokopedia { background-color: #42B549; } /* Tokopedia Green */
+        .btn-tokopedia:hover { background-color: #389d40; }
+
+        .btn-instagram { background-color: #E1306C; } /* Instagram Pink-Red */
+        .btn-instagram:hover { background-color: #c2295d; }
+
+        .btn-youtube { background-color: #FF0000; } /* YouTube Red */
+        .btn-youtube:hover { background-color: #cc0000; }
+
+        .btn-facebook { background-color: #1877F2; } /* Facebook Blue */
+        .btn-facebook:hover { background-color: #1562cc; }
+
+        .btn-twitter { background-color: #1DA1F2; } /* Twitter Blue */
+        .btn-twitter:hover { background-color: #178ace; }
+
+        .btn-gmail { background-color: #EA4335; } /* Gmail Red */
+        .btn-gmail:hover { background-color: #c9372c; }
     </style>
 </head>
 <body>
-    <div class="bg-white shadow-xl rounded-2xl p-6 md:p-8 text-center mx-auto max-w-sm w-full">
+    <div class="bg-white shadow-xl rounded-2xl p-6 md:p-8 text-center mx-auto max-w-lg w-full">
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Buka Aplikasi Favorit Anda</h1>
         <p class="text-gray-600 mb-6">Klik tombol di bawah untuk langsung membuka aplikasi di perangkat Anda.</p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <!-- Gojek Button -->
+            <button id="openGojekBtn" class="btn-app btn-gojek">
+                <i class="fas fa-car"></i> <span>Buka Gojek</span>
+            </button>
             <!-- WhatsApp Button -->
-            <button id="openWhatsAppBtn" class="btn-app btn-whatsapp col-span-1">
+            <button id="openWhatsAppBtn" class="btn-app btn-whatsapp">
                 <i class="fab fa-whatsapp"></i> <span>Buka WA</span>
             </button>
-            
-            <!-- Gojek Button -->
-            <button id="openGojekBtn" class="btn-app btn-gojek col-span-1">
-                <i class="fas fa-car"></i> <span>Buka Gojek</span>
+            <!-- Grab Button -->
+            <button id="openGrabBtn" class="btn-app btn-grab">
+                <i class="fas fa-taxi"></i> <span>Buka Grab</span>
+            </button>
+            <!-- DANA Button -->
+            <button id="openDanaBtn" class="btn-app btn-dana">
+                <i class="fas fa-wallet"></i> <span>Buka DANA</span>
+            </button>
+            <!-- OVO Button -->
+            <button id="openOvoBtn" class="btn-app btn-ovo">
+                <i class="fas fa-money-bill-wave"></i> <span>Buka OVO</span>
+            </button>
+            <!-- Shopee Button -->
+            <button id="openShopeeBtn" class="btn-app btn-shopee">
+                <i class="fas fa-shopping-bag"></i> <span>Buka Shopee</span>
+            </button>
+            <!-- Tokopedia Button -->
+            <button id="openTokopediaBtn" class="btn-app btn-tokopedia">
+                <i class="fas fa-store"></i> <span>Buka Tokopedia</span>
+            </button>
+            <!-- Instagram Button -->
+            <button id="openInstagramBtn" class="btn-app btn-instagram">
+                <i class="fab fa-instagram"></i> <span>Buka Instagram</span>
+            </button>
+            <!-- YouTube Button -->
+            <button id="openYouTubeBtn" class="btn-app btn-youtube">
+                <i class="fab fa-youtube"></i> <span>Buka YouTube</span>
+            </button>
+            <!-- Facebook Button -->
+            <button id="openFacebookBtn" class="btn-app btn-facebook">
+                <i class="fab fa-facebook"></i> <span>Buka Facebook</span>
+            </button>
+            <!-- Twitter Button -->
+            <button id="openTwitterBtn" class="btn-app btn-twitter">
+                <i class="fab fa-twitter"></i> <span>Buka Twitter</span>
+            </button>
+            <!-- Gmail Button -->
+            <button id="openGmailBtn" class="btn-app btn-gmail">
+                <i class="fas fa-envelope"></i> <span>Buka Gmail</span>
             </button>
         </div>
 
@@ -106,15 +165,53 @@
             }, { once: true }); // Listener only fires once
         }
 
-
-        // Event listener for WhatsApp button
-        document.getElementById('openWhatsAppBtn').addEventListener('click', function() {
-            openApp('whatsapp://', 'https://wa.me/'); // Generic WhatsApp URI and web link
-        });
-
         // Event listeners for each button to call openApp with respective URIs and fallbacks
         document.getElementById('openGojekBtn').addEventListener('click', function() {
             openApp('gojek://', 'https://www.gojek.com/id-id/download/');
+        });
+
+        document.getElementById('openWhatsAppBtn').addEventListener('click', function() {
+            openApp('whatsapp://', 'https://wa.me/');
+        });
+
+        document.getElementById('openGrabBtn').addEventListener('click', function() {
+            openApp('grab://', 'https://www.grab.com/id/download/');
+        });
+
+        document.getElementById('openDanaBtn').addEventListener('click', function() {
+            openApp('dana://', 'https://www.dana.id/');
+        });
+
+        document.getElementById('openOvoBtn').addEventListener('click', function() {
+            openApp('ovo://', 'https://www.ovo.id/');
+        });
+
+        document.getElementById('openShopeeBtn').addEventListener('click', function() {
+            openApp('shopee://', 'https://shopee.co.id/download');
+        });
+
+        document.getElementById('openTokopediaBtn').addEventListener('click', function() {
+            openApp('tokopedia://', 'https://www.tokopedia.com/download/');
+        });
+
+        document.getElementById('openInstagramBtn').addEventListener('click', function() {
+            openApp('instagram://', 'https://www.instagram.com/');
+        });
+
+        document.getElementById('openYouTubeBtn').addEventListener('click', function() {
+            openApp('youtube://', 'https://www.youtube.com/');
+        });
+
+        document.getElementById('openFacebookBtn').addEventListener('click', function() {
+            openApp('fb://', 'https://www.facebook.com/');
+        });
+
+        document.getElementById('openTwitterBtn').addEventListener('click', function() {
+            openApp('twitter://', 'https://twitter.com/');
+        });
+
+        document.getElementById('openGmailBtn').addEventListener('click', function() {
+            openApp('mailto:', 'https://mail.google.com/'); // Using mailto: for generic email client
         });
     </script>
 </body>
