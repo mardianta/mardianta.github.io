@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #FF0000 0%, #FF6B6B 100%);
+        }
+        .input-glow:focus {
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg flex flex-col items-center justify-center p-4">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-2xl overflow-hidden p-8 transform transition-all duration-300 hover:scale-[1.02]">
+        <div class="text-center mb-8">
+            <i class="fas fa-play-circle text-6xl text-red-600 floating mb-4"></i>
+            <h1 class="text-3xl font-bold text-gray-800">YouTube Video Downloader</h1>
+            <p class="text-gray-600 mt-2">Paste YouTube URL below to download</p>
+        </div>
+        
+        <div class="mb-6">
+            <div class="relative">
+                <input 
+                    type="text" 
+                    id="youtubeUrl" 
+                    placeholder="https://www.youtube.com/watch?v=..." 
+                    class="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-500 input-glow transition-all duration-200 outline-none"
+                >
+                <div class="absolute right-3 top-3 text-gray-400">
+                    <i class="fab fa-youtube text-xl"></i>
+                </div>
+            </div>
+            <p id="errorMessage" class="text-red-500 text-sm mt-1 h-4"></p>
+        </div>
+        
+        <div class="flex flex-col space-y-4">
+            <button 
+                id="downloadBtn" 
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center pulse transition-all duration-200"
+            >
+                <i class="fas fa-download mr-2"></i>
+                Download Video
+            </button>
+            
+            <div id="qualityOptions" class="hidden space-y-2">
+                <p class="text-gray-700 font-medium">Select Quality:</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="quality-btn bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-3 rounded transition" data-quality="1080">1080p HD</button>
+                    <button class="quality-btn bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-3 rounded transition" data-quality="720">720p HD</button>
+                    <button class="quality-btn bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-3 rounded transition" data-quality="480">480p</button>
+                    <button class="quality-btn bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-3 rounded transition" data-quality="360">360p</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="loading" class="hidden mt-6 text-center">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-600 mb-2"></div>
+            <p class="text-gray-700">Processing your request...</p>
+        </div>
+        
+        <div id="success" class="hidden mt-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+            <strong class="font-bold">Success!</strong>
+            <span class="block sm:inline">Your download will start shortly.</span>
+        </div>
+    </div>
+    
+    <div class="mt-8 text-white text-center max-w-md">
+        <p class="text-sm opacity-80">
+            Note: This is a frontend interface only. To enable actual downloads, you'll need to connect this to a backend service that can process YouTube URLs.
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const youtubeUrlInput = document.getElementById('youtubeUrl');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const qualityOptions = document.getElementById('qualityOptions');
+            const loading = document.getElementById('loading');
+            const success = document.getElementById('success');
+            
+            // Validate YouTube URL
+            function isValidYouTubeUrl(url) {
+                const pattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+                return pattern.test(url);
+            }
+            
+            // Handle download button click
+            downloadBtn.addEventListener('click', function() {
+                const url = youtubeUrlInput.value.trim();
+                
+                // Clear previous states
+                errorMessage.textContent = '';
+                qualityOptions.classList.add('hidden');
+                loading.classList.add('hidden');
+                success.classList.add('hidden');
+                
+                if (!url) {
+                    errorMessage.textContent = 'Please enter a YouTube URL';
+                    return;
+                }
+                
+                if (!isValidYouTubeUrl(url)) {
+                    errorMessage.textContent = 'Please enter a valid YouTube URL';
+                    return;
+                }
+                
+                // In a real implementation, this would call a backend API
+                // For demo purposes, we'll simulate getting quality options
+                simulateGetQualityOptions(url);
+            });
+            
+            // Simulate getting available quality options
+            function simulateGetQualityOptions(url) {
+                loading.classList.remove('hidden');
+                
+                // Simulate API delay
+                setTimeout(() => {
+                    loading.classList.add('hidden');
+                    qualityOptions.classList.remove('hidden');
+                    
+                    // Add event listeners to quality buttons
+                    document.querySelectorAll('.quality-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const quality = this.getAttribute('data-quality');
+                            startDownload(url, quality);
+                        });
+                    });
+                }, 1500);
+            }
+            
+            // Simulate starting download
+            function startDownload(url, quality) {
+                qualityOptions.classList.add('hidden');
+                loading.classList.remove('hidden');
+                
+                // Simulate download processing
+                setTimeout(() => {
+                    loading.classList.add('hidden');
+                    success.classList.remove('hidden');
+                    
+                    // In a real implementation, this would trigger the actual download
+                    console.log(`Would download: ${url} at ${quality}p`);
+                }, 2000);
+            }
+            
+            // Add animation to input on focus
+            youtubeUrlInput.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-red-300', 'rounded-lg');
+            });
+            
+            youtubeUrlInput.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-red-300', 'rounded-lg');
+            });
+        });
+    </script>
+</body>
+</html>
