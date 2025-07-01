@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kata Motivasi Hari Ini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        #quote-container {
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(0, 0, 0, 0.4);
+            transition: all 0.5s ease;
+        }
+        #download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        #download-btn:active {
+            transform: translateY(0);
+            transition: transform 0.1s;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl">
+        <div id="quote-container" class="relative rounded-2xl shadow-2xl overflow-hidden p-8 md:p-12 text-white"
+             style="background-image: url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c389eafa-99e7-40a9-9633-180c394c0fe7.png');">
+            <div class="absolute inset-0 bg-black opacity-30"></div>
+            <div class="relative z-10">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3ef11aea-8a77-4411-a734-e8e9201aaa75.png" alt="Ikona inspiratif dengan desain minimalis berupa lampu pijar dalam lingkaran emas" class="w-16 mb-6 rounded-full border-2 border-yellow-300">
+                
+                <p id="date" class="text-sm font-semibold mb-2 text-yellow-300">Hari Ini, 01 Januari 2023</p>
+                <h1 id="quote-text" class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-4">Tekan tombol di bawah untuk mendapatkan kata motivasi hari ini</h1>
+                <p id="quote-author" class="text-lg italic mt-2"></p>
+                
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <button id="generate-btn" class="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 rounded-lg font-bold transition-all">
+                        Generate Motivasi
+                    </button>
+                    <button id="download-btn" class="px-6 py-3 bg-white text-gray-800 hover:bg-gray-100 rounded-lg font-bold transition-all">
+                        Share sebagai Gambar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-600">
+            <p>Dibuat dengan ❤️ untuk menyemangati hari anda</p>
+        </div>
+    </div>
+
+    <script>
+        const quotes = [
+            {
+                text: "Jangan menyerah. Mimpi tidak pernah mempunyai deadline. Berhentilah sebentar, kembalilah bernapas, kemudian lanjutkan kembali.",
+                author: "A.S. Laksana"
+            },
+            {
+                text: "Hidup ini seperti naik sepeda. Untuk menjaga keseimbangan, Anda harus terus bergerak.",
+                author: "Albert Einstein"
+            },
+            {
+                text: "Masalah bukan tanda berhenti, tetapi petunjuk untuk berbelok arah.",
+                author: "Robert H. Schuller"
+            },
+            {
+                text: "Orang yang berhenti belajar akan menjadi pemilik masa lalu. Orang yang terus belajar akan menjadi pemilik masa depan.",
+                author: "Mario Teguh"
+            },
+            {
+                text: "Kesuksesan adalah jumlah dari usaha kecil yang dilakukan berulang-ulang hari demi hari.",
+                author: "Robert Collier"
+            }
+        ];
+
+        const backgroundImages = [
+            "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e9475b30-2a43-4b34-8050-38fe7ecd5090.png",
+            "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0c3541d2-81ed-4d6e-a03a-1d0a9a3b6f3b.png",
+            "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/54612ceb-58a9-4818-ab83-3edcbcd785c0.png"
+        ];
+
+        const generateBtn = document.getElementById('generate-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const quoteText = document.getElementById('quote-text');
+        const quoteAuthor = document.getElementById('quote-author');
+        const dateElement = document.getElementById('date');
+        const quoteContainer = document.getElementById('quote-container');
+
+        function updateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = now.toLocaleDateString('id-ID', options);
+        }
+
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            return quotes[randomIndex];
+        }
+
+        function getRandomBackground() {
+            const randomIndex = Math.floor(Math.random() * backgroundImages.length);
+            return backgroundImages[randomIndex];
+        }
+
+        generateBtn.addEventListener('click', () => {
+            const quote = getRandomQuote();
+            const bgImage = getRandomBackground();
+            
+            quoteText.textContent = `"${quote.text}"`;
+            quoteAuthor.textContent = `~ ${quote.author} ~`;
+            quoteContainer.style.backgroundImage = `url('${bgImage}')`;
+            
+            updateDate();
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            downloadBtn.textContent = 'Mempersiapkan...';
+            
+            html2canvas(quoteContainer, {
+                backgroundColor: null,
+                scale: 2,
+                logging: false,
+                letterRendering: true,
+                useCORS: true
+            }).then(canvas => {
+                canvas.toBlob(function(blob) {
+                    const file = new File([blob], "motivasi-hari-ini.png", {type: 'image/png'});
+                    
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        navigator.share({
+                            files: [file],
+                            title: 'Motivasi Hari Ini',
+                            text: 'Bagikan kata motivasi ini!'
+                        }).then(() => {
+                            downloadBtn.textContent = 'Share sebagai Gambar';
+                        }).catch(err => {
+                            console.error('Error sharing:', err);
+                            // Fallback to download
+                            downloadImage(canvas);
+                        });
+                    } else {
+                        // Fallback to download
+                        downloadImage(canvas);
+                    }
+                }, 'image/png');
+                
+                function downloadImage(canvas) {
+                    const imgData = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.download = 'kata-motivasi-hari-ini.png';
+                    link.href = imgData;
+                    link.click();
+                    downloadBtn.textContent = 'Share sebagai Gambar';
+                }
+            });
+        });
+
+        // Initialize
+        updateDate();
+    </script>
+</body>
+</html>
+
