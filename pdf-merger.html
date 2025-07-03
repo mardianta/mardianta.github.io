@@ -118,6 +118,65 @@
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
+        /* New styles for merger thumbnails */
+        #mergeThumbnailsContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            min-height: 150px; /* Give it some height when empty */
+        }
+        .merge-thumbnail-item {
+            position: relative;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: grab;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .merge-thumbnail-item.dragging {
+            opacity: 0.5;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: grabbing;
+        }
+        .merge-thumbnail-item .remove-page-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #dc3545;
+            color: white;
+            border: 1px solid white;
+            font-weight: bold;
+            line-height: 22px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 10;
+            display: none; /* Hidden by default */
+        }
+        .merge-thumbnail-item:hover .remove-page-btn {
+            display: block; /* Show on hover */
+        }
+        .merge-thumbnail-item canvas {
+            max-width: 100px; /* Control thumbnail size */
+            height: auto;
+            border: 1px solid #eee;
+        }
+        .merge-thumbnail-item p {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
     </style>
 </head>
 <body class="bg-light-subtle">
@@ -154,13 +213,16 @@
                             </button>
                             <input type="file" id="mergeFileInput" class="file-input" accept=".pdf" multiple>
                         </div>
-                        <ul class="list-group text-start mb-4" id="mergeFileList"></ul>
+                        <div id="mergeThumbnailsContainer" class="mb-4"></div>
                         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                             <button class="btn btn-primary btn-lg px-4" id="mergeBtn" disabled>
                                 <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Gabungkan PDF
                             </button>
                             <a id="mergeDownloadBtn" class="btn btn-success btn-lg px-4 d-none">
                                 <i class="fa-solid fa-download me-2"></i>Unduh PDF Gabungan
+                            </a>
+                            <button class="btn btn-danger btn-lg px-4" id="clearMergeBtn" disabled>
+                                <i class="fa-solid fa-trash me-2"></i>Bersihkan Semua
                             </a>
                         </div>
                         <div class="alert mt-4 d-none" id="mergeFeedback" role="alert"></div>
@@ -329,12 +391,14 @@
             // --- MERGER SCRIPT ---
             const mergeDragArea = document.getElementById('mergeDragArea');
             const mergeFileInput = document.getElementById('mergeFileInput');
-            const mergeFileList = document.getElementById('mergeFileList');
+            const mergeThumbnailsContainer = document.getElementById('mergeThumbnailsContainer');
             const mergeBtn = document.getElementById('mergeBtn');
             const mergeDownloadBtn = document.getElementById('mergeDownloadBtn');
             const mergeFeedback = document.getElementById('mergeFeedback');
+            const clearMergeBtn = document.getElementById('clearMergeBtn');
 
-            let uploadedFiles = [];
+            let pagesToMerge = [];
+            let draggedItem = null;
 
             function showMergeFeedback(message, type) {
                 mergeFeedback.textContent = message;
@@ -345,76 +409,154 @@
                 mergeFeedback.className = 'alert d-none';
             }
 
-            function updateMergeFileList() {
-                mergeFileList.innerHTML = '';
-                if (uploadedFiles.length === 0) {
-                    mergeFileList.classList.add('d-none');
-                    mergeBtn.disabled = true;
-                    mergeDownloadBtn.classList.add('d-none');
-                    return;
-                }
-
-                mergeFileList.classList.remove('d-none');
-                uploadedFiles.forEach((file, index) => {
-                    const listItem = document.createElement('div');
-                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                    listItem.innerHTML = `
-                        <span class="text-truncate me-3">${file.name}</span>
-                        <button class="btn btn-sm btn-outline-danger remove-btn" data-index="${index}">&times;</button>
-                    `;
-                    mergeFileList.appendChild(listItem);
-                });
-
-                mergeBtn.disabled = false;
+            function updateMergeButtons() {
+                const hasPages = pagesToMerge.length > 0;
+                mergeBtn.disabled = !hasPages;
+                clearMergeBtn.disabled = !hasPages;
+                mergeDownloadBtn.classList.add('d-none');
             }
 
-            function handleMergeFiles(files) {
-                const pdfs = files.filter(file => file.type === 'application/pdf');
-                if (pdfs.length === 0) {
-                    showMergeFeedback('Hanya file PDF yang diizinkan.', 'danger');
-                    return;
-                }
-                pdfs.forEach(newFile => {
-                    const exists = uploadedFiles.some(existingFile => existingFile.name === newFile.name && existingFile.size === newFile.size);
-                    if (!exists) {
-                        uploadedFiles.push(newFile);
+            function renderMergeThumbnails() {
+                mergeThumbnailsContainer.innerHTML = '';
+                pagesToMerge.forEach((page, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'merge-thumbnail-item';
+                    item.dataset.id = page.id;
+                    item.dataset.index = index;
+                    item.draggable = true;
+
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const img = new Image();
+                    img.onload = () => {
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+                    };
+                    img.src = page.thumbnailDataUrl;
+
+                    const pageLabel = document.createElement('p');
+                    pageLabel.textContent = `Hal. ${page.pageNum} (${page.fileName})`;
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-page-btn';
+                    removeBtn.innerHTML = '&times;';
+                    removeBtn.title = 'Hapus halaman ini';
+                    removeBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        pagesToMerge = pagesToMerge.filter(p => p.id !== page.id);
+                        renderMergeThumbnails();
+                        updateMergeButtons();
+                    };
+
+                    item.appendChild(canvas);
+                    item.appendChild(pageLabel);
+                    item.appendChild(removeBtn);
+                    mergeThumbnailsContainer.appendChild(item);
+                });
+                addDragAndDropListeners();
+            }
+
+            function addDragAndDropListeners() {
+                const items = document.querySelectorAll('.merge-thumbnail-item');
+                items.forEach(item => {
+                    item.addEventListener('dragstart', (e) => {
+                        draggedItem = item;
+                        setTimeout(() => item.classList.add('dragging'), 0);
+                    });
+
+                    item.addEventListener('dragend', () => {
+                        if (draggedItem) {
+                            draggedItem.classList.remove('dragging');
+                        }
+                        draggedItem = null;
+                    });
+
+                    item.addEventListener('dragover', (e) => {
+                        e.preventDefault();
+                        const afterElement = getDragAfterElement(mergeThumbnailsContainer, e.clientY);
+                        if (afterElement == null) {
+                            mergeThumbnailsContainer.appendChild(draggedItem);
+                        } else {
+                            mergeThumbnailsContainer.insertBefore(draggedItem, afterElement);
+                        }
+                    });
+
+                    item.addEventListener('drop', () => {
+                        const newOrder = Array.from(mergeThumbnailsContainer.children).map(child => child.dataset.id);
+                        pagesToMerge.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+                        renderMergeThumbnails(); // Re-render to update indices
+                    });
+                });
+            }
+
+            function getDragAfterElement(container, y) {
+                const draggableElements = [...container.querySelectorAll('.merge-thumbnail-item:not(.dragging)')];
+                return draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
                     } else {
-                        showMergeFeedback(`File "${newFile.name}" sudah ada dalam daftar.`, 'warning');
+                        return closest;
                     }
-                });
-                updateMergeFileList();
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
             }
+
+            async function handleMergeFiles(files) {
+                showMergeFeedback('Memproses file...', 'info');
+                for (const file of files) {
+                    if (file.type !== 'application/pdf') continue;
+
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+                    for (let i = 1; i <= pdfDoc.numPages; i++) {
+                        const page = await pdfDoc.getPage(i);
+                        const viewport = page.getViewport({ scale: 0.5 }); // Smaller scale for thumbnails
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        await page.render({ canvasContext: context, viewport: viewport }).promise;
+                        
+                        pagesToMerge.push({
+                            id: `${file.name}-${i}-${Date.now()}`, // Unique ID for each page
+                            file: file,
+                            fileName: file.name,
+                            pageNum: i,
+                            thumbnailDataUrl: canvas.toDataURL()
+                        });
+                    }
+                }
+                renderMergeThumbnails();
+                updateMergeButtons();
+                hideMergeFeedback();
+            }
+
+            clearMergeBtn.addEventListener('click', () => {
+                pagesToMerge = [];
+                mergeThumbnailsContainer.innerHTML = '';
+                updateMergeButtons();
+                hideMergeFeedback();
+                mergeFileInput.value = ''; // Reset file input
+            });
 
             mergeDragArea.querySelector('.upload-btn').addEventListener('click', () => mergeFileInput.click());
-            mergeFileInput.addEventListener('change', (event) => {
-                hideMergeFeedback();
-                handleMergeFiles(Array.from(event.target.files));
-            });
+            mergeFileInput.addEventListener('change', (event) => handleMergeFiles(Array.from(event.target.files)));
 
-            mergeDragArea.addEventListener('dragover', (event) => {
-                event.preventDefault();
-                mergeDragArea.classList.add('highlight');
-            });
+            mergeDragArea.addEventListener('dragover', (event) => { event.preventDefault(); mergeDragArea.classList.add('highlight'); });
             mergeDragArea.addEventListener('dragleave', () => mergeDragArea.classList.remove('highlight'));
             mergeDragArea.addEventListener('drop', (event) => {
                 event.preventDefault();
                 mergeDragArea.classList.remove('highlight');
-                hideMergeFeedback();
                 handleMergeFiles(Array.from(event.dataTransfer.files));
             });
 
-            mergeFileList.addEventListener('click', (event) => {
-                if (event.target.classList.contains('remove-btn')) {
-                    const indexToRemove = parseInt(event.target.dataset.index);
-                    uploadedFiles.splice(indexToRemove, 1);
-                    updateMergeFileList();
-                    hideMergeFeedback();
-                }
-            });
-
             mergeBtn.addEventListener('click', async () => {
-                if (uploadedFiles.length < 2) {
-                    showMergeFeedback('Pilih setidaknya 2 file PDF untuk digabungkan.', 'danger');
+                if (pagesToMerge.length === 0) {
+                    showMergeFeedback('Tidak ada halaman untuk digabungkan.', 'warning');
                     return;
                 }
                 showMergeFeedback('Menggabungkan PDF, mohon tunggu...', 'info');
@@ -422,13 +564,20 @@
                 mergeDownloadBtn.classList.add('d-none');
                 try {
                     const mergedPdf = await PDFDocument.create();
-                    for (const file of uploadedFiles) {
-                        const arrayBuffer = await file.arrayBuffer();
-                        const pdf = await PDFDocument.load(arrayBuffer);
-                        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                        copiedPages.forEach((page) => mergedPdf.addPage(page));
+                    const loadedPdfs = {};
+
+                    for (const pageInfo of pagesToMerge) {
+                        if (!loadedPdfs[pageInfo.fileName]) {
+                            const arrayBuffer = await pageInfo.file.arrayBuffer();
+                            loadedPdfs[pageInfo.fileName] = await PDFDocument.load(arrayBuffer);
+                        }
+                        const sourcePdf = loadedPdfs[pageInfo.fileName];
+                        const [copiedPage] = await mergedPdf.copyPages(sourcePdf, [pageInfo.pageNum - 1]);
+                        mergedPdf.addPage(copiedPage);
                     }
+
                     const mergedPdfBytes = await mergedPdf.save();
+
                     const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
                     const url = URL.createObjectURL(blob);
                     mergeDownloadBtn.href = url;
@@ -442,7 +591,7 @@
                     mergeBtn.disabled = false;
                 }
             });
-            updateMergeFileList();
+            updateMergeButtons();
 
             // --- SPLITTER SCRIPT ---
             const splitUploadArea = document.getElementById('splitUploadArea');
