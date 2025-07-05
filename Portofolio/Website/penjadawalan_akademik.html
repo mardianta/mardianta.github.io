@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Penjadwalan Akademik - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar {
+            transition: all 0.3s;
+        }
+        .content {
+            transition: all 0.3s;
+        }
+        .menu-item:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 bg-blue-800 text-white flex flex-col">
+            <!-- Logo -->
+            <div class="p-4 text-center border-b border-blue-700">
+                <div class="flex items-center justify-center space-x-2">
+                    <i class="fas fa-calendar-alt text-2xl text-blue-300"></i>
+                    <h1 class="text-xl font-bold">JADWAL<span class="text-blue-300">KU</span></h1>
+                </div>
+                <p class="text-xs mt-1 text-blue-300">Sistem Penjadwalan Akademik</p>
+            </div>
+
+            <!-- Profile -->
+            <div class="p-4 flex items-center space-x-3 border-b border-blue-700">
+                <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
+                    <i class="fas fa-user text-white"></i>
+                </div>
+                <div>
+                    <p class="font-medium">Admin</p>
+                    <p class="text-xs text-blue-300">Super Admin</p>
+                </div>
+            </div>
+
+            <!-- Menu -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="p-2">
+                    <h3 class="px-4 py-2 text-xs uppercase text-blue-400 font-bold">Main Menu</h3>
+                    <ul>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white bg-blue-700">
+                                <i class="fas fa-home mr-3"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-users mr-3"></i>
+                                <span>Manajemen User</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-2">
+                    <h3 class="px-4 py-2 text-xs uppercase text-blue-400 font-bold">Manajemen Data</h3>
+                    <ul>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-user-tie mr-3"></i>
+                                <span>Dosen</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-user-graduate mr-3"></i>
+                                <span>Mahasiswa</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-book mr-3"></i>
+                                <span>Mata Kuliah</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-door-open mr-3"></i>
+                                <span>Kelas</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-2">
+                    <h3 class="px-4 py-2 text-xs uppercase text-blue-400 font-bold">Modul Penjadwalan</h3>
+                    <ul>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-chalkboard-teacher mr-3"></i>
+                                <span>Penjadwalan Kelas [Rutin]</span>
+                                <span class="ml-auto text-xs bg-blue-600 px-2 py-1 rounded-full">Core</span>
+                            </a>
+                            <p class="pl-14 pr-4 text-xs text-blue-300 mt-1">Sistem pengaturan jadwal kelas rutin semesteran dengan mempertimbangkan ketersediaan dosen, ruang, dan waktu</p>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-calendar-plus mr-3"></i>
+                                <span>Event Luar Kampus</span>
+                                <span class="ml-auto text-xs bg-blue-600 px-2 py-1 rounded-full">Dosen</span>
+                            </a>
+                            <p class="pl-14 pr-4 text-xs text-blue-300 mt-1">Penjadwalan khusus kegiatan dosen di luar kampus (seminar, konferensi, penelitian) agar tidak bentrok dengan jadwal mengajar</p>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-file-signature mr-3"></i>
+                                <span>Sidang Proposal</span>
+                                <span class="ml-auto text-xs bg-blue-600 px-2 py-1 rounded-full">Prioritas</span>
+                            </a>
+                            <p class="pl-14 pr-4 text-xs text-blue-300 mt-1">Pengaturan jadwal presentasi proposal skripsi dengan mempertimbangkan pembimbing, penguji, dan ketersediaan ruang</p>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-file-alt mr-3"></i>
+                                <span>Sidang Hasil</span>
+                            </a>
+                            <p class="pl-14 pr-4 text-xs text-blue-300 mt-1">Sistem penjadwalan untuk presentasi hasil penelitian mahasiswa dengan algoritma cerdas untuk menghindari konflik jadwal</p>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-briefcase mr-3"></i>
+                                <span>Kerja Praktek</span>
+                            </a>
+                            <p class="pl-14 pr-4 text-xs text-blue-300 mt-1">Pengaturan presentasi laporan kerja praktek dengan fitur sinkronisasi agenda industri dan akademik</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-2">
+                    <h3 class="px-4 py-2 text-xs uppercase text-blue-400 font-bold">Visualisasi</h3>
+                    <ul>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-calendar-week mr-3"></i>
+                                <span>Kalender Global</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-white hover:bg-blue-700">
+                                <i class="fas fa-chart-pie mr-3"></i>
+                                <span>Analisis Jadwal</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="bg-white shadow-sm z-10">
+                <div class="flex items-center justify-between px-6 py-3">
+                    <div class="flex items-center">
+                        <button class="mr-4 text-gray-500 focus:outline-none">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h2 class="text-lg font-semibold text-gray-800">Dashboard</h2>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 text-gray-500 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <div class="mb-8">
+                    <h1 class="text-2xl font-bold text-gray-800 mb-2">Sistem Penjadwalan Akademik</h1>
+                    <p class="text-gray-600">Manajemen terintegrasi untuk penjadwalan kelas, sidang, dan kegiatan akademik lainnya.</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="dashboard-card bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Total Dosen</p>
+                                <p class="text-2xl font-bold text-gray-800">124</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card bg-white rounded-lg shadow-sm p-6 border-l-4 border-green-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Total Mahasiswa</p>
+                                <p class="text-2xl font-bold text-gray-800">2,450</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card bg-white rounded-lg shadow-sm p-6 border-l-4 border-yellow-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Jadwal Aktif</p>
+                                <p class="text-2xl font-bold text-gray-800">86</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card bg-white rounded-lg shadow-sm p-6 border-l-4 border-purple-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Bentrok Jadwal</p>
+                                <p class="text-2xl font-bold text-gray-800">3</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg flex items-center justify-center space-x-2 transition">
+                            <i class="fas fa-plus"></i>
+                            <span>Buat Jadwal Baru</span>
+                        </button>
+                        <button class="bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg flex items-center justify-center space-x-2 transition">
+                            <i class="fas fa-search"></i>
+                            <span>Cari Konflik</span>
+                        </button>
+                        <button class="bg-purple-600 hover:bg-purple-700 text-white py-3 px-4 rounded-lg flex items-center justify-center space-x-2 transition">
+                            <i class="fas fa-file-export"></i>
+                            <span>Ekspor Jadwal</span>
+                        </button>
+                        <button class="bg-yellow-600 hover:bg-yellow-700 text-white py-3 px-4 rounded-lg flex items-center justify-center space-x-2 transition">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Lihat Kalender</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden mb-8">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-800">Aktivitas Terkini</h2>
+                    </div>
+                    <div class="divide-y divide-gray-200">
+                        <div class="p-6 flex items-start">
+                            <div class="flex-shrink-0 bg-blue-100 p-2 rounded-full text-blue-600">
+                                <i class="fas fa-calendar-plus"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-900">Jadwal baru ditambahkan</p>
+                                <p class="text-sm text-gray-500">Dr. Andi menambahkan jadwal sidang proposal untuk mahasiswa Rahmat Hidayat</p>
+                                <p class="text-xs text-gray-400 mt-1">2 jam yang lalu</p>
+                            </div>
+                        </div>
+                        <div class="p-6 flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 p-2 rounded-full text-green-600">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-900">Konflik jadwal teratasi</p>
+                                <p class="text-sm text-gray-500">Sistem berhasil menyelesaikan 2 konflik jadwal kelas</p>
+                                <p class="text-xs text-gray-400 mt-1">5 jam yang lalu</p>
+                            </div>
+                        </div>
+                        <div class="p-6 flex items-start">
+                            <div class="flex-shrink-0 bg-yellow-100 p-2 rounded-full text-yellow-600">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-900">Peringatan jadwal</p>
+                                <p class="text-sm text-gray-500">3 dosen memiliki jadwal yang bentrok minggu depan</p>
+                                <p class="text-xs text-gray-400 mt-1">Kemarin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Schedules -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden lg:col-span-2">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h2 class="text-lg font-semibold text-gray-800">Jadwal Mendatang</h2>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hari/Tanggal</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kegiatan</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lokasi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Senin, 14 Agu</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">08:00 - 10:00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Sidang Proposal - Rahmat Hidayat</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ruang B.304</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Selasa, 15 Agu</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10:00 - 12:00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Kelas - Rekayasa Perangkat Lunak</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ruang A.105</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Rabu, 16 Agu</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">13:00 - 15:00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Sidang Hasil - Siti Rahayu</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ruang C.201</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Kamis, 17 Agu</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">09:00 - 11:00</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Seminar Dosen - AI Research</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Auditorium</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Widget -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-lg font-semibold text-gray-800">Kalender</h2>
+                                <div class="flex space-x-2">
+                                    <button class="p-1 rounded-full hover:bg-gray-100">
+                                        <i class="fas fa-chevron-left text-gray-500"></i>
+                                    </button>
+                                    <button class="p-1 rounded-full hover:bg-gray-100">
+                                        <i class="fas fa-chevron-right text-gray-500"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="grid grid-cols-7 gap-1 mb-2">
+                                <div class="text-center text-xs font-medium text-gray-500">M</div>
+                                <div class="text-center text-xs font-medium text-gray-500">T</div>
+                                <div class="text-center text-xs font-medium text-gray-500">W</div>
+                                <div class="text-center text-xs font-medium text-gray-500">T</div>
+                                <div class="text-center text-xs font-medium text-gray-500">F</div>
+                                <div class="text-center text-xs font-medium text-gray-500">S</div>
+                                <div class="text-center text-xs font-medium text-gray-500">S</div>
+                            </div>
+                            <div class="grid grid-cols-7 gap-1">
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">30</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">31</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">1</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">2</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">3</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">4</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">5</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">6</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">7</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">8</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">9</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">10</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">11</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">12</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">13</div>
+                                <div class="h-8 w-8 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full text-sm font-medium">14</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">15</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">16</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">17</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">18</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">19</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">20</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">21</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">22</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">23</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">24</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">25</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">26</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">27</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">28</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">29</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">30</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">31</div>
+                                <div class="h-8 w-8 flex items-center justify-center text-sm text-gray-500">1</div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
+                            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium transition">
+                                Lihat Semua Jadwal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar
+        document.querySelector('.fa-bars').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const content = document.querySelector('.content');
+            
+            sidebar.classList.toggle('hidden');
+            content.classList.toggle('ml-0');
+            content.classList.toggle('ml-64');
+        });
+
+        // Sample data for chart (would be replaced with actual data in production)
+        const ctx = document.createElement('canvas');
+        ctx.id = 'scheduleChart';
+        document.querySelector('.stats-chart').appendChild(ctx);
+        
+        // Simulated chart initialization
+        setTimeout(() => {
+            console.log('Chart would be initialized here with real data');
+        }, 500);
+
+        // Add click events to dashboard cards
+        document.querySelectorAll('.dashboard-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // In a real app, this would navigate to relevant section
+                console.log('Navigating to:', this.querySelector('p').textContent);
+            });
+        });
+    </script>
+</body>
+</html>
+
