@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV to Table Converter</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 20px;
+        }
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mt-4">CSV to Table Converter</h1>
+    <div class="form-group">
+        <label for="csvInput">Masukkan data CSV di sini:</label>
+        <textarea id="csvInput" class="form-control" rows="10" placeholder='Contoh: "user_id","user_fullname"...'></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="convertCSV()">Konversi CSV</button>
+
+    <table id="dataTable" class="table table-bordered table-striped mt-4"></table>
+</div>
+
+<script>
+    function convertCSV() {
+        const csvInput = document.getElementById('csvInput').value;
+        const rows = csvInput.split('\n');
+        const table = document.getElementById('dataTable');
+        table.innerHTML = ''; // Clear previous table
+
+        if (rows.length > 0) {
+            const header = rows[0].split(',');
+            const headerRow = document.createElement('tr');
+            header.forEach(col => {
+                const th = document.createElement('th');
+                th.textContent = col.replace(/"/g, ''); // Remove quotes
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i].split(',');
+                if (row.length === header.length) {
+                    const tableRow = document.createElement('tr');
+                    row.forEach(col => {
+                        const td = document.createElement('td');
+                        td.textContent = col.replace(/"/g, ''); // Remove quotes
+                        tableRow.appendChild(td);
+                    });
+                    table.appendChild(tableRow);
+                }
+            }
+        }
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
