@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Image Editor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Custom styles to mimic previous look or for specific adjustments */
+        body {
+            background-color: #f8f9fa; /* Light gray background, similar to Tailwind's bg-gray-100 */
+        }
+        .header-bg {
+            background-color: #0d6efd; /* Bootstrap primary blue */
+            color: white;
+            padding: 1rem 1.5rem;
+        }
+        .card {
+            border-radius: 0.75rem; /* Slightly more rounded corners for the card */
+            overflow: hidden;
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15); /* Soft shadow */
+        }
+        .image-display-box {
+            background-color: #e9ecef; /* Light gray, similar to Tailwind's bg-gray-100/50 */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 250px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #dee2e6; /* Light border */
+        }
+        .image-display-box canvas {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+        .image-placeholder {
+            color: #6c757d; /* text-muted Bootstrap color */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify: center;
+        }
+        .image-placeholder svg {
+            height: 3rem; /* h-12 */
+            width: 3rem; /* w-12 */
+            margin-bottom: 0.5rem;
+        }
+        .drop-area {
+            border: 2px dashed #6c757d; /* Bootstrap's text-muted color */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .drop-area:hover {
+            background-color: #f8f9fa; /* Light background on hover */
+        }
+        .form-control, .form-select {
+            border-radius: 0.375rem; /* Bootstrap's default border-radius */
+        }
+    </style>
+</head>
+<body class="bg-light min-vh-100">
+    <div class="container py-5">
+        <div class="card mx-auto">
+            <div class="header-bg text-center">
+                <h1 class="h3 fw-bold mb-1">Simple Image Editor</h1>
+                <p class="text-white-50 mb-0">Remove background & resize your images easily</p>
+            </div>
+
+            <div class="card-body p-4">
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <h3 class="h5 fw-semibold mb-3">Upload Image</h3>
+                        <div class="drop-area" id="dropArea">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5cced177-8944-4fb0-a94e-30693cad2e04.png" alt="Image upload area showing a blank canvas with an outline of a landscape photo awaiting upload" class="img-fluid mb-3" style="max-height: 160px;" id="placeholderImage">
+                            <h3 class="h6 fw-medium text-secondary mb-2">Drag & drop your image here</h3>
+                            <p class="text-muted mb-3">or</p>
+                            <input type="file" id="fileInput" accept="image/*" class="d-none">
+                            <button class="btn btn-primary" id="selectFileBtn">Select Image</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h3 class="h5 fw-semibold mb-3">Processed Image Preview</h3>
+                        <div class="image-display-box">
+                            <canvas id="processedImageCanvas" class="d-none"></canvas>
+                            <div id="processedImagePlaceholder" class="image-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-image" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <p class="mt-2 text-muted">Your edited image will appear here</p>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+                            <div>
+                                <p class="text-secondary mb-0">Original Size: <span id="originalSizeValue">0 KB</span></p>
+                                <p class="text-secondary mb-0">Processed Size: <span id="processedSizeValue">0 KB</span></p>
+                            </div>
+                            <button id="downloadBtn" class="btn btn-primary mt-3 mt-md-0 opacity-50" disabled>Download</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <div class="bg-light p-4 rounded border">
+                            <h3 class="h5 fw-semibold mb-4">Resize Options</h3>
+                            <div class="row g-2">
+                                <div class="col-md-6 col-12">
+                                    <label for="widthInput" class="form-label mb-1">Width (px)</label>
+                                    <input type="number" id="widthInput" class="form-control form-control-sm" placeholder="Original width" min="1">
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="heightInput" class="form-label mb-1">Height (px)</label>
+                                    <input type="number" id="heightInput" class="form-control form-control-sm" placeholder="Original height" min="1">
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="percentageInput" class="form-label mb-1">Scale (%)</label>
+                                    <select id="percentageInput" class="form-select form-select-sm">
+                                        <option value="100">100% (Original)</option>
+                                        <option value="75">75%</option>
+                                        <option value="50">50%</option>
+                                        <option value="25">25%</option>
+                                        <option value="10">10%</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="maxSizeInput" class="form-label mb-1">Max Size (KB)</label>
+                                    <select id="maxSizeInput" class="form-select form-select-sm">
+                                        <option value="0">No Limit</option>
+                                        <option value="1024">1 MB</option>
+                                        <option value="512">512 KB</option>
+                                        <option value="256">256 KB</option>
+                                        <option value="100">100 KB</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input type="checkbox" id="maintainAspect" class="form-check-input" checked>
+                                        <label for="maintainAspect" class="form-check-label">Maintain aspect ratio</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button id="resizeBtn" class="btn btn-success w-100">Resize Image</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="bg-light p-4 rounded border">
+                            <h3 class="h5 fw-semibold mb-4">Watermark Options</h3>
+                            <div class="row g-2">
+                                <div class="col-md-6 col-12">
+                                    <label for="watermarkText" class="form-label mb-1">Text</label>
+                                    <input type="text" id="watermarkText" class="form-control form-control-sm" placeholder="Enter text">
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="fontSizeInput" class="form-label mb-1">Font Size (px)</label>
+                                    <input type="number" id="fontSizeInput" class="form-control form-control-sm" placeholder="Auto" min="1">
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="rotationInput" class="form-label mb-1">Rotation (deg)</label>
+                                    <input type="number" id="rotationInput" class="form-control form-control-sm" value="-30"> </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="transparencyInput" class="form-label mb-1">Transparency (0-1)</label>
+                                    <input type="number" id="transparencyInput" class="form-control form-control-sm" placeholder="Transparency" min="0" max="1" step="0.1" value="0.5">
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="watermarkColor" class="form-label mb-1">Color</label>
+                                    <select id="watermarkColor" class="form-select form-select-sm">
+                                        <option value="black">Black</option>
+                                        <option value="grey">Grey</option>
+                                        <option value="white">White</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-check mt-md-4"> <input type="checkbox" id="loopWatermark" class="form-check-input">
+                                        <label for="loopWatermark" class="form-check-label">Loop Text</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button id="applyWatermarkBtn" class="btn btn-primary w-100">Apply Watermark</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-muted mt-5">
+            <p class="mb-0">Simple Image Editor - Process images directly in your browser</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // Global variables
+        let originalImage = null; // Stores the Image object of the original image
+        let processedImage = null; // Stores the Image object or Canvas element of the processed image
+        let originalAspectRatio = 1;
+        let originalImageSize = 0; // To store original image size in KB
+
+        // DOM elements
+        const fileInput = document.getElementById('fileInput');
+        const selectFileBtn = document.getElementById('selectFileBtn');
+        const dropArea = document.getElementById('dropArea');
+        const placeholderImage = document.getElementById('placeholderImage'); // This is the placeholder *within* the drop area
+        const processedImageCanvas = document.getElementById('processedImageCanvas'); // Main canvas for processed image
+        const processedImagePlaceholder = document.getElementById('processedImagePlaceholder'); // Placeholder for the canvas
+
+        const widthInput = document.getElementById('widthInput');
+        const heightInput = document.getElementById('heightInput');
+        const percentageInput = document.getElementById('percentageInput');
+        const maxSizeInput = document.getElementById('maxSizeInput');
+        const maintainAspect = document.getElementById('maintainAspect');
+        const resizeBtn = document.getElementById('resizeBtn');
+        const removeBgBtn = document.getElementById('removeBgBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const originalSizeValue = document.getElementById('originalSizeValue');
+        const processedSizeValue = document.getElementById('processedSizeValue');
+        const watermarkText = document.getElementById('watermarkText');
+        const fontSizeInput = document.getElementById('fontSizeInput');
+        const rotationInput = document.getElementById('rotationInput');
+        const transparencyInput = document.getElementById('transparencyInput');
+        const watermarkColorInput = document.getElementById('watermarkColor');
+        const loopWatermarkCheckbox = document.getElementById('loopWatermark'); // New: Loop Watermark checkbox
+        const applyWatermarkBtn = document.getElementById('applyWatermarkBtn');
+
+        // Event listeners
+        selectFileBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+        dropArea.addEventListener('dragover', handleDragOver);
+        dropArea.addEventListener('drop', handleDrop);
+        resizeBtn.addEventListener('click', resizeImage);
+        applyWatermarkBtn.addEventListener('click', applyWatermark);
+        downloadBtn.addEventListener('click', downloadImage);
+
+        // Dynamic preview event listeners for watermark
+        watermarkText.addEventListener('input', applyWatermark);
+        fontSizeInput.addEventListener('input', applyWatermark);
+        rotationInput.addEventListener('input', applyWatermark);
+        transparencyInput.addEventListener('input', applyWatermark);
+        watermarkColorInput.addEventListener('change', applyWatermark);
+        loopWatermarkCheckbox.addEventListener('change', applyWatermark); // New: Listen for loop checkbox change
+
+        // Other dynamic preview listeners
+        percentageInput.addEventListener('change', applyPercentageResize);
+        maxSizeInput.addEventListener('change', applyMaxSizeResize);
+
+        // Maintain aspect ratio when one dimension changes
+        widthInput.addEventListener('input', updateDependentDimension);
+        heightInput.addEventListener('input', updateDependentDimension);
+
+        // Handle file selection
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                processImageFile(file);
+            }
+        }
+
+        // Handle drag over
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropArea.classList.add('border-primary');
+        }
+
+        // Handle drop
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropArea.classList.remove('border-primary');
+
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                processImageFile(file);
+            }
+        }
+
+        // Process the image file
+        function processImageFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                originalImage = new Image();
+                originalImage.onload = function() {
+                    widthInput.value = originalImage.width;
+                    heightInput.value = originalImage.height;
+                    originalAspectRatio = originalImage.width / originalImage.height;
+
+                    originalImageSize = (file.size / 1024).toFixed(2);
+                    originalSizeValue.textContent = `${originalImageSize} KB`;
+
+                    processedImage = originalImage;
+                    drawProcessedImage();
+                    
+                    // Set default font size and rotation when new image is loaded
+                    const defaultFontSize = Math.max(10, Math.round(originalImage.height * 0.10)); // 10% of height, min 10px
+                    fontSizeInput.value = defaultFontSize;
+                    rotationInput.value = -30; // Default rotation
+
+                    applyWatermark(); // Apply watermark with new defaults
+
+                    percentageInput.value = "100";
+                    maxSizeInput.value = "0";
+                };
+                originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function drawProcessedImage() {
+            if (!processedImage) {
+                processedImageCanvas.classList.add('d-none');
+                processedImagePlaceholder.classList.remove('d-none');
+                processedSizeValue.textContent = `0 KB`;
+                downloadBtn.disabled = true;
+                downloadBtn.classList.add('opacity-50');
+                return;
+            }
+
+            const ctx = processedImageCanvas.getContext('2d');
+            const sourceImage = processedImage;
+
+            processedImageCanvas.width = sourceImage.naturalWidth || sourceImage.width;
+            processedImageCanvas.height = sourceImage.naturalHeight || sourceImage.height;
+
+            ctx.clearRect(0, 0, processedImageCanvas.width, processedImageCanvas.height);
+            ctx.drawImage(sourceImage, 0, 0, processedImageCanvas.width, processedImageCanvas.height);
+
+            processedImageCanvas.classList.remove('d-none');
+            processedImagePlaceholder.classList.add('d-none');
+            downloadBtn.disabled = false;
+            downloadBtn.classList.remove('opacity-50');
+
+            processedImageCanvas.toBlob(blob => {
+                if (blob) {
+                    const processedSize = (blob.size / 1024).toFixed(2);
+                    processedSizeValue.textContent = `${processedSize} KB`;
+                }
+            }, 'image/jpeg', 0.9);
+        }
+
+        function updateDependentDimension(e) {
+            if (!maintainAspect.checked || !originalImage) return;
+
+            const changedDimension = e.target.id === 'widthInput' ? 'width' : 'height';
+            const otherInput = changedDimension === 'width' ? heightInput : widthInput;
+
+            const newValue = parseFloat(e.target.value);
+            if (isNaN(newValue) || newValue <= 0) return;
+
+            if (changedDimension === 'width') {
+                otherInput.value = Math.round(newValue / originalAspectRatio);
+            } else {
+                otherInput.value = Math.round(newValue * originalAspectRatio);
+            }
+        }
+
+        function applyPercentageResize() {
+            if (!originalImage) return;
+            const percentage = parseInt(percentageInput.value);
+            if (percentage === 100) {
+                widthInput.value = originalImage.width;
+                heightInput.value = originalImage.height;
+            } else {
+                widthInput.value = Math.round(originalImage.width * (percentage / 100));
+                heightInput.value = Math.round(originalImage.height * (percentage / 100));
+            }
+            maxSizeInput.value = "0";
+            resizeImage();
+        }
+
+        function applyMaxSizeResize() {
+            if (!originalImage) return;
+            const maxSizeKB = parseInt(maxSizeInput.value);
+            if (maxSizeKB === 0) {
+                 widthInput.value = originalImage.width;
+                 heightInput.value = originalImage.height;
+                 resizeImage();
+                 return;
+            }
+
+            percentageInput.value = "100";
+
+            let quality = 0.9;
+            let currentBlobSizeKB;
+
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = originalImage.width;
+            tempCanvas.height = originalImage.height;
+            tempCtx.drawImage(originalImage, 0, 0);
+
+            const testQuality = () => {
+                return new Promise(resolve => {
+                    tempCanvas.toBlob(blob => {
+                        currentBlobSizeKB = blob.size / 1024;
+                        resolve();
+                    }, 'image/jpeg', quality);
+                });
+            };
+
+            const compressImage = async () => {
+                let attempts = 0;
+                while (currentBlobSizeKB > maxSizeKB && quality > 0.1 && attempts < 20) {
+                    quality -= 0.05;
+                    if (quality < 0.1) quality = 0.1;
+                    await testQuality();
+                    attempts++;
+                }
+
+                if (currentBlobSizeKB > maxSizeKB) {
+                    alert(`Could not compress image below ${maxSizeKB} KB with reasonable quality.`);
+                }
+                processedImage = new Image();
+                processedImage.onload = () => {
+                    drawProcessedImage();
+                    applyWatermark();
+                };
+                processedImage.src = tempCanvas.toDataURL('image/jpeg', quality);
+            };
+
+            testQuality().then(() => {
+                compressImage();
+            });
+        }
+
+        function resizeImage() {
+            if (!originalImage) return;
+
+            const newWidth = parseInt(widthInput.value) || originalImage.width;
+            const newHeight = parseInt(heightInput.value) || originalImage.height;
+
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = newWidth;
+            tempCanvas.height = newHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            tempCtx.drawImage(originalImage, 0, 0, newWidth, newHeight);
+
+            processedImage = new Image();
+            processedImage.onload = () => {
+                drawProcessedImage();
+                applyWatermark();
+            };
+            processedImage.src = tempCanvas.toDataURL('image/png');
+        }
+
+        function applyWatermark() {
+            if (!processedImage) {
+                const ctx = processedImageCanvas.getContext('2d');
+                ctx.clearRect(0, 0, processedImageCanvas.width, processedImageCanvas.height);
+                processedImageCanvas.classList.add('d-none');
+                processedImagePlaceholder.classList.remove('d-none');
+                return;
+            }
+
+            const text = watermarkText.value;
+            const rotation = parseInt(rotationInput.value) || 0;
+            const transparency = parseFloat(transparencyInput.value) || 0.5;
+            const watermarkColor = watermarkColorInput.value;
+            const loopWatermark = loopWatermarkCheckbox.checked; // Get loop status
+
+            // Determine font size
+            let fontSize;
+            if (fontSizeInput.value) {
+                fontSize = parseInt(fontSizeInput.value);
+            } else {
+                // Default to 10% of image height if input is empty
+                fontSize = Math.max(10, Math.round((processedImage.height || processedImage.naturalHeight) * 0.10));
+                // Optional: Update input field to show default size
+                // fontSizeInput.value = fontSize;
+            }
+
+            let colorHex = '';
+            switch (watermarkColor) {
+                case 'black':
+                    colorHex = '#000000';
+                    break;
+                case 'grey':
+                    colorHex = '#808080';
+                    break;
+                case 'white':
+                    colorHex = '#FFFFFF';
+                    break;
+                default:
+                    colorHex = '#000000';
+            }
+
+            const tempCanvas = document.createElement('canvas');
+            const ctx = tempCanvas.getContext('2d');
+
+            tempCanvas.width = processedImage.width || processedImage.naturalWidth;
+            tempCanvas.height = processedImage.height || processedImage.naturalHeight;
+
+            ctx.drawImage(processedImage, 0, 0, tempCanvas.width, tempCanvas.height);
+
+            if (text) {
+                ctx.font = `${fontSize}px Arial`;
+                ctx.fillStyle = `${colorHex}`;
+                ctx.globalAlpha = transparency;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+
+                if (loopWatermark) {
+                    // Loop the watermark text
+                    const textWidth = ctx.measureText(text).width;
+                    const diagonalLength = Math.sqrt(Math.pow(tempCanvas.width, 2) + Math.pow(tempCanvas.height, 2));
+                    const spacing = textWidth * 1.5; // Spacing between repeated texts
+                    const numRepeats = Math.ceil(diagonalLength / spacing) * 2; // Enough repeats to cover diagonal
+
+                    ctx.save();
+                    ctx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+                    ctx.rotate(rotation * Math.PI / 180);
+
+                    // Calculate start position to ensure coverage
+                    const startX = -diagonalLength / 2;
+                    const startY = -diagonalLength / 2;
+
+                    for (let i = 0; i < numRepeats; i++) {
+                        for (let j = 0; j < numRepeats; j++) {
+                            const x = startX + i * spacing;
+                            const y = startY + j * spacing;
+                            ctx.fillText(text, x, y);
+                        }
+                    }
+                    ctx.restore();
+
+                } else {
+                    // Single watermark in the center
+                    ctx.save();
+                    ctx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+                    ctx.rotate(rotation * Math.PI / 180);
+                    ctx.fillText(text, 0, 0);
+                    ctx.restore();
+                }
+            }
+
+            const mainCtx = processedImageCanvas.getContext('2d');
+            processedImageCanvas.width = tempCanvas.width;
+            processedImageCanvas.height = tempCanvas.height;
+            mainCtx.clearRect(0, 0, processedImageCanvas.width, processedImageCanvas.height);
+            mainCtx.drawImage(tempCanvas, 0, 0);
+
+            processedImageCanvas.classList.remove('d-none');
+            processedImagePlaceholder.classList.add('d-none');
+
+            processedImageCanvas.toBlob(blob => {
+                if (blob) {
+                    const processedSize = (blob.size / 1024).toFixed(2);
+                    processedSizeValue.textContent = `${processedSize} KB`;
+                }
+            }, 'image/png');
+        }
+
+        async function removeBackground() {
+            if (!originalImage) return;
+
+            alert('Fitur penghapusan latar belakang memerlukan integrasi API eksternal (misalnya remove.bg) yang memerlukan kunci API dan idealnya penanganan di sisi server untuk keamanan. Ini adalah placeholder.');
+
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            processedImage = originalImage;
+            drawProcessedImage();
+            applyWatermark();
+        }
+
+        function downloadImage() {
+            if (!processedImageCanvas || processedImageCanvas.classList.contains('d-none')) return;
+
+            let filename = 'edited-image';
+            let mimeType = 'image/png';
+            if (maxSizeInput.value !== "0") {
+                mimeType = 'image/jpeg';
+                filename += '.jpeg';
+            } else {
+                filename += '.png';
+            }
+
+            const link = document.createElement('a');
+            link.href = processedImageCanvas.toDataURL(mimeType);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default rotation value on load
+            rotationInput.value = -30;
+            drawProcessedImage();
+        });
+    </script>
+</body>
+</html>
