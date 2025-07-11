@@ -5,12 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSV to Table Converter</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <style>
         body {
             margin: 20px;
         }
         textarea {
             resize: none;
+        }
+        th {
+            position: relative;
+        }
+        .copy-btn {
+            opacity: 0.2;
+            transition: opacity 0.2s ease-in-out;
+        }
+        th:hover .copy-btn {
+            opacity: 1;
+        }
+        .copy-btn.btn-success {
+            opacity: 1;
         }
     </style>
 </head>
@@ -28,22 +42,94 @@
 </div>
 
 <script>
+    function copyColumn(columnIndex, btnElement) {
+        const table = document.getElementById('dataTable');
+        const rows = table.querySelectorAll('tbody tr');
+        const columnData = [];
+
+        rows.forEach(row => {
+            const cell = row.cells[columnIndex];
+            if (cell) {
+                columnData.push(cell.textContent);
+            }
+        });
+
+        const columnText = columnData.join('\n');
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(columnText).then(() => {
+                const originalContent = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check"></i>';
+                btnElement.classList.remove('btn-outline-secondary');
+                btnElement.classList.add('btn-success');
+                setTimeout(() => {
+                    btnElement.innerHTML = originalContent;
+                    btnElement.classList.remove('btn-success');
+                    btnElement.classList.add('btn-outline-secondary');
+                }, 2000);
+            }).catch(err => {
+                console.error('Gagal menyalin kolom: ', err);
+                alert('Tidak dapat menyalin kolom ke clipboard.');
+            });
+        } else {
+            // Fallback for non-secure contexts or older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = columnText;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                const originalContent = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check"></i>';
+                btnElement.classList.remove('btn-outline-secondary');
+                btnElement.classList.add('btn-success');
+                setTimeout(() => {
+                    btnElement.innerHTML = originalContent;
+                    btnElement.classList.remove('btn-success');
+                    btnElement.classList.add('btn-outline-secondary');
+                }, 2000);
+            } catch (err) {
+                console.error('Gagal menyalin kolom (fallback): ', err);
+                alert('Tidak dapat menyalin kolom ke clipboard.');
+            }
+            document.body.removeChild(textArea);
+        }
+    }
+
     function convertCSV() {
         const csvInput = document.getElementById('csvInput').value;
-        const rows = csvInput.split('\n');
+        const rows = csvInput.split('\n').filter(row => row.trim() !== ''); // Filter out empty lines
         const table = document.getElementById('dataTable');
         table.innerHTML = ''; // Clear previous table
 
         if (rows.length > 0) {
             const header = rows[0].split(',');
+            const thead = document.createElement('thead');
             const headerRow = document.createElement('tr');
-            header.forEach(col => {
+            header.forEach((col, index) => {
                 const th = document.createElement('th');
-                th.textContent = col.replace(/"/g, ''); // Remove quotes
+                
+                const textSpan = document.createElement('span');
+                textSpan.textContent = col.replace(/"/g, ''); // Remove quotes
+                th.appendChild(textSpan);
+
+                const copyBtn = document.createElement('button');
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                copyBtn.className = 'btn btn-sm btn-outline-secondary ml-2 copy-btn';
+                copyBtn.title = 'Salin kolom';
+                copyBtn.onclick = function(event) {
+                    event.stopPropagation();
+                    copyColumn(index, this);
+                };
+                th.appendChild(copyBtn);
+                
                 headerRow.appendChild(th);
             });
-            table.appendChild(headerRow);
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
 
+            const tbody = document.createElement('tbody');
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i].split(',');
                 if (row.length === header.length) {
@@ -53,9 +139,10 @@
                         td.textContent = col.replace(/"/g, ''); // Remove quotes
                         tableRow.appendChild(td);
                     });
-                    table.appendChild(tableRow);
+                    tbody.appendChild(tableRow);
                 }
             }
+            table.appendChild(tbody);
         }
     }
 </script>
