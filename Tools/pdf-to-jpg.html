@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF to JPG Converter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <style>
+    #pdf-preview, #jpg-result {
+      border: 2px dashed #ccc;
+      min-height: 300px;
+    }
+    .page-thumbnail {
+      border: 1px solid #e2e8f0;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <header class="text-center mb-8">
+      <img src="https://placehold.co/600x100?text=PDF+to+JPG+Converter" alt="PDF to JPG Converter banner with abstract document conversion iconography" class="mx-auto mb-4 rounded-lg shadow-md" />
+      <h1 class="text-3xl font-bold text-gray-800">Convert PDF to JPG</h1>
+      <p class="text-gray-600 mt-2">Upload a PDF file and download it as high-quality JPG images</p>
+    </header>
+
+    <!-- Main Converter UI -->
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <!-- PDF Upload Section -->
+      <div class="mb-8">
+        <label class="block text-sm font-medium text-gray-700 mb-2" for="pdf-input">Select PDF File</label>
+        <input 
+          type="file" 
+          id="pdf-input" 
+          accept=".pdf" 
+          class="block w-full text-sm text-gray-500
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-md file:border-0
+                file:text-sm file:font-semibold
+                file:bg-blue-50 file:text-blue-700
+                hover:file:bg-blue-100"
+        >
+      </div>
+
+      <!-- Preview Sections -->
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- PDF Preview -->
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-gray-700">PDF Preview</h3>
+          <div id="pdf-preview" class="rounded-lg p-4 bg-gray-50 text-center">
+            <img src="https://placehold.co/400x200?text=No+PDF+selected" alt="Placeholder for PDF preview showing blank document icon" class="mx-auto opacity-50" />
+            <p class="text-gray-400 mt-2">PDF will appear here</p>
+          </div>
+        </div>
+
+        <!-- JPG Result -->
+        <div>
+          <h3 class="text-lg font-semibold mb-3 text-gray-700">JPG Output</h3>
+          <div id="jpg-result" class="rounded-lg p-4 bg-gray-50">
+            <img src="https://placehold.co/400x200?text=JPG+result+will+appear+here" alt="Placeholder for converted JPG image showing camera icon" class="mx-auto opacity-50" />
+            <p class="text-gray-400 text-center mt-2">Converted JPGs will appear here</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Thumbnails (Hidden by default) -->
+      <div id="page-thumbnails" class="hidden mt-6">
+        <h3 class="text-lg font-semibold mb-3 text-gray-700">Page Thumbnails</h3>
+        <div id="thumbnails-container" class="flex flex-wrap border rounded-lg p-4 bg-gray-50"></div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-6 flex flex-wrap gap-3 justify-center">
+        <button id="convert-btn" 
+                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled>
+          Convert to JPG
+        </button>
+        <button id="download-all-btn" 
+                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 hidden">
+          Download All as ZIP
+        </button>
+        <button id="reset-btn" 
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div class="mt-8 bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">How It Works</h2>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="p-4 border rounded-lg">
+          <div class="text-blue-500 font-bold text-lg mb-2">1. Upload</div>
+          <p class="text-gray-600">Select your PDF file from your device</p>
+        </div>
+        <div class="p-4 border rounded-lg">
+          <div class="text-blue-500 font-bold text-lg mb-2">2. Convert</div>
+          <p class="text-gray-600">Click the convert button to process each page</p>
+        </div>
+        <div class="p-4 border rounded-lg">
+          <div class="text-blue-500 font-bold text-lg mb-2">3. Download</div>
+          <p class="text-gray-600">Save individual images or all pages as a ZIP</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // PDF.js worker path
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    // DOM Elements
+    const pdfInput = document.getElementById('pdf-input');
+    const pdfPreview = document.getElementById('pdf-preview');
+    const jpgResult = document.getElementById('jpg-result');
+    const convertBtn = document.getElementById('convert-btn');
+    const downloadAllBtn = document.getElementById('download-all-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const thumbnailsContainer = document.getElementById('thumbnails-container');
+    const pageThumbnails = document.getElementById('page-thumbnails');
+
+    // State
+    let pdfDocument = null;
+    let jpgImages = [];
+
+    // Event Listeners
+    pdfInput.addEventListener('change', handlePDFUpload);
+    convertBtn.addEventListener('click', convertPDFToJPG);
+    downloadAllBtn.addEventListener('click', downloadAllAsZip);
+    resetBtn.addEventListener('click', resetConverter);
+
+    async function handlePDFUpload(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        resetConverter();
+        return;
+      }
+
+      try {
+        // Show loading state
+        pdfPreview.innerHTML = '<div class="text-center py-10"><div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div><p class="mt-3 text-gray-600">Loading PDF...</p></div>';
+        
+        // Load PDF
+        const arrayBuffer = await file.arrayBuffer();
+        pdfDocument = await pdfjsLib.getDocument(arrayBuffer).promise;
+        
+        // Show first page as preview
+        renderPDFPage(pdfDocument, 1);
+
+        // Enable convert button
+        convertBtn.disabled = false;
+
+        // UI updates
+        pageThumbnails.classList.remove('hidden');
+        thumbnailsContainer.innerHTML = '';
+        for (let i = 1; i <= pdfDocument.numPages; i++) {
+          const thumbBtn = document.createElement('button');
+          thumbBtn.className = 'page-thumbnail px-3 py-1 bg-gray-100 rounded hover:bg-blue-100';
+          thumbBtn.textContent = i;
+          thumbBtn.onclick = () => renderPDFPage(pdfDocument, i);
+          thumbnailsContainer.appendChild(thumbBtn);
+        }
+      } catch (error) {
+        console.error('Error loading PDF:', error);
+        pdfPreview.innerHTML = '<p class="text-red-500 text-center py-10">Error loading PDF. Please try another file.</p>';
+      }
+    }
+
+    async function renderPDFPage(pdfDoc, pageNumber) {
+      try {
+        const page = await pdfDoc.getPage(pageNumber);
+        const viewport = page.getViewport({ scale: 1.5 });
+        
+        // Create canvas for PDF rendering
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        
+        // Render PDF page
+        await page.render({
+          canvasContext: context,
+          viewport: viewport
+        }).promise;
+        
+        // Update preview
+        pdfPreview.innerHTML = '';
+        pdfPreview.appendChild(canvas);
+      } catch (error) {
+        console.error('Error rendering page:', error);
+        pdfPreview.innerHTML = '<p class="text-red-500">Error rendering PDF page.</p>';
+      }
+    }
+
+    async function convertPDFToJPG() {
+      if (!pdfDocument) return;
+      
+      convertBtn.disabled = true;
+      convertBtn.textContent = 'Converting...';
+      jpgResult.innerHTML = '<div class="text-center py-10"><div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div><p class="mt-3 text-gray-600">Converting pages to JPG...</p></div>';
+      
+      try {
+        jpgImages = [];
+        const container = document.createElement('div');
+        container.className = 'grid grid-cols-1 gap-4';
+        
+        // Process each page
+        for (let i = 1; i <= pdfDocument.numPages; i++) {
+          const page = await pdfDocument.getPage(i);
+          const viewport = page.getViewport({ scale: 2.0 }); // Higher scale for better quality
+          
+          // Create canvas
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          canvas.className = 'mx-auto border rounded shadow-sm';
+          
+          // Render page
+          await page.render({
+            canvasContext: context,
+            viewport: viewport
+          }).promise;
+          
+          // Convert to JPG
+          const jpgUrl = canvas.toDataURL('image/jpeg', 0.9);
+          jpgImages.push(jpgUrl);
+          
+          // Create download link
+          const wrapper = document.createElement('div');
+          wrapper.className = 'border rounded-lg p-3 bg-white';
+          
+          const img = document.createElement('img');
+          img.src = jpgUrl;
+          img.alt = `Converted JPG image of PDF page ${i}`;
+          img.className = 'mb-2 mx-auto max-h-60';
+          
+          const downloadLink = document.createElement('a');
+          downloadLink.href = jpgUrl;
+          downloadLink.download = `page_${i}.jpg`;
+          downloadLink.className = 'block text-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm';
+          downloadLink.textContent = `Download Page ${i}`;
+          
+          wrapper.appendChild(img);
+          wrapper.appendChild(downloadLink);
+          container.appendChild(wrapper);
+        }
+        
+        jpgResult.innerHTML = '';
+        jpgResult.appendChild(container);
+        downloadAllBtn.classList.remove('hidden');
+      } catch (error) {
+        console.error('Conversion error:', error);
+        jpgResult.innerHTML = '<p class="text-red-500">Error converting PDF to JPG.</p>';
+      } finally {
+        convertBtn.textContent = 'Convert to JPG';
+        convertBtn.disabled = false;
+      }
+    }
+
+    async function downloadAllAsZip() {
+      if (jpgImages.length === 0) return;
+      
+      try {
+        downloadAllBtn.disabled = true;
+        downloadAllBtn.textContent = 'Preparing ZIP...';
+        
+        // Loading JSZip dynamically to reduce initial payload
+        const JSZip = await loadJSZip();
+        const zip = new JSZip();
+        
+        // Add each image to the ZIP
+        jpgImages.forEach((imgUrl, index) => {
+          const base64Data = imgUrl.split(',')[1];
+          zip.file(`page_${index + 1}.jpg`, base64Data, { base64: true });
+        });
+        
+        // Generate the ZIP file
+        const content = await zip.generateAsync({ type: 'blob' });
+        const url = URL.createObjectURL(content);
+        
+        // Create download link
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'converted_pages.zip';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error('ZIP creation error:', error);
+        alert('Error creating ZIP file. Please try downloading pages individually.');
+      } finally {
+        downloadAllBtn.textContent = 'Download All as ZIP';
+        downloadAllBtn.disabled = false;
+      }
+    }
+
+    function loadJSZip() {
+      return new Promise((resolve, reject) => {
+        if (window.JSZip) {
+          resolve(window.JSZip);
+        } else {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+          script.onload = () => resolve(window.JSZip);
+          script.onerror = reject;
+          document.head.appendChild(script);
+        }
+      });
+    }
+
+    function resetConverter() {
+      pdfInput.value = '';
+      pdfPreview.innerHTML = '<img src="https://placehold.co/400x200?text=No+PDF+selected" alt="Placeholder for PDF preview showing blank document icon" class="mx-auto opacity-50" /><p class="text-gray-400 mt-2 text-center">PDF will appear here</p>';
+      jpgResult.innerHTML = '<img src="https://placehold.co/400x200?text=JPG+result+will+appear+here" alt="Placeholder for converted JPG image showing camera icon" class="mx-auto opacity-50" /><p class="text-gray-400 text-center mt-2">Converted JPGs will appear here</p>';
+      convertBtn.disabled = true;
+      downloadAllBtn.classList.add('hidden');
+      pageThumbnails.classList.add('hidden');
+      thumbnailsContainer.innerHTML = '';
+      pdfDocument = null;
+      jpgImages = [];
+    }
+  </script>
+</body>
+</html>
+
