@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Proyek: Analisa Stealer Log</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            /* Primary Colors - Blues */
+            --primary-blue: #347CFF; /* A vibrant, approachable blue */
+            --dark-blue: #004D99; /* Darker blue for headings and accents */
+            --light-blue: #EBF4FF; /* Very light blue for subtle backgrounds */
+            --accent-blue-gradient-start: #2A68CC; /* For gradients */
+            --accent-blue-gradient-end: #1A4D8A;   /* For gradients */
+
+            /* Neutral Colors - Greys */
+            --light-grey: #F5F7FA; /* Off-white background */
+            --medium-grey: #E0E4EB; /* For borders and separators */
+            --dark-grey-text: #333F4D; /* Darker text for readability */
+            --subtle-text: #6B7B8F; /* Lighter text for minor details */
+
+            /* Table Colors */
+            --table-header-bg: var(--dark-blue);
+            --table-header-text: white;
+            --table-stripe-bg: #F8FBFF; /* Very light blue for table stripes */
+            --table-border: var(--medium-grey);
+            --total-row-bg: #DCEBFF; /* Light blue for total row */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-grey);
+            color: var(--dark-grey-text);
+            line-height: 1.7;
+            scroll-behavior: smooth;
+        }
+
+        /* --- Hero Section Styling --- */
+        .hero-section {
+            background: linear-gradient(135deg, var(--accent-blue-gradient-start) 0%, var(--accent-blue-gradient-end) 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom-left-radius: 3rem;
+            border-bottom-right-radius: 3rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+        }
+        .hero-section h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+        }
+        .hero-section p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: rgba(255, 255, 255, 0.95); /* Ensure good contrast */
+        }
+        .current-date {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            padding-right: 20px;
+            text-align: right;
+        }
+        .scroll-down-arrow {
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.8); /* Slightly more visible */
+            animation: bounce 2s infinite;
+            display: block;
+            margin-top: 50px;
+            text-decoration: none;
+        }
+        .scroll-down-arrow:hover {
+            color: white;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        /* --- Main Content Area (Tabs Container) --- */
+        .content-tabs-container {
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+        }
+        
+        /* --- Navigation Tabs Styling (Simple Pills) --- */
+        .nav-pills-custom .nav-link {
+            color: var(--dark-grey-text);
+            font-weight: 600;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .nav-pills-custom .nav-link i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+        }
+        .nav-pills-custom .nav-link.active {
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(52, 124, 255, 0.4);
+        }
+        .nav-pills-custom .nav-link.active i {
+            color: white;
+        }
+        .nav-pills-custom .nav-link:hover:not(.active) {
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+        }
+
+        /* --- Tab Content Styling --- */
+        .tab-content {
+            padding-left: 2.5rem;
+            border-left: 1px solid var(--medium-grey);
+        }
+        .tab-pane h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+            font-size: 2rem;
+            text-align: left;
+        }
+        .tab-pane h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 70px;
+            height: 4px;
+            background-color: var(--primary-blue);
+            border-radius: 2px;
+        }
+        /* Add styling for H4 within tab panes to distinguish sub-sections */
+        .tab-pane h4 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-top: 2rem; /* More space above new internal sections */
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .tab-pane p, .tab-pane ul, .tab-pane ol {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        /* Styling for project info card */
+        .project-person-card {
+            background-color: var(--light-blue);
+            border: 1px solid var(--primary-blue);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .project-person-card h4.main-name { /* Specific class for main name in card */
+            color: var(--dark-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+        .project-person-card p {
+            color: var(--dark-grey-text);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .project-person-card .contact-info {
+            font-size: 0.95rem;
+            color: var(--subtle-text);
+        }
+        .project-person-card .contact-info i {
+            margin-right: 5px;
+            color: var(--primary-blue);
+        }
+
+
+        /* Table Styling within Tabs */
+        .table th, .table td {
+            vertical-align: middle;
+            padding: 0.8rem;
+        }
+        .table thead th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-text);
+            border-bottom: 2px solid var(--primary-blue);
+            font-weight: 600;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: var(--table-stripe-bg);
+        }
+        .table-bordered th, .table-bordered td {
+            border: 1px solid var(--table-border);
+        }
+        .total-row {
+            background-color: var(--total-row-bg) !important;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--dark-blue);
+        }
+        .total-row td {
+            border-top: 2px solid var(--primary-blue) !important;
+        }
+
+        /* Alert Styling */
+        .alert-custom {
+            background-color: var(--light-blue);
+            border-left: 6px solid var(--primary-blue);
+            color: var(--dark-blue);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+            font-weight: 500;
+        }
+
+        /* Utility classes for visual emphasis */
+        .text-primary-accent {
+            color: var(--dark-blue) !important; /* Darker blue for strong emphasis */
+            font-weight: 600;
+        }
+        .fw-bold-extra {
+            font-weight: 700;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 991.98px) { /* For small to medium devices */
+            .content-tabs-container {
+                padding: 1.5rem;
+            }
+            .nav-pills-custom {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem; /* Space between flex items */
+                margin-bottom: 1.5rem;
+            }
+            .nav-pills-custom .nav-link {
+                flex-basis: calc(50% - 0.5rem); /* Two columns for nav items */
+                padding: 0.8rem 1rem; /* Adjust padding for smaller buttons */
+                font-size: 0.95rem;
+            }
+            .nav-pills-custom .nav-link i {
+                margin-right: 5px;
+                font-size: 1rem;
+            }
+
+            .tab-content {
+                padding-left: 0;
+                border-left: none;
+                border-top: 1px solid var(--medium-grey);
+                padding-top: 1.5rem;
+            }
+            .tab-pane h3 {
+                font-size: 1.8rem;
+                text-align: center;
+            }
+            .tab-pane h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .tab-pane h4 { /* Sub-section headings also centered */
+                font-size: 1.4rem;
+                text-align: center;
+            }
+            .hero-section h1 {
+                font-size: 2.8rem;
+            }
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+        }
+        @media (max-width: 575.98px) { /* Extra small devices */
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .hero-section p {
+                font-size: 0.9rem;
+            }
+            .nav-pills-custom .nav-link {
+                flex-basis: 100%; /* Single column for all nav items */
+            }
+            .tab-pane h3 {
+                font-size: 1.5rem;
+            }
+            .tab-pane h4 {
+                font-size: 1.2rem;
+            }
+            .project-person-card {
+                padding: 1rem;
+            }
+            .project-person-card h4.main-name {
+                font-size: 1.2rem;
+            }
+            .project-person-card p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-section">
+        <div class="current-date">
+            Surabaya, 8 Juli 2025
+        </div>
+        <div class="container">
+            <h1 class="display-3">Ancaman Siber Nyata. <br>Proteksi Data Penting.</h1>
+            <p class="lead">
+                Proposal Proyek: **Analisa Stealer Log** untuk Pengembalian & Peningkatan Keamanan Data Pemilik.
+                Kami mengidentifikasi data Anda yang tercuri dan membantu Anda mengamankannya kembali.
+            </p>
+            <a href="#proposal-content" class="scroll-down-arrow text-decoration-none">
+                <i class="bi bi-arrow-down-circle-fill"></i>
+            </a>
+        </div>
+    </header>
+
+    <main class="container content-tabs-container" id="proposal-content">
+        <div class="row">
+            <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active" id="v-pills-overview-tab" data-bs-toggle="pill" data-bs-target="#v-pills-overview" type="button" role="tab" aria-controls="v-pills-overview" aria-selected="true"><i class="bi bi-clipboard-data-fill"></i> Gambaran Umum Proyek</button>
+                    <button class="nav-link" id="v-pills-execution-tab" data-bs-toggle="pill" data-bs-target="#v-pills-execution" type="button" role="tab" aria-controls="v-pills-execution" aria-selected="false"><i class="bi bi-gear-fill"></i> Rencana Pelaksanaan</button>
+                    <button class="nav-link" id="v-pills-support-tab" data-bs-toggle="pill" data-bs-target="#v-pills-support" type="button" role="tab" aria-controls="v-pills-support" aria-selected="false"><i class="bi bi-wallet-fill"></i> Dukungan Proyek</button>
+                    <button class="nav-link" id="v-pills-results-tab" data-bs-toggle="pill" data-bs-target="#v-pills-results" type="button" role="tab" aria-controls="v-pills-results" aria-selected="false"><i class="bi bi-graph-up"></i> Hasil & Evaluasi</button>
+                    <button class="nav-link" id="v-pills-author-tab" data-bs-toggle="pill" data-bs-target="#v-pills-author" type="button" role="tab" aria-controls="v-pills-author" aria-selected="false"><i class="bi bi-person-fill"></i> Tentang Penulis/Pelaksana</button>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-12">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
+                        <h3>Gambaran Umum Proyek</h3>
+                        
+                        <h4>1. Pendahuluan</h4>
+                        <p>Dalam era digital yang semakin maju, ancaman siber terus berkembang dengan pesat. Salah satu ancaman yang kini marak terjadi adalah penyebaran <strong class="text-primary-accent fw-bold-extra">stealer malware</strong> yang dirancang untuk mencuri kredensial, data pribadi, dan informasi sensitif lainnya dari perangkat korban. Data hasil curian ini, yang dikenal sebagai <strong class="text-primary-accent fw-bold-extra">stealer log</strong>, seringkali diperdagangkan di pasar gelap siber atau digunakan untuk serangan lanjutan.</p>
+                        <p>Proyek ini bertujuan untuk melakukan analisa mendalam terhadap *stealer log* yang berhasil dikumpulkan. Hasil analisa, berupa identifikasi data sensitif yang terekspos, akan disampaikan secara proaktif kepada pemilik data yang teridentifikasi. Tujuan utamanya adalah untuk membantu pemilik data mengambil tindakan pencegahan yang diperlukan demi mengamankan akun dan informasi mereka, sehingga meminimalkan potensi kerugian akibat kebocoran data.</p>
+
+                        <h4>2. Latar Belakang Masalah</h4>
+                        <ul>
+                            <li><strong class="text-primary-accent">Peningkatan Serangan Stealer Malware:</strong> *Stealer malware* semakin canggih dan mudah diakses, menyebabkan peningkatan signifikan dalam jumlah insiden pencurian data.</li>
+                            <li><strong class="text-primary-accent">Ketersediaan Stealer Log di Pasar Gelap:</strong> Ribuan bahkan jutaan *stealer log* diperdagangkan setiap hari di forum-forum siber bawah tanah, mengandung informasi kredensial yang valid.</li>
+                            <li><strong class="text-primary-accent">Kurangnya Kesadaran Korban:</strong> Banyak pemilik data tidak menyadari bahwa informasi mereka telah dicuri dan beredar di internet, membuat mereka rentan terhadap serangan lanjutan.</li>
+                            <li><strong class="text-primary-accent">Dampak Negatif Kebocoran Data:</strong> Kebocoran data dapat menyebabkan kerugian finansial, reputasi buruk, dan masalah privasi yang serius bagi individu maupun organisasi.</li>
+                        </ul>
+
+                        <h4>3. Tujuan Proyek</h4>
+                        <p>Tujuan utama dari proyek ini adalah:</p>
+                        <ul>
+                            <li><strong>Mengidentifikasi Data Sensitif:</strong> Menganalisis *stealer log* untuk mengidentifikasi kredensial (username, password), informasi kartu kredit, *cookies*, *session tokens*, data dompet kripto, dan informasi pribadi lainnya yang berhasil dicuri.</li>
+                            <li><strong>Notifikasi Proaktif kepada Pemilik Data:</strong> Mengembangkan mekanisme untuk secara aman dan etis memberitahukan pemilik data yang teridentifikasi mengenai informasi mereka yang terekspos.</li>
+                            <li><strong>Memberikan Rekomendasi Keamanan:</strong> Menyediakan rekomendasi konkret kepada pemilik data untuk mengamankan akun mereka.</li>
+                            <li><strong>Meningkatkan Kesadaran Keamanan Siber:</strong> Berkontribusi pada peningkatan kesadaran publik mengenai ancaman *stealer malware* dan pentingnya praktik keamanan siber yang baik.</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-pane fade" id="v-pills-execution" role="tabpanel" aria-labelledby="v-pills-execution-tab">
+                        <h3>Rencana Pelaksanaan</h3>
+                        
+                        <h4>4. Ruang Lingkup Proyek</h4>
+                        <p>Proyek ini akan mencakup beberapa tahapan utama:</p>
+                        <ol>
+                            <li><strong>Akuisisi Stealer Log:</strong> Mengidentifikasi dan memperoleh sampel *stealer log* dari sumber yang sah dan etis.</li>
+                            <li><strong>Analisa Data:</strong> Parsing log, identifikasi kredensial, data finansial, data *browser*, dan informasi pribadi lainnya.</li>
+                            <li><strong>Korelasi dan Verifikasi Data:</strong> Melakukan korelasi dengan basis data kebocoran yang diketahui (jika memungkinkan).</li>
+                            <li><strong>Desain Mekanisme Notifikasi:</strong> Merancang metode notifikasi yang aman, privat, dan efektif.</li>
+                            <li><strong>Pengembangan Materi Rekomendasi:</strong> Menyusun panduan dan rekomendasi langkah-langkah keamanan.</li>
+                            <li><strong>Pelaporan dan Dokumentasi:</strong> Menyusun laporan analisa dan dokumentasi proyek secara menyeluruh.</li>
+                        </ol>
+
+                        <h4>5. Metodologi Proyek</h4>
+                        <p>Proyek ini akan dilaksanakan dengan metodologi sebagai berikut:</p>
+                        <ul>
+                            <li><strong>Fase 1: Perencanaan dan Persiapan</strong> (Minggu 1-2)</li>
+                            <li><strong>Fase 2: Akuisisi dan Pra-pemrosesan Data</strong> (Minggu 3-4)</li>
+                            <li><strong>Fase 3: Analisa Data</strong> (Minggu 5-8)</li>
+                            <li><strong>Fase 4: Perancangan Mekanisme Notifikasi dan Rekomendasi</strong> (Minggu 9-10)</li>
+                            <li><strong>Fase 5: Notifikasi dan Tindak Lanjut</strong> (Minggu 11-12)</li>
+                            <li><strong>Fase 6: Pelaporan dan Penutupan Proyek</strong> (Minggu 13)</li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-pane fade" id="v-pills-support" role="tabpanel" aria-labelledby="v-pills-support-tab">
+                        <h3>Dukungan Proyek</h3>
+                        
+                        <h4>6. Sumber Daya yang Dibutuhkan</h4>
+                        <ul>
+                            <li><strong>Sumber Daya Manusia:</strong> Analis Keamanan Siber/Spesialis Forensik Digital, Manajer Proyek.</li>
+                            <li><strong>Perangkat Lunak:</strong> Platform Intelijen Ancaman, *Tool* Forensik Digital & Analisa Data, *Database Software*.</li>
+                            <li><strong>Perangkat Keras:</strong> *Workstation*/Server Analisa Data, Perangkat Penyimpanan Eksternal/Backup.</li>
+                        </ul>
+
+                        <h4>7. Anggaran Dana Proyek</h4>
+                        <p>Berikut adalah estimasi anggaran dana yang diperlukan untuk pelaksanaan proyek:</p>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Kategori Pengeluaran</th>
+                                        <th>Detail Item</th>
+                                        <th>Durasi/Keterangan</th>
+                                        <th>Estimasi Biaya (IDR)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold" colspan="4">1. Sumber Daya Manusia (SDM)</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Analis Keamanan Siber / Spesialis Forensik Digital (2 orang)</td>
+                                        <td>2 orang x Rp 20.000.000/bulan x 3 bulan</td>
+                                        <td>Rp 120.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Manajer Proyek (1 orang)</td>
+                                        <td>1 orang x Rp 25.000.000/bulan x 4 bulan</td>
+                                        <td>Rp 100.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold" colspan="4">2. Perangkat Lunak (Software)</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Platform Intelijen Ancaman (opsional)</td>
+                                        <td>Langganan 3 bulan @ Rp 10.000.000/bulan</td>
+                                        <td>Rp 30.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tools Forensik Digital & Analisa Data</td>
+                                        <td>Lisensi/Plugin untuk tool analisa data</td>
+                                        <td>Rp 5.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Database Software (opsional, jika komersial)</td>
+                                        <td>Estimasi lisensi kecil atau biaya pendukung open-source</td>
+                                        <td>Rp 2.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold" colspan="4">3. Perangkat Keras (Hardware)</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Workstation/Server Analisa Data (1 unit)</td>
+                                        <td>CPU high-end, RAM 64GB+, SSD NVMe 2TB+, HDD/SSD 10TB+</td>
+                                        <td>Rp 55.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Perangkat Penyimpanan Eksternal/Backup</td>
+                                        <td>Hard Drive eksternal atau NAS untuk backup data</td>
+                                        <td>Rp 5.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold" colspan="4">4. Biaya Operasional & Lain-lain</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Biaya Internet & Listrik</td>
+                                        <td>Estimasi Rp 1.500.000/bulan x 4 bulan</td>
+                                        <td>Rp 6.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Biaya Komunikasi (Notifikasi)</td>
+                                        <td>Untuk layanan email/SMS massal aman, tergantung volume</td>
+                                        <td>Rp 3.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Pelatihan/Workshop (opsional)</td>
+                                        <td>Untuk peningkatan skill tim</td>
+                                        <td>Rp 5.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Konsultasi Hukum/Privasi Data (sangat disarankan)</td>
+                                        <td>Untuk memastikan kepatuhan regulasi privasi data</td>
+                                        <td>Rp 10.000.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Biaya Tak Terduga (10% dari Subtotal)</td>
+                                        <td>Mengantisipasi pengeluaran yang tidak terduga</td>
+                                        <td>Rp 32.300.000</td>
+                                    </tr>
+                                    <tr class="total-row">
+                                        <td colspan="3" class="text-end">TOTAL KESELURUHAN</td>
+                                        <td>Rp 373.300.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="alert alert-custom" role="alert">
+                            <strong>Catatan Penting:</strong> Anggaran ini adalah perkiraan awal dan dapat disesuaikan. Biaya aktual bisa bervariasi tergantung pada pilihan perangkat lunak (misalnya, penggunaan tool open-source gratis akan mengurangi biaya), negosiasi harga, dan ketersediaan sumber daya.
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="v-pills-results" role="tabpanel" aria-labelledby="v-pills-results-tab">
+                        <h3>Hasil & Evaluasi</h3>
+                        
+                        <h4>8. Luaran Proyek (Deliverables)</h4>
+                        <ul>
+                            <li>Dokumen analisa *stealer log* berisi daftar data sensitif terekspos.</li>
+                            <li>Daftar pemilik data yang teridentifikasi.</li>
+                            <li>Mekanisme dan prosedur notifikasi pemilik data.</li>
+                            <li>Materi rekomendasi keamanan yang komprehensif.</li>
+                            <li>Laporan akhir proyek.</li>
+                            <li>Presentasi hasil proyek.</li>
+                        </ul>
+
+                        <h4>9. Risiko dan Mitigasi</h4>
+                        <p>Proyek ini memiliki potensi risiko, namun telah diidentifikasi dan direncanakan mitigasinya, seperti akuisisi log yang etis dan legal, serta kontrol ketat terhadap data sensitif.</p>
+
+                        <h4>10. Kesimpulan</h4>
+                        <p>Proyek "Analisa Stealer Log untuk Peningkatan Keamanan Data Pemilik" merupakan inisiatif krusial dalam menghadapi ancaman siber yang terus meningkat. Dengan menganalisis *stealer log* dan secara proaktif memberitahukan pemilik data, kita dapat berkontribusi signifikan terhadap peningkatan keamanan data individu dan kolektif. Proyek ini tidak hanya berfokus pada identifikasi masalah, tetapi juga pada penyediaan solusi nyata dan edukasi untuk memperkuat pertahanan siber. Kami percaya bahwa melalui proyek ini, kita dapat menciptakan dampak positif yang nyata dalam melindungi privasi dan keamanan digital masyarakat.</p>
+                    </div>
+
+                    <div class="tab-pane fade" id="v-pills-author" role="tabpanel" aria-labelledby="v-pills-author-tab">
+                        <h3>Tentang Penulis/Pelaksana</h3>
+                        <div class="project-person-card">
+                            <h4 class="main-name">Mardianta Putra Anggara</h4>
+                            <p><strong>Peran:</strong> Penyusun & Pelaksana Proyek Utama</p>
+                            <p class="contact-info">
+                                <i class="bi bi-envelope-fill"></i> mardianta.anggara@example.com <br>
+                                <i class="bi bi-telephone-fill"></i> +62 812-3456-7890 <br>
+                                <i class="bi bi-linkedin"></i> linkedin.com/in/mardianta-anggara
+                            </p>
+                            <p class="mt-3">
+                                Mardianta Putra Anggara adalah seorang profesional keamanan siber dengan pengalaman mendalam dalam analisis forensik digital dan intelijen ancaman. Beliau memiliki rekam jejak yang terbukti dalam mengidentifikasi, menganalisis, dan memitigasi risiko keamanan data untuk berbagai organisasi. Dengan keahliannya, beliau akan memimpin implementasi teknis dan strategis proyek ini.
+                            </p>
+                        </div>
+                        <p class="mt-4 text-center text-subtle">
+                            Untuk pertanyaan lebih lanjut atau kolaborasi, silakan hubungi Mardianta Putra Anggara melalui informasi kontak di atas.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
