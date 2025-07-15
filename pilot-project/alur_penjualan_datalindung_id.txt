@@ -1,0 +1,107 @@
+ALUR PENAWARAN, CLOSING, DAN PEMBAYARAN - DataLindung ID
+
+Dokumen ini merinci proses standar dari kontak awal dengan calon klien hingga penyelesaian pembayaran untuk layanan intelijen ancaman siber DataLindung ID.
+
+==================================================
+FASE 1: PENDEKATAN & KUALIFIKASI (LEAD GENERATION & QUALIFICATION)
+==================================================
+
+Tahap 1: Kontak Awal (Initial Contact)
+---------------------------------------
+Sumber Prospek:
+- Klien menghubungi melalui tombol "Jadwalkan Konsultasi Gratis" / "Minta Penawaran" di website (index.html).
+- Prospek didapat dari unduhan Whitepaper atau pendaftar Webinar.
+- "Ethical Notification" (pemberitahuan etis) yang dikirimkan ke perusahaan target.
+- Jaringan personal/profesional dari LinkedIn atau acara industri.
+
+Tindakan:
+1. Respon Cepat: Balas email/permintaan dalam waktu maksimal 1x8 jam kerja.
+2. Konfirmasi & Penjadwalan: Ucapkan terima kasih atas minat mereka dan segera tawarkan jadwal untuk "Sesi Konsultasi Awal" (Discovery Call) selama 15-30 menit melalui Google Meet/Zoom.
+
+
+Tahap 2: Sesi Konsultasi Awal (Discovery Call)
+---------------------------------------------
+Tujuan: Memahami kebutuhan klien (pain points) dan mengkualifikasi apakah mereka cocok untuk layanan kita.
+
+Agenda Panggilan:
+1. Perkenalan: Siapa DataLindung ID dan apa yang kami lakukan.
+2. Mendengarkan: Tanyakan tentang tantangan keamanan siber mereka, ukuran perusahaan, tim IT, dan apa yang mendorong mereka untuk mencari solusi.
+3. Edukasi Singkat: Jelaskan secara singkat bagaimana ancaman stealer malware bisa berdampak pada bisnis seperti milik mereka, hubungkan dengan 'pain points' yang mereka sebutkan.
+4. Penilaian Kecocokan (Qualification): Pastikan mereka memiliki wewenang untuk mengambil keputusan atau bisa menghubungkan kita dengan decision maker (CISO, CTO, Manajer IT).
+5. Langkah Selanjutnya: Jika cocok, sampaikan bahwa Anda akan menyiapkan "Proposal Penawaran Kustom" yang disesuaikan dengan kebutuhan mereka dan akan mengirimkannya dalam 2-3 hari kerja.
+
+==================================================
+FASE 2: PENAWARAN & NEGOSIASI (PROPOSAL & NEGOTIATION)
+==================================================
+
+Tahap 3: Pembuatan & Pengiriman Proposal
+------------------------------------------
+Tindakan:
+1. Kustomisasi Proposal: Buat proposal formal dalam format PDF. Gunakan template yang mencakup:
+   - Ringkasan Masalah (berdasarkan hasil Discovery Call).
+   - Ruang Lingkup Layanan yang Ditawarkan (cth: Monitoring domain perusahaan, laporan bulanan, notifikasi real-time).
+   - Deliverables (Apa yang akan diterima klien).
+   - Struktur Harga (Pilihan paket: bulanan, kuartalan, atau tahunan).
+   - Studi Kasus yang relevan.
+   - Syarat dan Ketentuan (Terms & Conditions).
+2. Pengiriman: Kirim proposal melalui email dengan subjek yang jelas, misal: "Proposal Layanan Intelijen Ancaman Siber untuk [Nama Perusahaan Klien] dari DataLindung ID".
+3. Jadwalkan Presentasi: Dalam email yang sama, tawarkan untuk menjadwalkan "Sesi Presentasi Proposal" (15 menit) untuk membahas detail dan menjawab pertanyaan.
+
+
+Tahap 4: Presentasi & Negosiasi
+-------------------------------
+Tujuan: Memastikan klien memahami nilai (value) dari penawaran dan mengatasi keberatan.
+
+Agenda Panggilan:
+1. Presentasi Nilai: Jelaskan setiap bagian proposal, fokus pada ROI (Return on Investment) dari mencegah satu insiden keamanan.
+2. Sesi Tanya Jawab: Jawab semua pertanyaan klien dengan transparan.
+3. Negosiasi (Jika Perlu): Bersiap untuk negosiasi harga atau penyesuaian ruang lingkup layanan. Tetap berpegang pada nilai, jangan hanya menurunkan harga.
+4. Call to Action (CTA): Akhiri panggilan dengan menanyakan, "Apakah penawaran ini sudah sesuai dengan yang Bapak/Ibu butuhkan untuk kita bisa melangkah ke tahap selanjutnya?"
+
+
+==================================================
+FASE 3: PENUTUPAN & PEMBAYARAN (CLOSING & PAYMENT)
+==================================================
+
+Tahap 5: Persetujuan & Kontrak
+------------------------------
+Tindakan:
+1. Kirim Perjanjian Kerjasama (PKS) / Service Level Agreement (SLA): Setelah ada kesepakatan verbal, segera kirim dokumen legal untuk ditandatangani secara digital (misalnya menggunakan PrivyID) atau fisik. Dokumen ini mencakup semua detail yang disepakati.
+2. Follow-up: Lakukan follow-up secara berkala namun tidak memaksa jika PKS belum ditandatangani.
+
+
+Tahap 6: Penerbitan Invoice
+---------------------------
+Tindakan:
+1. Penerbitan Invoice: Setelah PKS ditandatangani oleh kedua belah pihak, segera terbitkan invoice resmi.
+2. Detail Invoice: Invoice harus mencakup:
+   - Nomor Invoice & Tanggal.
+   - Detail Layanan & Periode Langganan.
+   - Jumlah yang harus dibayar (termasuk PPN jika berlaku).
+   - Opsi Metode Pembayaran (Transfer Bank ke rekening perusahaan, Virtual Account).
+   - Tanggal Jatuh Tempo (Terms of Payment, misal: Net 14 atau Net 30 hari).
+
+
+Tahap 7: Konfirmasi Pembayaran & Onboarding
+-------------------------------------------
+Tindakan:
+1. Pemantauan Pembayaran: Pantau status pembayaran.
+2. Kirim Notifikasi Pengingat: Kirim email pengingat yang sopan 3 hari sebelum jatuh tempo jika pembayaran belum diterima.
+3. Konfirmasi Penerimaan: Segera setelah pembayaran diterima, kirim email konfirmasi pembayaran dan ucapan terima kasih kepada klien.
+4. Kick-off & Onboarding:
+   - Jadwalkan "Kick-off Meeting" untuk memulai layanan.
+   - Kenalkan tim yang akan menangani akun mereka.
+   - Mulai proses onboarding sesuai yang dijanjikan dalam PKS/SLA.
+
+==================================================
+FASE 4: PENGELOLAAN PASCA-PENJUALAN (POST-SALES)
+==================================================
+
+Tahap 8: Pengiriman Laporan & Retensi
+---------------------------------------
+Tindakan:
+1. Pengiriman Rutin: Kirim laporan intelijen dan notifikasi sesuai jadwal yang disepakati.
+2. Cek Kepuasan: Lakukan check-in secara berkala (misal: setiap bulan) untuk menanyakan feedback dan memastikan klien puas dengan layanan.
+3. Perpanjangan Kontrak: Mulai diskusi perpanjangan kontrak setidaknya 1-2 bulan sebelum kontrak berakhir.
+
+--- SELESAI ---
