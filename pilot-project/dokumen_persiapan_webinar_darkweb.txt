@@ -1,0 +1,184 @@
+================================================================================
+DOKUMEN PERSIAPAN & MATERI WEBINAR
+================================================================================
+
+JUDUL WEBINAR:
+Apakah Data Perusahaan Anda Dijual di Dark Web? Cara Deteksi & Mitigasi
+
+PENYELENGGARA:
+DataLindung ID
+
+PEMBICARA UTAMA:
+Mardianta Putra Anggara, Lead Analyst, DataLindung ID
+
+TARGET AUDIENS:
+CISO, CTO, Manajer IT, Kepala Keamanan Informasi, Pemilik Bisnis, Profesional IT.
+
+TUJUAN UTAMA:
+1.  Meningkatkan kesadaran tentang ancaman nyata dari dark web dan pasar data ilegal.
+2.  Menghasilkan prospek (leads) berkualitas untuk layanan DataLindung ID.
+3.  Memposisikan DataLindung ID sebagai ahli (thought leader) dalam intelijen ancaman.
+4.  Menawarkan sesi konsultasi eksklusif sebagai "Call to Action" utama.
+
+--------------------------------------------------------------------------------
+
+BAGIAN 1: RENCANA PERSIAPAN ACARA (CHECKLIST)
+
+---
+
+**A. PERSIAPAN TEKNIS (H-14 sebelum acara)**
+
+*   [ ] **Pilih Platform Webinar:**
+    *   Opsi: Zoom Webinar, Google Meet, Microsoft Teams Live Events.
+    *   Kriteria: Fitur Q&A, polling, kemampuan merekam, dan pendaftaran.
+    *   **Tugas:** Beli/aktifkan lisensi platform yang dipilih.
+
+*   [ ] **Siapkan Halaman Pendaftaran (Landing Page):**
+    *   Buat halaman khusus di website (misal: datalindung.id/webinar).
+    *   Konten Halaman: Judul webinar, deskripsi singkat, poin-poin yang akan dibahas, profil pembicara, tanggal & waktu, dan form pendaftaran (Nama, Perusahaan, Jabatan, Email Bisnis, Nomor Telepon).
+    *   **Tugas:** Desain dan publikasikan halaman pendaftaran.
+
+*   [ ] **Uji Coba Teknis (Dry Run):**
+    *   Lakukan setidaknya dua kali uji coba: H-7 dan H-1.
+    *   Cek: Kualitas audio & video, koneksi internet, fitur berbagi layar, dan alur presentasi.
+    *   **Tugas:** Jadwalkan dan laksanakan dry run dengan tim internal.
+
+*   [ ] **Siapkan Aset Digital:**
+    *   Latar belakang virtual (virtual background) dengan logo DataLindung ID.
+    *   Slide presentasi final.
+    *   Video pendek atau "holding slide" untuk ditampilkan sebelum webinar dimulai.
+    *   **Tugas:** Desain dan finalisasi semua aset.
+
+---
+
+**B. RENCANA PROMOSI (Dimulai H-14 sebelum acara)**
+
+*   [ ] **Email Marketing:**
+    *   Kirim undangan ke daftar email prospek yang sudah ada (misal: yang pernah mengunduh whitepaper).
+    *   Jadwal Kirim: H-14 (pengumuman), H-7 (pengingat pertama), H-3 (pengingat kedua), H-1 (pengingat terakhir).
+    *   **Tugas:** Buat draf seri email undangan.
+
+*   [ ] **Promosi Media Sosial (LinkedIn menjadi prioritas utama):**
+    *   Buat banner/poster promosi webinar.
+    *   Posting secara berkala di akun LinkedIn Mardianta Putra Anggara dan (jika ada) halaman perusahaan.
+    *   Konten Post: Sorot masalah yang akan dibahas, ajak audiens untuk mendaftar, gunakan hashtag relevan (#KeamananSiber, #DarkWeb, #DataBreach, #InfoSecID).
+    *   **Tugas:** Siapkan kalender konten promosi untuk LinkedIn.
+
+*   [ ] **Iklan Bertarget (Opsional, jika ada budget):**
+    *   Jalankan LinkedIn Ads yang menargetkan jabatan seperti "CISO", "IT Manager", "Head of IT" di perusahaan-perusahaan Indonesia.
+    *   **Tugas:** Set up kampanye iklan jika disetujui.
+
+---
+
+**C. PERSIAPAN HARI-H (H-0)**
+
+*   [ ] **Persiapan Ruangan & Peralatan:**
+    *   Pastikan ruangan tenang dan bebas gangguan.
+    *   Gunakan mikrofon eksternal dan webcam berkualitas baik.
+    *   Siapkan dua monitor (satu untuk presentasi, satu untuk melihat Q&A dan kontrol webinar).
+
+*   [ ] **Tim Pendukung:**
+    *   Tunjuk 1 orang sebagai moderator untuk membantu mengelola Q&A, polling, dan mengatasi masalah teknis peserta.
+
+*   [ ] **Masuk Lebih Awal:**
+    *   Pembicara dan moderator harus masuk ke ruang webinar setidaknya 30 menit sebelum acara dimulai untuk pengecekan akhir.
+
+*   [ ] **Mulai Tepat Waktu:**
+    *   Mulai acara sesuai jadwal yang telah diumumkan.
+
+--------------------------------------------------------------------------------
+
+BAGIAN 2: MATERI & STRUKTUR PRESENTASI (Durasi Total: 60 Menit)
+
+**Judul Slide:** Apakah Data Perusahaan Anda Dijual di Dark Web? Cara Deteksi & Mitigasi
+
+---
+
+**(0-5 Menit) PEMBUKAAN & PERKENALAN**
+*   **Slide 1: Judul & Pembicara.**
+    - Logo DataLindung ID, Judul Webinar, Nama & Jabatan Mardianta Putra Anggara.
+*   **Slide 2: Agenda Webinar.**
+    - Apa itu Dark Web & Pasar Data Ilegal?
+    - Bagaimana Data Perusahaan Anda Bisa Sampai di Sana? (Anatomi Stealer Malware)
+    - Studi Kasus & Contoh Nyata.
+    - Langkah Deteksi & Mitigasi Proaktif.
+    - Sesi Q&A.
+*   **Moderator:** Menyambut peserta, menjelaskan aturan main (Q&A di akhir), dan memperkenalkan pembicara.
+
+---
+
+**(5-20 Menit) MASALAH: EKOSISTEM EKONOMI SIBER ILEGAL**
+*   **Slide 3: Demistifikasi Dark Web.**
+    - Grafik gunung es (Surface Web, Deep Web, Dark Web). Jelaskan perbedaannya secara sederhana. Ini bukan hanya tentang hacker, tapi ekonomi.
+*   **Slide 4: Komoditas di Pasar Gelap.**
+    - Screenshot (yang disensor) dari contoh forum pasar gelap.
+    - Tunjukkan apa saja yang dijual: Kredensial (Netflix, Email Korporat), Database Pelanggan, Akses RDP/VPN, "Stealer Logs".
+*   **Slide 5: Anatomi Serangan Stealer Malware.**
+    - Visualisasi alur: Infeksi -> Pengumpulan Data -> Eksfiltrasi -> Penjualan di Forum.
+    - Tekankan pada sumber infeksi yang umum: software bajakan, email phishing.
+*   **Tujuan Bagian ini:** Membangun urgensi. Menunjukkan bahwa ini adalah masalah bisnis yang nyata, bukan sekadar masalah teknis.
+
+---
+
+**(20-35 Menit) DAMPAK & STUDI KASUS**
+*   **Slide 6: Dari Data Bocor Menjadi Kerugian Finansial.**
+    - Alur: Kredensial Karyawan Bocor -> Akses ke Email Korporat -> Serangan Business Email Compromise (BEC) -> Transfer Dana Ilegal.
+*   **Slide 7: Studi Kasus 1 (Hipotetis/Anonim): Pembobolan E-commerce.**
+    - "Sebuah platform e-commerce kehilangan akses ke akun admin karena kredensial developernya bocor. Akibatnya: database pelanggan dicuri."
+*   **Slide 8: Studi Kasus 2 (Hipotetis/Anonim): Serangan Ransomware.**
+    - "Peretas membeli akses VPN yang valid dari dark web, masuk ke jaringan internal, dan menyebarkan ransomware. Perusahaan lumpuh selama 3 hari."
+*   **Tujuan Bagian ini:** Membuat ancaman menjadi konkret dan relevan bagi audiens.
+
+---
+
+**(35-50 Menit) SOLUSI: DETEKSI & MITIGASI PROAKTIF**
+*   **Slide 9: Pergeseran Paradigma: Dari Reaktif ke Proaktif.**
+    - Grafik: Reaktif (menunggu insiden) vs. Proaktif (mencari kebocoran sebelum dieksploitasi).
+*   **Slide 10: Langkah-langkah Deteksi.**
+    - Cara 1 (Sulit & Manual): Memantau forum secara manual (tidak efisien).
+    - Cara 2 (Efisien & Cerdas): Menggunakan Layanan Intelijen Ancaman (Threat Intelligence).
+*   **Slide 11: Memperkenalkan Layanan DataLindung ID.**
+    - Jelaskan secara singkat bagaimana layanan Anda bekerja (Identifikasi -> Notifikasi -> Rekomendasi). Ini adalah "soft pitch".
+*   **Slide 12: Langkah-langkah Mitigasi Mendesak.**
+    - Apa yang harus dilakukan JIKA Anda tahu data Anda bocor?
+    - 1. Segera Reset Password. 2. Aktifkan MFA di mana pun. 3. Cabut Sesi Aktif (Force Logout). 4. Edukasi Tim.
+*   **Tujuan Bagian ini:** Memberikan solusi yang actionable dan memperkenalkan layanan Anda sebagai jawaban yang paling efektif.
+
+---
+
+**(50-55 Menit) PENUTUP & CALL TO ACTION (CTA)**
+*   **Slide 13: Ringkasan.**
+    - 3 poin kunci: Ancaman itu nyata dan ekonomis. Deteksi proaktif lebih baik dari reaktif. Langkah mitigasi sederhana bisa mencegah kerugian besar.
+*   **Slide 14: PENAWARAN EKSKLUSIF (Slide Paling Penting).**
+    - "Sebagai apresiasi atas partisipasi Anda, kami menawarkan **Sesi Konsultasi Keamanan Proaktif 1-on-1 Gratis**."
+    - "Dalam sesi 30 menit ini, kita akan membahas postur keamanan Anda dan bagaimana Anda bisa memulai deteksi dini."
+    - "Slot terbatas hanya untuk 10 perusahaan pertama."
+    - Tampilkan QR Code dan link singkat (misal: datalindung.id/konsultasi) untuk pendaftaran.
+*   **Pembicara:** Secara lisan menekankan urgensi dan manfaat dari sesi konsultasi gratis.
+
+---
+
+**(55-60 Menit) SESI TANYA JAWAB (Q&A)**
+*   **Slide 15: Q&A dan Terima Kasih.**
+    - Tampilkan kembali detail kontak dan link konsultasi.
+*   **Moderator:** Membacakan pertanyaan-pertanyaan terbaik dari peserta untuk dijawab oleh pembicara.
+
+--------------------------------------------------------------------------------
+
+BAGIAN 3: RENCANA TINDAK LANJUT (PASCA-WEBINAR)
+
+*   [ ] **Segera (Dalam 1-2 Jam):**
+    *   Kirim email ucapan terima kasih kepada SEMUA pendaftar (baik yang hadir maupun tidak).
+    *   Sertakan link rekaman webinar dan materi presentasi (PDF).
+    *   Ulangi penawaran sesi konsultasi gratis dengan link pendaftaran.
+
+*   [ ] **Hari Berikutnya (H+1):**
+    *   Tim penjualan/analis mulai menghubungi mereka yang mendaftar untuk sesi konsultasi untuk penjadwalan.
+
+*   [ ] **Satu Minggu Kemudian (H+7):**
+    *   Kirim email kedua kepada yang belum mendaftar konsultasi, berisi studi kasus atau artikel blog yang relevan, dengan "soft reminder" tentang penawaran konsultasi.
+
+*   [ ] **Analisis & Evaluasi:**
+    *   Tinjau metrik webinar: Jumlah pendaftar, tingkat kehadiran, jumlah pendaftar konsultasi. Gunakan data ini untuk meningkatkan webinar di masa depan.
+
+--- SELESAI ---
