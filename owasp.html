@@ -141,12 +141,10 @@
     </div>
 
     <script>
-        let jsonData = []; // jsonData akan diisi setelah data dimuat
+        let jsonData = []; 
 
-        // Fungsi untuk memuat data JSON dari URL eksternal
         async function loadJsonData() {
             try {
-                // URL langsung ke file JSON di GitHub
                 const jsonUrl = 'https://raw.githubusercontent.com/pwndoc-ng/pwndoc-ng-database/main/OWASP_WSTG_ASVS_en.json';
                 const response = await fetch(jsonUrl); 
                 
@@ -155,8 +153,8 @@
                 }
                 
                 jsonData = await response.json();
-                document.getElementById('loadingMessage').style.display = 'none'; // Sembunyikan pesan loading
-                searchData(""); // Tampilkan semua data setelah dimuat
+                document.getElementById('loadingMessage').style.display = 'none'; 
+                searchData(""); 
             } catch (error) {
                 console.error('Gagal memuat data JSON:', error);
                 const loadingMessage = document.getElementById('loadingMessage');
@@ -170,7 +168,6 @@
             resultsContainer.innerHTML = ''; 
 
             if (jsonData.length === 0) {
-                // Jangan lakukan pencarian jika data belum dimuat
                 return;
             }
 
@@ -226,6 +223,20 @@
                         detailsContent.classList.add('show');
                     }
                     
+                    // --- Penambahan Detail CVSS, VulnType, dan References ---
+                    if (item.cvssv3) {
+                        const cvss = document.createElement('p');
+                        cvss.innerHTML = `<strong>CVSSv3:</strong> ${item.cvssv3}`;
+                        detailsContent.appendChild(cvss);
+                    }
+
+                    if (mainDetail.vulnType) {
+                        const vulnType = document.createElement('p');
+                        vulnType.innerHTML = `<strong>Tipe Kerentanan:</strong> ${mainDetail.vulnType}`;
+                        detailsContent.appendChild(vulnType);
+                    }
+                    // --- Akhir Penambahan ---
+                    
                     item.details.forEach(detail => {
                         const description = document.createElement('div');
                         description.innerHTML = `<strong>Deskripsi:</strong> ${detail.description || "Deskripsi tidak tersedia."}`;
@@ -275,7 +286,6 @@
             suggestionsBox.innerHTML = '';
 
             if (jsonData.length === 0) {
-                // Jangan tampilkan saran jika data belum dimuat
                 suggestionsBox.style.display = 'none';
                 return;
             }
@@ -335,7 +345,6 @@
             }
         });
 
-        // Panggil fungsi loadJsonData saat halaman dimuat
         document.addEventListener('DOMContentLoaded', loadJsonData);
     </script>
 </body>
