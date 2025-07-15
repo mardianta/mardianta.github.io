@@ -1,0 +1,139 @@
+================================================================================
+PROPOSAL LAYANAN INTELIJEN ANCAMAN SIBER
+================================================================================
+
+UNTUK:
+[Nama Perusahaan Klien]
+[Alamat Perusahaan Klien]
+
+DISIAPKAN UNTUK:
+Bapak/Ibu [Nama Kontak Klien]
+[Jabatan Kontak Klien]
+
+DARI:
+Mardianta Putra Anggara
+Lead Analyst, DataLindung ID
+
+TANGGAL:
+[Tanggal Proposal]
+
+NOMOR PROPOSAL:
+DL-ID-[Tahun]-[Bulan]-[Nomor Urut]
+
+--------------------------------------------------------------------------------
+
+1. RINGKASAN EKSEKUTIF
+
+Proposal ini diajukan sebagai respons atas diskusi kami pada [Tanggal Diskusi] mengenai tantangan keamanan siber yang dihadapi oleh [Nama Perusahaan Klien]. Kami memahami bahwa perlindungan terhadap aset digital, data karyawan, dan reputasi perusahaan merupakan prioritas utama.
+
+DataLindung ID mengusulkan kemitraan strategis untuk menyediakan layanan Intelijen Ancaman Proaktif. Solusi kami dirancang untuk mendeteksi kredensial dan data sensitif perusahaan Anda yang telah bocor dan diperdagangkan di pasar gelap siber—SEBELUM data tersebut dapat dieksploitasi oleh pihak yang tidak bertanggung jawab.
+
+Kami yakin bahwa pendekatan proaktif ini akan secara signifikan mengurangi permukaan serangan (attack surface) [Nama Perusahaan Klien] dan mencegah potensi kerugian finansial serta reputasi.
+
+--------------------------------------------------------------------------------
+
+2. PEMAHAMAN KAMI TERHADAP KEBUTUHAN ANDA
+
+Berdasarkan diskusi kita, kami mengidentifikasi beberapa area fokus utama:
+
+*   **Risiko Kebocoran Kredensial:** Terdapat kekhawatiran mengenai kredensial login (email, password) karyawan yang mungkin terekspos akibat penggunaan software tidak resmi atau insiden phishing, yang dapat menjadi pintu masuk ke sistem internal.
+*   **Perlindungan Aset Digital:** Perlunya memastikan aset digital krusial, seperti akses ke platform internal dan data pelanggan, tidak dapat diakses secara ilegal.
+*   **Keterbatasan Visibilitas Ancaman Eksternal:** Tim internal saat ini berfokus pada pertahanan perimeter, namun memiliki visibilitas terbatas terhadap ancaman yang berasal dari luar, seperti data yang sudah bocor di dark web.
+*   **Kepatuhan & Reputasi:** Menjaga kepatuhan terhadap regulasi privasi data (UU PDP) dan melindungi reputasi [Nama Perusahaan Klien] dari insiden keamanan siber adalah hal yang sangat penting.
+
+--------------------------------------------------------------------------------
+
+3. SOLUSI & RUANG LINGKUP LAYANAN
+
+DataLindung ID menawarkan layanan berlangganan (subscription) Intelijen Ancaman Proaktif yang mencakup tiga pilar utama:
+
+A. IDENTIFIKASI
+   Kami secara berkelanjutan memonitor sumber-sumber intelijen dan pasar gelap untuk mencari kemunculan data yang terkait dengan domain perusahaan Anda ([domain-klien.com]).
+
+B. NOTIFIKASI
+   Ketika kami menemukan data yang cocok, kami akan segera mengirimkan laporan peringatan dini (Early Warning Report) yang aman dan terenkripsi kepada kontak teknis yang ditunjuk.
+
+C. REKOMENDASI MITIGASI
+   Setiap laporan disertai dengan rekomendasi yang jelas dan dapat ditindaklanjuti untuk memitigasi risiko, seperti langkah-langkah untuk mereset kredensial, mencabut sesi aktif, dan mengamankan akun.
+
+--------------------------------------------------------------------------------
+
+4. PAKET LAYANAN & DELIVERABLES
+
+Kami menawarkan beberapa paket layanan yang dapat disesuaikan dengan skala dan kebutuhan Anda.
+
+---
+
+**PAKET PROFESSIONAL PROTECTION (Paling Direkomendasikan)**
+
+*   **Monitoring Domain:** Pemantauan berkelanjutan hingga 5 domain perusahaan (@domain-anda.com, @sub.domain-anda.com, dll.).
+*   **Frekuensi Laporan:**
+    *   **Notifikasi Real-time:** Peringatan langsung (dalam 24 jam) untuk insiden kebocoran data kritis.
+    *   **Laporan Ringkasan Bulanan:** Laporan komprehensif yang merangkum semua temuan, tren, dan status keamanan setiap bulan.
+*   **Jumlah Aset yang Dipantau:** Hingga 1.000 identitas/karyawan.
+*   **Dukungan:** Akses prioritas ke analis keamanan kami melalui email dan telepon.
+*   **Onboarding:** Sesi kick-off dan onboarding untuk tim Anda.
+
+---
+
+**PAKET ESSENTIAL MONITORING**
+
+*   **Monitoring Domain:** Pemantauan untuk 1 domain utama perusahaan.
+*   **Frekuensi Laporan:**
+    *   **Laporan Ringkasan Mingguan:** Laporan yang merangkum temuan selama seminggu terakhir.
+*   **Jumlah Aset yang Dipantau:** Hingga 250 identitas/karyawan.
+*   **Dukungan:** Dukungan standar melalui email.
+
+---
+
+*(Paket Enterprise tersedia berdasarkan permintaan untuk kebutuhan yang lebih kompleks, mencakup pemantauan tak terbatas, integrasi API, dan laporan intelijen kustom).*
+
+--------------------------------------------------------------------------------
+
+5. INVESTASI
+
+| Paket Layanan              | Harga per Bulan (IDR) | Harga per Tahun (Diskon 15%) |
+|----------------------------|-----------------------|------------------------------|
+| Essential Monitoring       | Rp 7.500.000          | Rp 76.500.000                |
+| **Professional Protection**| **Rp 18.000.000**     | **Rp 183.600.000**           |
+| Enterprise Shield          | Hubungi Kami          | Hubungi Kami                 |
+
+*Catatan: Harga belum termasuk PPN 11%. Pembayaran tahunan dilakukan di muka.*
+
+--------------------------------------------------------------------------------
+
+6. STUDI KASUS: PENCEGAHAN KERUGIAN DI PERUSAHAAN FINTECH
+
+*   **Masalah:** Kredensial login ke dashboard keuangan milik seorang manajer di sebuah perusahaan fintech bocor dan diperjualbelikan di forum peretas.
+*   **Solusi DataLindung ID:** Layanan kami mendeteksi kebocoran ini dalam waktu kurang dari 24 jam. Kami memberikan notifikasi segera, yang memungkinkan perusahaan mereset akses dan mengaktifkan Multi-Factor Authentication (MFA) sebelum akun disalahgunakan.
+*   **Hasil:** Potensi kerugian finansial langsung sebesar Rp 1,2 Miliar dan pencurian data nasabah berhasil dihindari. Kepercayaan nasabah tetap terjaga.
+
+--------------------------------------------------------------------------------
+
+7. SYARAT DAN KETENTUAN
+
+*   **Kerahasiaan:** DataLindung ID menjamin kerahasiaan semua informasi yang ditemukan dan hanya akan melaporkannya kepada kontak yang telah disetujui oleh [Nama Perusahaan Klien]. Perjanjian Kerahasiaan (NDA) terpisah akan ditandatangani.
+*   **Periode Kontrak:** Minimum periode kontrak adalah 12 bulan.
+*   **Pembayaran:** Pembayaran untuk layanan tahunan dilakukan di muka setelah penandatanganan kontrak. Untuk layanan bulanan, invoice akan dikirimkan di awal setiap bulan dengan termin pembayaran Net 14 hari.
+
+--------------------------------------------------------------------------------
+
+8. LANGKAH SELANJUTNYA
+
+Kami yakin bahwa kemitraan dengan DataLindung ID akan memberikan lapisan pertahanan proaktif yang krusial bagi [Nama Perusahaan Klien].
+
+Kami menyarankan untuk menjadwalkan sesi panggilan singkat selama 15-20 menit pada minggu ini untuk membahas proposal ini secara lebih rinci dan menjawab pertanyaan apa pun yang mungkin Anda miliki. Mohon beritahu kami waktu yang paling sesuai untuk Anda.
+
+Terima kasih atas waktu dan kesempatan yang telah diberikan.
+
+Hormat kami,
+
+
+Mardianta Putra Anggara
+Lead Analyst
+DataLindung ID
+www.datalindung.id
+
+================================================================================
+© 2025 DataLindung ID. Dokumen ini bersifat rahasia.
+================================================================================
