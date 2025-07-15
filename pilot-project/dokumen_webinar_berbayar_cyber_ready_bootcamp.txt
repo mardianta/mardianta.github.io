@@ -1,0 +1,154 @@
+================================================================================
+DOKUMEN PERENCANAAN & MATERI: CYBER-READY EXECUTIVE BOOTCAMP
+================================================================================
+
+NAMA PROGRAM:
+Cyber-Ready Executive Bootcamp: Dari Ancaman ke Pertahanan Aktif
+
+FORMAT:
+Seri Webinar Berbayar (3 Sesi Intensif)
+
+PENYELENGGARA:
+DataLindung ID
+
+TARGET PESERTA:
+*   Pemimpin Bisnis & Eksekutif (CEO, COO, CFO) yang ingin memahami risiko siber dari perspektif bisnis.
+*   Manajer IT/CISO baru yang membutuhkan pemahaman komprehensif.
+*   Profesional yang ingin bertransisi ke peran manajemen keamanan siber.
+*   Peserta yang menginginkan pengetahuan mendalam, bukan hanya gambaran umum.
+
+NILAI JUAL UTAMA (VALUE PROPOSITION):
+*   **Konten Eksklusif & Mendalam:** Materi yang tidak akan Anda dapatkan di webinar gratis.
+*   **Akses Langsung ke Ahli:** Sesi Q&A yang lebih panjang dan interaktif.
+*   **Studi Kasus Rinci:** Pembahasan studi kasus nyata dengan data (yang dianonimkan).
+*   **Template & Checklist Siap Pakai:** Peserta akan mendapatkan aset praktis yang bisa langsung diterapkan.
+*   **Sertifikat Penyelesaian:** Bukti partisipasi dalam program pelatihan intensif.
+
+INVESTASI:
+*   **Harga Early Bird (Pendaftaran 2 minggu pertama):** Rp 2.500.000 / peserta
+*   **Harga Normal:** Rp 3.500.000 / peserta
+*   **Harga Korporat (min. 3 peserta dari perusahaan yang sama):** Rp 2.750.000 / peserta
+
+--------------------------------------------------------------------------------
+
+BAGIAN 1: JADWAL & STRUKTUR SERI WEBINAR
+
+Setiap sesi berdurasi 120 menit (90 menit materi + 30 menit Q&A interaktif).
+Dilaksanakan setiap hari Selasa selama 3 minggu berturut-turut.
+
+---
+
+**SESI 1: MEMBEDAH ANATOMI ANCAMAN SIBER MODERN**
+*   **Tanggal:** Selasa, [Tanggal Sesi 1]
+*   **Fokus:** Memahami "Mengapa" dan "Bagaimana" serangan terjadi dari perspektif bisnis.
+
+---
+
+**SESI 2: MEMBANGUN BENTENG PERTAHANAN: DARI TEKNOLOGI HINGGA MANUSIA**
+*   **Tanggal:** Selasa, [Tanggal Sesi 2]
+*   **Fokus:** Strategi dan implementasi pertahanan siber yang berlapis dan efektif.
+
+---
+
+**SESI 3: KEPEMIMPINAN SAAT KRISIS: MANAJEMEN & RESPONS INSIDEN**
+*   **Tanggal:** Selasa, [Tanggal Sesi 3]
+*   **Fokus:** Apa yang harus dilakukan oleh seorang pemimpin sebelum, selama, dan setelah insiden keamanan terjadi.
+
+--------------------------------------------------------------------------------
+
+BAGIAN 2: RINCIAN MATERI PER SESI
+
+---
+
+### MATERI SESI 1: MEMBEDAH ANATOMI ANCAMAN SIBER MODERN
+
+*   **(0-20 Menit) Modul 1: Ekonomi Kejahatan Siber.**
+    *   Bukan lagi sekadar "hacker", tapi industri bernilai triliunan.
+    *   Pembahasan model bisnis kejahatan siber: Ransomware-as-a-Service (RaaS), penjualan data, Initial Access Brokers.
+    *   **Tujuan:** Mengubah mindset peserta dari "masalah IT" menjadi "masalah risiko bisnis".
+
+*   **(20-50 Menit) Modul 2: Analisis Mendalam Vektor Serangan Utama.**
+    *   **Deep Dive: Stealer Malware & Kebocoran Kredensial:** Bagaimana satu karyawan bisa menjadi pintu masuk. Analisis *stealer log* nyata (dianonimkan).
+    *   **Deep Dive: Business Email Compromise (BEC):** Teknik manipulasi psikologis dan rekayasa sosial untuk menipu tim keuangan.
+    *   **Deep Dive: Serangan Rantai Pasokan (Supply Chain Attack):** Bagaimana vendor Anda bisa menjadi celah keamanan Anda.
+
+*   **(50-80 Menit) Modul 3: Studi Kasus & Kuantifikasi Kerugian.**
+    *   Pembahasan rinci 2-3 studi kasus insiden besar (lokal/internasional).
+    *   Latihan praktis: Menghitung potensi kerugian finansial (Single Loss Expectancy) menggunakan template yang disediakan. Melibatkan biaya downtime, denda kepatuhan, biaya pemulihan, dan kerugian reputasi.
+
+*   **(80-90 Menit) Modul 4: Ringkasan & Tugas Pra-Sesi 2.**
+    *   Ringkasan ancaman utama.
+    *   Tugas: Peserta diminta menggunakan template untuk mengidentifikasi 3 aset digital paling kritis di perusahaan mereka.
+
+*   **(90-120 Menit) Sesi Q&A Terbuka.**
+
+*   **Aset untuk Peserta:**
+    *   PDF Materi Sesi 1.
+    *   Template Excel "Kalkulator Potensi Kerugian Insiden".
+    *   Checklist "Identifikasi Aset Digital Kritis".
+
+---
+
+### MATERI SESI 2: MEMBANGUN BENTENG PERTAHANAN: DARI TEKNOLOGI HINGGA MANUSIA
+
+*   **(0-25 Menit) Modul 1: Kerangka Kerja Pertahanan (Cybersecurity Framework).**
+    *   Pengenalan NIST Cybersecurity Framework (Identify, Protect, Detect, Respond, Recover) sebagai landasan strategi.
+    *   Menghubungkan hasil "Tugas Sesi 1" ke dalam kerangka kerja ini.
+
+*   **(25-50 Menit) Modul 2: Lapisan Pertahanan Teknologi (Tech Stack Defense).**
+    *   Prioritas Investasi: Apa yang paling penting? (Endpoint Security, MFA, Email Security Gateway, Backup yang terisolasi).
+    *   **Bukan Ceklis:** Memahami "mengapa" teknologi ini penting, bukan hanya "apa" yang harus dibeli.
+    *   Penjelasan tentang Penetration Testing dan Vulnerability Assessment sebagai alat validasi.
+
+*   **(50-80 Menit) Modul 3: Membangun Human Firewall yang Tangguh.**
+    *   Psikologi di balik mengapa orang mengklik tautan phishing.
+    *   Merancang program pelatihan kesadaran keamanan yang efektif dan terukur (bukan yang membosankan).
+    *   Studi kasus: Keberhasilan dan kegagalan program pelatihan.
+
+*   **(80-90 Menit) Modul 4: Ringkasan & Tugas Pra-Sesi 3.**
+    *   Ringkasan strategi pertahanan berlapis.
+    *   Tugas: Peserta diminta membuat draf sederhana 3 kebijakan keamanan dasar (Password Policy, Acceptable Use Policy).
+
+*   **(90-120 Menit) Sesi Q&A Terbuka.**
+
+*   **Aset untuk Peserta:**
+    *   PDF Materi Sesi 2.
+    *   Template "Prioritas Investasi Teknologi Keamanan".
+    *   Template "Rancangan Program Pelatihan Kesadaran Keamanan".
+
+---
+
+### MATERI SESI 3: KEPEMIMPINAN SAAT KRISIS: MANAJEMEN & RESPONS INSIDEN
+
+*   **(0-25 Menit) Modul 1: Persiapan Sebelum Krisis (The "Left of Boom").**
+    *   Pentingnya Rencana Respons Insiden (Incident Response Plan - IRP).
+    *   Membentuk Tim Respons Insiden (CSIRT): Siapa saja yang harus terlibat (IT, Hukum, PR, Manajemen).
+    *   Pentingnya memiliki retainer dengan firma forensik dan konsultan hukum.
+
+*   **(25-50 Menit) Modul 2: Simulasi & Kepemimpinan Selama Krisis (The "Right of Boom").**
+    *   **Tabletop Exercise:** Simulasi serangan ransomware. Peserta akan diajak berpikir "Apa yang akan Anda lakukan sekarang?" pada setiap tahap.
+    *   Fokus pada pengambilan keputusan oleh pemimpin: Kapan harus berkomunikasi dengan publik? Apakah harus membayar tebusan? Bagaimana mengelola kepanikan?
+
+*   **(50-80 Menit) Modul 3: Pemulihan & Pembelajaran Pasca-Krisis.**
+    *   Langkah-langkah pemulihan teknis dan bisnis.
+    *   Analisis Akar Masalah (Root Cause Analysis).
+    *   Komunikasi pasca-insiden kepada pelanggan dan regulator.
+    *   Bagaimana mengubah krisis menjadi kesempatan untuk memperkuat keamanan.
+
+*   **(80-90 Menit) Modul 4: Ringkasan Bootcamp & Langkah Selanjutnya.**
+    *   Merangkum perjalanan dari Sesi 1 hingga 3.
+    *   Menyediakan roadmap 90 hari yang bisa diikuti peserta untuk memulai implementasi di perusahaan mereka.
+    *   Penyerahan sertifikat digital.
+
+*   **(90-120 Menit) Sesi Q&A Terbuka & Penutup.**
+
+*   **Aset untuk Peserta:**
+    *   PDF Materi Sesi 3.
+    *   Template "Rencana Respons Insiden Sederhana".
+    *   Checklist "Tim Respons Insiden".
+    *   Template "Roadmap Keamanan 90 Hari".
+    *   Sertifikat Penyelesaian "Cyber-Ready Executive Bootcamp".
+
+================================================================================
+--- SELESAI ---
+================================================================================
