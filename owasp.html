@@ -3,141 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pencarian Kerentanan OWASP WSTG/ASVS</title>
+    <title>OWASP WSTG/ASVS Vulnerability Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .search-container {
-            position: relative;
+        /* Custom styles for detail line layout, overriding some Tailwind defaults if necessary */
+        .detail-line {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .search-container input[type="text"] {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        .search-container button {
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .search-container button:hover {
-            background-color: #0056b3;
-        }
-        .suggestions-box {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-top: none;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 10;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 0 0 4px 4px;
-        }
-        .suggestion-item {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: 1px solid #eee;
-        }
-        .suggestion-item:last-child {
-            border-bottom: none;
-        }
-        .suggestion-item:hover {
-            background-color: #f0f0f0;
-        }
-        .result-item {
-            background-color: #f9f9f9;
-            border: 1px solid #eee;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        .result-item h3 {
-            margin-top: 0;
-            color: #007bff;
-            cursor: pointer;
-        }
-        .result-item h3:hover {
-            text-decoration: underline;
-        }
-        .result-item .category {
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 10px;
-        }
-        .details-content {
-            display: none;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #eee;
-        }
-        .details-content.show {
-            display: block;
-        }
-        .details-content p {
-            margin-bottom: 5px;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem; /* Equivalent to mb-2 */
             line-height: 1.6;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
         }
-        .details-content ul {
-            padding-left: 20px;
-            margin-top: 5px;
+        .detail-text {
+            flex-grow: 1;
+            /* Ensure text doesn't overflow before wrapping on small screens */
+            min-width: 0; 
+            overflow-wrap: break-word; /* Break long words */
+            word-wrap: break-word; /* Fallback for older browsers */
         }
-        .details-content ul li {
-            margin-bottom: 3px;
+        .copy-button {
+            background-color: transparent; 
+            color: #64748b; /* Tailwind slate-500 for icon color */
+            border: none;
+            padding: 0.3rem 0.6rem; /* Adjusted padding for icon */
+            border-radius: 0.25rem; /* Equivalent to rounded */
+            cursor: pointer;
+            font-size: 1.1em; 
+            margin-left: 0.75rem; /* Equivalent to ml-3 */
+            flex-shrink: 0;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease-in-out; /* Smooth hover effect */
         }
-        .no-results {
-            text-align: center;
-            color: #888;
-            font-style: italic;
+        .copy-button:hover {
+            background-color: #e2e8f0; /* Tailwind slate-200 */
         }
-        #loadingMessage {
-            text-align: center;
-            padding: 20px;
-            font-size: 1.2em;
-            color: #666;
+        
+        /* Ensure scrolling for content and sidebar */
+        /* Updated max-height to account for potential header/footer if added */
+        .sidebar {
+            max-height: calc(100vh - 40px); 
+            overflow-y: auto;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .sidebar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .content-area {
+            max-height: calc(100vh - 40px); 
+            overflow-y: auto;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .content-area::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 767px) { /* Targeting screens smaller than md (768px) */
+            .main-container {
+                flex-direction: column; /* Stack sidebar and content vertically */
+            }
+            .sidebar {
+                width: 100%; /* Sidebar takes full width */
+                max-height: 250px; /* Limit height for scrollable categories on small screens */
+                border-right: none; /* Remove right border */
+                border-bottom: 1px solid #bfdbfe; /* Add bottom border (blue-200) */
+            }
+            .content-area {
+                width: 100%; /* Content takes full width */
+                max-height: none; /* Allow content to expand as needed */
+            }
+            .search-container {
+                flex-direction: column; /* Stack search input and button */
+                gap: 1rem; /* Add space between stacked items */
+            }
+            .search-container button {
+                width: 100%; /* Make search button full width */
+            }
+            .detail-line {
+                flex-direction: column; /* Stack label and content in detail lines */
+                align-items: flex-start; /* Align text to the start */
+            }
+            .copy-button {
+                margin-left: 0; /* Remove left margin when stacked */
+                margin-top: 0.5rem; /* Add some top margin for spacing */
+                align-self: flex-end; /* Align copy button to the end when stacked */
+            }
+        }
+        @media (min-width: 768px) { /* On medium screens and up */
+            .main-container {
+                flex-direction: row; /* Layout sidebar and content side-by-side */
+            }
+            .sidebar {
+                width: 64; /* Revert to fixed width */
+                border-right: 1px solid #bfdbfe; /* Re-add right border */
+                border-bottom: none; /* Remove bottom border */
+            }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Pencarian Informasi Kerentanan OWASP WSTG/ASVS</h1>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Cari berdasarkan judul, deskripsi, atau kategori..." onkeyup="showSuggestions()">
-            <button onclick="searchData()">Cari</button>
-            <div id="suggestionsBox" class="suggestions-box" style="display: none;"></div>
+<body class="bg-blue-50 p-5 flex min-h-screen">
+    <div class="main-container flex flex-col md:flex-row w-full max-w-6xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+        
+        <div class="sidebar w-full md:w-64 p-6 border-b md:border-b-0 md:border-r flex-shrink-0">
+            <h2 class="text-2xl font-semibold mb-6">
+                <i class="fas fa-sitemap mr-2 text-blue-600"></i> Categories
+            </h2>
+            <ul id="categoryList" class="list-none p-0 m-0">
+                <li class="category-item py-2 px-3 cursor-pointer text-blue-600 hover:bg-blue-200 rounded-md transition-colors duration-200" onclick="filterByCategory('')">
+                    <i class="fas fa-layer-group mr-2 text-red-500"></i> All Categories
+                </li>
+            </ul>
         </div>
-        <div id="loadingMessage">Memuat data dari GitHub...</div>
-        <div id="results">
+
+        <div class="content-area flex-grow p-6">
+            <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">
+                <i class="fas fa-shield-alt mr-3 text-blue-600"></i> OWASP WSTG/ASVS Vulnerability Information Search
+            </h1>
+            
+            <div class="search-container relative flex flex-col md:flex-row gap-3 mb-6">
+                <div class="relative flex-grow">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-yellow-500"></i>
+                    <input type="text" id="searchInput" placeholder="Search by title, description, or category..." 
+                           class="w-full pl-10 pr-3 py-3 bg-white text-gray-800 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg" 
+                           onkeyup="showSuggestions()">
+                </div>
+                <button onclick="searchData()" 
+                        class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center">
+                    <i class="fas fa-search mr-2"></i> Search
+                </button>
+                <div id="suggestionsBox" class="suggestions-box absolute top-full left-0 right-0 bg-white border border-blue-300 rounded-b-md shadow-lg max-h-52 overflow-y-auto z-10 hidden"></div>
             </div>
+            
+            <div id="loadingMessage" class="text-center text-blue-600 py-8">
+                <i class="fas fa-spinner fa-spin mr-2 text-green-500"></i> Loading data from GitHub...
+            </div>
+            
+            <div id="results">
+            </div>
+        </div>
     </div>
 
     <script>
@@ -153,17 +163,141 @@
                 }
                 
                 jsonData = await response.json();
-                document.getElementById('loadingMessage').style.display = 'none'; 
+                document.getElementById('loadingMessage').classList.add('hidden'); // Hide loading message
+                populateCategories(); 
                 searchData(""); 
             } catch (error) {
-                console.error('Gagal memuat data JSON:', error);
+                console.error('Failed to load JSON data:', error);
                 const loadingMessage = document.getElementById('loadingMessage');
-                loadingMessage.textContent = 'Gagal memuat data. Kemungkinan disebabkan oleh kebijakan CORS saat diakses secara lokal. Coba jalankan dengan server lokal.';
-                loadingMessage.style.color = 'red';
+                loadingMessage.innerHTML = '<p class="text-red-500"><i class="fas fa-exclamation-triangle mr-2 text-red-500"></i> Failed to load data. This might be due to CORS policy when accessed locally. Try running with a local server.</p>';
+                loadingMessage.classList.remove('text-blue-600'); // Remove initial color
             }
         }
 
-        function searchData(searchTerm = document.getElementById('searchInput').value, expandIndex = -1) {
+        function populateCategories() {
+            const categoryList = document.getElementById('categoryList');
+            categoryList.innerHTML = `
+                <li class="category-item py-2 px-3 cursor-pointer text-blue-600 hover:bg-blue-200 rounded-md transition-colors duration-200" onclick="filterByCategory('')">
+                    <i class="fas fa-layer-group mr-2 text-red-500"></i> All Categories
+                </li>
+            `;
+
+            const categories = new Set();
+            jsonData.forEach(item => {
+                if (item.category) {
+                    categories.add(item.category);
+                }
+            });
+
+            const sortedCategories = Array.from(categories).sort();
+
+            sortedCategories.forEach(category => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('category-item', 'py-2', 'px-3', 'cursor-pointer', 'text-gray-700', 'hover:text-blue-700', 'hover:bg-blue-200', 'rounded-md', 'transition-colors', 'duration-200');
+                // Use a default blue for individual category icons, or cycle colors if desired for more variety
+                listItem.innerHTML = `<i class="fas fa-tag mr-2 text-blue-500"></i> ${category}`; 
+                listItem.onclick = () => filterByCategory(category);
+                categoryList.appendChild(listItem);
+            });
+            // Initial highlight for "All Categories"
+            filterByCategory('');
+        }
+
+        function filterByCategory(categoryTerm) {
+            document.getElementById('searchInput').value = ''; 
+            searchData('', -1, categoryTerm); 
+
+            const categoryItems = document.querySelectorAll('.category-item');
+            categoryItems.forEach(item => {
+                item.classList.remove('font-bold', 'text-blue-600'); 
+                item.classList.add('text-gray-700'); 
+                // Reset individual category icon color
+                if (item.textContent.includes('All Categories')) {
+                    item.querySelector('i').classList.remove('text-blue-600'); 
+                    item.querySelector('i').classList.add('text-red-500'); 
+                } else {
+                    item.querySelector('i').classList.remove('text-blue-600');
+                    item.querySelector('i').classList.add('text-blue-500'); 
+                }
+            });
+            
+            // Find and bold the clicked category
+            if (categoryTerm === '') {
+                // "All Categories" is the first item
+                categoryItems[0].classList.add('font-bold', 'text-blue-600');
+                categoryItems[0].classList.remove('text-gray-700');
+                categoryItems[0].querySelector('i').classList.add('text-blue-600'); 
+                categoryItems[0].querySelector('i').classList.remove('text-red-500'); // Ensure it's not red when active
+            } else {
+                const activeItem = Array.from(categoryItems).find(item => item.textContent.includes(categoryTerm)); 
+                if (activeItem) {
+                    activeItem.classList.add('font-bold', 'text-blue-600');
+                    activeItem.classList.remove('text-gray-700');
+                    activeItem.querySelector('i').classList.add('text-blue-600'); 
+                    activeItem.querySelector('i').classList.remove('text-blue-500'); // Ensure it's active blue
+                }
+            }
+        }
+
+        function createDetailLine(label, content, rawContent, iconClass = '', iconColorClass = 'text-blue-500') {
+            const detailLine = document.createElement('div');
+            detailLine.classList.add('detail-line', 'flex', 'items-start', 'justify-between', 'mb-2');
+
+            const textSpan = document.createElement('span');
+            textSpan.classList.add('detail-text', 'text-gray-700');
+            textSpan.innerHTML = `<strong class="font-semibold ">${iconClass ? `<i class="${iconClass} mr-2 ${iconColorClass}"></i>` : ''}${label}:</strong> ${content}`; 
+            detailLine.appendChild(textSpan);
+
+            if (rawContent) { 
+                const copyButton = document.createElement('button');
+                copyButton.classList.add('copy-button');
+                copyButton.innerHTML = '&#x2398;'; 
+                copyButton.onclick = () => {
+                    copyToClipboard(rawContent);
+                    copyButton.innerHTML = '&#x2714;'; 
+                    copyButton.style.color = '#64748b'; 
+                    setTimeout(() => { 
+                        copyButton.innerHTML = '&#x2398;'; 
+                        copyButton.style.color = '#64748b'; 
+                    }, 1500); 
+                };
+                detailLine.appendChild(copyButton);
+            }
+            return detailLine;
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    // console.log('Text copied to clipboard');
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                    fallbackCopyTextToClipboard(text); 
+                });
+            } else {
+                fallbackCopyTextToClipboard(text); 
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                // console.log('Text copied to clipboard (fallback)');
+            } catch (err) {
+                console.error('Fallback: Could not copy text: ', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function searchData(searchTerm = document.getElementById('searchInput').value, expandIndex = -1, categoryFilter = '') {
             const resultsContainer = document.getElementById('results');
             resultsContainer.innerHTML = ''; 
 
@@ -172,36 +306,38 @@
             }
 
             const lowerCaseSearchTerm = searchTerm.toLowerCase();
+            const lowerCaseCategoryFilter = categoryFilter.toLowerCase();
 
             const filteredData = jsonData.filter(item => {
-                if (item.category && item.category.toLowerCase().includes(lowerCaseSearchTerm)) {
-                    return true;
-                }
-                if (item.details && item.details.some(detail =>
-                    (detail.title && detail.title.toLowerCase().includes(lowerCaseSearchTerm)) ||
-                    (detail.description && detail.description.toLowerCase().includes(lowerCaseSearchTerm))
-                )) {
-                    return true;
-                }
-                return false;
+                const matchesCategory = categoryFilter === '' || (item.category && item.category.toLowerCase() === lowerCaseCategoryFilter);
+                
+                const matchesSearchTerm = lowerCaseSearchTerm === '' || (
+                    (item.category && item.category.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                    (item.details && item.details.some(detail =>
+                        (detail.title && detail.title.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                        (detail.description && detail.description.toLowerCase().includes(lowerCaseSearchTerm))
+                    ))
+                );
+                
+                return matchesCategory && matchesSearchTerm;
             });
 
-            if (filteredData.length === 0 && lowerCaseSearchTerm.length > 0) {
-                resultsContainer.innerHTML = '<p class="no-results">Tidak ada hasil ditemukan.</p>';
+            if (filteredData.length === 0 && (lowerCaseSearchTerm.length > 0 || lowerCaseCategoryFilter.length > 0)) {
+                resultsContainer.innerHTML = '<p class="text-center text-gray-500 italic py-8"><i class="fas fa-exclamation-circle mr-2 text-red-500"></i> No results found for the current filter/search.</p>'; 
                 return;
-            } else if (filteredData.length === 0 && lowerCaseSearchTerm.length === 0) {
-                resultsContainer.innerHTML = '<p class="no-results">Tidak ada data untuk ditampilkan.</p>';
+            } else if (filteredData.length === 0 && lowerCaseSearchTerm.length === 0 && lowerCaseCategoryFilter.length === 0) {
+                resultsContainer.innerHTML = '<p class="text-center text-gray-500 italic py-8"><i class="fas fa-info-circle mr-2 text-blue-500"></i> No data to display.</p>'; 
                 return;
             }
 
             filteredData.forEach((item, index) => {
                 const resultItem = document.createElement('div');
-                resultItem.classList.add('result-item');
+                resultItem.classList.add('result-item', 'bg-white', 'border', 'border-blue-200', 'rounded-lg', 'p-5', 'mb-4', 'shadow-md');
 
                 if (item.category) {
                     const category = document.createElement('p');
-                    category.classList.add('category');
-                    category.textContent = `Kategori: ${item.category}`;
+                    category.classList.add('font-bold', 'mb-3', 'text-sm');
+                    category.innerHTML = `<i class="fas fa-folder mr-2 text-green-500"></i> Category: ${item.category}`; 
                     resultItem.appendChild(category);
                 }
 
@@ -209,62 +345,79 @@
                     const mainDetail = item.details[0]; 
 
                     const title = document.createElement('h3');
-                    title.textContent = mainDetail.title || "Judul Tidak Tersedia";
+                    title.classList.add('text-xl', 'font-semibold', 'cursor-pointer', 'hover:underline', 'mb-3');
+                    title.innerHTML = `<i class="fas fa-bug mr-2 text-blue-600"></i> ${mainDetail.title || "Title Not Available"}`; 
                     const originalIndex = jsonData.indexOf(item); 
                     title.setAttribute('data-original-index', originalIndex);
                     title.onclick = toggleDetails;
                     resultItem.appendChild(title);
 
                     const detailsContent = document.createElement('div');
-                    detailsContent.classList.add('details-content');
+                    detailsContent.classList.add('details-content', 'hidden', 'mt-4', 'pt-4', 'border-t', 'border-dashed', 'border-blue-200');
                     detailsContent.id = `details-${originalIndex}`; 
                     
                     if (originalIndex === expandIndex) {
-                        detailsContent.classList.add('show');
+                        detailsContent.classList.add('show', 'block'); 
                     }
                     
-                    // --- Penambahan Detail CVSS, VulnType, dan References ---
+                    // Assigning Google colors to detail icons
                     if (item.cvssv3) {
-                        const cvss = document.createElement('p');
-                        cvss.innerHTML = `<strong>CVSSv3:</strong> ${item.cvssv3}`;
-                        detailsContent.appendChild(cvss);
+                        detailsContent.appendChild(createDetailLine('CVSSv3', item.cvssv3, item.cvssv3, 'fas fa-chart-bar', 'text-yellow-500')); 
                     }
 
                     if (mainDetail.vulnType) {
-                        const vulnType = document.createElement('p');
-                        vulnType.innerHTML = `<strong>Tipe Kerentanan:</strong> ${mainDetail.vulnType}`;
-                        detailsContent.appendChild(vulnType);
+                        detailsContent.appendChild(createDetailLine('Vulnerability Type', mainDetail.vulnType, mainDetail.vulnType, 'fas fa-shield-virus', 'text-green-500')); 
                     }
-                    // --- Akhir Penambahan ---
                     
                     item.details.forEach(detail => {
-                        const description = document.createElement('div');
-                        description.innerHTML = `<strong>Deskripsi:</strong> ${detail.description || "Deskripsi tidak tersedia."}`;
-                        detailsContent.appendChild(description);
+                        const descriptionText = detail.description ? detail.description.replace(/<[^>]*>/g, '') : "Description not available.";
+                        const observationText = detail.observation ? detail.observation.replace(/<[^>]*>/g, '') : "Observation not available.";
+                        const remediationText = detail.remediation ? detail.remediation.replace(/<[^>]*>/g, '') : "Remediation not available.";
 
-                        const observation = document.createElement('div');
-                        observation.innerHTML = `<strong>Observasi:</strong> ${detail.observation || "Observasi tidak tersedia."}`;
-                        detailsContent.appendChild(observation);
-
-                        const remediation = document.createElement('div');
-                        remediation.innerHTML = `<strong>Remediasi:</strong> ${detail.remediation || "Remediasi tidak tersedia."}`;
-                        detailsContent.appendChild(remediation);
+                        detailsContent.appendChild(createDetailLine('Description', detail.description || "Description not available.", descriptionText, 'fas fa-info-circle', 'text-blue-500')); 
+                        detailsContent.appendChild(createDetailLine('Observation', detail.observation || "Observation not available.", observationText, 'fas fa-eye', 'text-red-500')); 
+                        detailsContent.appendChild(createDetailLine('Remediation', detail.remediation || "Remediation not available.", remediationText, 'fas fa-wrench', 'text-yellow-500')); 
 
                         if (detail.references && detail.references.length > 0) {
-                            const references = document.createElement('p');
-                            references.innerHTML = '<strong>Referensi:</strong>';
-                            const refList = document.createElement('ul');
+                            const referencesList = document.createElement('div');
+                            referencesList.classList.add('detail-line', 'flex', 'items-start', 'justify-between', 'mb-2');
+                            const refTextSpan = document.createElement('span');
+                            refTextSpan.classList.add('detail-text', 'text-gray-700');
+                            refTextSpan.innerHTML = `<strong class="font-semibold"><i class="fas fa-link mr-2 text-green-500"></i> References:</strong>`; 
+                            const refList = document.createElement('ul', 'list-disc', 'list-inside', 'mt-1', 'space-y-1'); 
+                            let rawReferences = []; 
+
                             detail.references.forEach(ref => {
                                 const listItem = document.createElement('li');
+                                listItem.classList.add('text-sm'); 
                                 const link = document.createElement('a');
                                 link.href = ref;
                                 link.textContent = ref;
                                 link.target = "_blank";
+                                link.classList.add('text-blue-500', 'hover:underline');
                                 listItem.appendChild(link);
                                 refList.appendChild(listItem);
+                                rawReferences.push(ref); 
                             });
-                            references.appendChild(refList);
-                            detailsContent.appendChild(references);
+                            refTextSpan.appendChild(refList);
+                            referencesList.appendChild(refTextSpan);
+                            
+                            if (rawReferences.length > 0) {
+                                const copyButton = document.createElement('button');
+                                copyButton.classList.add('copy-button');
+                                copyButton.innerHTML = '&#x2398;'; 
+                                copyButton.onclick = () => {
+                                    copyToClipboard(rawReferences.join('\n')); 
+                                    copyButton.innerHTML = '&#x2714;'; 
+                                    copyButton.style.color = '#64748b'; 
+                                    setTimeout(() => { 
+                                        copyButton.innerHTML = '&#x2398;'; 
+                                        copyButton.style.color = '#64748b'; 
+                                    }, 1500);
+                                };
+                                referencesList.appendChild(copyButton);
+                            }
+                            detailsContent.appendChild(referencesList);
                         }
                     });
                     resultItem.appendChild(detailsContent);
@@ -276,7 +429,8 @@
         function toggleDetails(event) {
             const originalIndex = event.target.getAttribute('data-original-index');
             const detailsContent = document.getElementById(`details-${originalIndex}`);
-            detailsContent.classList.toggle('show'); 
+            detailsContent.classList.toggle('hidden'); 
+            detailsContent.classList.toggle('block'); 
         }
 
         function showSuggestions() {
@@ -286,9 +440,30 @@
             suggestionsBox.innerHTML = '';
 
             if (jsonData.length === 0) {
-                suggestionsBox.style.display = 'none';
+                suggestionsBox.classList.add('hidden');
                 return;
             }
+
+            const categoryItems = document.querySelectorAll('.category-item');
+            categoryItems.forEach(item => {
+                item.classList.remove('font-bold'); 
+                item.classList.add('text-gray-700'); 
+                // Specific color for "All Categories" icon
+                if (item.textContent.includes('All Categories')) {
+                    item.querySelector('i').classList.remove('text-blue-600'); 
+                    item.querySelector('i').classList.add('text-red-500'); 
+                } else {
+                    // Default color for other category icons
+                    item.querySelector('i').classList.remove('text-blue-600');
+                    item.querySelector('i').classList.add('text-blue-500'); 
+                }
+            });
+            if (searchTerm.length === 0) { 
+                categoryItems[0].classList.add('font-bold', 'text-blue-600');
+                categoryItems[0].classList.remove('text-gray-700');
+                categoryItems[0].querySelector('i').classList.add('text-red-500'); // Keep "All Categories" red when active and search is empty
+            }
+
 
             if (searchTerm.length >= 3) {
                 const matchedSuggestions = new Map();
@@ -318,21 +493,21 @@
                 if (matchedSuggestions.size > 0) {
                     matchedSuggestions.forEach((originalIndex, suggestionText) => {
                         const suggestionItem = document.createElement('div');
-                        suggestionItem.classList.add('suggestion-item');
+                        suggestionItem.classList.add('py-2', 'px-3', 'cursor-pointer', 'border-b', 'border-blue-200', 'last:border-b-0', 'hover:bg-blue-100', 'text-gray-800');
                         suggestionItem.textContent = suggestionText;
                         suggestionItem.onclick = () => {
                             searchInput.value = suggestionText;
-                            suggestionsBox.style.display = 'none';
+                            suggestionsBox.classList.add('hidden');
                             searchData(suggestionText, originalIndex); 
                         };
                         suggestionsBox.appendChild(suggestionItem);
                     });
-                    suggestionsBox.style.display = 'block';
+                    suggestionsBox.classList.remove('hidden');
                 } else {
-                    suggestionsBox.style.display = 'none';
+                    suggestionsBox.classList.add('hidden');
                 }
             } else {
-                suggestionsBox.style.display = 'none';
+                suggestionsBox.classList.add('hidden');
                 searchData(""); 
             }
         }
@@ -341,7 +516,7 @@
             const suggestionsBox = document.getElementById('suggestionsBox');
             const searchInput = document.getElementById('searchInput');
             if (event.target !== suggestionsBox && event.target !== searchInput && !suggestionsBox.contains(event.target)) {
-                suggestionsBox.style.display = 'none';
+                suggestionsBox.classList.add('hidden');
             }
         });
 
