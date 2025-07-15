@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Kerentanan OWASP WSTG/ASVS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .search-container {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-container input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .search-container button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+        .suggestions-box {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 4px 4px;
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+        .result-item {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .result-item h3 {
+            margin-top: 0;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .result-item h3:hover {
+            text-decoration: underline;
+        }
+        .result-item .category {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .details-content {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #eee;
+        }
+        .details-content.show {
+            display: block;
+        }
+        .details-content p {
+            margin-bottom: 5px;
+            line-height: 1.6;
+        }
+        .details-content ul {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+        .details-content ul li {
+            margin-bottom: 3px;
+        }
+        .no-results {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+        #loadingMessage {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pencarian Informasi Kerentanan OWASP WSTG/ASVS</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Cari berdasarkan judul, deskripsi, atau kategori..." onkeyup="showSuggestions()">
+            <button onclick="searchData()">Cari</button>
+            <div id="suggestionsBox" class="suggestions-box" style="display: none;"></div>
+        </div>
+        <div id="loadingMessage">Memuat data dari GitHub...</div>
+        <div id="results">
+            </div>
+    </div>
+
+    <script>
+        let jsonData = []; // jsonData akan diisi setelah data dimuat
+
+        // Fungsi untuk memuat data JSON dari URL eksternal
+        async function loadJsonData() {
+            try {
+                // URL langsung ke file JSON di GitHub
+                const jsonUrl = 'https://raw.githubusercontent.com/pwndoc-ng/pwndoc-ng-database/main/OWASP_WSTG_ASVS_en.json';
+                const response = await fetch(jsonUrl); 
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                jsonData = await response.json();
+                document.getElementById('loadingMessage').style.display = 'none'; // Sembunyikan pesan loading
+                searchData(""); // Tampilkan semua data setelah dimuat
+            } catch (error) {
+                console.error('Gagal memuat data JSON:', error);
+                const loadingMessage = document.getElementById('loadingMessage');
+                loadingMessage.textContent = 'Gagal memuat data. Kemungkinan disebabkan oleh kebijakan CORS saat diakses secara lokal. Coba jalankan dengan server lokal.';
+                loadingMessage.style.color = 'red';
+            }
+        }
+
+        function searchData(searchTerm = document.getElementById('searchInput').value, expandIndex = -1) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = ''; 
+
+            if (jsonData.length === 0) {
+                // Jangan lakukan pencarian jika data belum dimuat
+                return;
+            }
+
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+            const filteredData = jsonData.filter(item => {
+                if (item.category && item.category.toLowerCase().includes(lowerCaseSearchTerm)) {
+                    return true;
+                }
+                if (item.details && item.details.some(detail =>
+                    (detail.title && detail.title.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                    (detail.description && detail.description.toLowerCase().includes(lowerCaseSearchTerm))
+                )) {
+                    return true;
+                }
+                return false;
+            });
+
+            if (filteredData.length === 0 && lowerCaseSearchTerm.length > 0) {
+                resultsContainer.innerHTML = '<p class="no-results">Tidak ada hasil ditemukan.</p>';
+                return;
+            } else if (filteredData.length === 0 && lowerCaseSearchTerm.length === 0) {
+                resultsContainer.innerHTML = '<p class="no-results">Tidak ada data untuk ditampilkan.</p>';
+                return;
+            }
+
+            filteredData.forEach((item, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('result-item');
+
+                if (item.category) {
+                    const category = document.createElement('p');
+                    category.classList.add('category');
+                    category.textContent = `Kategori: ${item.category}`;
+                    resultItem.appendChild(category);
+                }
+
+                if (item.details && item.details.length > 0) {
+                    const mainDetail = item.details[0]; 
+
+                    const title = document.createElement('h3');
+                    title.textContent = mainDetail.title || "Judul Tidak Tersedia";
+                    const originalIndex = jsonData.indexOf(item); 
+                    title.setAttribute('data-original-index', originalIndex);
+                    title.onclick = toggleDetails;
+                    resultItem.appendChild(title);
+
+                    const detailsContent = document.createElement('div');
+                    detailsContent.classList.add('details-content');
+                    detailsContent.id = `details-${originalIndex}`; 
+                    
+                    if (originalIndex === expandIndex) {
+                        detailsContent.classList.add('show');
+                    }
+                    
+                    item.details.forEach(detail => {
+                        const description = document.createElement('div');
+                        description.innerHTML = `<strong>Deskripsi:</strong> ${detail.description || "Deskripsi tidak tersedia."}`;
+                        detailsContent.appendChild(description);
+
+                        const observation = document.createElement('div');
+                        observation.innerHTML = `<strong>Observasi:</strong> ${detail.observation || "Observasi tidak tersedia."}`;
+                        detailsContent.appendChild(observation);
+
+                        const remediation = document.createElement('div');
+                        remediation.innerHTML = `<strong>Remediasi:</strong> ${detail.remediation || "Remediasi tidak tersedia."}`;
+                        detailsContent.appendChild(remediation);
+
+                        if (detail.references && detail.references.length > 0) {
+                            const references = document.createElement('p');
+                            references.innerHTML = '<strong>Referensi:</strong>';
+                            const refList = document.createElement('ul');
+                            detail.references.forEach(ref => {
+                                const listItem = document.createElement('li');
+                                const link = document.createElement('a');
+                                link.href = ref;
+                                link.textContent = ref;
+                                link.target = "_blank";
+                                listItem.appendChild(link);
+                                refList.appendChild(listItem);
+                            });
+                            references.appendChild(refList);
+                            detailsContent.appendChild(references);
+                        }
+                    });
+                    resultItem.appendChild(detailsContent);
+                } 
+                resultsContainer.appendChild(resultItem);
+            });
+        }
+
+        function toggleDetails(event) {
+            const originalIndex = event.target.getAttribute('data-original-index');
+            const detailsContent = document.getElementById(`details-${originalIndex}`);
+            detailsContent.classList.toggle('show'); 
+        }
+
+        function showSuggestions() {
+            const searchInput = document.getElementById('searchInput');
+            const suggestionsBox = document.getElementById('suggestionsBox');
+            const searchTerm = searchInput.value.toLowerCase();
+            suggestionsBox.innerHTML = '';
+
+            if (jsonData.length === 0) {
+                // Jangan tampilkan saran jika data belum dimuat
+                suggestionsBox.style.display = 'none';
+                return;
+            }
+
+            if (searchTerm.length >= 3) {
+                const matchedSuggestions = new Map();
+
+                jsonData.forEach((item, originalIndex) => {
+                    let addedSuggestionForItem = false; 
+
+                    if (item.category && item.category.toLowerCase().includes(searchTerm)) {
+                        if (!matchedSuggestions.has(item.category)) {
+                            matchedSuggestions.set(item.category, originalIndex);
+                            addedSuggestionForItem = true;
+                        }
+                    }
+                    
+                    if (item.details) {
+                        item.details.forEach(detail => {
+                            if (detail.title && detail.title.toLowerCase().includes(searchTerm) && !addedSuggestionForItem) {
+                                if (!matchedSuggestions.has(detail.title)) {
+                                    matchedSuggestions.set(detail.title, originalIndex);
+                                    addedSuggestionForItem = true; 
+                                }
+                            }
+                        });
+                    }
+                });
+
+                if (matchedSuggestions.size > 0) {
+                    matchedSuggestions.forEach((originalIndex, suggestionText) => {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.classList.add('suggestion-item');
+                        suggestionItem.textContent = suggestionText;
+                        suggestionItem.onclick = () => {
+                            searchInput.value = suggestionText;
+                            suggestionsBox.style.display = 'none';
+                            searchData(suggestionText, originalIndex); 
+                        };
+                        suggestionsBox.appendChild(suggestionItem);
+                    });
+                    suggestionsBox.style.display = 'block';
+                } else {
+                    suggestionsBox.style.display = 'none';
+                }
+            } else {
+                suggestionsBox.style.display = 'none';
+                searchData(""); 
+            }
+        }
+
+        document.addEventListener('click', (event) => {
+            const suggestionsBox = document.getElementById('suggestionsBox');
+            const searchInput = document.getElementById('searchInput');
+            if (event.target !== suggestionsBox && event.target !== searchInput && !suggestionsBox.contains(event.target)) {
+                suggestionsBox.style.display = 'none';
+            }
+        });
+
+        // Panggil fungsi loadJsonData saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', loadJsonData);
+    </script>
+</body>
+</html>
