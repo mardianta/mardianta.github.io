@@ -1,0 +1,124 @@
+================================================================================
+PROPOSAL PROYEK: PENILAIAN DAN KUANTIFIKASI RISIKO ASET DIGITAL
+================================================================================
+
+UNTUK:
+[Nama Perusahaan Klien]
+[Alamat Perusahaan Klien]
+
+DISIAPKAN UNTUK:
+Bapak/Ibu [Nama Kontak Klien]
+[Jabatan Kontak Klien]
+
+DARI:
+Tim Konsultan, DataLindung ID
+
+TANGGAL:
+[Tanggal Proposal]
+
+NOMOR PROPOSAL:
+DL-ID-VAL-[Tahun]-[Bulan]-[Nomor Urut]
+
+--------------------------------------------------------------------------------
+
+1. RINGKASAN EKSEKUTIF
+
+Di era ekonomi digital, aset paling berharga sebuah perusahaan seringkali tidak berwujud: data pelanggan, kekayaan intelektual, reputasi online, dan sistem operasional internal. Namun, banyak perusahaan kesulitan untuk menetapkan nilai finansial konkret pada aset-aset ini, sehingga sulit untuk memprioritaskan investasi keamanan dan memahami dampak sebenarnya dari sebuah insiden siber.
+
+DataLindung ID mengusulkan sebuah proyek konsultasi untuk melakukan **Penilaian dan Kuantifikasi Risiko Aset Digital**. Proyek ini bertujuan untuk mengidentifikasi aset digital krusial milik [Nama Perusahaan Klien], menilai nilainya secara kualitatif dan kuantitatif, serta memodelkan potensi kerugian finansial (Financial Impact) jika aset tersebut terkompromi akibat kebocoran data, downtime, atau serangan siber lainnya.
+
+Hasil dari proyek ini akan memberikan dasar yang kuat bagi manajemen untuk membuat keputusan strategis berbasis data terkait alokasi anggaran keamanan, prioritas perlindungan aset, dan perencanaan respons insiden.
+
+--------------------------------------------------------------------------------
+
+2. LATAR BELAKANG MASALAH
+
+Perusahaan Anda menghadapi tantangan umum dalam mengelola keamanan siber:
+
+*   **Kesulitan Mengukur ROI Keamanan:** Tanpa nilai aset yang jelas, sulit untuk menjustifikasi anggaran keamanan dan membuktikan Return on Investment (ROI) dari sebuah inisiatif proteksi.
+*   **Prioritas yang Tidak Jelas:** Aset mana yang harus dilindungi paling ketat? Jawaban atas pertanyaan ini seringkali bersifat subjektif tanpa adanya penilaian risiko kuantitatif.
+*   **Kurangnya Pemahaman Dampak Finansial:** Ketika insiden terjadi, seringkali sulit untuk menghitung kerugian sebenarnya yang mencakup biaya pemulihan, hilangnya pendapatan, kerusakan reputasi, dan denda kepatuhan.
+
+Proyek ini dirancang untuk menjawab tantangan-tantangan tersebut dengan menyediakan metodologi terstruktur untuk menilai aset digital Anda.
+
+--------------------------------------------------------------------------------
+
+3. TUJUAN & RUANG LINGKUP PROYEK
+
+**Tujuan Utama:**
+1.  Mengidentifikasi dan mengkategorikan aset digital kritis milik [Nama Perusahaan Klien].
+2.  Menetapkan nilai finansial atau dampak bisnis dari setiap kategori aset.
+3.  Menganalisis skenario ancaman yang paling relevan untuk setiap aset.
+4.  Menghasilkan laporan kuantifikasi risiko yang memetakan potensi kerugian finansial.
+
+**Ruang Lingkup (Deliverables):**
+*   **Digital Asset Inventory:** Sebuah daftar terstruktur dari aset-aset digital utama perusahaan (misalnya: database pelanggan, kode sumber aplikasi, akun admin media sosial, platform e-commerce, dll.).
+*   **Asset Valuation Report:** Laporan yang merinci metodologi penilaian dan estimasi nilai untuk setiap aset kunci.
+*   **Risk Quantification Model:** Sebuah model (biasanya dalam spreadsheet atau dashboard) yang menghitung *Annual Loss Expectancy* (ALE) berdasarkan *Single Loss Expectancy* (SLE) dan *Annualized Rate of Occurrence* (ARO) untuk skenario ancaman utama.
+*   **Executive Presentation:** Presentasi ringkas untuk manajemen yang menyoroti temuan-temuan utama dan rekomendasi strategis.
+
+--------------------------------------------------------------------------------
+
+4. METODOLOGI PELAKSANAAN
+
+Proyek ini akan dilaksanakan dalam empat fase utama:
+
+**Fase 1: Identifikasi & Workshop (Minggu 1-2)**
+*   Melakukan workshop dengan para pemangku kepentingan (IT, Keuangan, Marketing, Operasional) untuk mengidentifikasi dan memetakan aset digital kritis.
+*   Mengumpulkan data terkait pendapatan, biaya operasional, dan metrik bisnis lain yang terhubung dengan aset tersebut.
+
+**Fase 2: Valuasi Aset (Minggu 3-4)**
+*   Menerapkan beberapa metode valuasi, antara lain:
+    *   **Cost Approach:** Berapa biaya untuk membuat ulang aset ini dari awal?
+    *   **Market Approach:** Berapa nilai aset serupa di pasar? (Jika ada data pembanding).
+    *   **Income Approach:** Berapa besar pendapatan yang dihasilkan atau biaya yang dihemat oleh aset ini?
+*   Menetapkan nilai kualitatif (Kritis, Tinggi, Sedang, Rendah) dan kuantitatif (estimasi dalam IDR).
+
+**Fase 3: Analisis & Kuantifikasi Risiko (Minggu 5-6)**
+*   Mengidentifikasi skenario ancaman yang paling mungkin terjadi untuk setiap aset (cth: kebocoran data akibat *stealer log*, serangan ransomware, pengambilalihan akun).
+*   Menghitung *Single Loss Expectancy* (SLE) = Nilai Aset (AV) x Faktor Eksposur (EF).
+*   Mengestimasi *Annualized Rate of Occurrence* (ARO) atau frekuensi ancaman per tahun.
+*   Menghitung *Annual Loss Expectancy* (ALE) = SLE x ARO.
+
+**Fase 4: Pelaporan & Presentasi (Minggu 7-8)**
+*   Menyusun semua laporan dan model kuantifikasi risiko.
+*   Menyiapkan dan menyampaikan presentasi hasil kepada tim manajemen [Nama Perusahaan Klien].
+
+--------------------------------------------------------------------------------
+
+5. INVESTASI PROYEK
+
+Proyek konsultasi **Penilaian dan Kuantifikasi Risiko Aset Digital** ini merupakan layanan berbasis proyek dengan investasi sebagai berikut:
+
+| Deskripsi Layanan                                     | Durasi Proyek | Biaya Proyek (IDR) |
+|-------------------------------------------------------|---------------|--------------------|
+| Jasa Konsultasi Penilaian Aset Digital (end-to-end)   | 8 Minggu      | Rp 95.000.000      |
+
+**Biaya tersebut mencakup:**
+*   Waktu dan keahlian dari 2 orang konsultan keamanan.
+*   Pelaksanaan workshop dan wawancara.
+*   Pengembangan semua laporan dan model yang tercantum dalam ruang lingkup.
+*   Sesi presentasi eksekutif.
+
+*Catatan: Harga belum termasuk PPN 11%. Pembayaran dibagi menjadi dua termin: 50% di muka saat penandatanganan kontrak, dan 50% setelah penyerahan laporan akhir.*
+
+--------------------------------------------------------------------------------
+
+6. LANGKAH SELANJUTNYA
+
+Memahami nilai dan risiko aset digital Anda adalah langkah fundamental untuk membangun postur keamanan yang tangguh dan efisien. Kami siap membantu Anda dalam perjalanan ini.
+
+Kami mengusulkan untuk menjadwalkan panggilan lanjutan untuk membahas proposal ini dan bagaimana metodologi kami dapat disesuaikan secara spesifik untuk [Nama Perusahaan Klien].
+
+Terima kasih atas perhatian dan kesempatan yang diberikan.
+
+Hormat kami,
+
+
+Tim Konsultan
+DataLindung ID
+www.datalindung.id
+
+================================================================================
+© 2025 DataLindung ID. Dokumen ini bersifat rahasia.
+================================================================================
