@@ -1,0 +1,140 @@
+================================================================================
+PROPOSAL LAYANAN: PENGUJIAN PENETRASI (PENETRATION TESTING)
+================================================================================
+
+UNTUK:
+[Nama Perusahaan Klien]
+[Alamat Perusahaan Klien]
+
+DISIAPKAN UNTUK:
+Bapak/Ibu [Nama Kontak Klien]
+[Jabatan Kontak Klien]
+
+DARI:
+Tim Keamanan Ofensif, DataLindung ID
+
+TANGGAL:
+[Tanggal Proposal]
+
+NOMOR PROPOSAL:
+DL-ID-PENTEST-[Tahun]-[Bulan]-[Nomor Urut]
+
+--------------------------------------------------------------------------------
+
+1. RINGKASAN EKSEKUTIF
+
+Mengetahui adanya data yang bocor adalah langkah pertama yang krusial. Langkah selanjutnya adalah memahami apakah celah keamanan yang ada pada sistem Anda dapat dieksploitasi secara aktif oleh penyerang menggunakan data tersebut atau metode lainnya.
+
+DataLindung ID mengusulkan layanan **Pengujian Penetrasi (Penetration Testing)** yang komprehensif untuk [Nama Perusahaan Klien]. Tujuan dari pengujian ini adalah untuk mensimulasikan serangan siber yang realistis terhadap infrastruktur digital Anda. Tim ahli kami akan secara etis mencoba menemukan dan mengeksploitasi kerentanan dalam aplikasi web, jaringan, dan sistem Anda.
+
+Hasil dari pengujian ini bukanlah sekadar daftar kerentanan, melainkan sebuah laporan strategis yang memberikan gambaran nyata tentang postur keamanan Anda, lengkap dengan bukti konsep (Proof of Concept) eksploitasi, penilaian dampak bisnis dari setiap temuan, serta rekomendasi teknis yang dapat ditindaklanjuti untuk perbaikan.
+
+--------------------------------------------------------------------------------
+
+2. TUJUAN PENGUJIAN
+
+Tujuan utama dari layanan Penetration Testing ini adalah:
+
+*   **Mengidentifikasi Kerentanan:** Menemukan kelemahan keamanan yang dapat dieksploitasi pada sistem target sebelum ditemukan oleh penyerang sungguhan.
+*   **Memvalidasi Postur Keamanan:** Menguji efektivitas kontrol keamanan yang sudah ada (firewall, WAF, IDS/IPS) dalam menghadapi serangan yang disimulasikan.
+*   **Menilai Dampak Bisnis:** Menunjukkan dampak nyata dari sebuah kerentanan jika berhasil dieksploitasi, seperti potensi akses tidak sah, pencurian data, atau gangguan layanan.
+*   **Memberikan Rekomendasi Perbaikan:** Menyediakan panduan teknis yang jelas dan terprioritaskan bagi tim IT dan developer untuk memperbaiki kerentanan yang ditemukan.
+*   **Mendukung Kepatuhan:** Membantu memenuhi persyaratan kepatuhan standar industri (seperti ISO 27001, PCI-DSS) yang mewajibkan pengujian keamanan secara berkala.
+
+--------------------------------------------------------------------------------
+
+3. RUANG LINGKUP & METODOLOGI
+
+Pengujian akan dilakukan dengan mengikuti standar industri dan metodologi yang telah terbukti, seperti OWASP Top 10, PTES (Penetration Testing Execution Standard), dan NIST SP 800-115.
+
+**Aset yang Menjadi Target (Scope):**
+*   **Aplikasi Web Eksternal:** [Contoh: www.namaklien.com, portal.namaklien.com]
+*   **Jaringan Eksternal:** Blok alamat IP publik [Contoh: 123.45.67.0/24]
+*   **Aplikasi Mobile (Opsional):** [Contoh: Aplikasi Klien di Android/iOS]
+*   **Jaringan Internal (Opsional):** Pengujian dari dalam jaringan perusahaan.
+
+**Metodologi Pengujian (Fase-fase):**
+
+1.  **Perencanaan & Pengintaian (Planning & Reconnaissance):**
+    *   Kick-off meeting untuk konfirmasi ruang lingkup, tujuan, dan Rules of Engagement (RoE).
+    *   Pengumpulan informasi pasif dan aktif terhadap target untuk memetakan permukaan serangan.
+
+2.  **Pemindaian & Analisis (Scanning & Analysis):**
+    *   Pemindaian kerentanan otomatis untuk mengidentifikasi "low-hanging fruits".
+    *   Analisis manual terhadap arsitektur aplikasi dan logika bisnis untuk menemukan celah yang tidak dapat dideteksi oleh pemindai.
+
+3.  **Eksploitasi (Exploitation / Gaining Access):**
+    *   Tim kami akan mencoba mengeksploitasi kerentanan yang teridentifikasi untuk mendapatkan akses.
+    *   Tindakan ini dilakukan secara terkendali untuk membuktikan risiko tanpa menyebabkan kerusakan. Contoh: SQL Injection, Cross-Site Scripting (XSS), eksploitasi miskonfigurasi server.
+
+4.  **Pasca-Eksploitasi (Post-Exploitation):**
+    *   Setelah mendapatkan akses awal, kami akan mencoba untuk meningkatkan hak akses (privilege escalation) dan bergerak secara lateral di dalam jaringan (jika termasuk dalam scope) untuk menunjukkan dampak maksimal dari sebuah pembobolan.
+
+5.  **Pelaporan (Reporting):**
+    *   Semua temuan, langkah-langkah eksploitasi, bukti konsep (screenshot, video), dan rekomendasi perbaikan akan didokumentasikan secara rinci dalam laporan akhir.
+
+--------------------------------------------------------------------------------
+
+4. DELIVERABLES (HASIL AKHIR)
+
+Klien akan menerima paket laporan komprehensif yang berisi:
+
+1.  **Laporan Teknis Lengkap:**
+    *   Deskripsi detail setiap kerentanan yang ditemukan.
+    *   Tingkat risiko (Kritis, Tinggi, Sedang, Rendah) berdasarkan dampak dan kemudahan eksploitasi.
+    *   Langkah-langkah reproduksi dan bukti konsep (Proof of Concept).
+    *   Rekomendasi teknis yang spesifik untuk perbaikan.
+
+2.  **Ringkasan Eksekutif:**
+    *   Sebuah ringkasan non-teknis yang ditujukan untuk manajemen, menyoroti temuan paling kritis, potensi dampak bisnis, dan gambaran umum postur keamanan.
+
+3.  **Sesi Presentasi Hasil (Debriefing):**
+    *   Sebuah sesi interaktif di mana tim kami akan mempresentasikan temuan kepada tim teknis dan manajemen Anda, serta menjawab pertanyaan yang ada.
+
+4.  **Dukungan Pasca-Pengujian:**
+    *   Tim kami akan tersedia selama 14 hari setelah penyerahan laporan untuk memberikan klarifikasi lebih lanjut mengenai temuan dan rekomendasi.
+
+--------------------------------------------------------------------------------
+
+5. INVESTASI PROYEK
+
+Layanan Penetration Testing ini adalah layanan berbasis proyek. Biaya ditentukan oleh kompleksitas dan luasnya ruang lingkup (scope) yang diuji.
+
+| Jenis Pengujian                                       | Lingkup Khas                                       | Estimasi Durasi | Estimasi Biaya (IDR) |
+|-------------------------------------------------------|----------------------------------------------------|-----------------|----------------------|
+| **Web Application Penetration Testing**               | 1 Aplikasi Web Kompleks (cth: E-commerce)          | 2 - 3 Minggu    | Mulai dari Rp 55.000.000 |
+| **External Network Penetration Testing**              | Hingga 32 alamat IP publik                         | 1 - 2 Minggu    | Mulai dari Rp 40.000.000 |
+| **Mobile Application Penetration Testing (per OS)**   | 1 Aplikasi Mobile (Android atau iOS)               | 2 Minggu        | Mulai dari Rp 60.000.000 |
+| **Paket Komprehensif**                                | 1 Aplikasi Web + Jaringan Eksternal                | 3 - 4 Minggu    | **Hubungi Kami** (Harga Spesial) |
+
+*Catatan: Harga di atas adalah estimasi awal dan dapat disesuaikan setelah finalisasi ruang lingkup. Harga belum termasuk PPN 11%.*
+
+--------------------------------------------------------------------------------
+
+6. RULES OF ENGAGEMENT (ATURAN MAIN)
+
+*   **Jadwal Pengujian:** Pengujian akan dilakukan pada jam kerja atau di luar jam kerja sesuai kesepakatan untuk meminimalkan dampak pada operasional.
+*   **Daftar Putih (Whitelist):** Klien perlu mendaftarkan alamat IP sumber tim penguji kami pada sistem keamanan (seperti WAF/IPS) jika diperlukan.
+*   **Kontak Darurat:** Kedua belah pihak akan menunjuk kontak darurat yang dapat dihubungi 24/7 selama periode pengujian.
+*   **Kerahasiaan:** Semua temuan akan diperlakukan sebagai informasi yang sangat rahasia dan dilindungi oleh Perjanjian Kerahasiaan (NDA).
+
+--------------------------------------------------------------------------------
+
+7. LANGKAH SELANJUTNYA
+
+Memvalidasi pertahanan Anda secara proaktif adalah investasi terbaik untuk mencegah insiden keamanan yang merugikan. Kami siap membantu Anda mengidentifikasi dan memperbaiki celah keamanan sebelum pihak lain menemukannya.
+
+Kami mengusulkan untuk menjadwalkan panggilan teknis singkat untuk membahas ruang lingkup pengujian secara lebih detail dan menjawab pertanyaan teknis apa pun yang mungkin Anda miliki.
+
+Terima kasih atas perhatian dan kepercayaan Anda kepada DataLindung ID.
+
+Hormat kami,
+
+
+Tim Keamanan Ofensif
+DataLindung ID
+www.datalindung.id
+
+================================================================================
+© 2025 DataLindung ID. Dokumen ini bersifat rahasia.
+================================================================================
