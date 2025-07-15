@@ -1,0 +1,133 @@
+================================================================================
+PROPOSAL PROGRAM: PELATIHAN & LOKAKARYA KESADARAN KEAMANAN SIBER
+================================================================================
+
+UNTUK:
+[Nama Perusahaan Klien]
+[Alamat Perusahaan Klien]
+
+DISIAPKAN UNTUK:
+Bapak/Ibu [Nama Kontak Klien]
+[Jabatan Kontak Klien]
+
+DARI:
+Tim Pelatihan & Edukasi, DataLindung ID
+
+TANGGAL:
+[Tanggal Proposal]
+
+NOMOR PROPOSAL:
+DL-ID-TRAIN-[Tahun]-[Bulan]-[Nomor Urut]
+
+--------------------------------------------------------------------------------
+
+1. RINGKASAN EKSEKUTIF
+
+Investasi dalam teknologi keamanan akan sia-sia jika tidak diimbangi dengan kesadaran dan kewaspadaan dari sumber daya manusia. Statistik menunjukkan lebih dari 80% insiden keamanan siber melibatkan faktor kelalaian manusia, seperti mengklik tautan phishing atau menggunakan password yang lemah. Karyawan yang teredukasi adalah garis pertahanan pertama (human firewall) yang paling efektif.
+
+DataLindung ID mengusulkan program **Pelatihan & Lokakarya Kesadaran Keamanan Siber** yang dirancang khusus untuk [Nama Perusahaan Klien]. Program ini bertujuan untuk mengubah perilaku karyawan dari titik terlemah menjadi aset keamanan terkuat. Melalui sesi yang interaktif, relevan, dan menarik, kami akan membekali tim Anda dengan pengetahuan dan keterampilan untuk mengidentifikasi, menghindari, dan melaporkan ancaman siber sehari-hari.
+
+Investasi dalam pelatihan ini adalah investasi langsung untuk mengurangi risiko insiden, melindungi data sensitif, menjaga reputasi perusahaan, dan membangun budaya keamanan yang tangguh dari dalam.
+
+--------------------------------------------------------------------------------
+
+2. MENGAPA PELATIHAN INI PENTING UNTUK ANDA?
+
+Berdasarkan pemahaman kami, [Nama Perusahaan Klien] menghadapi tantangan untuk:
+
+*   **Mengurangi Risiko Phishing & Malware:** Karyawan sering menjadi target utama email phishing yang dapat menyebabkan kebocoran kredensial atau infeksi ransomware.
+*   **Meningkatkan Higienitas Kata Sandi:** Penggunaan kata sandi yang lemah atau berulang di berbagai layanan membuka celah keamanan yang signifikan.
+*   **Membangun Budaya Melapor:** Mendorong karyawan untuk tidak takut melaporkan aktivitas mencurigakan, sekecil apa pun, kepada tim IT.
+*   **Memenuhi Standar Kepatuhan:** Banyak standar kepatuhan (seperti ISO 27001) yang mensyaratkan adanya program pelatihan kesadaran keamanan bagi seluruh karyawan.
+
+Program kami dirancang untuk secara langsung menjawab kebutuhan-kebutuhan ini melalui pendekatan yang praktis dan tidak teoretis semata.
+
+--------------------------------------------------------------------------------
+
+3. MODUL & KURIKULUM PELATIHAN
+
+Kami menawarkan beberapa paket pelatihan yang dapat disesuaikan. Setiap sesi dirancang untuk durasi 90-120 menit agar tetap menarik dan efektif.
+
+**A. Pelatihan Kesadaran Keamanan untuk Seluruh Karyawan (Awareness Training for All Staff)**
+   *Sangat direkomendasikan untuk semua level, dari staf hingga manajer non-IT.*
+   
+   *   **Modul 1: Lanskap Ancaman Modern**
+       - Memahami mengapa perusahaan Anda menjadi target.
+       - Studi kasus nyata: Bagaimana serangan terjadi pada perusahaan lain.
+   *   **Modul 2: Mengidentifikasi Serangan Phishing & Social Engineering**
+       - Anatomi email phishing, smishing (SMS phishing), dan vishing (voice phishing).
+       - Latihan interaktif: "Spot the Phish!"
+   *   **Modul 3: Keamanan Kata Sandi & Autentikasi Multi-Faktor (MFA)**
+       - Cara membuat dan mengelola kata sandi yang kuat.
+       - Pentingnya dan cara kerja MFA.
+   *   **Modul 4: Penggunaan Internet & Media Sosial yang Aman**
+       - Risiko Wi-Fi publik.
+       - Menjaga privasi dan tidak oversharing informasi perusahaan.
+   *   **Modul 5: Prosedur Pelaporan Insiden**
+       - Apa yang harus dilakukan jika Anda mencurigai sesuatu?
+       - Siapa yang harus dihubungi dan bagaimana caranya.
+
+**B. Lokakarya Teknis untuk Tim IT & Developer (Technical Workshop)**
+   *Dirancang untuk tim yang bertanggung jawab atas pengembangan dan pemeliharaan sistem.*
+
+   *   **Modul 1: Secure Software Development Lifecycle (SSDLC)**
+       - Mengintegrasikan keamanan sejak fase desain.
+   *   **Modul 2: Praktik Pengkodean Aman (Secure Coding Practices)**
+       - Mencegah kerentanan umum seperti SQL Injection, XSS, CSRF (berdasarkan OWASP Top 10).
+   *   **Modul 3: Manajemen Kerentanan & Patching**
+       - Strategi pemindaian dan remediasi kerentanan.
+   *   **Modul 4: Keamanan Cloud & Kontainer (Opsional)**
+       - Praktik terbaik untuk mengamankan infrastruktur cloud (AWS, Azure, GCP).
+
+**C. Simulasi Phishing Terkelola (Managed Phishing Simulation)**
+   *Layanan berkelanjutan untuk menguji dan mengukur efektivitas pelatihan.*
+   
+   *   Kami akan mengirimkan kampanye email phishing yang aman dan terkontrol secara berkala (misal: per kuartal) kepada karyawan.
+   *   Hasilnya (siapa yang mengklik, siapa yang melaporkan) akan dianalisis dan disajikan dalam laporan anonim untuk mengidentifikasi area yang perlu perbaikan.
+
+--------------------------------------------------------------------------------
+
+4. DELIVERABLES
+
+*   **Sesi Pelatihan Langsung:** Pelatihan interaktif yang dibawakan oleh instruktur berpengalaman (bisa secara tatap muka atau virtual).
+*   **Materi Pelatihan:** Salinan slide presentasi dan materi pendukung (infografis, checklist) untuk setiap peserta.
+*   **Sertifikat Partisipasi:** Sertifikat digital untuk setiap peserta yang menyelesaikan program.
+*   **Laporan Pasca-Pelatihan:** Ringkasan sesi, hasil kuis (jika ada), dan feedback dari peserta.
+*   **(Untuk Simulasi Phishing) Laporan Kampanye:** Analisis tingkat keberhasilan simulasi dan rekomendasi untuk pelatihan selanjutnya.
+
+--------------------------------------------------------------------------------
+
+5. INVESTASI PROGRAM
+
+Kami menawarkan model harga yang fleksibel berdasarkan jumlah peserta dan paket yang dipilih.
+
+| Program                                       | Deskripsi                                          | Estimasi Biaya (IDR) |
+|-------------------------------------------------|----------------------------------------------------|----------------------|
+| **Paket Awareness (per sesi)**                | 1 sesi (90-120 menit) untuk maks. 30 peserta.      | Rp 15.000.000        |
+|                                                 | *Diskon untuk beberapa sesi.*                      |                      |
+| **Lokakarya Teknis (per sesi)**               | 1 sesi (3 jam) untuk maks. 15 peserta teknis.      | Rp 25.000.000        |
+| **Simulasi Phishing (per tahun)**             | 4 kampanye per tahun untuk maks. 500 karyawan.     | Rp 45.000.000        |
+| **Paket Culture Builder (Sangat Direkomendasikan)** | 2 sesi Awareness + 1 kampanye Simulasi Phishing    | **Rp 65.000.000** (Hemat 10%) |
+
+*Catatan: Untuk pelatihan tatap muka di luar Jabodetabek, akan dikenakan biaya akomodasi dan transportasi tambahan. Harga belum termasuk PPN 11%.*
+
+--------------------------------------------------------------------------------
+
+6. LANGKAH SELANJUTNYA
+
+Membangun 'human firewall' adalah strategi keamanan dengan ROI tertinggi. Kami siap membantu [Nama Perusahaan Klien] dalam membangun budaya keamanan yang proaktif dan berkelanjutan.
+
+Kami dengan senang hati akan menjadwalkan panggilan untuk mendiskusikan kebutuhan spesifik Anda dan bagaimana kami dapat menyesuaikan kurikulum pelatihan ini agar paling relevan bagi tim Anda.
+
+Terima kasih atas waktu dan kesempatan yang telah diberikan.
+
+Hormat kami,
+
+
+Tim Pelatihan & Edukasi
+DataLindung ID
+www.datalindung.id
+
+================================================================================
+© 2025 DataLindung ID. Dokumen ini bersifat rahasia.
+================================================================================
