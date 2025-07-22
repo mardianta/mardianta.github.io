@@ -112,18 +112,27 @@
     <div class="main-container flex flex-col md:flex-row w-full max-w-6xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
         
         <div class="sidebar w-full md:w-64 p-6 border-b md:border-b-0 md:border-r flex-shrink-0">
-            <h2 class="text-2xl font-semibold mb-6">
+            <h2 class="text-2xl font-semibold mb-6" id="categories-title">
                 <i class="fas fa-sitemap mr-2 text-blue-600"></i> Categories
             </h2>
             <ul id="categoryList" class="list-none p-0 m-0">
                 <li class="category-item py-2 px-3 cursor-pointer text-blue-600 hover:bg-blue-200 rounded-md transition-colors duration-200" onclick="filterByCategory('')">
-                    <i class="fas fa-layer-group mr-2 text-red-500"></i> All Categories
+                    <i class="fas fa-layer-group mr-2 text-red-500"></i> <span id="all-categories-text">All Categories</span>
                 </li>
             </ul>
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold mb-3" id="language-title">
+                    <i class="fas fa-language mr-2 text-purple-600"></i> Language
+                </h3>
+                <select id="languageSelector" onchange="changeLanguage()" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <option value="en">English</option>
+                    <option value="id">Bahasa Indonesia</option>
+                </select>
+            </div>
         </div>
 
         <div class="content-area flex-grow p-6">
-            <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center" id="main-title">
                 <i class="fas fa-shield-alt mr-3 text-blue-600"></i> OWASP WSTG/ASVS Vulnerability Information Search
             </h1>
             
@@ -135,7 +144,7 @@
                            onkeyup="showSuggestions()">
                 </div>
                 <button onclick="searchData()" 
-                        class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center">
+                        class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center" id="search-button">
                     <i class="fas fa-search mr-2"></i> Search
                 </button>
                 <div id="suggestionsBox" class="suggestions-box absolute top-full left-0 right-0 bg-white border border-blue-300 rounded-b-md shadow-lg max-h-52 overflow-y-auto z-10 hidden"></div>
@@ -152,11 +161,96 @@
 
     <script>
         let jsonData = []; 
+        
+        // --- Objek Terjemahan (Translations Object) ---
+        const translations = {
+            en: {
+                categoriesTitle: "Categories",
+                allCategories: "All Categories",
+                languageTitle: "Language",
+                mainTitle: "OWASP WSTG/ASVS Vulnerability Information Search",
+                searchPlaceholder: "Search by title, description, or category...",
+                searchButton: "Search",
+                loadingMessage: "Loading data from GitHub...",
+                failedToLoad: "Failed to load data. This might be due to CORS policy when accessed locally. Try running with a local server.",
+                noResultsFound: "No results found for the current filter/search.",
+                noDataToDisplay: "No data to display.",
+                categoryLabel: "Category",
+                titleNotAvailable: "Title Not Available",
+                cvssv3: "CVSSv3",
+                vulnerabilityType: "Vulnerability Type",
+                description: "Description",
+                observation: "Observation",
+                remediation: "Remediation",
+                references: "References",
+                descriptionNotAvailable: "Description not available.",
+                observationNotAvailable: "Observation not available.",
+                remediationNotAvailable: "Remediation not available."
+            },
+            id: {
+                categoriesTitle: "Kategori",
+                allCategories: "Semua Kategori",
+                languageTitle: "Bahasa",
+                mainTitle: "Pencarian Informasi Kerentanan OWASP WSTG/ASVS",
+                searchPlaceholder: "Cari berdasarkan judul, deskripsi, atau kategori...",
+                searchButton: "Cari",
+                loadingMessage: "Memuat data dari GitHub...",
+                failedToLoad: "Gagal memuat data. Ini mungkin karena kebijakan CORS saat diakses secara lokal. Coba jalankan dengan server lokal.",
+                noResultsFound: "Tidak ada hasil ditemukan untuk filter/pencarian saat ini.",
+                noDataToDisplay: "Tidak ada data untuk ditampilkan.",
+                categoryLabel: "Kategori",
+                titleNotAvailable: "Judul Tidak Tersedia",
+                cvssv3: "CVSSv3",
+                vulnerabilityType: "Tipe Kerentanan",
+                description: "Deskripsi",
+                observation: "Observasi",
+                remediation: "Remediasi",
+                references: "Referensi",
+                descriptionNotAvailable: "Deskripsi tidak tersedia.",
+                observationNotAvailable: "Observasi tidak tersedia.",
+                remediationNotAvailable: "Remediasi tidak tersedia."
+            }
+        };
+
+        const jsonUrls = {
+            'en': 'https://mardianta.github.io/OWASP_WSTG_ASVS_en.json',
+            'id': 'https://mardianta.github.io/OWASP_WSTG_ASVS_id.json'
+        };
+        let currentLanguage = 'en'; // Default language
+
+        // --- Fungsi untuk Mengupdate Teks di UI ---
+        function updateUIStrings() {
+            const t = translations[currentLanguage];
+            document.getElementById('categories-title').innerHTML = `<i class="fas fa-sitemap mr-2 text-blue-600"></i> ${t.categoriesTitle}`;
+            document.getElementById('all-categories-text').textContent = t.allCategories;
+            document.getElementById('language-title').innerHTML = `<i class="fas fa-language mr-2 text-purple-600"></i> ${t.languageTitle}`;
+            document.getElementById('main-title').innerHTML = `<i class="fas fa-shield-alt mr-3 text-blue-600"></i> ${t.mainTitle}`;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            document.getElementById('search-button').innerHTML = `<i class="fas fa-search mr-2"></i> ${t.searchButton}`;
+            // The loading message will be set dynamically in loadJsonData based on state
+            // document.getElementById('loadingMessage').innerHTML = `<i class="fas fa-spinner fa-spin mr-2 text-green-500"></i> ${t.loadingMessage}`;
+        }
+
+        async function changeLanguage() {
+            const newLanguage = document.getElementById('languageSelector').value;
+            if (newLanguage !== currentLanguage) {
+                currentLanguage = newLanguage;
+                localStorage.setItem('selectedLanguage', currentLanguage); // Save preference
+                updateUIStrings(); // Update static UI texts immediately
+                await loadJsonData(); // Reload data for new language
+            }
+        }
 
         async function loadJsonData() {
+            const t = translations[currentLanguage];
+            document.getElementById('loadingMessage').classList.remove('hidden');
+            document.getElementById('loadingMessage').innerHTML = `<i class="fas fa-spinner fa-spin mr-2 text-green-500"></i> ${t.loadingMessage}`;
+            document.getElementById('loadingMessage').classList.add('text-blue-600');
+            document.getElementById('loadingMessage').classList.remove('text-red-500');
+
             try {
-                const jsonUrl = 'https://raw.githubusercontent.com/pwndoc-ng/pwndoc-ng-database/main/OWASP_WSTG_ASVS_en.json';
-                const response = await fetch(jsonUrl); 
+                const urlToLoad = jsonUrls[currentLanguage];
+                const response = await fetch(urlToLoad); 
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -165,20 +259,21 @@
                 jsonData = await response.json();
                 document.getElementById('loadingMessage').classList.add('hidden'); // Hide loading message
                 populateCategories(); 
-                searchData(""); 
+                searchData(""); // Re-render search results with new language data
             } catch (error) {
                 console.error('Failed to load JSON data:', error);
                 const loadingMessage = document.getElementById('loadingMessage');
-                loadingMessage.innerHTML = '<p class="text-red-500"><i class="fas fa-exclamation-triangle mr-2 text-red-500"></i> Failed to load data. This might be due to CORS policy when accessed locally. Try running with a local server.</p>';
+                loadingMessage.innerHTML = `<p class="text-red-500"><i class="fas fa-exclamation-triangle mr-2 text-red-500"></i> ${t.failedToLoad}</p>`;
                 loadingMessage.classList.remove('text-blue-600'); // Remove initial color
             }
         }
 
         function populateCategories() {
+            const t = translations[currentLanguage];
             const categoryList = document.getElementById('categoryList');
             categoryList.innerHTML = `
                 <li class="category-item py-2 px-3 cursor-pointer text-blue-600 hover:bg-blue-200 rounded-md transition-colors duration-200" onclick="filterByCategory('')">
-                    <i class="fas fa-layer-group mr-2 text-red-500"></i> All Categories
+                    <i class="fas fa-layer-group mr-2 text-red-500"></i> <span id="all-categories-text">${t.allCategories}</span>
                 </li>
             `;
 
@@ -194,12 +289,10 @@
             sortedCategories.forEach(category => {
                 const listItem = document.createElement('li');
                 listItem.classList.add('category-item', 'py-2', 'px-3', 'cursor-pointer', 'text-gray-700', 'hover:text-blue-700', 'hover:bg-blue-200', 'rounded-md', 'transition-colors', 'duration-200');
-                // Use a default blue for individual category icons, or cycle colors if desired for more variety
                 listItem.innerHTML = `<i class="fas fa-tag mr-2 text-blue-500"></i> ${category}`; 
                 listItem.onclick = () => filterByCategory(category);
                 categoryList.appendChild(listItem);
             });
-            // Initial highlight for "All Categories"
             filterByCategory('');
         }
 
@@ -211,8 +304,7 @@
             categoryItems.forEach(item => {
                 item.classList.remove('font-bold', 'text-blue-600'); 
                 item.classList.add('text-gray-700'); 
-                // Reset individual category icon color
-                if (item.textContent.includes('All Categories')) {
+                if (item.querySelector('span') && item.querySelector('span').id === 'all-categories-text') { // Check specifically for 'All Categories' span
                     item.querySelector('i').classList.remove('text-blue-600'); 
                     item.querySelector('i').classList.add('text-red-500'); 
                 } else {
@@ -221,31 +313,34 @@
                 }
             });
             
-            // Find and bold the clicked category
             if (categoryTerm === '') {
-                // "All Categories" is the first item
-                categoryItems[0].classList.add('font-bold', 'text-blue-600');
-                categoryItems[0].classList.remove('text-gray-700');
-                categoryItems[0].querySelector('i').classList.add('text-blue-600'); 
-                categoryItems[0].querySelector('i').classList.remove('text-red-500'); // Ensure it's not red when active
+                const allCategoriesItem = document.getElementById('all-categories-text').closest('.category-item');
+                if (allCategoriesItem) {
+                    allCategoriesItem.classList.add('font-bold', 'text-blue-600');
+                    allCategoriesItem.classList.remove('text-gray-700');
+                    allCategoriesItem.querySelector('i').classList.add('text-red-500'); 
+                }
             } else {
                 const activeItem = Array.from(categoryItems).find(item => item.textContent.includes(categoryTerm)); 
                 if (activeItem) {
                     activeItem.classList.add('font-bold', 'text-blue-600');
                     activeItem.classList.remove('text-gray-700');
                     activeItem.querySelector('i').classList.add('text-blue-600'); 
-                    activeItem.querySelector('i').classList.remove('text-blue-500'); // Ensure it's active blue
+                    activeItem.querySelector('i').classList.remove('text-blue-500'); 
                 }
             }
         }
 
-        function createDetailLine(label, content, rawContent, iconClass = '', iconColorClass = 'text-blue-500') {
+        // Modified createDetailLine to use translation keys
+        function createDetailLine(labelKey, content, rawContent, iconClass = '', iconColorClass = 'text-blue-500') {
+            const t = translations[currentLanguage];
             const detailLine = document.createElement('div');
             detailLine.classList.add('detail-line', 'flex', 'items-start', 'justify-between', 'mb-2');
 
             const textSpan = document.createElement('span');
             textSpan.classList.add('detail-text', 'text-gray-700');
-            textSpan.innerHTML = `<strong class="font-semibold ">${iconClass ? `<i class="${iconClass} mr-2 ${iconColorClass}"></i>` : ''}${label}:</strong> ${content}`; 
+            // Use label from translations object
+            textSpan.innerHTML = `<strong class="font-semibold ">${iconClass ? `<i class="${iconClass} mr-2 ${iconColorClass}"></i>` : ''}${t[labelKey] || labelKey}:</strong> ${content}`; 
             detailLine.appendChild(textSpan);
 
             if (rawContent) { 
@@ -298,6 +393,7 @@
         }
 
         function searchData(searchTerm = document.getElementById('searchInput').value, expandIndex = -1, categoryFilter = '') {
+            const t = translations[currentLanguage];
             const resultsContainer = document.getElementById('results');
             resultsContainer.innerHTML = ''; 
 
@@ -323,10 +419,10 @@
             });
 
             if (filteredData.length === 0 && (lowerCaseSearchTerm.length > 0 || lowerCaseCategoryFilter.length > 0)) {
-                resultsContainer.innerHTML = '<p class="text-center text-gray-500 italic py-8"><i class="fas fa-exclamation-circle mr-2 text-red-500"></i> No results found for the current filter/search.</p>'; 
+                resultsContainer.innerHTML = `<p class="text-center text-gray-500 italic py-8"><i class="fas fa-exclamation-circle mr-2 text-red-500"></i> ${t.noResultsFound}</p>`; 
                 return;
             } else if (filteredData.length === 0 && lowerCaseSearchTerm.length === 0 && lowerCaseCategoryFilter.length === 0) {
-                resultsContainer.innerHTML = '<p class="text-center text-gray-500 italic py-8"><i class="fas fa-info-circle mr-2 text-blue-500"></i> No data to display.</p>'; 
+                resultsContainer.innerHTML = `<p class="text-center text-gray-500 italic py-8"><i class="fas fa-info-circle mr-2 text-blue-500"></i> ${t.noDataToDisplay}</p>`; 
                 return;
             }
 
@@ -337,7 +433,7 @@
                 if (item.category) {
                     const category = document.createElement('p');
                     category.classList.add('font-bold', 'mb-3', 'text-sm');
-                    category.innerHTML = `<i class="fas fa-folder mr-2 text-green-500"></i> Category: ${item.category}`; 
+                    category.innerHTML = `<i class="fas fa-folder mr-2 text-green-500"></i> ${t.categoryLabel}: ${item.category}`; 
                     resultItem.appendChild(category);
                 }
 
@@ -346,7 +442,7 @@
 
                     const title = document.createElement('h3');
                     title.classList.add('text-xl', 'font-semibold', 'cursor-pointer', 'hover:underline', 'mb-3');
-                    title.innerHTML = `<i class="fas fa-bug mr-2 text-blue-600"></i> ${mainDetail.title || "Title Not Available"}`; 
+                    title.innerHTML = `<i class="fas fa-bug mr-2 text-blue-600"></i> ${mainDetail.title || t.titleNotAvailable}`; 
                     const originalIndex = jsonData.indexOf(item); 
                     title.setAttribute('data-original-index', originalIndex);
                     title.onclick = toggleDetails;
@@ -360,30 +456,41 @@
                         detailsContent.classList.add('show', 'block'); 
                     }
                     
-                    // Assigning Google colors to detail icons
+                    // --- Bagian yang Diubah untuk Menampilkan Skor CVSSv3 ---
                     if (item.cvssv3) {
-                        detailsContent.appendChild(createDetailLine('CVSSv3', item.cvssv3, item.cvssv3, 'fas fa-chart-bar', 'text-yellow-500')); 
+                        // Memisahkan skor (angka pertama) dari vektor (sisa string)
+                        const cvssParts = item.cvssv3.match(/^(\d+\.\d+)\s*(.*)/);
+                        let score = item.cvssv3; // Default
+                        let vector = '';
+
+                        if (cvssParts && cvssParts.length > 2) {
+                            score = parseFloat(cvssParts[1]).toFixed(1); // Ambil skor dan format satu desimal
+                            vector = cvssParts[2].trim(); // Ambil vektor
+                        }
+                        
+                        // Menampilkan label CVSSv3: [skor] (vektor)
+                        detailsContent.appendChild(createDetailLine('cvssv3', `${score} (${vector})`, item.cvssv3, 'fas fa-chart-bar', 'text-yellow-500')); 
                     }
 
                     if (mainDetail.vulnType) {
-                        detailsContent.appendChild(createDetailLine('Vulnerability Type', mainDetail.vulnType, mainDetail.vulnType, 'fas fa-shield-virus', 'text-green-500')); 
+                        detailsContent.appendChild(createDetailLine('vulnerabilityType', mainDetail.vulnType, mainDetail.vulnType, 'fas fa-shield-virus', 'text-green-500')); 
                     }
                     
                     item.details.forEach(detail => {
-                        const descriptionText = detail.description ? detail.description.replace(/<[^>]*>/g, '') : "Description not available.";
-                        const observationText = detail.observation ? detail.observation.replace(/<[^>]*>/g, '') : "Observation not available.";
-                        const remediationText = detail.remediation ? detail.remediation.replace(/<[^>]*>/g, '') : "Remediation not available.";
+                        const descriptionText = detail.description ? detail.description.replace(/<[^>]*>/g, '') : t.descriptionNotAvailable;
+                        const observationText = detail.observation ? detail.observation.replace(/<[^>]*>/g, '') : t.observationNotAvailable;
+                        const remediationText = detail.remediation ? detail.remediation.replace(/<[^>]*>/g, '') : t.remediationNotAvailable;
 
-                        detailsContent.appendChild(createDetailLine('Description', detail.description || "Description not available.", descriptionText, 'fas fa-info-circle', 'text-blue-500')); 
-                        detailsContent.appendChild(createDetailLine('Observation', detail.observation || "Observation not available.", observationText, 'fas fa-eye', 'text-red-500')); 
-                        detailsContent.appendChild(createDetailLine('Remediation', detail.remediation || "Remediation not available.", remediationText, 'fas fa-wrench', 'text-yellow-500')); 
+                        detailsContent.appendChild(createDetailLine('description', detail.description || t.descriptionNotAvailable, descriptionText, 'fas fa-info-circle', 'text-blue-500')); 
+                        detailsContent.appendChild(createDetailLine('observation', detail.observation || t.observationNotAvailable, observationText, 'fas fa-eye', 'text-red-500')); 
+                        detailsContent.appendChild(createDetailLine('remediation', detail.remediation || t.remediationNotAvailable, remediationText, 'fas fa-wrench', 'text-yellow-500')); 
 
                         if (detail.references && detail.references.length > 0) {
                             const referencesList = document.createElement('div');
                             referencesList.classList.add('detail-line', 'flex', 'items-start', 'justify-between', 'mb-2');
                             const refTextSpan = document.createElement('span');
                             refTextSpan.classList.add('detail-text', 'text-gray-700');
-                            refTextSpan.innerHTML = `<strong class="font-semibold"><i class="fas fa-link mr-2 text-green-500"></i> References:</strong>`; 
+                            refTextSpan.innerHTML = `<strong class="font-semibold"><i class="fas fa-link mr-2 text-green-500"></i> ${t.references}:</strong>`; 
                             const refList = document.createElement('ul', 'list-disc', 'list-inside', 'mt-1', 'space-y-1'); 
                             let rawReferences = []; 
 
@@ -448,22 +555,22 @@
             categoryItems.forEach(item => {
                 item.classList.remove('font-bold'); 
                 item.classList.add('text-gray-700'); 
-                // Specific color for "All Categories" icon
-                if (item.textContent.includes('All Categories')) {
+                if (item.querySelector('span') && item.querySelector('span').id === 'all-categories-text') {
                     item.querySelector('i').classList.remove('text-blue-600'); 
                     item.querySelector('i').classList.add('text-red-500'); 
                 } else {
-                    // Default color for other category icons
                     item.querySelector('i').classList.remove('text-blue-600');
                     item.querySelector('i').classList.add('text-blue-500'); 
                 }
             });
             if (searchTerm.length === 0) { 
-                categoryItems[0].classList.add('font-bold', 'text-blue-600');
-                categoryItems[0].classList.remove('text-gray-700');
-                categoryItems[0].querySelector('i').classList.add('text-red-500'); // Keep "All Categories" red when active and search is empty
+                const allCategoriesItem = document.getElementById('all-categories-text').closest('.category-item');
+                if (allCategoriesItem) {
+                    allCategoriesItem.classList.add('font-bold', 'text-blue-600');
+                    allCategoriesItem.classList.remove('text-gray-700');
+                    allCategoriesItem.querySelector('i').classList.add('text-red-500'); 
+                }
             }
-
 
             if (searchTerm.length >= 3) {
                 const matchedSuggestions = new Map();
@@ -520,7 +627,17 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', loadJsonData);
+        // Initialize language and load data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage && jsonUrls[savedLanguage]) {
+                currentLanguage = savedLanguage;
+                document.getElementById('languageSelector').value = savedLanguage;
+            }
+            // Update UI strings based on initial/saved language BEFORE loading data
+            updateUIStrings(); 
+            loadJsonData();
+        });
     </script>
 </body>
 </html>
