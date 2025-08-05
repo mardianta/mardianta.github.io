@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Publikasi Universitas</title>
+    <title>Dashboard Sitasi Ilmiah Universitas</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -16,7 +16,8 @@
             --primary-color: #4169E1; /* Royal Blue */
             --primary-dark: #375bb9;
             --secondary-color: #6c757d;
-            --background-color: #f0f2f5;
+            --background-start: #d3e7ff; /* Light Blue */
+            --background-end: #d1f7d1;   /* Light Green */
             --panel-bg: #ffffff;
             --text-color: #212529;
             --border-color: #e9ecef;
@@ -28,7 +29,8 @@
             --primary-color: #6a8ce1; /* Royal Blue yang lebih terang untuk tema gelap */
             --primary-dark: #5171c7;
             --secondary-color: #adb5bd;
-            --background-color: #121212;
+            --background-start: #0a1f2e; /* Dark Blue */
+            --background-end: #0f240f;   /* Dark Green */
             --panel-bg: #1e1e1e;
             --text-color: #f8f9fa;
             --border-color: #343a40;
@@ -38,9 +40,11 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--background-color);
             color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
+            /* Gradasi background */
+            background-image: linear-gradient(to right, var(--background-start), var(--background-end));
+            background-attachment: fixed; /* Agar gradasi tidak bergeser saat di-scroll */
         }
 
         .container {
@@ -135,7 +139,7 @@
     
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#"><i class="bi bi-bar-chart-line-fill me-2"></i>Dashboard Publikasi</a>
+            <a class="navbar-brand" href="#"><i class="bi bi-bar-chart-line-fill me-2"></i>Dashboard Sitasi</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -152,7 +156,7 @@
     </nav>
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4 pb-2 border-bottom">Analisis Perbandingan Publikasi Ilmiah</h1>
+        <h1 class="text-center mb-4 pb-2 border-bottom">Analisis Perbandingan Sitasi Ilmiah</h1>
 
         <div class="panel" id="filter-panel">
             <h4 class="mb-4"><i class="bi bi-funnel-fill icon-small"></i>Filter Grafik</h4>
@@ -177,10 +181,29 @@
                 </div>
             </div>
         </div>
+
+        <div class="footer-app-info">
+            <h4><i class="bi bi-info-circle-fill"></i> Tentang Aplikasi Ini</h4>
+            <p class="mb-1">
+                Aplikasi dashboard ini menyajikan perbandingan sitasi dari publikasi ilmiah beberapa universitas terkemuka di Indonesia. Data diperoleh secara real-time melalui <strong>OpenAlex API</strong>, sebuah sumber data publikasi akademik yang terbuka dan komprehensif.
+            </p>
+            <p class="mb-1">
+                Anda dapat menggunakan filter tahun untuk memfokuskan analisis pada periode tertentu dan memilih universitas mana saja yang ingin dibandingkan. Grafik batang menampilkan total sitasi dalam rentang tahun yang dipilih, sedangkan grafik garis menunjukkan tren sitasi per tahun.
+            </p>
+            <p class="text-muted small mt-3">
+                <i class="bi bi-database-fill"></i> Data diperbarui: 5 Agustus 2025.
+            </p>
+        </div>
         
         <hr>
 
         <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="panel">
+                    <h4 class="mb-4"><i class="bi bi-list-ol icon-small"></i>Daftar Universitas</h4>
+                    <div id="university-info-panel"></div>
+                </div>
+            </div>
             <div class="col-lg-6">
                 <div class="panel" id="summary-panel">
                     <h4 class="mb-4"><i class="bi bi-list-ol icon-small"></i>Peringkat & Ringkasan Data</h4>
@@ -188,9 +211,9 @@
                         </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="panel">
-                    <h4 class="chart-title" id="totalChartTitle"><i class="bi bi-bar-chart-fill icon-small"></i>Total Publikasi (dalam Rentang Filter)</h4>
+                    <h4 class="chart-title" id="totalChartTitle"><i class="bi bi-bar-chart-fill icon-small"></i>Total Sitasi (dalam Rentang Filter)</h4>
                     <div style="position: relative; height: 50vh;">
                         <canvas id="totalPublicationsChart"></canvas>
                     </div>
@@ -198,30 +221,29 @@
             </div>
         </div>
 
-        <div class="panel chart-container">
-            <h4 class="chart-title"><i class="bi bi-graph-up icon-small"></i>Publikasi per Tahun</h4>
-            <div id="loading-indicator" class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Memuat data...</span>
+        <div class="row g-4 mt-2">
+            <div class="col-lg-12">
+                <div class="panel chart-container">
+                    <h4 class="chart-title"><i class="bi bi-graph-up-arrow icon-small"></i>Total Sitasi Kumulatif</h4>
+                    <canvas id="cumulativeChart"></canvas>
+                </div>
             </div>
-            <canvas id="comparisonChart"></canvas>
+            <div class="col-lg-12">
+                <div class="panel chart-container">
+                    <h4 class="chart-title"><i class="bi bi-graph-up icon-small"></i>Sitasi per Tahun</h4>
+                    <div id="loading-indicator" class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Memuat data...</span>
+                    </div>
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
         </div>
         
         <hr>
         
-        <div class="footer-app-info">
-            <h4><i class="bi bi-info-circle-fill"></i> Tentang Aplikasi Ini</h4>
-            <p class="mb-1">
-                Aplikasi dashboard ini menyajikan perbandingan publikasi ilmiah dari beberapa universitas terkemuka di Indonesia. Data diperoleh secara real-time melalui <strong>OpenAlex API</strong>, sebuah sumber data publikasi akademik yang terbuka dan komprehensif.
-            </p>
-            <p class="mb-1">
-                Anda dapat menggunakan filter tahun untuk memfokuskan analisis pada periode tertentu dan memilih universitas mana saja yang ingin dibandingkan. Grafik batang menampilkan total publikasi dalam rentang tahun yang dipilih, sedangkan grafik garis menunjukkan tren publikasi per tahun.
-            </p>
-            <p class="text-muted small mt-3">
-                <i class="bi bi-database-fill"></i> Data diperbarui: 5 Agustus 2025.
-            </p>
-        </div>
+        
 
-        <p class="mt-3 text-center text-muted small">&copy; 2025 Dashboard Publikasi. Semua hak cipta dilindungi.</p>
+        <p class="mt-3 text-center text-muted small">&copy; 2025 Dashboard Analisis Sitasi.</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -260,9 +282,11 @@
         let originalTotals = new Map();
         let myLineChartInstance = null;
         let myBarChartInstance = null;
+        let myCumulativeChartInstance = null;
 
         const chartCanvas = document.getElementById('comparisonChart');
         const totalChartCanvas = document.getElementById('totalPublicationsChart');
+        const cumulativeChartCanvas = document.getElementById('cumulativeChart');
         const loadingIndicator = document.getElementById('loading-indicator');
 
         const universities = [
@@ -320,7 +344,6 @@
         function renderLineChart(labels, datasets) {
             if (myLineChartInstance) myLineChartInstance.destroy();
             chartCanvas.style.visibility = 'visible';
-            loadingIndicator.style.display = 'none';
             const ctx = chartCanvas.getContext('2d');
             const textColor = getChartTextColor();
             myLineChartInstance = new Chart(ctx, {
@@ -335,7 +358,7 @@
                     scales: {
                         y: { 
                             beginAtZero: true, 
-                            title: { display: true, text: 'Jumlah Publikasi', font: { size: 14, weight: 'bold' }, color: textColor },
+                            title: { display: true, text: 'Jumlah Sitasi', font: { size: 14, weight: 'bold' }, color: textColor },
                             ticks: { color: textColor, font: { size: 12 } },
                             grid: { color: 'rgba(108, 117, 125, 0.2)' }
                         },
@@ -362,6 +385,41 @@
             });
         }
 
+        function renderCumulativeChart(labels, datasets) {
+            if (myCumulativeChartInstance) myCumulativeChartInstance.destroy();
+            cumulativeChartCanvas.style.visibility = 'visible';
+            const ctx = cumulativeChartCanvas.getContext('2d');
+            const textColor = getChartTextColor();
+            myCumulativeChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            title: { display: true, text: 'Total Sitasi Kumulatif', font: { size: 14, weight: 'bold' }, color: textColor },
+                            ticks: { color: textColor, font: { size: 12 } },
+                            grid: { color: 'rgba(108, 117, 125, 0.2)' }
+                        },
+                        x: { 
+                            title: { display: true, text: 'Tahun Publikasi', font: { size: 14, weight: 'bold' }, color: textColor },
+                            ticks: { color: textColor, font: { size: 12 } },
+                            grid: { color: 'rgba(108, 117, 125, 0.2)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top', labels: { color: textColor } },
+                        tooltip: { mode: 'index', intersect: false }
+                    }
+                }
+            });
+        }
+
         function renderTotalBarChart(labels, datasets) {
             if (myBarChartInstance) myBarChartInstance.destroy();
             const ctx = totalChartCanvas.getContext('2d');
@@ -379,7 +437,7 @@
                     scales: {
                         x: { 
                             beginAtZero: true, 
-                            title: { display: true, text: 'Total Publikasi', font: { size: 14, weight: 'bold' }, color: textColor },
+                            title: { display: true, text: 'Total Sitasi', font: { size: 14, weight: 'bold' }, color: textColor },
                             ticks: { color: textColor, font: { size: 12 } },
                             grid: { color: 'rgba(108, 117, 125, 0.2)' }
                         },
@@ -420,8 +478,8 @@
                                     <tr>
                                         <th style="width: 5%;">No.</th>
                                         <th>Universitas</th>
-                                        <th>Total (Semua Tahun)</th>
-                                        <th>Total (Difilter)</th>
+                                        <th>Total Sitasi (Semua Tahun)</th>
+                                        <th>Total Sitasi (Difilter)</th>
                                     </tr>
                                 </thead>
                                 <tbody>`;
@@ -441,6 +499,31 @@
             container.innerHTML = tableHTML;
         }
 
+        // Fungsi baru untuk menampilkan tabel ID dan nama universitas
+        function renderUniversityTable() {
+            const container = document.getElementById('university-info-panel');
+            let tableHTML = `<div class="table-responsive"><table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>ID Kampus</th>
+                                        <th>Nama Kampus</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+            
+            universities.forEach(uni => {
+                tableHTML += `
+                    <tr>
+                        <td><code>${uni.id}</code></td>
+                        <td>${uni.name}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `</tbody></table></div>`;
+            container.innerHTML = tableHTML;
+        }
+
         function applyFiltersAndRender() {
             const startYearInput = document.getElementById('startYear').value;
             const endYearInput = document.getElementById('endYear').value;
@@ -453,7 +536,7 @@
 
             const totalChartTitle = document.getElementById('totalChartTitle');
             if (totalChartTitle) {
-                totalChartTitle.innerHTML = `<i class="bi bi-bar-chart-fill icon-small"></i>Total Publikasi (${startYear} - ${endYear})`;
+                totalChartTitle.innerHTML = `<i class="bi bi-bar-chart-fill icon-small"></i>Total Sitasi (${startYear} - ${endYear})`;
             }
 
             const selectedUniversities = new Set();
@@ -467,6 +550,7 @@
             const filteredYears = allYears.filter(year => year >= startYear && year <= endYear);
 
             const filteredDatasetsLine = [];
+            const filteredDatasetsCumulative = [];
             const filteredTotals = new Map();
 
             originalData.forEach(uniData => {
@@ -475,11 +559,30 @@
                     filteredTotals.set(uniData.name, totalFiltered);
 
                     const dataForChart = filteredYears.map(year => uniData.dataMap.get(year) || 0);
+                    
+                    const cumulativeData = [];
+                    let runningTotal = 0;
+                    for (const year of allYears) {
+                        runningTotal += uniData.dataMap.get(year) || 0;
+                        if (year >= startYear && year <= endYear) {
+                            cumulativeData.push(runningTotal);
+                        }
+                    }
+
                     const colorIndex = universities.findIndex(u => u.name === uniData.name);
                     if (colorIndex !== -1) {
                          filteredDatasetsLine.push({
                             label: uniData.name,
                             data: dataForChart,
+                            backgroundColor: colors[colorIndex].border,
+                            borderColor: colors[colorIndex].border,
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.4
+                        });
+                        filteredDatasetsCumulative.push({
+                            label: uniData.name,
+                            data: cumulativeData,
                             backgroundColor: colors[colorIndex].border,
                             borderColor: colors[colorIndex].border,
                             borderWidth: 3,
@@ -495,7 +598,7 @@
             const barChartColors = barChartLabels.map(label => colors[universities.findIndex(u => u.name === label)].background);
 
             const filteredDatasetsBar = [{
-                label: 'Total Publikasi',
+                label: 'Total Sitasi',
                 data: barChartData,
                 backgroundColor: barChartColors,
                 borderColor: barChartColors.map(c => c.replace('0.8', '1')),
@@ -503,12 +606,13 @@
             }];
 
             renderLineChart(filteredYears, filteredDatasetsLine);
+            renderCumulativeChart(filteredYears, filteredDatasetsCumulative); 
             renderTotalBarChart(barChartLabels, filteredDatasetsBar);
             updateSummaryPanel(filteredTotals);
         }
 
         async function initializePage() {
-            chartCanvas.style.visibility = 'hidden';
+            // Sembunyikan loading indicator terlebih dahulu
             loadingIndicator.style.display = 'block';
 
             const uniFilterContainer = document.getElementById('university-filters');
@@ -530,7 +634,6 @@
             });
             allYears = Array.from(yearsSet).sort((a, b) => a - b);
 
-            // Perubahan di sini: Mengatur nilai default ke 2020 dan 2025
             const defaultStartYear = 2020;
             const defaultEndYear = 2025;
 
@@ -545,6 +648,8 @@
                 checkbox.addEventListener('change', applyFiltersAndRender);
             });
             
+            loadingIndicator.style.display = 'none';
+            renderUniversityTable(); // Panggil fungsi baru di sini
             applyFiltersAndRender();
         }
 
