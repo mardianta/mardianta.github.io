@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Alat Perbandingan Teks</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .text-areas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        textarea {
+            flex-grow: 1;
+            min-width: 300px;
+            height: 350px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            resize: vertical;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .controls button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        .controls button:hover {
+            background-color: #2980b9;
+        }
+        .extraction-controls {
+            text-align: center;
+            margin-bottom: 20px;
+            display: none; /* Sembunyikan secara default */
+            justify-content: center;
+            gap: 10px;
+        }
+        #results {
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+        }
+        #results h2 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        #diffOutput {
+            background-color: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        .line-common {
+            color: #555;
+            display: block;
+        }
+        .line-added {
+            background-color: #e6ffed;
+            color: #22863a;
+            display: block;
+            position: relative;
+            padding-right: 60px; /* Ruang untuk tombol salin */
+        }
+        .line-removed {
+            background-color: #ffeef0;
+            color: #b31d28;
+            display: block;
+            position: relative;
+            padding-right: 60px; /* Ruang untuk tombol salin */
+        }
+        .copy-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            padding: 2px 8px;
+            color: #333;
+            visibility: hidden; /* Sembunyikan secara default */
+        }
+        .line-added:hover .copy-btn,
+        .line-removed:hover .copy-btn {
+            visibility: visible; /* Tampilkan saat hover */
+        }
+        .copy-btn:disabled {
+            background-color: #28a745;
+            color: white;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Alat Perbandingan Teks</h1>
+        <p style="text-align: center;">Tempelkan dua blok teks di bawah ini untuk melihat perbedaannya.</p>
+        <div class="text-areas">
+            <textarea id="text1" placeholder="Tempelkan teks pertama di sini..."></textarea>
+            <textarea id="text2" placeholder="Tempelkan teks kedua di sini..."></textarea>
+        </div>
+        <div class="controls">
+            <button onclick="compareTexts()">Bandingkan Teks</button>
+        </div>
+        <div id="extractionControls" class="extraction-controls">
+            <button onclick="extractDifferences('removed')">Ekstrak Baris Dihapus (Hanya di Teks 1)</button>
+            <button onclick="extractDifferences('added')">Ekstrak Baris Ditambahkan (Hanya di Teks 2)</button>
+        </div>
+        <div id="extractionResult" style="display: none; margin-top: 20px; padding: 20px; background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px;">
+            <h3 id="extractionTitle" style="color: #2c3e50; margin-top:0;"></h3>
+            <textarea id="extractedText" readonly style="width: calc(100% - 22px); height: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: 'Courier New', Courier, monospace; background-color: #fff; resize: vertical;"></textarea>
+            <button id="copyExtractedBtn" onclick="copyExtractedText(this)" style="margin-top: 10px; background-color: #5cb85c; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Salin Hasil</button>
+        </div>
+        <div id="results">
+            <h2>Hasil Perbedaan</h2>
+            <div id="diffStats" style="margin-bottom: 15px; font-style: italic; color: #555;"></div>
+            <pre id="diffOutput"></pre>
+        </div>
+    </div>
+
+    <script>
+        let lastDiffResult = [];
+
+        function copyExtractedText(buttonElement) {
+            const textarea = document.getElementById('extractedText');
+            if (textarea.value) {
+                copyToClipboard(textarea.value, buttonElement);
+            }
+        }
+
+        function extractDifferences(type) {
+            if (lastDiffResult.length === 0) return;
+
+            const extractionResultDiv = document.getElementById('extractionResult');
+            const extractionTitle = document.getElementById('extractionTitle');
+            const extractedTextarea = document.getElementById('extractedText');
+
+            const filteredLines = lastDiffResult
+                .filter(part => part.type === type)
+                .map(part => part.text);
+
+            extractedTextarea.value = filteredLines.join('\n');
+            
+            if (type === 'removed') {
+                extractionTitle.innerText = 'Baris yang Hanya Ada di Teks 1 (Dihapus dari Teks 2)';
+            } else {
+                extractionTitle.innerText = 'Baris yang Hanya Ada di Teks 2 (Ditambahkan ke Teks 1)';
+            }
+
+            extractionResultDiv.style.display = 'block';
+        }
+
+        function copyToClipboard(text, buttonElement) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    if (buttonElement) {
+                        const originalText = buttonElement.innerText;
+                        buttonElement.innerText = 'Tersalin!';
+                        buttonElement.disabled = true;
+                        setTimeout(() => {
+                            buttonElement.innerText = originalText;
+                            buttonElement.disabled = false;
+                        }, 1500);
+                    }
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                    fallbackCopyTextToClipboard(text, buttonElement); 
+                });
+            } else {
+                fallbackCopyTextToClipboard(text, buttonElement); 
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text, buttonElement) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful && buttonElement) {
+                    const originalText = buttonElement.innerText;
+                    buttonElement.innerText = 'Tersalin!';
+                    buttonElement.disabled = true;
+                    setTimeout(() => {
+                        buttonElement.innerText = originalText;
+                        buttonElement.disabled = false;
+                    }, 1500);
+                }
+            } catch (err) {
+                console.error('Fallback: Could not copy text: ', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function compareTexts() {
+            const text1 = document.getElementById('text1').value;
+            const text2 = document.getElementById('text2').value;
+            const diffOutput = document.getElementById('diffOutput');
+            const diffStats = document.getElementById('diffStats');
+
+            // Menangani textarea kosong sebagai 0 baris, bukan satu baris dengan string kosong.
+            const lines1 = text1 === '' ? [] : text1.split('\n');
+            const lines2 = text2 === '' ? [] : text2.split('\n');
+
+            const lcs = Array(lines1.length + 1).fill(null).map(() => Array(lines2.length + 1).fill(0));
+
+            for (let i = 1; i <= lines1.length; i++) {
+                for (let j = 1; j <= lines2.length; j++) {
+                    if (lines1[i - 1] === lines2[j - 1]) {
+                        lcs[i][j] = lcs[i - 1][j - 1] + 1;
+                    } else {
+                        lcs[i][j] = Math.max(lcs[i - 1][j], lcs[i][j - 1]);
+                    }
+                }
+            }
+
+            // Hitung persentase kesamaan SETELAH tabel LCS diisi
+            const commonLinesCount = lcs[lines1.length][lines2.length];
+            const maxLines = Math.max(lines1.length, lines2.length);
+            let similarityPercentage = 0;
+
+            if (maxLines > 0) {
+                similarityPercentage = (commonLinesCount / maxLines) * 100;
+            } else { // Kedua textarea kosong
+                similarityPercentage = 100;
+            }
+
+            diffStats.innerHTML = `Ditemukan <strong>${commonLinesCount}</strong> baris yang identik. Tingkat kesamaan: <strong>${similarityPercentage.toFixed(2)}%</strong>`;
+
+            let i = lines1.length;
+            let j = lines2.length;
+            const diff = [];
+
+            while (i > 0 || j > 0) {
+                if (i > 0 && j > 0 && lines1[i - 1] === lines2[j - 1]) {
+                    diff.unshift({ type: 'common', text: lines1[i - 1] });
+                    i--; j--;
+                } else if (j > 0 && (i === 0 || lcs[i][j - 1] >= lcs[i - 1][j])) {
+                    diff.unshift({ type: 'added', text: lines2[j - 1] });
+                    j--;
+                } else if (i > 0 && (j === 0 || lcs[i][j - 1] < lcs[i - 1][j])) {
+                    diff.unshift({ type: 'removed', text: lines1[i - 1] });
+                    i--;
+                } else { break; }
+            }
+
+            lastDiffResult = diff; // Simpan hasil diff untuk fungsi ekstraksi
+
+            // Tampilkan tombol ekstraksi jika ada perbedaan
+            const hasDifferences = diff.some(part => part.type === 'added' || part.type === 'removed');
+            document.getElementById('extractionControls').style.display = hasDifferences ? 'flex' : 'none';
+            document.getElementById('extractionResult').style.display = 'none'; // Sembunyikan hasil ekstraksi sebelumnya
+
+            diffOutput.innerHTML = diff.map(part => {
+                const escapedText = part.text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                const rawTextForJs = JSON.stringify(part.text);
+
+                if (part.type === 'common') return `<span class="line-common">${escapedText}</span>`;
+                if (part.type === 'added') return `<span class="line-added">+ ${escapedText}<button class="copy-btn" onclick='copyToClipboard(${rawTextForJs}, this)'>Salin</button></span>`;
+                if (part.type === 'removed') return `<span class="line-removed">- ${escapedText}<button class="copy-btn" onclick='copyToClipboard(${rawTextForJs}, this)'>Salin</button></span>`;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
