@@ -6,6 +6,12 @@
     <title>Ringkasan Perintah Linux Lengkap</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        .command-list-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
         .command-header {
             display: flex;
             align-items: center;
@@ -66,7 +72,7 @@
         }
 
         .example-list.open {
-            max-height: 500px; /* Nilai yang cukup besar untuk menampung semua contoh */
+            max-height: 500px; /* Nilai yang cukup besar */
             transition: max-height 0.5s ease-in;
         }
 
@@ -93,13 +99,10 @@
             white-space: nowrap;
         }
 
-        @media (min-width: 1024px) {
-            .container {
-                max-width: none;
-                width: 100%;
-                padding-left: 5rem;
-                padding-right: 5rem;
-            }
+        /* Responsive Columns with Flexbox */
+        .command-item {
+            flex: 1 1 auto; /* Membuat item fleksibel menyesuaikan ruang */
+            min-width: 250px; /* Menetapkan lebar minimum */
         }
     </style>
 </head>
@@ -111,187 +114,810 @@
 
         <hr class="my-6 border-gray-300">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div id="navigation" class="col-span-1">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Navigasi File</h2>
-                <ul class="space-y-4">
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">ls</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Lihat isi direktori. Gunakan `-l` untuk detail, `-a` untuk file tersembunyi.</span>
-                            </div>
+        <div id="file-operations" class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">1. File and Directory Operations Commands</h2>
+            <ul class="command-list-container">
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">ls</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">List files and directories. -l: Long format, -a: include hidden, -h: human-readable.</span>
                         </div>
-                        <div class="example-list">
-                            <span id="example-ls-1" class="command-example" onclick="copyToClipboard('example-ls-1')">ls -l</span>
-                            <span id="badge-ls-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-ls-2" class="command-example" onclick="copyToClipboard('example-ls-2')">ls -a</span>
-                            <span id="badge-ls-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-ls-1" class="command-example" onclick="copyToClipboard('example-ls-1')">ls -l</span>
+                        <span id="badge-ls-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        <span id="example-ls-2" class="command-example" onclick="copyToClipboard('example-ls-2')">ls -a</span>
+                        <span id="badge-ls-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        <span id="example-ls-3" class="command-example" onclick="copyToClipboard('example-ls-3')">ls -lh</span>
+                        <span id="badge-ls-3" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">cd</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Change directory.</span>
                         </div>
-                    </li>
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">cd</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Ganti direktori. Gunakan `..` untuk kembali.</span>
-                            </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-cd-1" class="command-example" onclick="copyToClipboard('example-cd-1')">cd /path/to/directory</span>
+                        <span id="badge-cd-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">pwd</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Print current working directory.</span>
                         </div>
-                        <div class="example-list">
-                            <span id="example-cd-1" class="command-example" onclick="copyToClipboard('example-cd-1')">cd /var/www</span>
-                            <span id="badge-cd-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-cd-2" class="command-example" onclick="copyToClipboard('example-cd-2')">cd ..</span>
-                            <span id="badge-cd-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-pwd-1" class="command-example" onclick="copyToClipboard('example-pwd-1')">pwd</span>
+                        <span id="badge-pwd-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">mkdir</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Create a new directory.</span>
                         </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div id="file-management" class="col-span-1">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Manajemen File</h2>
-                <ul class="space-y-4">
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">mkdir</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Buat direktori baru. Gunakan `-p` untuk membuat direktori induk.</span>
-                            </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-mkdir-1" class="command-example" onclick="copyToClipboard('example-mkdir-1')">mkdir my_directory</span>
+                        <span id="badge-mkdir-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">rm</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Remove files and directories. -r: recursive, -f: force.</span>
                         </div>
-                        <div class="example-list">
-                            <span id="example-mkdir-1" class="command-example" onclick="copyToClipboard('example-mkdir-1')">mkdir proyek-baru</span>
-                            <span id="badge-mkdir-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-mkdir-2" class="command-example" onclick="copyToClipboard('example-mkdir-2')">mkdir -p folder/subfolder</span>
-                            <span id="badge-mkdir-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-rm-1" class="command-example" onclick="copyToClipboard('example-rm-1')">rm file.txt</span>
+                        <span id="badge-rm-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        <span id="example-rm-2" class="command-example" onclick="copyToClipboard('example-rm-2')">rm -r my_directory</span>
+                        <span id="badge-rm-2" class="copy-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">cp</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Copy files and directories. -r: recursive.</span>
                         </div>
-                    </li>
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">rm</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Hapus file/direktori. Gunakan `-r` untuk folder dan `-f` untuk paksa.</span>
-                            </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-cp-1" class="command-example" onclick="copyToClipboard('example-cp-1')">cp -r directory destination</span>
+                        <span id="badge-cp-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">mv</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Move/rename files and directories.</span>
                         </div>
-                        <div class="example-list">
-                            <span id="example-rm-1" class="command-example" onclick="copyToClipboard('example-rm-1')">rm file.txt</span>
-                            <span id="badge-rm-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-rm-2" class="command-example" onclick="copyToClipboard('example-rm-2')">rm -rf folder-lama</span>
-                            <span id="badge-rm-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-mv-1" class="command-example" onclick="copyToClipboard('example-mv-1')">mv file.txt new_name.txt</span>
+                        <span id="badge-mv-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">touch</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Create an empty file or update timestamps.</span>
                         </div>
-                    </li>
-                </ul>
-            </div>
-            
-            <div id="permissions" class="col-span-1">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Izin & Kepemilikan</h2>
-                <ul class="space-y-4">
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">chmod</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Ubah izin file. Angka mewakili: (4=r, 2=w, 1=x).</span>
-                            </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-touch-1" class="command-example" onclick="copyToClipboard('example-touch-1')">touch file.txt</span>
+                        <span id="badge-touch-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">cat</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">View the contents of a file.</span>
                         </div>
-                        <div class="example-list">
-                            <span id="example-chmod-1" class="command-example" onclick="copyToClipboard('example-chmod-1')">chmod 777 skrip.sh</span>
-                            <span id="badge-chmod-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-chmod-2" class="command-example" onclick="copyToClipboard('example-chmod-2')">chmod 755 skrip.sh</span>
-                            <span id="badge-chmod-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-chmod-3" class="command-example" onclick="copyToClipboard('example-chmod-3')">chmod 644 file.txt</span>
-                            <span id="badge-chmod-3" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-chmod-4" class="command-example" onclick="copyToClipboard('example-chmod-4')">chmod -R 777 folder/</span>
-                            <span id="badge-chmod-4" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-cat-1" class="command-example" onclick="copyToClipboard('example-cat-1')">cat file.txt</span>
+                        <span id="badge-cat-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">head</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Display the first few lines of a file.</span>
                         </div>
-                    </li>
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">chown</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Ubah pemilik file. Gunakan `-R` untuk rekursif.</span>
-                            </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-head-1" class="command-example" onclick="copyToClipboard('example-head-1')">head file.txt</span>
+                        <span id="badge-head-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">tail</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Display the last few lines of a file.</span>
                         </div>
-                        <div class="example-list">
-                            <span id="example-chown-1" class="command-example" onclick="copyToClipboard('example-chown-1')">chown user:group file.txt</span>
-                            <span id="badge-chown-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-chown-2" class="command-example" onclick="copyToClipboard('example-chown-2')">chown -R www-data:www-data /var/www</span>
-                            <span id="badge-chown-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-tail-1" class="command-example" onclick="copyToClipboard('example-tail-1')">tail file.txt</span>
+                        <span id="badge-tail-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">ln</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Create links between files. -s: symbolic link.</span>
                         </div>
-                    </li>
-                </ul>
-            </div>
-            
-            <div id="text-edit" class="col-span-1">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Teks & Sistem</h2>
-                <ul class="space-y-4">
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">cat</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Menampilkan isi file.</span>
-                            </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-ln-1" class="command-example" onclick="copyToClipboard('example-ln-1')">ln -s source_file link_name</span>
+                        <span id="badge-ln-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">find</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Search for files and directories. -name: by filename, -type: by file type.</span>
                         </div>
-                        <div class="example-list">
-                            <span id="example-cat-1" class="command-example" onclick="copyToClipboard('example-cat-1')">cat laporan.md</span>
-                            <span id="badge-cat-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-cat-2" class="command-example" onclick="copyToClipboard('example-cat-2')">cat file1.txt file2.txt > gabungan.txt</span>
-                            <span id="badge-cat-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                        </div>
-                    </li>
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">ps</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Lihat proses yang sedang berjalan.</span>
-                            </div>
-                        </div>
-                        <div class="example-list">
-                            <span id="example-ps-1" class="command-example" onclick="copyToClipboard('example-ps-1')">ps aux</span>
-                            <span id="badge-ps-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                            <span id="example-ps-2" class="command-example" onclick="copyToClipboard('example-ps-2')">ps -ef | grep nginx</span>
-                            <span id="badge-ps-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div id="networking" class="col-span-1">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Jaringan & Pengunduhan</h2>
-                <ul class="space-y-4">
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">wget</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Unduh file dari web.</span>
-                            </div>
-                        </div>
-                        <div class="example-list">
-                            <span id="example-wget-1" class="command-example" onclick="copyToClipboard('example-wget-1')">wget https://example.com/file.zip</span>
-                            <span id="badge-wget-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                        </div>
-                    </li>
-                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
-                        <div class="command-header" onclick="toggleExamples(this)">
-                            <span class="command-name">curl</span>
-                            <div class="tooltip relative">
-                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
-                                <span class="tooltip-text">Transfer data ke/dari server. `-O` untuk menyimpan file.</span>
-                            </div>
-                        </div>
-                        <div class="example-list">
-                            <span id="example-curl-1" class="command-example" onclick="copyToClipboard('example-curl-1')">curl -O https://example.com/file.zip</span>
-                            <span id="badge-curl-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-find-1" class="command-example" onclick="copyToClipboard('example-find-1')">find /path/to/search -name "*.txt"</span>
+                        <span id="badge-find-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+            </ul>
         </div>
+        
+        <hr class="my-6 border-gray-300">
+
+        <div id="permissions" class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">2. File Permission Commands</h2>
+            <ul class="command-list-container">
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">chmod</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Change file permissions. (u=user, g=group, o=other, +=add, -=remove, =set)</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-chmod-1" class="command-example" onclick="copyToClipboard('example-chmod-1')">chmod u+rwx file.txt</span>
+                        <span id="badge-chmod-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">chown</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Change file ownership.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-chown-1" class="command-example" onclick="copyToClipboard('example-chown-1')">chown user file.txt</span>
+                        <span id="badge-chown-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">chgrp</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Change group ownership.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-chgrp-1" class="command-example" onclick="copyToClipboard('example-chgrp-1')">chgrp group file.txt</span>
+                        <span id="badge-chgrp-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">umask</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Set default file permissions.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-umask-1" class="command-example" onclick="copyToClipboard('example-umask-1')">umask 022</span>
+                        <span id="badge-umask-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <hr class="my-6 border-gray-300">
+
+        <div id="compression" class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">3. File Compression and Archiving</h2>
+            <ul class="command-list-container">
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">tar</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Create or extract archive files. -c: create, -x: extract, -f: file, -z: gzip.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-tar-1" class="command-example" onclick="copyToClipboard('example-tar-1')">tar -czvf archive.tar.gz files/</span>
+                        <span id="badge-tar-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">gzip</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Compress files. -d: decompress.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-gzip-1" class="command-example" onclick="copyToClipboard('example-gzip-1')">gzip file.txt</span>
+                        <span id="badge-gzip-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">zip</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Create compressed zip archives. -r: recursively.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-zip-1" class="command-example" onclick="copyToClipboard('example-zip-1')">zip archive.zip file1.txt file2.txt</span>
+                        <span id="badge-zip-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <hr class="my-6 border-gray-300">
+
+        <div id="process-management" class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">4. Process Management Commands</h2>
+            <ul class="command-list-container">
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">ps</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Display running processes. -aux: show all processes.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-ps-1" class="command-example" onclick="copyToClipboard('example-ps-1')">ps aux</span>
+                        <span id="badge-ps-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">top</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Monitor system processes in real-time.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-top-1" class="command-example" onclick="copyToClipboard('example-top-1')">top</span>
+                        <span id="badge-top-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">kill</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Terminate a process. -9: forcefully kill.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-kill-1" class="command-example" onclick="copyToClipboard('example-kill-1')">kill PID</span>
+                        <span id="badge-kill-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">pkill</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Terminate processes based on their name.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-pkill-1" class="command-example" onclick="copyToClipboard('example-pkill-1')">pkill process_name</span>
+                        <span id="badge-pkill-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">pgrep</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">List processes based on their name.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-pgrep-1" class="command-example" onclick="copyToClipboard('example-pgrep-1')">pgrep process_name</span>
+                        <span id="badge-pgrep-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">grep</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Search for patterns in files. -i: ignore case, -v: invert match, -r: recursive.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-grep-1" class="command-example" onclick="copyToClipboard('example-grep-1')">grep -i "hello" file.txt</span>
+                        <span id="badge-grep-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <hr class="my-6 border-gray-300">
+
+        <div id="system-info" class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">5. System Information Commands</h2>
+            <ul class="command-list-container">
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">uname</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Print system information. -a: all info.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-uname-1" class="command-example" onclick="copyToClipboard('example-uname-1')">uname -a</span>
+                        <span id="badge-uname-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">whoami</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Display current username.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-whoami-1" class="command-example" onclick="copyToClipboard('example-whoami-1')">whoami</span>
+                        <span id="badge-whoami-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">df</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Show disk space usage. -h: human-readable.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-df-1" class="command-example" onclick="copyToClipboard('example-df-1')">df -h</span>
+                        <span id="badge-df-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">du</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Estimate file/directory sizes. -h: human-readable, -s: total size.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-du-1" class="command-example" onclick="copyToClipboard('example-du-1')">du -sh directory/</span>
+                        <span id="badge-du-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">free</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Display memory usage information. -h: human-readable.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-free-1" class="command-example" onclick="copyToClipboard('example-free-1')">free -h</span>
+                        <span id="badge-free-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">uptime</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Show system uptime.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-uptime-1" class="command-example" onclick="copyToClipboard('example-uptime-1')">uptime</span>
+                        <span id="badge-uptime-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">lscpu</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Display CPU information.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-lscpu-1" class="command-example" onclick="copyToClipboard('example-lscpu-1')">lscpu</span>
+                        <span id="badge-lscpu-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">lspci</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">List PCI devices.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-lspci-1" class="command-example" onclick="copyToClipboard('example-lspci-1')">lspci</span>
+                        <span id="badge-lspci-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">lsusb</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">List USB devices.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-lsusb-1" class="command-example" onclick="copyToClipboard('example-lsusb-1')">lsusb</span>
+                        <span id="badge-lsusb-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <hr class="my-6 border-gray-300">
+
+        <div id="networking" class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">6. Networking Commands</h2>
+            <ul class="command-list-container">
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">ifconfig</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Display network interface information.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-ifconfig-1" class="command-example" onclick="copyToClipboard('example-ifconfig-1')">ifconfig</span>
+                        <span id="badge-ifconfig-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">ping</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Send ICMP echo requests to a host.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-ping-1" class="command-example" onclick="copyToClipboard('example-ping-1')">ping google.com</span>
+                        <span id="badge-ping-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">netstat</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Display network connections and statistics.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-netstat-1" class="command-example" onclick="copyToClipboard('example-netstat-1')">netstat -tuln</span>
+                        <span id="badge-netstat-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">ss</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Display network socket information.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-ss-1" class="command-example" onclick="copyToClipboard('example-ss-1')">ss -tuln</span>
+                        <span id="badge-ss-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">ssh</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Securely connect to a remote server.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-ssh-1" class="command-example" onclick="copyToClipboard('example-ssh-1')">ssh user@hostname</span>
+                        <span id="badge-ssh-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">scp</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Securely copy files between hosts.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-scp-1" class="command-example" onclick="copyToClipboard('example-scp-1')">scp file.txt user@hostname:/path/to/destination</span>
+                        <span id="badge-scp-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">wget</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Download files from the web.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-wget-1" class="command-example" onclick="copyToClipboard('example-wget-1')">wget http://example.com//file.txt</span>
+                        <span id="badge-wget-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">curl</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Transfer data to or from a server.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-curl-1" class="command-example" onclick="copyToClipboard('example-curl-1')">curl http://example.com/</span>
+                        <span id="badge-curl-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <hr class="my-6 border-gray-300">
+
+        <div id="io-redirection" class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">7. IO Redirection Commands</h2>
+            <ul class="command-list-container">
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">cmd &lt; file</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Input of cmd is taken from file.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-io-1" class="command-example" onclick="copyToClipboard('example-io-1')">grep "text" &lt; file.txt</span>
+                        <span id="badge-io-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">cmd &gt; file</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Standard output (stdout) of cmd is redirected to file.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-io-2" class="command-example" onclick="copyToClipboard('example-io-2')">ls > file_list.txt</span>
+                        <span id="badge-io-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">cmd 2&gt; file</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Error output (stderr) of cmd is redirected to file.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-io-3" class="command-example" onclick="copyToClipboard('example-io-3')">command_that_fails 2> errors.log</span>
+                        <span id="badge-io-3" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">cmd 2&gt;&1</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">stderr is redirected to the same place as stdout.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-io-4" class="command-example" onclick="copyToClipboard('example-io-4')">ls -l &gt; output.log 2>&1</span>
+                        <span id="badge-io-4" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">cmd &gt; /dev/null</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Discards the stdout of cmd by sending it to the null device.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-io-5" class="command-example" onclick="copyToClipboard('example-io-5')">rm -rf folder/ > /dev/null 2>&1</span>
+                        <span id="badge-io-5" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <hr class="my-6 border-gray-300">
+        
+        <div id="env-vars" class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">8. Environment Variable Commands</h2>
+            <ul class="command-list-container">
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">export</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Sets the value of an environment variable.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-export-1" class="command-example" onclick="copyToClipboard('example-export-1')">export VARIABLE_NAME=value</span>
+                        <span id="badge-export-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">echo $VARIABLE</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Displays the value of an environment variable.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-echo-1" class="command-example" onclick="copyToClipboard('example-echo-1')">echo $PATH</span>
+                        <span id="badge-echo-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">env</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Lists all environment variables.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-env-1" class="command-example" onclick="copyToClipboard('example-env-1')">env</span>
+                        <span id="badge-env-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">unset</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Removes an environment variable.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-unset-1" class="command-example" onclick="copyToClipboard('example-unset-1')">unset VARIABLE_NAME</span>
+                        <span id="badge-unset-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <hr class="my-6 border-gray-300">
+        
+        <div id="user-management" class="mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">9. User Management Commands</h2>
+            <ul class="command-list-container">
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">who</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Show who is currently logged in.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-who-1" class="command-example" onclick="copyToClipboard('example-who-1')">who</span>
+                        <span id="badge-who-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">sudo adduser</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Create a new user account.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-adduser-1" class="command-example" onclick="copyToClipboard('example-adduser-1')">sudo adduser username</span>
+                        <span id="badge-adduser-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">sudo userdel</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Delete a user account. `-r` to remove home directory.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-userdel-1" class="command-example" onclick="copyToClipboard('example-userdel-1')">sudo userdel -r username</span>
+                        <span id="badge-userdel-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+                <li class="command-item bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                    <div class="command-header" onclick="toggleExamples(this)">
+                        <span class="command-name">su - username</span>
+                        <div class="tooltip relative">
+                            <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                            <span class="tooltip-text">Switch to another user account with their environment.</span>
+                        </div>
+                    </div>
+                    <div class="example-list">
+                        <span id="example-su-1" class="command-example" onclick="copyToClipboard('example-su-1')">su - username</span>
+                        <span id="badge-su-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
     </div>
 
     <script>
