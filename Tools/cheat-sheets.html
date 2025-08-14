@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ringkasan Perintah Linux Lengkap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .command-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            gap: 1rem;
+        }
+
+        .command-name {
+            font-family: "Courier New", Courier, monospace;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 8px;
+            position: absolute;
+            z-index: 10;
+            top: 50%;
+            left: 105%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .tooltip .tooltip-text.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .info-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #3498db;
+            border-radius: 9999px;
+            cursor: pointer;
+        }
+
+        .example-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding-left: 1rem;
+            margin-top: 5px;
+        }
+
+        .example-list.open {
+            max-height: 500px; /* Nilai yang cukup besar untuk menampung semua contoh */
+            transition: max-height 0.5s ease-in;
+        }
+
+        .command-example {
+            font-family: "Courier New", Courier, monospace;
+            color: #2c3e50;
+            background-color: #e0e7ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-size: 0.9em;
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+        }
+
+        .copy-badge {
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+            position: absolute;
+            top: 50%;
+            right: 105%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: none;
+                width: 100%;
+                padding-left: 5rem;
+                padding-right: 5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <div class="container mx-auto p-6 lg:px-12 bg-white rounded-lg shadow-lg mt-10 lg:mt-0 lg:rounded-none">
+        <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Ringkasan Perintah Linux Lengkap</h1>
+        <p class="text-gray-600 mb-6">Klik nama perintah untuk melihat contoh. Klik ikon <span class="text-blue-600 font-bold">i</span> untuk deskripsi, dan klik contoh perintah untuk menyalin.</p>
+
+        <hr class="my-6 border-gray-300">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="navigation" class="col-span-1">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Navigasi File</h2>
+                <ul class="space-y-4">
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">ls</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Lihat isi direktori. Gunakan `-l` untuk detail, `-a` untuk file tersembunyi.</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-ls-1" class="command-example" onclick="copyToClipboard('example-ls-1')">ls -l</span>
+                            <span id="badge-ls-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-ls-2" class="command-example" onclick="copyToClipboard('example-ls-2')">ls -a</span>
+                            <span id="badge-ls-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">cd</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Ganti direktori. Gunakan `..` untuk kembali.</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-cd-1" class="command-example" onclick="copyToClipboard('example-cd-1')">cd /var/www</span>
+                            <span id="badge-cd-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-cd-2" class="command-example" onclick="copyToClipboard('example-cd-2')">cd ..</span>
+                            <span id="badge-cd-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="file-management" class="col-span-1">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Manajemen File</h2>
+                <ul class="space-y-4">
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">mkdir</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Buat direktori baru. Gunakan `-p` untuk membuat direktori induk.</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-mkdir-1" class="command-example" onclick="copyToClipboard('example-mkdir-1')">mkdir proyek-baru</span>
+                            <span id="badge-mkdir-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-mkdir-2" class="command-example" onclick="copyToClipboard('example-mkdir-2')">mkdir -p folder/subfolder</span>
+                            <span id="badge-mkdir-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">rm</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Hapus file/direktori. Gunakan `-r` untuk folder dan `-f` untuk paksa.</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-rm-1" class="command-example" onclick="copyToClipboard('example-rm-1')">rm file.txt</span>
+                            <span id="badge-rm-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-rm-2" class="command-example" onclick="copyToClipboard('example-rm-2')">rm -rf folder-lama</span>
+                            <span id="badge-rm-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div id="permissions" class="col-span-1">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Izin & Kepemilikan</h2>
+                <ul class="space-y-4">
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">chmod</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Ubah izin file. Angka mewakili: (4=r, 2=w, 1=x).</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-chmod-1" class="command-example" onclick="copyToClipboard('example-chmod-1')">chmod 777 skrip.sh</span>
+                            <span id="badge-chmod-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-chmod-2" class="command-example" onclick="copyToClipboard('example-chmod-2')">chmod 755 skrip.sh</span>
+                            <span id="badge-chmod-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-chmod-3" class="command-example" onclick="copyToClipboard('example-chmod-3')">chmod 644 file.txt</span>
+                            <span id="badge-chmod-3" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-chmod-4" class="command-example" onclick="copyToClipboard('example-chmod-4')">chmod -R 777 folder/</span>
+                            <span id="badge-chmod-4" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">chown</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Ubah pemilik file. Gunakan `-R` untuk rekursif.</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-chown-1" class="command-example" onclick="copyToClipboard('example-chown-1')">chown user:group file.txt</span>
+                            <span id="badge-chown-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-chown-2" class="command-example" onclick="copyToClipboard('example-chown-2')">chown -R www-data:www-data /var/www</span>
+                            <span id="badge-chown-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div id="text-edit" class="col-span-1">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Teks & Sistem</h2>
+                <ul class="space-y-4">
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">cat</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Menampilkan isi file.</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-cat-1" class="command-example" onclick="copyToClipboard('example-cat-1')">cat laporan.md</span>
+                            <span id="badge-cat-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-cat-2" class="command-example" onclick="copyToClipboard('example-cat-2')">cat file1.txt file2.txt > gabungan.txt</span>
+                            <span id="badge-cat-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">ps</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Lihat proses yang sedang berjalan.</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-ps-1" class="command-example" onclick="copyToClipboard('example-ps-1')">ps aux</span>
+                            <span id="badge-ps-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                            <span id="example-ps-2" class="command-example" onclick="copyToClipboard('example-ps-2')">ps -ef | grep nginx</span>
+                            <span id="badge-ps-2" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="networking" class="col-span-1">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Jaringan & Pengunduhan</h2>
+                <ul class="space-y-4">
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">wget</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Unduh file dari web.</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-wget-1" class="command-example" onclick="copyToClipboard('example-wget-1')">wget https://example.com/file.zip</span>
+                            <span id="badge-wget-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                    <li class="flex flex-col bg-gray-50 p-3 rounded-md border-l-4 border-blue-500">
+                        <div class="command-header" onclick="toggleExamples(this)">
+                            <span class="command-name">curl</span>
+                            <div class="tooltip relative">
+                                <span class="info-icon" onclick="event.stopPropagation(); toggleTooltip(this)">i</span>
+                                <span class="tooltip-text">Transfer data ke/dari server. `-O` untuk menyimpan file.</span>
+                            </div>
+                        </div>
+                        <div class="example-list">
+                            <span id="example-curl-1" class="command-example" onclick="copyToClipboard('example-curl-1')">curl -O https://example.com/file.zip</span>
+                            <span id="badge-curl-1" class="copy-badge opacity-0 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">Telah disalin!</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const badgeId = 'badge-' + elementId.split('-').slice(1).join('-');
+            const badge = document.getElementById(badgeId);
+            if (element && badge) {
+                const textToCopy = element.textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    badge.classList.remove('opacity-0');
+                    badge.classList.add('opacity-100');
+                    setTimeout(() => {
+                        badge.classList.remove('opacity-100');
+                        badge.classList.add('opacity-0');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Gagal menyalin: ', err);
+                });
+            }
+        }
+
+        function toggleTooltip(element) {
+            const tooltipText = element.nextElementSibling;
+            if (tooltipText) {
+                document.querySelectorAll('.tooltip-text.visible').forEach(tip => {
+                    if (tip !== tooltipText) {
+                        tip.classList.remove('visible');
+                    }
+                });
+                tooltipText.classList.toggle('visible');
+            }
+        }
+
+        function toggleExamples(element) {
+            const list = element.nextElementSibling;
+            if (list) {
+                list.classList.toggle('open');
+            }
+        }
+    </script>
+</body>
+</html>
