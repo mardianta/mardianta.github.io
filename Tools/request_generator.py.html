@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #1a237e;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="url"],
+        textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: monospace;
+        }
+        textarea {
+            min-height: 150px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #212121;
+            color: #e0e0e0;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .warning {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Python Code Generator</h1>
+    <p>Masukkan detail request untuk menghasilkan skrip Python.</p>
+    
+    <label for="manualUrl">URL Target:</label>
+    <input type="url" id="manualUrl" value="https://localhost/login">
+
+    <label for="fullRequest">Paste Full Request di Sini:</label>
+    <textarea id="fullRequest" rows="15" placeholder="Contoh:
+POST /login HTTP/1.1
+Host: localhost
+...
+user_name=user1&user_password=password1"></textarea>
+
+    <label for="credentials">Kredensial (username:password, pisahkan dengan baris baru):</label>
+    <textarea id="credentials">user1:password1
+user2:password2</textarea>
+    <p class="warning">Pastikan variabel user_name dan user_password ada di body request yang Anda tempel.</p>
+
+    <button onclick="generateCode()">Generate Code</button>
+
+    <hr>
+    
+    <h2>Kode Python yang Dihasilkan:</h2>
+    <pre id="pythonCode"></pre>
+</div>
+
+<script>
+function generateCode() {
+    const manualUrl = document.getElementById('manualUrl').value;
+    const fullRequest = document.getElementById('fullRequest').value;
+    const credentials = document.getElementById('credentials').value;
+    
+    if (!manualUrl || !fullRequest || !credentials) {
+        alert("Harap isi semua inputan!");
+        return;
+    }
+    
+    const parts = fullRequest.split('\\n\\n');
+    const headerLines = parts[0].split('\\n');
+    const body = parts[1] || '';
+
+    let method = '';
+    const firstLine = headerLines.length > 0 ? headerLines[0].trim() : '';
+    const firstLineParts = firstLine.split(' ');
+    if (firstLineParts.length >= 2) {
+        method = firstLineParts[0];
+    }
+    
+    const headers = {};
+    for (let i = 1; i < headerLines.length; i++) {
+        const line = headerLines[i];
+        const separatorIndex = line.indexOf(':');
+        if (separatorIndex !== -1) {
+            const key = line.substring(0, separatorIndex).trim();
+            const value = line.substring(separatorIndex + 1).trim();
+            headers[key] = value;
+        }
+    }
+    
+    const credsArray = credentials.split('\\n').filter(line => line.trim() !== '');
+
+    const credsString = credsArray.map(cred => `'${cred}'`).join(",\\n    ");
+    
+    const headersString = Object.entries(headers).map(([key, value]) => `'${key}': '${value}'`).join(",\\n        ");
+
+    const codeTemplate = `import requests
+from bs4 import BeautifulSoup
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Daftar kredensial yang akan diuji
+credentials = [
+    ${credsString}
+]
+
+# URL target
+url = '${manualUrl}'
+
+# Header dari request asli
+headers = {
+        ${headersString}
+}
+
+print(f"Memulai pengujian login di {url}...")
+print("-" * 40)
+
+# Looping melalui setiap kombinasi kredensial
+for credential in credentials:
+    try:
+        username, password = credential.split(':', 1)
+    except ValueError:
+        print(f"[ERROR] Format kredensial '{credential}' salah. Lewati.")
+        continue
+
+    # Data yang akan dikirim, mengganti variabel dinamis
+    data = '${body}'.replace('user_name=user1', f'user_name={username}').replace('user_password=password1', f'user_password={password}')
+
+    try {
+        response = requests.${method.toLowerCase()}(url, data=data.encode('utf-8'), headers=headers, verify=False, timeout=10)
+        
+        soup = BeautifulSoup(response.text, 'html.parser')
+        title = soup.title.string if soup.title else 'No title found'
+        status = "Berhasil" if "Login Berhasil" in response.text else "Gagal"
+
+        print(f"| {status.ljust(8)} | Username: {username.ljust(10)} | Password: {password.ljust(10)} | Status: {response.status_code} | Title: {title}")
+
+    } catch (e) {
+        print(f"[ERROR] Terjadi kesalahan saat request untuk {credential}: {e}")
+    }
+
+print("-" * 40)
+print("Pengujian selesai.")`;
+
+    document.getElementById('pythonCode').textContent = codeTemplate;
+}
+</script>
+
+</body>
+</html>
