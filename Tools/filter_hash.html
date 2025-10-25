@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ekstrak Hash MD5 dan SHA1 dari Teks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f2f5;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            background-color: #007BFF;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+            text-align: left;
+        }
+        .hash-list-box {
+            flex: 1;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #eee;
+        }
+        .hash-list-box h2 {
+            margin-top: 0;
+            color: #555;
+            font-size: 1.2em;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #fff;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Ekstrak Hash MD5 dan SHA1</h1>
+        <p>Masukkan teks di bawah ini. Kode akan secara otomatis mencari dan mengekstrak semua hash MD5 (32 karakter) dan SHA1 (40 karakter) yang valid.</p>
+        <textarea id="textInput" placeholder="Contoh: Ini adalah teks yang mengandung hash MD5 1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d dan juga hash SHA1 0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b."></textarea>
+        
+        <button id="extractBtn">Ekstrak Hash</button>
+        
+        <div class="results-container">
+            <div class="hash-list-box">
+                <h2>MD5 Hashes Ditemukan (<span id="md5Count">0</span>)</h2>
+                <ul id="md5List">
+                    </ul>
+            </div>
+            <div class="hash-list-box">
+                <h2>SHA1 Hashes Ditemukan (<span id="sha1Count">0</span>)</h2>
+                <ul id="sha1List">
+                    </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk mengekstrak hash MD5 dan SHA1 dari teks
+        function extractHashes(text) {
+            // Regex global untuk MD5 (32 karakter heksadesimal)
+            const md5Regex = /\b[a-fA-F0-9]{32}\b/g;
+            // Regex global untuk SHA1 (40 karakter heksadesimal)
+            const sha1Regex = /\b[a-fA-F0-9]{40}\b/g;
+
+            // Mencocokkan semua kemunculan yang ditemukan
+            const md5Matches = text.match(md5Regex) || [];
+            const sha1Matches = text.match(sha1Regex) || [];
+
+            return {
+                md5: md5Matches,
+                sha1: sha1Matches
+            };
+        }
+
+        // Fungsi untuk menampilkan hasil ke DOM
+        function displayResults(md5Hashes, sha1Hashes) {
+            const md5List = document.getElementById('md5List');
+            const sha1List = document.getElementById('sha1List');
+            const md5Count = document.getElementById('md5Count');
+            const sha1Count = document.getElementById('sha1Count');
+
+            // Bersihkan hasil sebelumnya
+            md5List.innerHTML = '';
+            sha1List.innerHTML = '';
+
+            // Tampilkan MD5 Hashes
+            if (md5Hashes.length > 0) {
+                md5Hashes.forEach(hash => {
+                    const li = document.createElement('li');
+                    li.textContent = hash;
+                    md5List.appendChild(li);
+                });
+            } else {
+                md5List.innerHTML = '<li>Tidak ada hash MD5 ditemukan.</li>';
+            }
+
+            // Tampilkan SHA1 Hashes
+            if (sha1Hashes.length > 0) {
+                sha1Hashes.forEach(hash => {
+                    const li = document.createElement('li');
+                    li.textContent = hash;
+                    sha1List.appendChild(li);
+                });
+            } else {
+                sha1List.innerHTML = '<li>Tidak ada hash SHA1 ditemukan.</li>';
+            }
+
+            // Update hitungan
+            md5Count.textContent = md5Hashes.length;
+            sha1Count.textContent = sha1Hashes.length;
+        }
+
+        // Dapatkan elemen-elemen dari DOM
+        const textInput = document.getElementById('textInput');
+        const extractBtn = document.getElementById('extractBtn');
+
+        // Tambahkan event listener untuk tombol "Ekstrak Hash"
+        extractBtn.addEventListener('click', () => {
+            const text = textInput.value;
+            const hashes = extractHashes(text);
+            displayResults(hashes.md5, hashes.sha1);
+        });
+    </script>
+
+</body>
+</html>
