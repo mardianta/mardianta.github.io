@@ -1,0 +1,38 @@
+import os
+import shutil
+
+# 1. Tentukan folder utama dan folder tujuan
+# GANTI DENGAN JALUR FOLDER YANG AMAN DAN TIDAK SENSITIF!
+FOLDER_UTAMA = '/Users/dsi1/Desktop/Breach Forums/Original File/Data Fresh 27 September' 
+FOLDER_TUJUAN = os.path.join(FOLDER_UTAMA, 'archived_reports')
+
+# 2. Buat folder tujuan jika belum ada
+if not os.path.exists(FOLDER_TUJUAN):
+    os.makedirs(FOLDER_TUJUAN)
+    print(f"Folder tujuan '{FOLDER_TUJUAN}' berhasil dibuat.")
+
+# 3. Kata kunci yang aman untuk dicari (misalnya, 'report', bukan 'pass')
+KATA_KUNCI = 'pass' 
+
+print(f"\nMemulai pencarian dan pemindahan file yang mengandung kata '{KATA_KUNCI}'...")
+
+# 4. Lakukan pencarian berulang (walk) di semua subfolder
+for dirpath, dirnames, filenames in os.walk(FOLDER_UTAMA):
+    # Abaikan folder tujuan agar tidak memprosesnya sendiri
+    if dirpath == FOLDER_TUJUAN:
+        continue
+        
+    for filename in filenames:
+        # Periksa apakah kata kunci ada di nama file
+        if KATA_KUNCI in filename.lower(): 
+            file_path_lama = os.path.join(dirpath, filename)
+            file_path_baru = os.path.join(FOLDER_TUJUAN, filename)
+            
+            # Pindahkan file
+            try:
+                shutil.move(file_path_lama, file_path_baru)
+                print(f"✅ Dipindahkan: {filename} dari {dirpath}")
+            except Exception as e:
+                print(f"❌ Gagal memindahkan {filename}: {e}")
+
+print("\nProses selesai.")
