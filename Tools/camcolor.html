@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title>Check Warna Realtime dari Kamera (Kode di atas ikon)</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- Google Fonts untuk nuansa modern -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ece9e6, #ffffff);
+  }
+
+  #video {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
+  
+  #canvas {
+    display: none;
+  }
+
+  #container {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin: auto;
+  }
+
+  /* Overlay ikon di tengah */
+  #iconOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  #iconWaterdrop {
+    width: 100px;
+    height: 100px;
+    transition: transform 0.3s;
+  }
+
+  #iconWaterdrop:hover {
+    transform: scale(1.1);
+  }
+
+  /* Kode warna di atas ikon waterdrop */
+  #colorLabel {
+    position: absolute;
+    bottom: 100%; /* di atas ikon */
+    margin-bottom: 12px; /* jarak dari ikon */
+    background-color: rgba(255,255,255,0.9);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s;
+  }
+
+  /* Riwayat warna */
+  #historyContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+    justify-content: flex-start;
+  }
+
+  /* Style untuk maksimal 4 warna di kanan */
+  #historyContainer.right-side {
+    flex-direction: row;
+  }
+
+  /* Style untuk warna di kanan */
+  #historyContainer.right-side .color-item {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Style untuk warna di bawah (default) */
+  #historyContainer.bottom {
+    flex-direction: column;
+  }
+
+  /* Item riwayat */
+  .color-item {
+    display: flex;
+    align-items: center;
+    margin: 4px 8px;
+    padding: 6px 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    width: fit-content;
+  }
+
+  .color-item:hover {
+    background: #eaeaea;
+    transform: translateY(-2px);
+  }
+
+  .color-box-small {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+  }
+
+  .color-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .color-code {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body class="py-4">
+<div class="container text-center mb-4">
+  <h2 class="fw-bold mb-3">Check Warna Realtime dari Kamera</h2>
+  <p class="text-muted">Posisikan objek di tengah layar untuk mendeteksi warna secara otomatis</p>
+</div>
+<div id="container" class="d-flex justify-content-center mb-4">
+  <video id="video" autoplay playsinline></video>
+  <!-- Overlay ikon dan kode warna -->
+  <div id="iconOverlay">
+    <!-- Kode warna di atas ikon -->
+    <div id="colorLabel">-</div>
+    <svg id="iconWaterdrop" viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 21C12 21 4 13.5 4 8A8 8 0 0 1 20 8c0 5.5-8 13-8 13z" />
+    </svg>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center mb-4 gap-3">
+  <button id="captureBtn" class="btn btn-success btn-lg">Capture</button>
+</div>
+
+<!-- Riwayat warna -->
+<div class="container mb-4">
+  <h5 class="mb-3 text-center">Riwayat Warna</h5>
+  <div id="historyContainer"></div>
+</div>
+
+<canvas id="canvas" width="640" height="480"></canvas>
+
+<script>
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const colorLabel = document.getElementById('colorLabel');
+const iconWaterdrop = document.getElementById('iconWaterdrop');
+const historyContainer = document.getElementById('historyContainer');
+
+let currentHexColor = "#000";
+const colorHistory = [];
+
+// Meminta akses kamera
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then(stream => {
+    video.srcObject = stream;
+  })
+  .catch(err => {
+    alert("Gagal mengakses kamera: " + err);
+  });
+
+// Fungsi update warna dari titik tengah
+function updateColor() {
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const centerX = Math.floor(canvas.width / 2);
+  const centerY = Math.floor(canvas.height / 2);
+  const pixelData = ctx.getImageData(centerX, centerY, 1, 1).data;
+  const r = pixelData[0];
+  const g = pixelData[1];
+  const b = pixelData[2];
+
+  currentHexColor = rgbToHex(r, g, b);
+  // Update warna SVG waterdrop
+  iconWaterdrop.setAttribute('fill', currentHexColor);
+  // Update kode warna di atas ikon
+  colorLabel.textContent = currentHexColor;
+  colorLabel.style.backgroundColor = currentHexColor;
+
+  requestAnimationFrame(updateColor);
+}
+
+// Mulai pengambilan warna saat video aktif
+video.addEventListener('playing', () => {
+  updateColor();
+});
+
+// Konversi RGB ke HEX
+function rgbToHex(r, g, b) {
+  return "#" + [r, g, b].map(x => {
+    const hex = x.toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+  }).join('');
+}
+
+// Fungsi untuk menambahkan warna ke riwayat
+function addColorToHistory(hexColor) {
+  if (colorHistory.includes(hexColor)) return; // Hindari duplikat
+  colorHistory.push(hexColor);
+  if (colorHistory.length > 20) {
+    colorHistory.shift(); // Batasi riwayat
+  }
+  renderHistory();
+}
+
+// Render riwayat warna
+function renderHistory() {
+  // Bersihkan kontainer
+  historyContainer.innerHTML = '';
+
+  // Buat bagian kanan maksimal 4 warna
+  const rightSide = document.createElement('div');
+  rightSide.className = 'd-flex flex-wrap gap-2 mb-3'; // untuk 4 warna di kanan
+  // Buat bagian bawah
+  const bottomSide = document.createElement('div');
+  bottomSide.className = 'd-flex flex-column gap-2';
+
+  let countRight = 0;
+
+  for (const color of colorHistory) {
+    const item = document.createElement('div');
+    item.className = 'color-item';
+
+    const box = document.createElement('div');
+    box.className = 'color-box-small';
+    box.style.backgroundColor = color;
+
+    const info = document.createElement('div');
+    info.className = 'color-info';
+
+    const code = document.createElement('div');
+    code.className = 'color-code';
+    code.textContent = color;
+
+    info.appendChild(code);
+    item.appendChild(box);
+    item.appendChild(info);
+
+    // Klik untuk set warna utama dan salin kode
+    item.addEventListener('click', () => {
+      iconWaterdrop.setAttribute('fill', color);
+      colorLabel.textContent = color;
+      colorLabel.style.backgroundColor = color;
+      currentHexColor = color;
+    });
+
+    // Tempelkan warna ke bagian kanan maksimal 4
+    if (countRight < 4) {
+      rightSide.appendChild(item);
+      countRight++;
+    } else {
+      // Warna lainnya di bawah
+      bottomSide.appendChild(item);
+    }
+  }
+
+  // Tambahkan ke container
+  if (rightSide.children.length > 0) {
+    historyContainer.appendChild(rightSide);
+  }
+  if (bottomSide.children.length > 0) {
+    historyContainer.appendChild(bottomSide);
+  }
+}
+
+// Tombol Capture untuk menyimpan warna ke riwayat
+document.getElementById('captureBtn').addEventListener('click', () => {
+  addColorToHistory(currentHexColor);
+});
+
+// Klik kode warna di atas ikon untuk salin
+colorLabel.addEventListener('click', () => {
+  navigator.clipboard.writeText(currentHexColor);
+});
+
+</script>
+</body>
+</html>
