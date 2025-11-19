@@ -47,8 +47,8 @@
   }
 
   #iconWaterdrop {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     transition: transform 0.3s;
   }
 
@@ -60,12 +60,12 @@
   #colorLabel {
     position: absolute;
     bottom: 100%; /* di atas ikon */
-    margin-bottom: 12px; /* jarak dari ikon */
+    margin-bottom: 8px; /* jarak dari ikon */
     background-color: rgba(255,255,255,0.9);
-    padding: 6px 14px;
+    padding: 4px 10px;
     border-radius: 20px;
     font-family: 'Poppins', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     border: 1px solid #ccc;
     cursor: pointer;
@@ -78,24 +78,28 @@
   #historyContainer {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
     margin-top: 20px;
     justify-content: flex-start;
   }
 
-  /* Style untuk maksimal 4 warna di kanan */
+  /* Maks 4 warna di kanan */
   #historyContainer.right-side {
-    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
   }
 
-  /* Style untuk warna di kanan */
+  /* Warna di kanan (max 4) */
   #historyContainer.right-side .color-item {
     width: 50px;
     height: 50px;
   }
 
-  /* Style untuk warna di bawah (default) */
+  /* Warna di bawah (lebih dari 4) */
   #historyContainer.bottom {
+    display: flex;
     flex-direction: column;
   }
 
@@ -135,6 +139,25 @@
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 600;
+  }
+
+  /* Responsif untuk small screens */
+  @media(max-width: 576px) {
+    #iconWaterdrop {
+      width: 60px;
+      height: 60px;
+    }
+
+    #colorLabel {
+      font-size: 11px;
+      padding: 3px 8px;
+    }
+
+    /* Warna di kanan maksimal 3 warna di kecil */
+    #historyContainer.right-side .color-item {
+      width: 40px;
+      height: 40px;
+    }
   }
 </style>
 </head>
@@ -235,9 +258,9 @@ function renderHistory() {
   // Bersihkan kontainer
   historyContainer.innerHTML = '';
 
-  // Buat bagian kanan maksimal 4 warna
+  // Buat bagian kanan (max 4 warna)
   const rightSide = document.createElement('div');
-  rightSide.className = 'd-flex flex-wrap gap-2 mb-3'; // untuk 4 warna di kanan
+  rightSide.className = 'd-flex flex-wrap gap-2 mb-3';
   // Buat bagian bawah
   const bottomSide = document.createElement('div');
   bottomSide.className = 'd-flex flex-column gap-2';
@@ -299,7 +322,6 @@ document.getElementById('captureBtn').addEventListener('click', () => {
 colorLabel.addEventListener('click', () => {
   navigator.clipboard.writeText(currentHexColor);
 });
-
 </script>
 </body>
 </html>
